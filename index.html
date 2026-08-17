@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="el">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0C1310">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ΚΟΝΤΡΑ</title>
+
+<!--
+  ΚΟΝΤΡΑ — prototype
+  ─────────────────────────────────────────────
+  ΧΑΡΤΗΣ ΑΡΧΕΙΟΥ (ψάξε τον αριθμό με Ctrl+F / Cmd+F):
+
+    [1]  ΧΡΩΜΑΤΑ & ΓΡΑΜΜΑΤΟΣΕΙΡΕΣ   <- ξεκίνα από εδώ για αλλαγές UI
+    [2]  ΒΑΣΙΚΗ ΔΙΑΤΑΞΗ
+    [3]  ΤΥΠΟΓΡΑΦΙΑ
+    [4]  ΚΟΥΜΠΙΑ & ΠΕΔΙΑ
+    [5]  ΚΑΡΤΕΣ, ΨΗΦΟΦΟΡΙΑ, ΣΗΜΕΙΩΣΕΙΣ
+    [6]  ΣΦΡΑΓΙΔΑ (το σήμα κατατεθέν)
+    [7]  ΧΡΟΝΟΜΕΤΡΟ
+    [8]  ΡΥΘΜΙΣΕΙΣ ΠΑΙΧΝΙΔΙΟΥ        <- τιμωρία, χρόνοι, όρια
+    [9]  ΑΠΟΘΗΚΕΥΣΗ (πρακτικά)
+    [10] ΚΑΤΑΣΤΑΣΗ ΠΑΙΧΝΙΔΙΟΥ
+    [11] ΟΘΟΝΕΣ                       <- το HTML κάθε οθόνης
+    [12] ΛΟΓΙΚΗ
+    [13] RENDER & ΣΥΜΒΑΝΤΑ
+-->
+
+<style>
+/* === [1] ΧΡΩΜΑΤΑ & ΓΡΑΜΜΑΤΟΣΕΙΡΕΣ ==============================
+   Άλλαξε μόνο εδώ και αλλάζει όλο το app. Κάθε τιμή χρησιμοποιείται
+   παρακάτω ως var(--όνομα).                                        */
+:root{
+  --ink:#0C1310;        /* φόντο */
+  --surface:#141D18;    /* κάρτες, πεδία */
+  --surface-2:#1B261F;  /* κουμπιά */
+  --line:#28362D;       /* περιγράμματα */
+  --bone:#EDE7D6;       /* κείμενο */
+  --muted:#8A9A8D;      /* δευτερεύον κείμενο */
+  --blood:#A32E24;      /* κόκκινο: κόντρα, κατά, ποινή */
+  --blood-dim:#6E211A;
+  --brass:#C79A3F;      /* χρυσό: δικαστής, υπέρ, σημειώσεις */
+
+  --display:Georgia,"Times New Roman",serif;               /* τίτλοι */
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;  /* ετικέτες, χρόνος */
+}
+
+/* === [2] ΒΑΣΙΚΗ ΔΙΑΤΑΞΗ ====================================== */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:var(--ink);color:var(--bone);font-family:var(--body);
+  font-size:17px;line-height:1.45;overscroll-behavior:none}
+#app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top) + 18px) 18px calc(env(safe-area-inset-bottom) + 18px)}
+.fill{flex:1}                    /* σπρώχνει τα κουμπιά στον πάτο */
+.row{display:flex;gap:10px}
+.row .btn{flex:1}
+hr{border:none;border-top:1px solid var(--line);margin:20px 0}
+
+/* === [3] ΤΥΠΟΓΡΑΦΙΑ ========================================== */
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+.eyebrow b{color:var(--brass);font-weight:400}
+h1{font-family:var(--display);font-weight:400;font-size:40px;line-height:1;
+  letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
+h2{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.15;
+  letter-spacing:.06em;margin:0 0 10px}
+.lede{color:var(--muted);margin:0 0 22px;font-size:15px}
+.count{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+  color:var(--muted);text-transform:uppercase;margin-top:14px}
+.mini{font-family:var(--mono);font-size:12px;letter-spacing:.1em;
+  color:var(--muted);text-align:center;margin-top:14px}
+
+/* === [4] ΚΟΥΜΠΙΑ & ΠΕΔΙΑ ===================================== */
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+.btn{display:block;width:100%;padding:17px 18px;margin-top:10px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:2px;
+  font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  text-align:center;transition:background .12s}
+.btn:active{background:#25332A}
+.btn.primary{background:var(--blood);border-color:var(--blood);color:#F6EFE4}
+.btn.primary:active{background:var(--blood-dim)}
+.btn.ghost{background:none;color:var(--muted)}
+.btn.brass{border-color:var(--brass);color:var(--brass)}
+.btn:disabled{opacity:.32;cursor:default}
+
+input,textarea{width:100%;padding:14px;background:var(--surface);color:var(--bone);
+  border:1px solid var(--line);border-radius:2px;font:inherit}
+textarea{min-height:130px;resize:none;font-family:var(--mono);font-size:15px;line-height:1.5}
+input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);margin:20px 0 7px}
+
+.plist{display:flex;flex-direction:column;gap:7px;margin-top:4px}
+.prow{display:flex;gap:8px;align-items:center}
+.prow input{flex:1}
+.x{width:44px;height:48px;color:var(--muted);font-size:20px;flex:none}
+
+/* === [5] ΚΑΡΤΕΣ, ΨΗΦΟΦΟΡΙΑ, ΣΗΜΕΙΩΣΕΙΣ ====================== */
+.card{background:var(--surface);border:1px solid var(--line);
+  border-left:3px solid var(--brass);padding:20px;
+  font-family:var(--mono);font-size:17px;line-height:1.55}
+
+.tally{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.t{display:flex;align-items:center;justify-content:space-between;width:100%;
+  padding:15px 16px;background:var(--surface);border:1px solid var(--line);border-radius:2px}
+.t span{font-size:17px}
+.t em{font-family:var(--mono);font-size:11px;letter-spacing:.16em;font-style:normal;color:var(--muted)}
+.t.pro{border-color:var(--brass);background:rgba(199,154,63,.09)}
+.t.pro em{color:var(--brass)}
+.t.con{border-color:var(--blood);background:rgba(163,46,36,.12)}
+.t.con em{color:#D9736A}
+
+/* σημειώσεις δικαστή */
+.notes{margin-top:14px}
+.notes textarea{min-height:92px;border-style:dashed;background:rgba(199,154,63,.05)}
+.notes summary{font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--brass);cursor:pointer;padding:10px 0;list-style:none}
+.notes summary::-webkit-details-marker{display:none}
+.notes summary::before{content:"\270E  "}
+
+/* πρακτικά */
+.rec{border-left:2px solid var(--line);padding:0 0 4px 14px;margin-bottom:22px}
+.rec .h{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.rec .o{font-family:var(--mono);font-size:15px;line-height:1.5;margin-bottom:8px}
+.rec .n{font-size:15px;color:var(--brass);white-space:pre-wrap;line-height:1.5}
+.rules{font-size:15px;color:var(--muted);line-height:1.6}
+.rules b{color:var(--bone);font-weight:600}
+
+/* === [6] ΣΦΡΑΓΙΔΑ =========================================== */
+.stamp{border:4px double var(--blood);color:var(--blood);font-family:var(--display);
+  font-size:clamp(34px,13vw,58px);letter-spacing:.1em;text-transform:uppercase;
+  text-align:center;padding:14px 10px;transform:rotate(-5deg);margin:10px 0;
+  animation:slam .42s cubic-bezier(.2,1.5,.4,1) both}
+.stamp.brass{border-color:var(--brass);color:var(--brass)}
+.stamp.small{font-size:clamp(22px,8vw,34px);border-width:3px}
+@keyframes slam{
+  0%{transform:rotate(-16deg) scale(2.6);opacity:0}
+  60%{opacity:1}
+  100%{transform:rotate(-5deg) scale(1);opacity:1}
+}
+@media (prefers-reduced-motion:reduce){.stamp{animation:none}}
+
+/* === [7] ΧΡΟΝΟΜΕΤΡΟ ========================================= */
+.clock{font-family:var(--mono);font-size:60px;letter-spacing:.04em;text-align:center;
+  font-variant-numeric:tabular-nums;margin:4px 0 2px}
+.clock.idle{font-size:32px;color:var(--muted)}
+.side{padding:16px;border:1px solid var(--line);background:var(--surface);
+  margin-bottom:10px;border-radius:2px}
+.side.on{border-color:var(--brass);background:rgba(199,154,63,.08)}
+.side.on.against{border-color:var(--blood);background:rgba(163,46,36,.1)}
+.side .who{font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);text-align:center}
+.side.on .who{color:var(--bone)}
+.side.interrupt{border-color:var(--blood);background:rgba(163,46,36,.14)}
+.opa{background:var(--blood);border-color:var(--blood);color:#F6EFE4;
+  font-family:var(--display);font-size:30px;letter-spacing:.14em;padding:24px}
+
+/* οθόνη «κλείστε τα μάτια» */
+.dark{background:#000;position:fixed;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:30px;text-align:center;z-index:9}
+.dark p{font-family:var(--display);font-size:30px;letter-spacing:.1em;
+  text-transform:uppercase;color:#3E4A42;margin:0 0 40px;line-height:1.3}
+</style>
+
+<div id="app"></div>
+
+<script>
+"use strict";
+
+/* === [8] ΡΥΘΜΙΣΕΙΣ ΠΑΙΧΝΙΔΙΟΥ ==============================
+   Άλλαξε αυτά για ισορροπία και κείμενα, χωρίς να ψάξεις αλλού. */
+const CFG = {
+  MIN_PLAYERS: 3,
+  MAX_PLAYERS: 12,
+  MIN_OPINIONS: 3,          // πόσες απόψεις χρειάζονται για να ξεκινήσει
+  DEFAULT_PENALTY: "τιμωρία",
+  TIME_OPTIONS: [120, 180], // επιλογές χρόνου ανά πλευρά, σε δευτερόλεπτα
+  DEFAULT_TIME: 120,
+  MAX_OPINION: 240,         // μέγιστοι χαρακτήρες άποψης
+  STORE_KEY: "kontra.praktika.v1"
+};
+
+/* === [9] ΑΠΟΘΗΚΕΥΣΗ ========================================
+   Δοκιμάζει localStorage. Αν δεν επιτρέπεται (π.χ. μέσα σε preview),
+   πέφτει σε μνήμη ώστε να μη σκάει. Στο κινητό σου τα πρακτικά μένουν. */
+const Store = (() => {
+  let mem = null, ok = true;
+  try { localStorage.setItem("__t","1"); localStorage.removeItem("__t"); }
+  catch(e){ ok = false; }
+  return {
+    persistent: ok,
+    load(){
+      try { return ok ? (JSON.parse(localStorage.getItem(CFG.STORE_KEY)) || []) : (mem || []); }
+      catch(e){ return []; }
+    },
+    save(v){
+      mem = v;
+      try { if (ok) localStorage.setItem(CFG.STORE_KEY, JSON.stringify(v)); } catch(e){}
+    }
+  };
+})();
+
+/* === [10] ΚΑΤΑΣΤΑΣΗ ΠΑΙΧΝΙΔΙΟΥ ============================= */
+const S = {
+  screen: "setup",
+  players: ["", "", ""],
+  topic: "",
+  penalty: CFG.DEFAULT_PENALTY,
+  contraSecs: CFG.DEFAULT_TIME,
+  opinions: [],      // [{id, text}] — ανώνυμες, χωρίς συγγραφέα
+  nextId: 1,
+  judge: 0,          // δείκτης στον πίνακα παικτών
+  round: null,       // η τρέχουσα δίκη
+  records: Store.load(),
+  timer: null,
+  back: "setup"      // από πού ήρθαμε στα Πρακτικά
+};
+
+const app = document.getElementById("app");
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g,
+  c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const names = () => S.players.map(p => p.trim()).filter(Boolean);
+const mmss = s => Math.floor(s/60) + ":" + String(Math.floor(s%60)).padStart(2,"0");
+const go = s => { stopTimer(); S.screen = s; render(); };
+function stopTimer(){ if (S.timer){ clearInterval(S.timer); S.timer = null; } }
+
+/* === [11] ΟΘΟΝΕΣ ===========================================
+   Κάθε συνάρτηση επιστρέφει το HTML μιας οθόνης. Εδώ πειράζεις
+   κείμενα και δομή· τα στυλ είναι στα τμήματα [2]–[7].        */
+const V = {};
+
+/* ΟΘΟΝΗ: ρυθμίσεις παιχνιδιού ------------------------------- */
+V.setup = () => {
+  const rows = S.players.map((p,i) => `
+    <div class="prow">
+      <input value="${esc(p)}" placeholder="Παίκτης ${i+1}" data-p="${i}" maxlength="14">
+      ${S.players.length > CFG.MIN_PLAYERS ? `<button class="x" data-rm="${i}">&times;</button>` : ""}
+    </div>`).join("");
+
+  const times = CFG.TIME_OPTIONS.map(s =>
+    `<button class="btn ${S.contraSecs===s?"brass":""}" data-secs="${s}">${s/60} λεπτά</button>`
+  ).join("");
+
+  const ready = names().length >= CFG.MIN_PLAYERS;
+
+  return `
+    <p class="eyebrow">Δικαστήριο &middot; <b>${CFG.MIN_PLAYERS}&ndash;${CFG.MAX_PLAYERS} παίκτες</b></p>
+    <h1>Κόντρα</h1>
+    <p class="lede">Γράφετε απόψεις. Ο δικαστής διαβάζει. Όποιοι διαφωνούν, μονομαχούν.</p>
+
+    <label>Παίκτες</label>
+    <div class="plist">${rows}</div>
+    ${S.players.length < CFG.MAX_PLAYERS ? `<button class="btn ghost" data-add="1">+ Παίκτης</button>` : ""}
+
+    <label>Θέμα (προαιρετικό)</label>
+    <input id="topic" value="${esc(S.topic)}" placeholder="π.χ. πολιτική — ή άφησέ το κενό" maxlength="40">
+
+    <label>Τι πληρώνει ο χαμένος</label>
+    <input id="penalty" value="${esc(S.penalty)}" placeholder="ό,τι συμφωνήσετε" maxlength="30">
+
+    <label>Χρόνος ανά πλευρά</label>
+    <div class="row">${times}</div>
+
+    <div class="fill"></div>
+    <button class="btn primary" data-go="collect" ${ready?"":"disabled"}>
+      ${ready ? "Ξεκίνα" : `Βάλε ${CFG.MIN_PLAYERS} παίκτες`}
+    </button>
+    <div class="row">
+      <button class="btn ghost" data-go="rules">Κανόνες</button>
+      <button class="btn ghost" data-records="setup">Πρακτικά${S.records.length?` (${S.records.length})`:""}</button>
+    </div>`;
+};
+
+/* ΟΘΟΝΗ: κανόνες -------------------------------------------- */
+V.rules = () => `
+  <p class="eyebrow">Ο κανονισμός</p>
+  <h2>Πώς παίζεται</h2>
+  <div class="rules">
+    <p><b>1. Απόψεις.</b> Το κινητό κάνει τον γύρο. Ο καθένας γράφει όσες θέλει, όποτε το πιάσει. Μένουν ανώνυμες.</p>
+    <p><b>2. Η ακρόαση.</b> Ο δικαστής κρατάει το κινητό. Όλοι οι άλλοι κλείνουν τα μάτια. Ο δικαστής διαβάζει μια άποψη δυνατά.</p>
+    <p><b>3. Τα χέρια.</b> Συμφωνείς, δεξί χέρι. Διαφωνείς, αριστερό. Ο δικαστής μετράει και τα καταχωρεί.</p>
+    <p><b>4. Η κόντρα.</b> Ένας υπέρ, ένας κατά. Μιλάει πρώτος ο υπέρ, χωρίς προετοιμασία. Ο αντίπαλος λέει <b>«Όπα!»</b> για να κόψει — ο χρόνος του ομιλητή παγώνει και ο δικαστής κρίνει πόσο θα τον αφήσει.</p>
+    <p><b>5. Ετυμηγορία.</b> Οι υπόλοιποι είναι ένορκοι και συμφωνούν ποιος κέρδισε. Αν δεν βγει άκρη, πληρώνουν οι ένορκοι.</p>
+    <p><b>6. Αρχειοθέτηση.</b> Ο δικαστής κρίνει αν η κουβέντα έληξε. Αν την αρχειοθετήσει, κάποιος γράφει καινούρια στη θέση της.</p>
+  </div>
+  <div class="fill"></div>
+  <button class="btn" data-go="setup">Πίσω</button>`;
+
+/* ΟΘΟΝΗ: συλλογή απόψεων ------------------------------------ */
+V.collect = () => {
+  const need = CFG.MIN_OPINIONS - S.opinions.length;
+  return `
+    <p class="eyebrow">Κατάθεση απόψεων${S.topic ? ` &middot; <b>${esc(S.topic)}</b>` : ""}</p>
+    <h2>Δώσε το κινητό</h2>
+    <p class="lede">Γράψε μια άποψη που μπορείς να υπερασπιστείς. Μία τη φορά. Όσες θέλεις.</p>
+    <button class="btn primary" data-go="write">Γράφω άποψη</button>
+    <div class="fill"></div>
+    <p class="count">${S.opinions.length} απόψεις στον φάκελο</p>
+    <button class="btn" data-go="round" ${need>0?"disabled":""}>
+      ${need>0 ? `Λείπουν ${need} ακόμα` : "Αρκετά — ξεκινάμε"}
+    </button>`;
+};
+
+/* ΟΘΟΝΗ: γράψιμο άποψης ------------------------------------- */
+V.write = () => `
+  <p class="eyebrow">Ανώνυμη κατάθεση</p>
+  <h2>Η άποψή σου</h2>
+  <textarea id="op" maxlength="${CFG.MAX_OPINION}"
+    placeholder="Γράψε μια θέση, όχι ερώτηση. Κάτι που θα υποστήριζες μπροστά σε όλους."></textarea>
+  <div class="fill"></div>
+  <button class="btn primary" data-save="1">Καταχώρηση</button>
+  <button class="btn ghost" data-go="${S.round && S.round.refilling ? "refill" : "collect"}">Άκυρο</button>`;
+
+/* ΟΘΟΝΗ: ανακοίνωση δικαστή --------------------------------- */
+V.round = () => `
+  <p class="eyebrow">Ακρόαση &middot; <b>${S.opinions.length} στον φάκελο</b></p>
+  <h1 style="font-size:32px">${esc(names()[S.judge])}</h1>
+  <p class="lede">Πάρε το κινητό. Είσαι ο δικαστής αυτού του γύρου.</p>
+  <div class="fill"></div>
+  <button class="btn primary" data-go="eyes">Έτοιμος</button>
+  <button class="btn ghost" data-records="round">Πρακτικά${S.records.length?` (${S.records.length})`:""}</button>`;
+
+/* ΟΘΟΝΗ: κλείστε τα μάτια ----------------------------------- */
+V.eyes = () => `
+  <div class="dark">
+    <p>Όλοι<br>κλείνουν<br>τα μάτια</p>
+    <button class="btn primary" style="max-width:280px" data-go="reveal">Έκλεισαν</button>
+  </div>`;
+
+/* ΟΘΟΝΗ: η άποψη -------------------------------------------- */
+V.reveal = () => `
+  <p class="eyebrow">Διάβασέ την δυνατά</p>
+  <div class="card">${esc(S.round.op.text)}</div>
+  <p class="count">Συμφωνώ = δεξί χέρι &middot; Διαφωνώ = αριστερό</p>
+  <div class="fill"></div>
+  <button class="btn primary" data-go="tally">Είδα τα χέρια</button>`;
+
+/* ΟΘΟΝΗ: μέτρημα χεριών ------------------------------------- */
+V.tally = () => {
+  const n = names(), r = S.round;
+  const rows = n.map((p,i) => i === S.judge ? "" : `
+    <button class="t ${r.vote[i]||""}" data-vote="${i}">
+      <span>${esc(p)}</span>
+      <em>${r.vote[i]==="pro"?"ΥΠΕΡ":r.vote[i]==="con"?"ΚΑΤΑ":"—"}</em>
+    </button>`).join("");
+  const pro = n.map((_,i)=>i).filter(i=>r.vote[i]==="pro");
+  const con = n.map((_,i)=>i).filter(i=>r.vote[i]==="con");
+  const all = n.length - 1, done = pro.length + con.length;
+
+  return `
+    <p class="eyebrow">Μέτρημα &middot; <b>${done}/${all}</b></p>
+    <h2>Ποιος τι σήκωσε;</h2>
+    <p class="lede">Πάτα κάθε όνομα: μία φορά υπέρ, δύο φορές κατά.</p>
+    <div class="tally">${rows}</div>
+    <div class="fill"></div>
+    ${pro.length && con.length
+      ? `<button class="btn primary" data-draw="1">Υπάρχει κόντρα</button>`
+      : `<button class="btn" data-unanimous="1" ${done<all?"disabled":""}>
+           ${done<all ? "Μέτρα όλους" : "Ομοφωνία — καμία κόντρα"}</button>`}`;
+};
+
+/* ΟΘΟΝΗ: ανακοίνωση μονομάχων ------------------------------- */
+V.draw = () => {
+  const n = names(), r = S.round;
+  return `
+    <p class="eyebrow">Ανακοίνωση δικαστή</p>
+    <div class="stamp">Κόντρα</div>
+    <h2 style="text-align:center;margin-top:24px">
+      ${esc(n[r.champPro])}<br>
+      <span style="font-size:15px;font-family:var(--mono);letter-spacing:.2em;color:var(--muted)">ΕΝΑΝΤΙΟΝ</span><br>
+      ${esc(n[r.champCon])}
+    </h2>
+    <p class="lede" style="text-align:center;margin-top:18px">Όλοι ανοίγουν τα μάτια. Οι υπόλοιποι είναι ένορκοι.</p>
+    <div class="fill"></div>
+    <button class="btn primary" data-go="contra">Αρχίζει ο υπέρ</button>
+    ${r.multi ? `<button class="btn ghost" data-draw="1">Άλλαξε μονομάχους</button>` : ""}`;
+};
+
+/* ΟΘΟΝΗ: η κόντρα — χρονόμετρα + σημειώσεις δικαστή --------- */
+V.contra = () => {
+  const n = names(), r = S.round, pro = r.turn === "pro";
+  return `
+    <p class="eyebrow">Κόντρα &middot; <b>${r.opa ? "ΟΠΑ" : pro ? "ΥΠΕΡ" : "ΚΑΤΑ"}</b></p>
+
+    <div class="side ${pro && !r.opa ? "on" : ""}">
+      <div class="who">Υπέρ &middot; ${esc(n[r.champPro])}</div>
+      <div class="clock ${pro?"":"idle"}" id="proClock">${mmss(r.proT)}</div>
+    </div>
+    <div class="side against ${!pro && !r.opa ? "on" : ""}">
+      <div class="who">Κατά &middot; ${esc(n[r.champCon])}</div>
+      <div class="clock ${pro?"idle":""}" id="conClock">${mmss(r.conT)}</div>
+    </div>
+
+    ${r.opa ? `
+      <div class="side interrupt">
+        <div class="who">Διακοπή &middot; ${esc(n[pro ? r.champCon : r.champPro])}</div>
+        <div class="clock" id="opaClock" style="font-size:42px;color:#D9736A">${mmss(r.opaT)}</div>
+      </div>
+      <button class="btn primary" data-opa="0">Αρκετά — συνέχισε</button>
+      <p class="mini">Ο χρόνος του ομιλητή είναι παγωμένος</p>
+    ` : `
+      <button class="btn opa" data-opa="1">Όπα!</button>
+      <p class="mini">Ο αντίπαλος κόβει — ο δικαστής κρίνει πόσο θα τον αφήσει</p>
+    `}
+
+    <details class="notes" ${r.notes ? "open" : ""}>
+      <summary>Σημειώσεις δικαστή</summary>
+      <textarea id="notes" placeholder="Τι είπε ο καθένας, τι σε έπεισε, τι θα θυμάσαι.">${esc(r.notes)}</textarea>
+    </details>
+
+    <div class="fill"></div>
+    <button class="btn ghost" data-go="verdict">Τέλος κόντρας</button>`;
+};
+
+/* ΟΘΟΝΗ: ετυμηγορία ----------------------------------------- */
+V.verdict = () => {
+  const n = names(), r = S.round;
+  return `
+    <p class="eyebrow">Ετυμηγορία ενόρκων</p>
+    <h2>Ποιος κέρδισε;</h2>
+    <p class="lede">Ο χαμένος: ${esc(S.penalty)}.</p>
+    <button class="btn brass" data-win="pro">${esc(n[r.champPro])} &middot; υπέρ</button>
+    <button class="btn brass" data-win="con">${esc(n[r.champCon])} &middot; κατά</button>
+    <div class="fill"></div>
+    <button class="btn ghost" data-win="none">Δεν βγήκε άκρη</button>`;
+};
+
+/* ΟΘΟΝΗ: ποινή ---------------------------------------------- */
+V.sentence = () => {
+  const n = names(), r = S.round;
+  const loser = r.winner === "none" ? null : n[r.winner === "pro" ? r.champCon : r.champPro];
+  return `
+    <p class="eyebrow">Ποινή</p>
+    <div class="stamp ${r.winner==="none" ? "" : "small"}">${r.winner==="none" ? "Άκυρη" : "Ένοχος"}</div>
+    <h2 style="text-align:center;margin-top:26px">
+      ${loser ? esc(loser) : "Οι ένορκοι"}<br>
+      <span style="font-size:16px;font-family:var(--mono);letter-spacing:.16em;color:var(--brass)">
+        ${esc(S.penalty).toUpperCase()}
+      </span>
+    </h2>
+    <div class="fill"></div>
+    <button class="btn primary" data-go="archive">Επόμενο</button>`;
+};
+
+/* ΟΘΟΝΗ: αρχειοθέτηση --------------------------------------- */
+V.archive = () => `
+  <p class="eyebrow">Απόφαση δικαστή</p>
+  <h2>Έληξε η κουβέντα;</h2>
+  <p class="lede">Αν την αρχειοθετήσεις, βγαίνει από τον φάκελο και κάποιος γράφει καινούρια στη θέση της.</p>
+  <div class="card">${esc(S.round.op.text)}</div>
+  <details class="notes" ${S.round.notes ? "open" : ""}>
+    <summary>Σημειώσεις δικαστή</summary>
+    <textarea id="notes" placeholder="Τελευταία ευκαιρία να γράψεις κάτι πριν κλείσει η δίκη.">${esc(S.round.notes)}</textarea>
+  </details>
+  <div class="fill"></div>
+  <button class="btn primary" data-arch="1">Αρχειοθέτηση</button>
+  <button class="btn" data-arch="0">Μένει — θα ξανασυζητηθεί</button>`;
+
+/* ΟΘΟΝΗ: αναπλήρωση ----------------------------------------- */
+V.refill = () => `
+  <p class="eyebrow">Αναπλήρωση φακέλου</p>
+  <div class="stamp brass small">Αρχειοθετήθηκε</div>
+  <h2 style="margin-top:24px">Δώσε το κινητό</h2>
+  <p class="lede">Μία άποψη έφυγε. Κάποιος γράφει καινούρια.</p>
+  <div class="fill"></div>
+  <button class="btn primary" data-go="write">Γράφω</button>`;
+
+/* ΟΘΟΝΗ: άδειος φάκελος ------------------------------------- */
+V.empty = () => `
+  <p class="eyebrow">Ο φάκελος άδειασε</p>
+  <h2>Τέλος δίκης</h2>
+  <p class="lede">Όλες οι απόψεις αρχειοθετήθηκαν.</p>
+  <div class="fill"></div>
+  <button class="btn primary" data-go="write">Γράψε κι άλλη</button>
+  <button class="btn ghost" data-records="empty">Πρακτικά</button>`;
+
+/* ΟΘΟΝΗ: πρακτικά ------------------------------------------- */
+V.records = () => {
+  if (!S.records.length) return `
+    <p class="eyebrow">Πρακτικά</p>
+    <h2>Κανένα ακόμα</h2>
+    <p class="lede">Οι δίκες καταγράφονται εδώ μόλις κλείσουν, μαζί με τις σημειώσεις του δικαστή.</p>
+    <div class="fill"></div>
+    <button class="btn" data-go="${S.back}">Πίσω</button>`;
+
+  const list = S.records.slice().reverse().map(r => `
+    <div class="rec">
+      <div class="h">#${r.n} &middot; Δικαστής ${esc(r.judge)}${r.topic?` &middot; ${esc(r.topic)}`:""}</div>
+      <div class="o">${esc(r.opinion)}</div>
+      <div class="h">${r.pro
+        ? `${esc(r.pro)} vs ${esc(r.con)} &middot; ${r.winner==="none"
+            ? "άκυρη" : "νικητής " + esc(r.winner==="pro" ? r.pro : r.con)}`
+        : "ομοφωνία, χωρίς κόντρα"}</div>
+      ${r.notes ? `<div class="n">${esc(r.notes)}</div>` : ""}
+    </div>`).join("");
+
+  return `
+    <p class="eyebrow">Πρακτικά &middot; <b>${S.records.length}</b>${Store.persistent?"":" &middot; προσωρινά"}</p>
+    <h2>Το αρχείο</h2>
+    ${list}
+    <hr>
+    <div class="fill"></div>
+    <button class="btn" data-go="${S.back}">Πίσω</button>
+    <div class="row">
+      <button class="btn ghost" data-export="1">Εξαγωγή</button>
+      <button class="btn ghost" data-clear="1">Διαγραφή όλων</button>
+    </div>`;
+};
+
+/* ΟΘΟΝΗ: εξαγωγή -------------------------------------------- */
+V.export = () => `
+  <p class="eyebrow">Εξαγωγή πρακτικών</p>
+  <h2>Αντίγραψέ τα</h2>
+  <p class="lede">Κράτα τα κείμενο, στείλ' τα, βάλ' τα όπου θες.</p>
+  <textarea style="min-height:320px" readonly id="dump">${esc(exportText())}</textarea>
+  <div class="fill"></div>
+  <button class="btn primary" data-copy="1">Αντιγραφή</button>
+  <button class="btn ghost" data-records="">Πίσω</button>`;
+
+/* === [12] ΛΟΓΙΚΗ =========================================== */
+
+function startRound(){
+  if (!S.opinions.length){ S.screen = "empty"; return; }
+  const op = S.opinions[Math.floor(Math.random()*S.opinions.length)];
+  S.round = { op, vote:{}, turn:"pro", proT:S.contraSecs, conT:S.contraSecs,
+              opa:false, opaT:0, notes:"", refilling:false };
+  S.screen = "round";
+}
+
+function drawChampions(){
+  const n = names(), r = S.round;
+  const pro = n.map((_,i)=>i).filter(i=>r.vote[i]==="pro");
+  const con = n.map((_,i)=>i).filter(i=>r.vote[i]==="con");
+  r.champPro = pro[Math.floor(Math.random()*pro.length)];
+  r.champCon = con[Math.floor(Math.random()*con.length)];
+  r.multi = pro.length > 1 || con.length > 1;
+}
+
+/* καταγραφή της δίκης στα πρακτικά */
+function fileRecord(){
+  const n = names(), r = S.round;
+  S.records.push({
+    n: S.records.length + 1,
+    ts: Date.now(),
+    topic: S.topic,
+    judge: n[S.judge],
+    opinion: r.op.text,
+    pro: r.champPro !== undefined ? n[r.champPro] : null,
+    con: r.champCon !== undefined ? n[r.champCon] : null,
+    winner: r.winner || null,
+    notes: (r.notes || "").trim()
+  });
+  Store.save(S.records);
+}
+
+function exportText(){
+  return S.records.map(r => {
+    const head = `#${r.n} — δικαστής ${r.judge}${r.topic ? ` — ${r.topic}` : ""}`;
+    const duel = r.pro
+      ? `${r.pro} vs ${r.con} — ${r.winner==="none" ? "άκυρη" : "νικητής " + (r.winner==="pro"?r.pro:r.con)}`
+      : "ομοφωνία, χωρίς κόντρα";
+    return [head, `"${r.opinion}"`, duel, r.notes ? `Σημειώσεις: ${r.notes}` : ""]
+      .filter(Boolean).join("\n");
+  }).join("\n\n---\n\n");
+}
+
+/* Το ρολόι ενημερώνει ΜΟΝΟ τα ψηφία, ώστε να μη χάνεται
+   ό,τι γράφει ο δικαστής στις σημειώσεις εκείνη τη στιγμή. */
+function tick(){
+  const r = S.round;
+  if (r.opa){
+    r.opaT++;
+    const el = document.getElementById("opaClock");
+    if (el) el.textContent = mmss(r.opaT);
+    return;
+  }
+  if (r.turn === "pro"){
+    r.proT--;
+    if (r.proT <= 0){
+      r.proT = 0; r.turn = "con";
+      if (navigator.vibrate) navigator.vibrate(200);
+      return render();                       // αλλαγή πλευράς -> πλήρες redraw
+    }
+    const el = document.getElementById("proClock");
+    if (el) el.textContent = mmss(r.proT);
+  } else {
+    r.conT--;
+    if (r.conT <= 0){ r.conT = 0; return go("verdict"); }
+    const el = document.getElementById("conClock");
+    if (el) el.textContent = mmss(r.conT);
+  }
+}
+
+function runTimer(){ stopTimer(); S.timer = setInterval(tick, 1000); }
+function nextJudge(){ S.judge = (S.judge + 1) % names().length; }
+
+/* === [13] RENDER & ΣΥΜΒΑΝΤΑ ================================ */
+
+function render(){
+  app.innerHTML = (V[S.screen] || V.setup)();
+  if (S.screen === "write"){ const t = app.querySelector("#op"); if (t) t.focus(); }
+}
+
+app.addEventListener("click", e => {
+  const t = e.target.closest("[data-go],[data-add],[data-rm],[data-secs],[data-save],[data-vote],[data-draw],[data-unanimous],[data-opa],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear]");
+  if (!t) return;
+  const d = t.dataset;
+
+  /* ρυθμίσεις */
+  if (d.add){ S.players.push(""); return render(); }
+  if (d.rm){ S.players.splice(+d.rm, 1); return render(); }
+  if (d.secs){ S.contraSecs = +d.secs; return render(); }
+
+  /* πρακτικά */
+  if (d.records !== undefined){ if (d.records) S.back = d.records; return go("records"); }
+  if (d.export){ return go("export"); }
+  if (d.clear){
+    if (confirm("Διαγραφή όλων των πρακτικών;")){ S.records = []; Store.save(S.records); }
+    return render();
+  }
+  if (d.copy){
+    const ta = document.getElementById("dump");
+    ta.focus(); ta.select(); ta.setSelectionRange(0, 999999);
+    let done = false;
+    try { done = document.execCommand("copy"); } catch(err){}
+    t.textContent = done ? "Αντιγράφηκε" : "Επίλεξε και αντίγραψε χειροκίνητα";
+    return;
+  }
+
+  /* καταχώρηση άποψης */
+  if (d.save !== undefined){
+    const v = app.querySelector("#op").value.trim();
+    if (!v) return;
+    S.opinions.push({ id: S.nextId++, text: v });
+    if (S.round && S.round.refilling){ nextJudge(); startRound(); return render(); }
+    return go("collect");
+  }
+
+  /* μέτρημα χεριών */
+  if (d.vote !== undefined){
+    const i = +d.vote, cur = S.round.vote[i];
+    S.round.vote[i] = cur === "pro" ? "con" : cur === "con" ? undefined : "pro";
+    return render();
+  }
+  if (d.draw){ drawChampions(); return go("draw"); }
+  if (d.unanimous){ return go("archive"); }
+
+  /* κόντρα */
+  if (d.opa !== undefined){
+    S.round.opa = d.opa === "1";
+    if (S.round.opa) S.round.opaT = 0;
+    return render();
+  }
+  if (d.win){ S.round.winner = d.win; return go("sentence"); }
+
+  /* αρχειοθέτηση */
+  if (d.arch !== undefined){
+    fileRecord();
+    if (d.arch === "1"){
+      S.opinions = S.opinions.filter(o => o.id !== S.round.op.id);
+      S.round.refilling = true;
+      return go(S.opinions.length ? "refill" : "empty");
+    }
+    nextJudge(); startRound(); return render();
+  }
+
+  /* πλοήγηση */
+  if (d.go){
+    if (d.go === "round"){ nextJudge(); startRound(); return render(); }
+    if (d.go === "contra"){ go("contra"); return runTimer(); }
+    return go(d.go);
+  }
+});
+
+app.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.p !== undefined){
+    S.players[+t.dataset.p] = t.value;
+    const btn = app.querySelector('[data-go="collect"]');
+    if (btn){
+      const ok = names().length >= CFG.MIN_PLAYERS;
+      btn.disabled = !ok;
+      btn.textContent = ok ? "Ξεκίνα" : `Βάλε ${CFG.MIN_PLAYERS} παίκτες`;
+    }
+  }
+  if (t.id === "topic")   S.topic = t.value;
+  if (t.id === "penalty") S.penalty = t.value;
+  if (t.id === "notes" && S.round) S.round.notes = t.value;   /* σημειώσεις δικαστή */
+});
+
+render();
+</script>
+</html>
