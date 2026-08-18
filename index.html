@@ -10,9 +10,16 @@
 <!--
   ΚΟΝΤΡΑ — prototype
   ─────────────────────────────────────────────
-  ΧΑΡΤΗΣ ΑΡΧΕΙΟΥ (ψάξε τον αριθμό με Ctrl+F / Cmd+F):
+  ΘΕΛΕΙ ΤΟΝ ΦΑΚΕΛΟ img/ ΔΙΠΛΑ ΤΟΥ:
+    index.html
+    img/ kontra.png playerCount.png dinworko.png akyro.png uper.png kata.png
+         info.png praktika.png zero.png one.png two.png three.png four.png
+         five.png six.png seven.png eight.png nine.png
+
+  Για να αλλάξεις ζωγραφιά: αντικατέστησε το PNG με ίδιο όνομα. Κώδικας δεν αλλάζει.
 
     [1]  ΧΡΩΜΑΤΑ & ΓΡΑΜΜΑΤΟΣΕΙΡΕΣ   <- ξεκίνα από εδώ για αλλαγές UI
+    [1β] ΚΟΥΜΠΙΑ-ΕΙΚΟΝΕΣ & ΜΕΤΡΗΤΗΣ <- το καινούριο κομμάτι
     [2]  ΒΑΣΙΚΗ ΔΙΑΤΑΞΗ
     [3]  ΤΥΠΟΓΡΑΦΙΑ
     [4]  ΚΟΥΜΠΙΑ & ΠΕΔΙΑ
@@ -39,40 +46,85 @@
 /* === [1] ΧΡΩΜΑΤΑ & ΓΡΑΜΜΑΤΟΣΕΙΡΕΣ ============================== */
 :root{
   --ink:#633008;        /* φόντο */
-  --surface:#141D18;    /* κάρτες, πεδία */
-  --surface-2:#1B261F;  /* κουμπιά */
-  --line:#28362D;       /* περιγράμματα */
-  --bone:#EDE7D6;       /* κείμενο */
-  --muted:#8A9A8D;      /* δευτερεύον κείμενο */
-  --blood:#A32E24;      /* κόκκινο: κόντρα, κατά, ποινή */
+  --surface:#732803;    /* κάρτες, πεδία = το μέσα των σχεδίων */
+  --surface-2:#732803;  /* κουμπιά κειμένου */
+  --line:#000000;       /* περιγράμματα, όπως στις ζωγραφιές */
+  --bone:#FFF3E4;       /* κείμενο */
+  --muted:#C9A98F;      /* δευτερεύον κείμενο */
+  --blood:#ED1C24;      /* το κόκκινο σου */
   --blood-dim:#6E211A;
-  --brass:#C79A3F;      /* χρυσό: δικαστής, υπέρ, σημειώσεις */
+  --brass:#FFC90E;      /* το κίτρινο σου */
 
-  --display:Georgia,"Times New Roman",serif; //--display:"Comic Sans MS","Comic Sans",cursive; 
-  --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  /* ΕΝΕΡΓΟ: Comic Sans. Για να γυρίσεις πίσω, βάλε σε σχόλιο την
+     πρώτη γραμμή και βγάλε από σχόλιο τη δεύτερη.
+     (Στο CSS τα σχόλια είναι με αστεράκι, ΟΧΙ με //)            */
+  --display:"Comic Sans MS","Comic Sans","Chalkboard SE","Segoe Print",cursive;
+  /* --display:Georgia,"Times New Roman",serif; */
+  --body:"Comic Sans MS","Comic Sans","Chalkboard SE",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 }
+
+/* === [1β] ΚΟΥΜΠΙΑ-ΕΙΚΟΝΕΣ & ΜΕΤΡΗΤΗΣ ==========================
+   .ibtn      = κουμπί που είναι σκέτη η ζωγραφιά σου
+   .art       = ζωγραφιά χωρίς κουμπί (τίτλος, ετικέτα)
+   .ibtn.small= τα στρογγυλά (info, πρακτικά)
+   Οι εικόνες έχουν το ίδιο καφέ με το φόντο, οπότε χωνεύουν μόνες τους. */
+.ibtn{display:block;width:100%;padding:0;margin-top:10px;background:none;border:none;
+  cursor:pointer;transition:transform .1s}
+.ibtn img,.art{display:block;width:100%;height:auto}
+.ibtn img{pointer-events:none}
+.ibtn:active{transform:scale(.96)}
+.ibtn:disabled{opacity:.4;cursor:default}
+.art{margin:2px 0 4px}
+.art.mid{width:62%;margin:6px auto 2px}   /* «Αριθμος Ατομων» μικρότερο */
+
+/* η γωνία πάνω δεξιά */
+.corner{position:absolute;top:8px;right:12px;display:flex;gap:8px;z-index:6}
+.corner .ibtn{width:50px;margin:0}
+
+/* ζωγραφιστά πλαίσια κειμένου */
+.field{position:relative;margin-top:6px}
+.field .frame{display:block;width:100%;height:auto;pointer-events:none}
+.field input,.field textarea{position:absolute;background:none;border:none;outline:none;
+  color:#161616;font-family:var(--display);font-size:17px;line-height:1.35;
+  padding:0;margin:0;resize:none;-webkit-appearance:none;width:auto}
+.field input::placeholder,.field textarea::placeholder{color:#8C8C8C}
+.field.name input{left:8%;right:8%;top:22%;bottom:22%;font-size:21px}
+.field.op textarea{left:9%;right:9%;top:14%;bottom:14%}
+
+/* μετρητής αριθμού ατόμων */
+.counter{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
+.counter .pm{width:64px;flex:none;padding:0;background:none;border:none;cursor:pointer}
+.counter .pm svg{display:block;width:100%;height:auto}
+.counter .pm:active{transform:scale(.94)}
+.counter .pm:disabled{opacity:.35}
+.counter .digits{display:flex;gap:4px}
+.counter .digits img{display:block;height:84px;width:auto}
+
+/* τα ΥΠΕΡ / ΚΑΤΑ μέσα στη λίστα του μετρήματος */
+.t img{height:40px;width:auto;display:block;flex:none}
 
 /* === [2] ΒΑΣΙΚΗ ΔΙΑΤΑΞΗ ====================================== */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%}
 body{background:var(--ink);color:var(--bone);font-family:var(--body);
   font-size:17px;line-height:1.45;overscroll-behavior:none}
-#app{max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
+#app{position:relative;max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
   padding:calc(env(safe-area-inset-top) + 18px) 18px calc(env(safe-area-inset-bottom) + 18px)}
 .fill{flex:1}
-.row{display:flex;gap:10px}
+.row{display:flex;gap:10px;align-items:flex-end}
 .row .btn{flex:1}
-hr{border:none;border-top:1px solid var(--line);margin:20px 0}
+.row .ibtn{flex:1}
+hr{border:none;border-top:4px solid rgba(0,0,0,.5);margin:18px 0}
 
 /* === [3] ΤΥΠΟΓΡΑΦΙΑ ========================================== */
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;
   text-transform:uppercase;color:var(--muted);margin:0 0 14px}
 .eyebrow b{color:var(--brass);font-weight:400}
-h1{text-align:center; font-family:var(--display);font-weight:400;font-size:40px;line-height:1;
-  letter-spacing:.14em;text-transform:uppercase;margin:0 0 6px}
-h2{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.15;
-  letter-spacing:.06em;margin:0 0 10px}
+h1{text-align:center;font-family:var(--display);font-weight:700;font-size:40px;line-height:1.05;
+  margin:0 0 6px;color:var(--bone);
+  text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000}
+h2{font-family:var(--display);font-weight:700;font-size:25px;line-height:1.2;margin:0 0 10px}
 .lede{color:var(--muted);margin:0 0 22px;font-size:15px}
 .count{font-family:var(--mono);font-size:12px;letter-spacing:.14em;
   color:var(--muted);text-transform:uppercase;margin-top:14px}
@@ -81,19 +133,21 @@ h2{font-family:var(--display);font-weight:400;font-size:26px;line-height:1.15;
 
 /* === [4] ΚΟΥΜΠΙΑ & ΠΕΔΙΑ ===================================== */
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
-.btn{display:block;width:100%;padding:17px 18px;margin-top:10px;
-  background:var(--surface-2);border:1px solid var(--line);border-radius:2px;
-  font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
-  text-align:center;transition:background .12s}
-.btn:active{background:#25332A}
-.btn.primary{background:var(--blood);border-color:var(--blood);color:#F6EFE4}
-.btn.primary:active{background:var(--blood-dim)}
-.btn.ghost{background:none;color:var(--muted)}
-.btn.brass{border-color:var(--brass);color:var(--brass)}
-.btn:disabled{opacity:.3;cursor:default}
+.btn{display:block;width:100%;padding:14px 16px;margin-top:10px;
+  background:var(--surface-2);border:5px solid var(--line);
+  border-radius:48% 52% 50% 50% / 60% 56% 44% 40%;
+  font-family:var(--display);font-size:20px;font-weight:700;color:var(--blood);
+  text-shadow:-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,
+              0 -2px 0 #fff,0 2px 0 #fff,-2px 0 0 #fff,2px 0 0 #fff;
+  text-align:center;transition:transform .09s}
+.btn:active{transform:scale(.95)}
+.btn.primary{color:var(--blood)}
+.btn.ghost{font-size:16px;padding:11px 14px;border-width:4px}
+.btn.brass{color:var(--brass)}
+.btn:disabled{opacity:.35;cursor:default}
 
-input,textarea{width:100%;padding:14px;background:var(--surface);color:var(--bone);
-  border:1px solid var(--line);border-radius:2px;font:inherit}
+input,textarea{width:100%;padding:12px;background:var(--surface);color:var(--bone);
+  border:4px solid var(--line);border-radius:14px;font:inherit}
 textarea{min-height:120px;resize:none;font-family:var(--mono);font-size:15px;line-height:1.5}
 input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
 label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
@@ -107,14 +161,14 @@ input.big::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 input.big[type=number]{-moz-appearance:textfield}
 
 /* === [5] ΚΑΡΤΕΣ, ΨΗΦΟΦΟΡΙΑ ================================== */
-.card{background:var(--surface);border:1px solid var(--line);
-  border-left:3px solid var(--brass);padding:20px;
-  font-family:var(--mono);font-size:17px;line-height:1.55}
+.card{background:var(--surface);border:5px solid var(--line);border-radius:20px;
+  padding:18px;font-family:var(--display);font-size:19px;line-height:1.45}
 
 .tally{display:flex;flex-direction:column;gap:8px;margin-top:6px}
-.t{display:flex;align-items:center;justify-content:space-between;width:100%;
-  padding:15px 16px;background:var(--surface);border:1px solid var(--line);border-radius:2px}
-.t span{font-size:17px}
+.t{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
+  padding:9px 14px;background:var(--surface);border:4px solid var(--line);
+  border-radius:16px;min-height:58px}
+.t span{font-family:var(--display);font-size:19px;text-align:left}
 .t em{font-family:var(--mono);font-size:11px;letter-spacing:.16em;font-style:normal;color:var(--muted)}
 .t.pro{border-color:var(--brass);background:rgba(199,154,63,.09)}
 .t.pro em{color:var(--brass)}
@@ -125,8 +179,8 @@ input.big[type=number]{-moz-appearance:textfield}
 
 /* παιχτες */
 .roster{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
-.chip{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  padding:8px 12px;border:1px solid var(--line);border-radius:2px;color:var(--muted)}
+.chip{font-family:var(--display);font-size:15px;padding:5px 12px;
+  background:var(--surface);border:3px solid var(--line);border-radius:14px}
 
 /* πρακτικά */
 .rec{border-left:2px solid var(--line);padding:0 0 4px 14px;margin-bottom:22px}
@@ -138,8 +192,7 @@ input.big[type=number]{-moz-appearance:textfield}
 /* κανόνες */
 .rules{font-size:15px;color:var(--muted);line-height:1.65}
 .rules b{color:var(--bone);font-weight:600}
-.rules h3{font-family:var(--display);font-weight:400;font-size:20px;color:var(--bone);
-  letter-spacing:.04em;margin:24px 0 8px}
+.rules h3{font-family:var(--display);font-size:21px;color:var(--brass);margin:22px 0 6px}
 
 /* σημειώσεις δικαστή */
 details.notes{margin-top:14px}
@@ -150,9 +203,11 @@ details.notes summary::before{content:"\270E  "}
 details.notes textarea{min-height:92px;border-style:dashed;background:rgba(199,154,63,.05)}
 
 /* === [6] ΣΦΡΑΓΙΔΑ =========================================== */
-.stamp{border:4px double var(--blood);color:var(--blood);font-family:var(--display);
-  font-size:clamp(30px,11vw,52px);letter-spacing:.1em;text-transform:uppercase;
-  text-align:center;padding:14px 10px;transform:rotate(-5deg);margin:10px 0;
+.stamp{border:6px double var(--line);color:var(--blood);font-family:var(--display);
+  font-weight:700;font-size:clamp(28px,10vw,46px);
+  text-align:center;padding:12px 10px;transform:rotate(-5deg);margin:10px 0;
+  background:var(--surface);
+  text-shadow:-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff;
   animation:slam .42s cubic-bezier(.2,1.5,.4,1) both}
 .stamp.brass{border-color:var(--brass);color:var(--brass)}
 .stamp.small{font-size:clamp(22px,8vw,34px);border-width:3px}
@@ -166,14 +221,13 @@ details.notes textarea{min-height:92px;border-style:dashed;background:rgba(199,1
 /* === [7] ΧΡΟΝΟΜΕΤΡΟ & ΟΜΙΛΗΤΕΣ ============================== */
 .clock{font-family:var(--mono);font-size:58px;letter-spacing:.04em;text-align:center;
   font-variant-numeric:tabular-nums;margin:4px 0 2px}
-.side{padding:16px;border:1px solid var(--line);background:var(--surface);
-  margin-bottom:8px;border-radius:2px}
-.side .who{font-family:var(--mono);font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--muted);text-align:center}
-.side.on{border-color:var(--brass);background:rgba(199,154,63,.08)}
+.side{padding:13px;border:4px solid var(--line);background:var(--surface);
+  margin-bottom:8px;border-radius:18px}
+.side .who{font-family:var(--display);font-size:16px;color:var(--muted);text-align:center}
+.side.on{border-color:var(--brass);border-width:5px}
 .side.on .who{color:var(--bone)}
-.side.on.con{border-color:var(--blood);background:rgba(163,46,36,.1)}
-.side.interrupt{border-color:var(--blood);background:rgba(163,46,36,.14)}
+.side.on.con{border-color:#000C7B}
+.side.interrupt{border-color:var(--blood)}
 
 /* ουρά ομιλητών: συμπαγείς γραμμές */
 .side.compact{display:flex;align-items:center;justify-content:space-between;padding:11px 14px}
@@ -181,14 +235,12 @@ details.notes textarea{min-height:92px;border-style:dashed;background:rgba(199,1
 .side.compact .clock{font-size:19px;margin:0;color:var(--muted)}
 .side.spent{opacity:.35}
 
-.opa{background:var(--blood);border-color:var(--blood);color:#F6EFE4;
-  font-family:var(--display);font-size:30px;letter-spacing:.14em;padding:24px}
 
 /* οθόνη «κλείστε τα μάτια» */
 .dark{background:#000;position:fixed;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;padding:30px;text-align:center;z-index:9}
-.dark p{font-family:var(--display);font-size:30px;letter-spacing:.1em;
-  text-transform:uppercase;color:#3E4A42;margin:0 0 40px;line-height:1.3}
+.dark p{font-family:var(--display);font-size:30px;color:#5A4632;margin:0 0 36px;line-height:1.3}
+.dark .btn{max-width:280px}
 </style>
 
 <div id="app"></div>
@@ -211,6 +263,10 @@ const CFG = {
   MAX_OPINION: 240,
   STORE_KEY: "kontra.praktika.v1"
 };
+
+/* φάκελος και ονόματα των ζωγραφιών σου */
+const IMG = "img/";
+const DIGIT = ["zero","one","two","three","four","five","six","seven","eight","nine"];
 
 /* === [9] ΑΠΟΘΗΚΕΥΣΗ ========================================
    Δοκιμάζει localStorage. Αν δεν επιτρέπεται (π.χ. σε preview),
@@ -260,23 +316,70 @@ const go = s => { stopTimer(); S.screen = s; render(); };
 function stopTimer(){ if (S.timer){ clearInterval(S.timer); S.timer = null; } }
 const nameOf = i => S.players[i];
 
+/* βοηθητικά για τις ζωγραφιές */
+const ibtn = (file, attr, cls) =>
+  `<button class="ibtn ${cls||""}" ${attr||""}><img src="${IMG}${file}" alt=""></button>`;
+const art = (file, cls) => `<img class="art ${cls||""}" src="${IMG}${file}" alt="">`;
+const badge = file => `<img src="${IMG}${file}" alt="">`;
+const digitImgs = n => String(n).split("")
+  .map(d => `<img src="${IMG}${DIGIT[+d]}.png" alt="${d}">`).join("");
+
+/* πεδία κειμένου μέσα στα ζωγραφιστά πλαίσια */
+const nameField = () => `
+  <div class="field name">
+    <img class="frame" src="${IMG}textbox_name.png" alt="">
+    <input id="pname" placeholder="Πώς σε φωνάζουν" maxlength="${CFG.MAX_NAME}" autocomplete="off">
+  </div>`;
+const opField = ph => `
+  <div class="field op">
+    <img class="frame" src="${IMG}textbox_opinion.png" alt="">
+    <textarea id="op" maxlength="${CFG.MAX_OPINION}" placeholder="${ph}"></textarea>
+  </div>`;
+
+/* η γωνία πάνω δεξιά: κανόνες + πρακτικά */
+const corner = back => `
+  <div class="corner">
+    ${ibtn("info.png",'data-go="rules"')}
+    ${ibtn("praktika.png",`data-records="${back}"`)}
+  </div>`;
+
+/* το − και το + σε SVG, μέχρι να τα ζωγραφίσεις */
+const pm = (sign, attr) => `
+  <button class="pm" ${attr}>
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 6 C74 4 96 25 95 50 C96 75 74 96 50 95 C26 96 5 74 6 50 C5 25 26 7 50 6 Z"
+            fill="#732803" stroke="#000" stroke-width="11" stroke-linejoin="round"/>
+      <g stroke="#fff" stroke-width="19" stroke-linecap="round">
+        <line x1="28" y1="50" x2="72" y2="50"/>
+        ${sign === "+" ? '<line x1="50" y1="28" x2="50" y2="72"/>' : ""}
+      </g>
+      <g stroke="#ED1C24" stroke-width="12" stroke-linecap="round">
+        <line x1="28" y1="50" x2="72" y2="50"/>
+        ${sign === "+" ? '<line x1="50" y1="28" x2="50" y2="72"/>' : ""}
+      </g>
+    </svg>
+  </button>`;
+
 /* === [11] ΟΘΟΝΕΣ =========================================== */
 const V = {};
 
 /* ΟΘΟΝΗ: ρυθμίσεις εκκίνησης -------------------------------- */
 V.count = () => {
   const times = CFG.TIME_OPTIONS.map(s =>
-    `<button class="btn ${S.contraSecs===s?"brass":""}" data-secs="${s}">${s/60} λεπτά</button>`
+    `<button class="btn ghost ${S.contraSecs===s?"brass":""}" data-secs="${s}">${s/60} λεπτά</button>`
   ).join("");
 
   return `
-    
-    <h1>Κόντρα</h1>
-    <p class="lede">"Δεν υπαρχει σωστη και λαθος αποψη, μονο σωστη και λαθος τεκμηριωση"/p>
+    ${corner("count")}
+    ${art("kontra.png")}
+    <p class="lede" style="text-align:center">"Δεν υπαρχει σωστη και λαθος αποψη, μονο σωστη και λαθος τεκμηριωση"</p>
 
-    <label>Πόσοι παίζετε; (${CFG.MIN_PLAYERS}–${CFG.MAX_PLAYERS})</label>
-    <input id="pcount" class="big" type="number" inputmode="numeric"
-      min="${CFG.MIN_PLAYERS}" max="${CFG.MAX_PLAYERS}" value="${S.playerCount}">
+    ${art("playerCount.png","mid")}
+    <div class="counter">
+      ${pm("-", `data-step="-1" ${S.playerCount<=CFG.MIN_PLAYERS?"disabled":""}`)}
+      <div class="digits">${digitImgs(S.playerCount)}</div>
+      ${pm("+", `data-step="1" ${S.playerCount>=CFG.MAX_PLAYERS?"disabled":""}`)}
+    </div>
 
     <label>Τι πληρώνει ο χαμένος</label>
     <input id="penalty" value="${esc(S.penalty)}" placeholder="ό,τι συμφωνήσετε" maxlength="30">
@@ -285,11 +388,7 @@ V.count = () => {
     <div class="row">${times}</div>
 
     <div class="fill"></div>
-    <button class="btn primary" data-start="1">Σκοτωθειτε!</button>
-    <div class="row">
-      <button class="btn" data-go="rules">Κανόνες</button>
-      <button class="btn ghost" data-records="count">Πρακτικά${S.records.length?` (${S.records.length})`:""}</button>
-    </div>`;
+    ${ibtn("skotwtheite.png",'data-start="1"')}`;
 };
 
 /* ΟΘΟΝΗ: κανόνες --------------------------------------------
@@ -311,8 +410,8 @@ V.rules = () => `
     <h3>Η κόντρα</h3>
     <p>Αν υπάρχει διαφωνία, ο δικαστής διαλέγει ποιοι θα μονομαχήσουν. Μιλάει πρώτος ο υπέρ, χωρίς προετοιμασία. Ο αντίπαλος λέει <b>«Όπα!»</b> για να κόψει — ο χρόνος του ομιλητή παγώνει και ο δικαστής κρίνει πόσο θα τον αφήσει να μιλήσει.</p>
 
-    <h3>Ομαδικά</h3>
-    <p>Με 5 παίκτες και πάνω ξεκλειδώνει το <b>2v2</b>, με 7 και πάνω το <b>3v3</b>. Ο λόγος πηγαίνει εναλλάξ υπέρ, κατά, υπέρ, κατά, και ο καθένας έχει δικό του χρόνο. Ο δικαστής ανακηρύσσει νικήτρια ομάδα, όχι άτομο.</p>
+    <h3>Διπλή και τριπλή κόντρα</h3>
+    <p>Με 5 παίκτες και πάνω ξεκλειδώνει η <b>διπλή</b>, με 7 και πάνω η <b>τριπλή</b>. Ο λόγος πηγαίνει εναλλάξ υπέρ, κατά, υπέρ, κατά, και ο καθένας έχει δικό του χρόνο. Ο δικαστής ανακηρύσσει νικήτρια ομάδα, όχι άτομο.</p>
 
     <h3>Η ετυμηγορία</h3>
     <p>Όσοι δεν μονομαχούν γίνονται ένορκοι και συμφωνούν ποιος κέρδισε. Ο χαμένος πληρώνει την τιμωρία. Αν δεν βγει άκρη, πληρώνουν οι ένορκοι.</p>
@@ -322,7 +421,7 @@ V.rules = () => `
 
   </div>
   <div class="fill"></div>
-  <button class="btn" data-go="count">Πίσω</button>`;
+  ${ibtn("akyro.png",'data-go="count"')}`;
 
 /* ΟΘΟΝΗ: σύσταση — όνομα + πρώτη άποψη ---------------------- */
 V.intro = () => {
@@ -334,15 +433,11 @@ V.intro = () => {
     <p class="eyebrow">Τα χαρτια σας: &middot; <b>${i} από ${S.playerCount}</b></p>
     <p class="lede">Γράψε πώς σε λένε και μία άποψη που μπορείς να υπερασπιστείς. Η άποψη δεν συνδέεται με το όνομά σου.</p>
 
-    <label>Το όνομά σου</label>
-    <input id="pname" placeholder="Πώς σε φωνάζουν" maxlength="${CFG.MAX_NAME}" autocomplete="off">
-
-    <label>Η άποψή σου</label>
-    <textarea id="op" maxlength="${CFG.MAX_OPINION}"
-      placeholder="Μια θέση, όχι ερώτηση. Κάτι που θα υποστήριζες μπροστά σε όλους."></textarea>
+    ${nameField()}
+    ${opField("Μια θέση, όχι ερώτηση. Κάτι που θα υποστήριζες μπροστά σε όλους.")}
 
     <div class="fill"></div>
-    <button class="btn primary" data-intro="1" disabled>Δινω ορκο</button>
+    ${ibtn("dinworko.png",'data-intro="1" disabled')}
     ${roster}`;
 };
 
@@ -353,10 +448,8 @@ V.more = () => {
   return `
     <p class="eyebrow">${esc(me)} &middot; <b>${S.mine} ${S.mine===1?"άποψη":"απόψεις"}</b></p>
     <h2>Θες κι άλλη;</h2>
-    <p class="lede">Γράψε όσες θέλεις πριν δώσεις το κινητό.</p>
-    <textarea id="op" maxlength="${CFG.MAX_OPINION}"
-      placeholder="Άλλη μια θέση που μπορείς να υπερασπιστείς."></textarea>
-    <button class="btn primary" data-add-op="1" disabled>ετοιμος</button>
+    ${opField("Άλλη μια θέση που μπορείς να υπερασπιστείς.")}
+    ${ibtn("dinworko.png",'data-add-op="1" disabled')}
     <div class="fill"></div>
     <button class="btn" data-pass="1">${last ? "Τελείωσαν όλοι" : "Δίνω στον επόμενο"}</button>`;
 };
@@ -368,43 +461,45 @@ V.lastCall = () => `
   <p class="lede">Θέλει κάποιος να προσθέσει κάτι πριν ξεκινήσουμε; Περνάτε το κινητό ελεύθερα — παραμένει ανώνυμο.</p>
   <div class="roster">${S.players.map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</div>
   <div class="fill"></div>
-  <button class="btn primary" data-begin="1">ορθιοι!</button>
-  <button class="btn" data-extra="lastCall">Κάποιος θέλει να γράψει</button>`;
+  ${ibtn("orthioi.png",'data-begin="1"')}
+  <button class="btn ghost" data-extra="lastCall">Κάποιος θέλει να γράψει</button>`;
 
 /* ΟΘΟΝΗ: ανώνυμη προσθήκη άποψης ---------------------------- */
 V.extra = () => `
   <p class="eyebrow">Ανώνυμη κατάθεση</p>
   <h2>Η άποψη</h2>
   <p class="lede">Δεν χρειάζεται όνομα. Γράψε και δώσε πίσω το κινητό.</p>
-  <textarea id="op" maxlength="${CFG.MAX_OPINION}"
-    placeholder="Μια θέση που μπορείς να υπερασπιστείς."></textarea>
+  ${opField("Μια θέση που μπορείς να υπερασπιστείς.")}
   <div class="fill"></div>
-  <button class="btn primary" data-add-op="1" disabled>ετοιμος</button>
-  <button class="btn ghost" data-go="${S.writeReturn === "round" ? "refill" : S.writeReturn}">Άκυρο</button>`;
+  ${ibtn("dinworko.png",'data-add-op="1" disabled')}
+  ${ibtn("akyro.png",`data-go="${S.writeReturn === "round" ? "refill" : S.writeReturn}"`)}`;
 
 /* ΟΘΟΝΗ: ανακοίνωση δικαστή --------------------------------- */
 V.round = () => `
+  ${corner("round")}
   <p class="eyebrow">Ακρόαση &middot; <b>${S.opinions.length} στον φάκελο</b></p>
   <h1 style="font-size:32px">${esc(nameOf(S.judge))}</h1>
   <p class="lede">Πάρε το κινητό. Εισαι υπευθυνος για την ροη των ομιλιων της κοντρας.</p>
   <div class="fill"></div>
-  <button class="btn primary" data-go="eyes">Έτοιμος</button>
-  <button class="btn ghost" data-records="round">Πρακτικά${S.records.length?` (${S.records.length})`:""}</button>`;
+  <button class="btn" data-go="eyes">Έτοιμος</button>`;
 
 /* ΟΘΟΝΗ: κλείστε τα μάτια ----------------------------------- */
 V.eyes = () => `
   <div class="dark">
     <p>Όλοι<br>κλείνουν<br>τα μάτια</p>
-    <button class="btn primary" style="max-width:280px" data-go="hearing">Έκλεισαν</button>
+    <button class="btn" data-go="hearing">Έκλεισαν</button>
   </div>`;
 
 /* ΟΘΟΝΗ: ακρόαση — η άποψη ΚΑΙ το μέτρημα μαζί --------------- */
 V.hearing = () => {
   const r = S.round;
+  const mark = v => v === "pro" ? badge("uper.png")
+                  : v === "con" ? badge("kata.png")
+                  : `<em>—</em>`;
   const rows = S.players.map((p,i) => i === S.judge ? "" : `
-    <button class="t ${r.vote[i]||""}" data-vote="${i}">
+    <button class="t" data-vote="${i}">
       <span>${esc(p)}</span>
-      <em>${r.vote[i]==="pro"?"ΥΠΕΡ":r.vote[i]==="con"?"ΚΑΤΑ":"—"}</em>
+      ${mark(r.vote[i])}
     </button>`).join("");
 
   const pro = sideOf("pro"), con = sideOf("con");
@@ -415,20 +510,20 @@ V.hearing = () => {
   if (done < all){
     actions = `<button class="btn" disabled>Μέτρα όλους &middot; ${done}/${all}</button>`;
   } else if (!split){
-    actions = `<button class="btn" data-unanimous="1">Ομοφωνία</button>`;
+    actions = ibtn("omofwnia.png",'data-unanimous="1"');
   } else {
     const can2 = S.playerCount >= CFG.UNLOCK_2V2;
     const can3 = S.playerCount >= CFG.UNLOCK_3V3;
     const ok2 = pro.length >= 2 && con.length >= 2;
     const ok3 = pro.length >= 3 && con.length >= 3;
-    actions = `<button class="btn primary" data-mode="1">Κόντρα &middot; 1 vs 1</button>`;
+    actions = `<button class="btn" data-mode="1" style="font-size:24px">Κόντρα!</button>`;
     if (can2 || can3){
       actions += `<div class="row">
-        ${can2 ? `<button class="btn brass" data-mode="2" ${ok2?"":"disabled"}>2 vs 2</button>` : ""}
-        ${can3 ? `<button class="btn brass" data-mode="3" ${ok3?"":"disabled"}>3 vs 3</button>` : ""}
+        ${can2 ? ibtn("diplikontra.png",`data-mode="2" ${ok2?"":"disabled"}`) : ""}
+        ${can3 ? ibtn("triplikontra.png",`data-mode="3" ${ok3?"":"disabled"}`) : ""}
       </div>`;
       if ((can2 && !ok2) || (can3 && !ok3))
-        actions += `<p class="mini">Τα ομαδικά θέλουν αρκετούς και στις δύο πλευρές</p>`;
+        actions += `<p class="mini">Οι ομαδικές θέλουν αρκετούς και στις δύο πλευρές</p>`;
     }
   }
 
@@ -447,7 +542,7 @@ V.select = () => {
   const list = (side, sel) => sideOf(side).map(i => `
     <button class="t ${sel.includes(i) ? side + " picked" : "out"}" data-pick="${side}:${i}">
       <span>${esc(nameOf(i))}</span>
-      <em>${sel.includes(i) ? "ΠΑΙΖΕΙ" : "ένορκος"}</em>
+      ${sel.includes(i) ? badge(side === "pro" ? "uper.png" : "kata.png") : `<em>ένορκος</em>`}
     </button>`).join("");
 
   const ready = r.proSel.length === n && r.conSel.length === n;
@@ -464,10 +559,10 @@ V.select = () => {
     <div class="tally">${list("con", r.conSel)}</div>
 
     <div class="fill"></div>
-    <button class="btn primary" data-go-contra="1" ${ready?"":"disabled"}>
+    <button class="btn" data-go-contra="1" ${ready?"":"disabled"}>
       ${ready ? "Αρχίζει ο υπέρ" : "Διάλεξε και τις δύο πλευρές"}
     </button>
-    <button class="btn ghost" data-go="hearing">Πίσω στο μέτρημα</button>`;
+    ${ibtn("akyro.png",'data-go="hearing"')}`;
 };
 
 /* ΟΘΟΝΗ: η κόντρα — σειρά ομιλητών + σημειώσεις ------------- */
@@ -503,10 +598,10 @@ V.contra = () => {
         <div class="who">Διακοπή &middot; ${esc(foe)}</div>
         <div class="clock" id="opaClock" style="font-size:42px;color:#D9736A">${mmss(r.opaT)}</div>
       </div>
-      <button class="btn primary" data-opa="0">Αρκετά — συνέχισε</button>
+      <button class="btn" data-opa="0">Αρκετά — συνέχισε</button>
       <p class="mini">Ο χρόνος του ομιλητή είναι παγωμένος</p>
     ` : `
-      <button class="btn opa" data-opa="1">Όπα!</button>
+      ${ibtn("opa.png",'data-opa="1"')}
       <p class="mini">Κόβει η αντίπαλη πλευρά — ο δικαστής κρίνει πόσο θα την αφήσει</p>
     `}
 
@@ -516,10 +611,8 @@ V.contra = () => {
     </details>
 
     <div class="fill"></div>
-    <div class="row">
-      <button class="btn ghost" data-next="1">Επόμενος</button>
-      <button class="btn ghost" data-go="verdict">Τέλος κόντρας</button>
-    </div>`;
+    ${ibtn("epomenos.png",'data-next="1"')}
+    <button class="btn ghost" data-go="verdict">Τέλος κόντρας</button>`;
 };
 
 /* ΟΘΟΝΗ: ετυμηγορία ----------------------------------------- */
@@ -530,8 +623,8 @@ V.verdict = () => {
     <p class="eyebrow">Ετυμηγορία ενόρκων</p>
     <h2>${r.mode === 1 ? "Ποιος κέρδισε;" : "Ποια ομάδα κέρδισε;"}</h2>
     <p class="lede">Ο χαμένος: ${esc(S.penalty)}.</p>
-    <button class="btn brass" data-win="pro">${team(r.proSel)} &middot; υπέρ</button>
-    <button class="btn brass" data-win="con">${team(r.conSel)} &middot; κατά</button>
+    <button class="btn brass" data-win="pro">${team(r.proSel)}</button>
+    <button class="btn" style="color:#4D7BE0" data-win="con">${team(r.conSel)}</button>
     <div class="fill"></div>
     <button class="btn ghost" data-win="none">Δεν βγήκε άκρη</button>`;
 };
@@ -546,12 +639,10 @@ V.sentence = () => {
     <div class="stamp ${r.winner==="none" ? "" : "small"}">${r.winner==="none" ? "Άκυρη" : "Ένοχοι"}</div>
     <h2 style="text-align:center;margin-top:26px">
       ${losers ? losers : "Οι ένορκοι"}<br>
-      <span style="font-size:16px;font-family:var(--mono);letter-spacing:.16em;color:var(--brass)">
-        ${esc(S.penalty).toUpperCase()}
-      </span>
+      <span style="color:var(--brass)">${esc(S.penalty)}</span>
     </h2>
     <div class="fill"></div>
-    <button class="btn primary" data-go="archive">Επόμενο</button>`;
+    <button class="btn" data-go="archive">Επόμενο</button>`;
 };
 
 /* ΟΘΟΝΗ: αρχειοθέτηση --------------------------------------- */
@@ -565,26 +656,26 @@ V.archive = () => `
     <textarea id="notes" placeholder="Τελευταία ευκαιρία να γράψεις κάτι πριν κλείσει η δίκη.">${esc(S.round.notes)}</textarea>
   </details>
   <div class="fill"></div>
-  <button class="btn primary" data-arch="1">Αρχειοθέτηση</button>
-  <button class="btn" data-arch="0">Μένει — θα ξανασυζητηθεί</button>`;
+  <button class="btn" data-arch="1">Αρχειοθέτηση</button>
+  ${ibtn("keep.png",'data-arch="0"')}`;
 
 /* ΟΘΟΝΗ: αναπλήρωση ----------------------------------------- */
 V.refill = () => `
   <p class="eyebrow">Αναπλήρωση φακέλου</p>
-  <div class="stamp brass small">Αρχειοθετήθηκε</div>
+  <div class="stamp small">Αρχειοθετήθηκε</div>
   <h2 style="margin-top:24px">Δώσε το κινητό</h2>
   <p class="lede">Μία άποψη έφυγε. Κάποιος γράφει καινούρια στη θέση της.</p>
   <div class="fill"></div>
-  <button class="btn primary" data-extra="round">Γράφω</button>`;
+  <button class="btn" data-extra="round">Γράφω</button>`;
 
 /* ΟΘΟΝΗ: άδειος φάκελος ------------------------------------- */
 V.empty = () => `
+  ${corner("empty")}
   <p class="eyebrow">Ο φάκελος άδειασε</p>
   <h2>Τέλος δίκης</h2>
   <p class="lede">Όλες οι απόψεις αρχειοθετήθηκαν.</p>
   <div class="fill"></div>
-  <button class="btn primary" data-extra="round">Γράψε κι άλλη</button>
-  <button class="btn ghost" data-records="empty">Πρακτικά</button>`;
+  <button class="btn" data-extra="round">Γράψε κι άλλη</button>`;
 
 /* ΟΘΟΝΗ: πρακτικά ------------------------------------------- */
 V.records = () => {
@@ -593,7 +684,7 @@ V.records = () => {
     <h2>Κανένα ακόμα</h2>
     <p class="lede">Οι δίκες καταγράφονται εδώ μόλις κλείσουν, μαζί με τις σημειώσεις του δικαστή.</p>
     <div class="fill"></div>
-    <button class="btn" data-go="${S.back}">Πίσω</button>`;
+    ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 
   const list = S.records.slice().reverse().map(r => `
     <div class="rec">
@@ -613,7 +704,7 @@ V.records = () => {
     ${list}
     <hr>
     <div class="fill"></div>
-    <button class="btn" data-go="${S.back}">Πίσω</button>
+    ${ibtn("akyro.png",`data-go="${S.back}"`)}
     <div class="row">
       <button class="btn ghost" data-export="1">Εξαγωγή</button>
       <button class="btn ghost" data-clear="1">Διαγραφή όλων</button>
@@ -627,8 +718,8 @@ V.export = () => `
   <p class="lede">Κράτα τα κείμενο, στείλ' τα, βάλ' τα όπου θες.</p>
   <textarea style="min-height:320px" readonly id="dump">${esc(exportText())}</textarea>
   <div class="fill"></div>
-  <button class="btn primary" data-copy="1">Αντιγραφή</button>
-  <button class="btn ghost" data-records="">Πίσω</button>`;
+  <button class="btn" data-copy="1">Αντιγραφή</button>
+  ${ibtn("akyro.png",'data-records=""')}`;
 
 /* === [12] ΛΟΓΙΚΗ =========================================== */
 
@@ -745,21 +836,17 @@ function syncSubmit(){
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear]");
-  if (!t) return;
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear]");
+  if (!t || t.disabled) return;
   const d = t.dataset;
 
   /* πρώτη οθόνη */
-  if (d.secs){ S.contraSecs = +d.secs; return render(); }
-  if (d.start){
-    const v = parseInt(app.querySelector("#pcount").value, 10);
-    if (isNaN(v) || v < CFG.MIN_PLAYERS || v > CFG.MAX_PLAYERS){
-      alert(`Βάλε αριθμό από ${CFG.MIN_PLAYERS} έως ${CFG.MAX_PLAYERS}.`);
-      return;
-    }
-    S.playerCount = v;
-    return go("intro");
+  if (d.step){
+    S.playerCount = Math.min(CFG.MAX_PLAYERS, Math.max(CFG.MIN_PLAYERS, S.playerCount + (+d.step)));
+    return render();
   }
+  if (d.secs){ S.contraSecs = +d.secs; return render(); }
+  if (d.start){ return go("intro"); }
 
   /* σύσταση */
   if (d.intro){
