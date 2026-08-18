@@ -38,7 +38,7 @@
 <style>
 /* === [1] ΧΡΩΜΑΤΑ & ΓΡΑΜΜΑΤΟΣΕΙΡΕΣ ============================== */
 :root{
-  --ink:#0C1310;        /* φόντο */
+  --ink:#633008;        /* φόντο */
   --surface:#141D18;    /* κάρτες, πεδία */
   --surface-2:#1B261F;  /* κουμπιά */
   --line:#28362D;       /* περιγράμματα */
@@ -123,7 +123,7 @@ input.big[type=number]{-moz-appearance:textfield}
 .t.picked{border-width:2px}
 .t.out{opacity:.45}
 
-/* λίστα όσων συστήθηκαν */
+/* παιχτες */
 .roster{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
 .chip{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
   padding:8px 12px;border:1px solid var(--line);border-radius:2px;color:var(--muted)}
@@ -202,7 +202,7 @@ const CFG = {
   MIN_PLAYERS: 3,
   MAX_PLAYERS: 15,
   DEFAULT_PLAYERS: 5,
-  DEFAULT_PENALTY: "τιμωρία",
+  DEFAULT_PENALTY: "ποινη",
   TIME_OPTIONS: [120, 180, 300],   // χρόνος ανά ομιλητή, σε δευτερόλεπτα
   DEFAULT_TIME: 120,
   UNLOCK_2V2: 5,                   // από πόσους παίκτες ξεκλειδώνει το 2v2
@@ -270,9 +270,9 @@ V.count = () => {
   ).join("");
 
   return `
-    <p class="eyebrow">Δικαστήριο</p>
+    
     <h1>Κόντρα</h1>
-    <p class="lede">Γράφετε απόψεις. Ο δικαστής διαβάζει. Όποιοι διαφωνούν, μονομαχούν.</p>
+    <p class="lede">"Δεν υπαρχει σωστη και λαθος αποψη, μονο σωστη και λαθος τεκμηριωση"/p>
 
     <label>Πόσοι παίζετε; (${CFG.MIN_PLAYERS}–${CFG.MAX_PLAYERS})</label>
     <input id="pcount" class="big" type="number" inputmode="numeric"
@@ -285,7 +285,7 @@ V.count = () => {
     <div class="row">${times}</div>
 
     <div class="fill"></div>
-    <button class="btn primary" data-start="1">Ξεκίνα</button>
+    <button class="btn primary" data-start="1">Σκοτωθειτε!</button>
     <div class="row">
       <button class="btn" data-go="rules">Κανόνες</button>
       <button class="btn ghost" data-records="count">Πρακτικά${S.records.length?` (${S.records.length})`:""}</button>
@@ -331,8 +331,7 @@ V.intro = () => {
     ? `<div class="roster">${S.players.map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</div>`
     : "";
   return `
-    <p class="eyebrow">Σύσταση &middot; <b>${i} από ${S.playerCount}</b></p>
-    <h2>Πάρε το κινητό</h2>
+    <p class="eyebrow">Τα χαρτια σας: &middot; <b>${i} από ${S.playerCount}</b></p>
     <p class="lede">Γράψε πώς σε λένε και μία άποψη που μπορείς να υπερασπιστείς. Η άποψη δεν συνδέεται με το όνομά σου.</p>
 
     <label>Το όνομά σου</label>
@@ -343,7 +342,7 @@ V.intro = () => {
       placeholder="Μια θέση, όχι ερώτηση. Κάτι που θα υποστήριζες μπροστά σε όλους."></textarea>
 
     <div class="fill"></div>
-    <button class="btn primary" data-intro="1" disabled>Καταχώρηση</button>
+    <button class="btn primary" data-intro="1" disabled>Δινω ορκο</button>
     ${roster}`;
 };
 
@@ -357,7 +356,7 @@ V.more = () => {
     <p class="lede">Γράψε όσες θέλεις πριν δώσεις το κινητό.</p>
     <textarea id="op" maxlength="${CFG.MAX_OPINION}"
       placeholder="Άλλη μια θέση που μπορείς να υπερασπιστείς."></textarea>
-    <button class="btn primary" data-add-op="1" disabled>Καταχώρηση</button>
+    <button class="btn primary" data-add-op="1" disabled>ετοιμος</button>
     <div class="fill"></div>
     <button class="btn" data-pass="1">${last ? "Τελείωσαν όλοι" : "Δίνω στον επόμενο"}</button>`;
 };
@@ -369,7 +368,7 @@ V.lastCall = () => `
   <p class="lede">Θέλει κάποιος να προσθέσει κάτι πριν ξεκινήσουμε; Περνάτε το κινητό ελεύθερα — παραμένει ανώνυμο.</p>
   <div class="roster">${S.players.map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</div>
   <div class="fill"></div>
-  <button class="btn primary" data-begin="1">Ξεκινάμε</button>
+  <button class="btn primary" data-begin="1">ορθιοι!</button>
   <button class="btn" data-extra="lastCall">Κάποιος θέλει να γράψει</button>`;
 
 /* ΟΘΟΝΗ: ανώνυμη προσθήκη άποψης ---------------------------- */
@@ -380,14 +379,14 @@ V.extra = () => `
   <textarea id="op" maxlength="${CFG.MAX_OPINION}"
     placeholder="Μια θέση που μπορείς να υπερασπιστείς."></textarea>
   <div class="fill"></div>
-  <button class="btn primary" data-add-op="1" disabled>Καταχώρηση</button>
+  <button class="btn primary" data-add-op="1" disabled>ετοιμος</button>
   <button class="btn ghost" data-go="${S.writeReturn === "round" ? "refill" : S.writeReturn}">Άκυρο</button>`;
 
 /* ΟΘΟΝΗ: ανακοίνωση δικαστή --------------------------------- */
 V.round = () => `
   <p class="eyebrow">Ακρόαση &middot; <b>${S.opinions.length} στον φάκελο</b></p>
   <h1 style="font-size:32px">${esc(nameOf(S.judge))}</h1>
-  <p class="lede">Πάρε το κινητό. Είσαι ο δικαστής αυτού του γύρου.</p>
+  <p class="lede">Πάρε το κινητό. Εισαι υπευθυνος για την ροη των ομιλιων της κοντρας.</p>
   <div class="fill"></div>
   <button class="btn primary" data-go="eyes">Έτοιμος</button>
   <button class="btn ghost" data-records="round">Πρακτικά${S.records.length?` (${S.records.length})`:""}</button>`;
@@ -416,7 +415,7 @@ V.hearing = () => {
   if (done < all){
     actions = `<button class="btn" disabled>Μέτρα όλους &middot; ${done}/${all}</button>`;
   } else if (!split){
-    actions = `<button class="btn" data-unanimous="1">Ομοφωνία — καμία κόντρα</button>`;
+    actions = `<button class="btn" data-unanimous="1">Ομοφωνία</button>`;
   } else {
     const can2 = S.playerCount >= CFG.UNLOCK_2V2;
     const can3 = S.playerCount >= CFG.UNLOCK_3V3;
