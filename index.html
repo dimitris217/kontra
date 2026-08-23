@@ -54,6 +54,7 @@
   --blood:#ED1C24;      /* το κόκκινο σου */
   --blood-dim:#6E211A;
   --brass:#FFC90E;      /* το κίτρινο σου */
+  --stroke:-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
 
   /* ΕΝΕΡΓΟ: Comic Sans. Για να γυρίσεις πίσω, βάλε σε σχόλιο την
      πρώτη γραμμή και βγάλε από σχόλιο τη δεύτερη.
@@ -143,7 +144,15 @@ h2{font-family:var(--display);font-weight:700;font-size:25px;line-height:1.2;mar
   color:var(--muted);text-transform:uppercase;margin-top:14px}
 .mini{font-family:var(--mono);font-size:12px;letter-spacing:.1em;
   color:var(--muted);text-align:center;margin-top:14px}
-
+/* Comic Sans λευκό έντονο με μαύρο περίγραμμα — παντού εκτός
+   από τις μικρές ετικέτες (βλ. σχόλιο πιο κάτω)               */
+h1, h2, .lede, .card, .rules, .rules h3,
+.players, .chip, .t span, .side .who, .rec .o{
+  font-family:var(--display);
+  font-weight:700;
+  color:var(--bone);
+  text-shadow:var(--stroke);
+}
 /* === [4] ΚΟΥΜΠΙΑ & ΠΕΔΙΑ ===================================== */
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .btn{display:block;width:100%;padding:14px 16px;margin-top:10px;
