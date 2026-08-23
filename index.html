@@ -93,7 +93,7 @@
 /* ── ΡΥΘΜΙΣΕΙΣ ΑΝΑ ΚΟΥΜΠΙ ────────────────────────────────
    Το Άκυρο πιο μικρό, παντού όπου εμφανίζεται.            */
 .ibtn.b-akyro,
-.ibtn.b-epomenos{width:56%;margin-left:auto;margin-right:auto}
+.ibtn.b-etoimoi{width:56%;margin-left:auto;margin-right:auto}
 
 /* Αυτές οι ζωγραφιές είναι λίγο δεξιά μέσα στον καμβά τους,
    οπότε τις σπρώχνουμε ελαφρώς αριστερά. Το καφέ που μένει
@@ -134,12 +134,12 @@
 html,body{margin:0;height:100%}
 body{background:var(--ink);color:var(--bone);font-family:var(--body);
   font-size:17px;line-height:1.45;overscroll-behavior:none}
-/* Η κορνίζα της εφαρμογής: δύο inset σκιές, η μία μέσα στην άλλη.
-   Η πρώτη ζωγραφίζεται από πάνω, οπότε το μαύρο μένει έξω και το
-   λευκό φαίνεται σαν λεπτή γραμμή από μέσα.
-   ΠΑΧΟΣ: 9px μαύρο, μετά 4px λευκό (13 μείον 9). Άλλαξε τα δύο νούμερα. */
+/* Η κορνίζα της εφαρμογής: μαύρη, στρογγυλεμένη.
+   ΠΑΧΟΣ = το 11px. ΣΤΡΟΓΓΥΛΕΜΑ = το border-radius.
+   Η inset σκιά ακολουθεί μόνη της τη στρογγυλή γωνία.        */
 #app{position:relative;max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
-  box-shadow:inset 0 0 0 9px #000, inset 0 0 0 13px var(--bone);
+  border-radius:28px;
+  box-shadow:inset 0 0 0 11px #000;
   padding:calc(env(safe-area-inset-top) + 26px) 24px calc(env(safe-area-inset-bottom) + 26px)}
 .fill{flex:1}
 .row{display:flex;gap:10px;align-items:flex-end}
@@ -270,7 +270,7 @@ details.notes textarea{min-height:92px;border-style:dashed;background:rgba(199,1
 /* οθόνη «κλείστε τα μάτια» */
 .dark{background:#000;position:fixed;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;padding:34px;text-align:center;z-index:9;
-  box-shadow:inset 0 0 0 9px #000, inset 0 0 0 13px var(--bone)}
+  border-radius:28px;box-shadow:inset 0 0 0 11px #000}
 .dark p{font-family:var(--display);font-weight:700;font-size:32px;color:var(--bone);
   text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;
   margin:0 0 34px;line-height:1.25}
