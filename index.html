@@ -78,9 +78,17 @@
 .art{margin:2px 0 4px}
 .art.mid{width:62%;margin:6px auto 2px}   /* «Αριθμος Ατομων» μικρότερο */
 
-/* η γωνία πάνω δεξιά */
-.corner{position:absolute;top:8px;right:12px;display:flex;gap:8px;z-index:6}
-.corner .ibtn{width:50px;margin:0}
+/* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά */
+.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px}
+.hdr .ibtn{width:54px;margin:0;flex:none}
+
+/* «ΠΑΙΧΤΕΣ» — ετικέτα αντί για ζωγραφιά */
+.players{font-family:var(--display);font-weight:700;font-size:27px;text-align:center;
+  color:var(--bone);margin:14px 0 2px;
+  text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000}
+
+/* επιλεγμένο / ανεπίλεκτο κουμπί-ζωγραφιά */
+.ibtn.dim{opacity:.42}
 
 /* ζωγραφιστά πλαίσια κειμένου */
 .field{position:relative;margin-top:6px}
@@ -166,7 +174,7 @@ input.big[type=number]{-moz-appearance:textfield}
 
 .tally{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .t{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
-  padding:9px 14px;background:var(--surface);border:4px solid var(--line);
+  padding:9px 14px;background:var(--ink);border:4px solid var(--line);
   border-radius:16px;min-height:58px}
 .t span{font-family:var(--display);font-size:19px;text-align:left}
 .t em{font-family:var(--mono);font-size:11px;letter-spacing:.16em;font-style:normal;color:var(--muted)}
@@ -255,7 +263,7 @@ const CFG = {
   MAX_PLAYERS: 15,
   DEFAULT_PLAYERS: 5,
   DEFAULT_PENALTY: "ποινη",
-  TIME_OPTIONS: [120, 180, 300],   // χρόνος ανά ομιλητή, σε δευτερόλεπτα
+  TIME_OPTIONS: [120, 180, 240],   // χρονος λογου, σε δευτερολεπτα
   DEFAULT_TIME: 120,
   UNLOCK_2V2: 5,                   // από πόσους παίκτες ξεκλειδώνει το 2v2
   UNLOCK_3V3: 7,                   // από πόσους παίκτες ξεκλειδώνει το 3v3
@@ -267,6 +275,8 @@ const CFG = {
 /* φάκελος και ονόματα των ζωγραφιών σου */
 const IMG = "img/";
 const DIGIT = ["zero","one","two","three","four","five","six","seven","eight","nine"];
+/* ζωγραφιές για τον χρόνο λόγου· όποιο λείπει βγαίνει ως κείμενο */
+const TIME_IMG = { 120:"2lepta.png", 180:"3lepta.png" };
 
 /* === [9] ΑΠΟΘΗΚΕΥΣΗ ========================================
    Δοκιμάζει localStorage. Αν δεν επιτρέπεται (π.χ. σε preview),
@@ -328,7 +338,7 @@ const digitImgs = n => String(n).split("")
 const nameField = () => `
   <div class="field name">
     <img class="frame" src="${IMG}textbox_name.png" alt="">
-    <input id="pname" placeholder="Πώς σε φωνάζουν" maxlength="${CFG.MAX_NAME}" autocomplete="off">
+    <input id="pname" placeholder="Πως σε φωναζουν" maxlength="${CFG.MAX_NAME}" autocomplete="off">
   </div>`;
 const opField = ph => `
   <div class="field op">
@@ -336,9 +346,15 @@ const opField = ph => `
     <textarea id="op" maxlength="${CFG.MAX_OPINION}" placeholder="${ph}"></textarea>
   </div>`;
 
-/* η γωνία πάνω δεξιά: κανόνες + πρακτικά */
-const corner = back => `
-  <div class="corner">
+const notesField = val => `
+  <div class="field op">
+    <img class="frame" src="${IMG}textbox_opinion.png" alt="">
+    <textarea id="notes" placeholder="Τι ειπε ο καθενας, τι σε επεισε, τι θα θυμασαι.">${esc(val)}</textarea>
+  </div>`;
+
+/* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά */
+const header = back => `
+  <div class="hdr">
     ${ibtn("info.png",'data-go="rules"')}
     ${ibtn("praktika.png",`data-records="${back}"`)}
   </div>`;
@@ -366,25 +382,26 @@ const V = {};
 /* ΟΘΟΝΗ: ρυθμίσεις εκκίνησης -------------------------------- */
 V.count = () => {
   const times = CFG.TIME_OPTIONS.map(s =>
-    `<button class="btn ghost ${S.contraSecs===s?"brass":""}" data-secs="${s}">${s/60} λεπτά</button>`
+    TIME_IMG[s] ? ibtn(TIME_IMG[s], `data-secs="${s}"`, S.contraSecs===s ? "" : "dim")
+    : `<button class="btn ghost ${S.contraSecs===s?"brass":""}" data-secs="${s}">${s/60} λεπτα</button>`
   ).join("");
 
   return `
-    ${corner("count")}
+    ${header("count")}
     ${art("kontra.png")}
     <p class="lede" style="text-align:center">"Δεν υπαρχει σωστη και λαθος αποψη, μονο σωστη και λαθος τεκμηριωση"</p>
 
-    ${art("playerCount.png","mid")}
+    <div class="players">Παιχτες</div>
     <div class="counter">
       ${pm("-", `data-step="-1" ${S.playerCount<=CFG.MIN_PLAYERS?"disabled":""}`)}
       <div class="digits">${digitImgs(S.playerCount)}</div>
       ${pm("+", `data-step="1" ${S.playerCount>=CFG.MAX_PLAYERS?"disabled":""}`)}
     </div>
 
-    <label>Τι πληρώνει ο χαμένος</label>
-    <input id="penalty" value="${esc(S.penalty)}" placeholder="ό,τι συμφωνήσετε" maxlength="30">
+    <label>Τι πληρωνει ο χαμενος</label>
+    <input id="penalty" value="${esc(S.penalty)}" placeholder="ο,τι συμφωνησετε" maxlength="30">
 
-    <label>Χρόνος ανά ομιλητή</label>
+    <label>Χρονος λογου</label>
     <div class="row">${times}</div>
 
     <div class="fill"></div>
@@ -430,11 +447,11 @@ V.intro = () => {
     ? `<div class="roster">${S.players.map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</div>`
     : "";
   return `
-    <p class="eyebrow">Τα χαρτια σας: &middot; <b>${i} από ${S.playerCount}</b></p>
-    <p class="lede">Γράψε πώς σε λένε και μία άποψη που μπορείς να υπερασπιστείς. Η άποψη δεν συνδέεται με το όνομά σου.</p>
+    <p class="eyebrow">Τα χαρτια σας &middot; <b>${i} απο ${S.playerCount}</b></p>
+    <p class="lede">Γραψε πως σε λενε και μια αποψη που μπορεις να υπερασπιστεις. Κανεις δεν θα μαθει ποιος την εγραψε.</p>
 
     ${nameField()}
-    ${opField("Μια θέση, όχι ερώτηση. Κάτι που θα υποστήριζες μπροστά σε όλους.")}
+    ${opField("Μια θεση, οχι ερωτηση. Κατι που θα υποστηριζες μπροστα σε ολους.")}
 
     <div class="fill"></div>
     ${ibtn("dinworko.png",'data-intro="1" disabled')}
@@ -446,48 +463,48 @@ V.more = () => {
   const me = S.players[S.players.length - 1];
   const last = S.players.length >= S.playerCount;
   return `
-    <p class="eyebrow">${esc(me)} &middot; <b>${S.mine} ${S.mine===1?"άποψη":"απόψεις"}</b></p>
-    <h2>Θες κι άλλη;</h2>
-    ${opField("Άλλη μια θέση που μπορείς να υπερασπιστείς.")}
+    <p class="eyebrow">${esc(me)} &middot; <b>${S.mine} ${S.mine===1?"αποψη":"αποψεις"}</b></p>
+    <h2>Θες κι αλλη;</h2>
+    ${opField("Αλλη μια θεση που μπορεις να υπερασπιστεις.")}
     ${ibtn("dinworko.png",'data-add-op="1" disabled')}
     <div class="fill"></div>
-    <button class="btn" data-pass="1">${last ? "Τελείωσαν όλοι" : "Δίνω στον επόμενο"}</button>`;
+    ${ibtn(last ? "liji.png" : "epomenos.png", 'data-pass="1"')}`;
 };
 
 /* ΟΘΟΝΗ: όλοι συστήθηκαν ------------------------------------ */
 V.lastCall = () => `
-  <p class="eyebrow">Ο φάκελος &middot; <b>${S.opinions.length} απόψεις</b></p>
-  <h2>Συστηθήκατε όλοι</h2>
-  <p class="lede">Θέλει κάποιος να προσθέσει κάτι πριν ξεκινήσουμε; Περνάτε το κινητό ελεύθερα — παραμένει ανώνυμο.</p>
+  <p class="eyebrow">Η δικογραφια &middot; <b>${S.opinions.length} αποψεις</b></p>
+  <h2>Συστηθηκατε ολοι</h2>
+  <p class="lede">Θελει κανεις να προσθεσει κατι πριν ξεκινησουμε; Το κινητο γυρναει ελευθερα, μενει ανωνυμο.</p>
   <div class="roster">${S.players.map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</div>
   <div class="fill"></div>
   ${ibtn("orthioi.png",'data-begin="1"')}
-  <button class="btn ghost" data-extra="lastCall">Κάποιος θέλει να γράψει</button>`;
+  ${ibtn("allhmia.png",'data-extra="lastCall"')}`;
 
 /* ΟΘΟΝΗ: ανώνυμη προσθήκη άποψης ---------------------------- */
 V.extra = () => `
-  <p class="eyebrow">Ανώνυμη κατάθεση</p>
-  <h2>Η άποψη</h2>
-  <p class="lede">Δεν χρειάζεται όνομα. Γράψε και δώσε πίσω το κινητό.</p>
-  ${opField("Μια θέση που μπορείς να υπερασπιστείς.")}
+  <p class="eyebrow">Ανωνυμη καταθεση</p>
+  <h2>Η αποψη</h2>
+  <p class="lede">Δεν χρειαζεται ονομα. Γραψε και δωσε πισω το κινητο.</p>
+  ${opField("Μια θεση που μπορεις να υπερασπιστεις.")}
   <div class="fill"></div>
   ${ibtn("dinworko.png",'data-add-op="1" disabled')}
   ${ibtn("akyro.png",`data-go="${S.writeReturn === "round" ? "refill" : S.writeReturn}"`)}`;
 
 /* ΟΘΟΝΗ: ανακοίνωση δικαστή --------------------------------- */
 V.round = () => `
-  ${corner("round")}
-  <p class="eyebrow">Ακρόαση &middot; <b>${S.opinions.length} στον φάκελο</b></p>
+  ${header("round")}
+  <p class="eyebrow">Η εδρα &middot; <b>${S.opinions.length} στη δικογραφια</b></p>
   <h1 style="font-size:32px">${esc(nameOf(S.judge))}</h1>
-  <p class="lede">Πάρε το κινητό. Εισαι υπευθυνος για την ροη των ομιλιων της κοντρας.</p>
+  <p class="lede">Παρε το κινητο. Εισαι υπευθυνος για την ροη των ομιλιων της κοντρας.</p>
   <div class="fill"></div>
-  <button class="btn" data-go="eyes">Έτοιμος</button>`;
+  ${ibtn("etoimoi.png",'data-go="eyes"')}`;
 
 /* ΟΘΟΝΗ: κλείστε τα μάτια ----------------------------------- */
 V.eyes = () => `
   <div class="dark">
-    <p>Όλοι<br>κλείνουν<br>τα μάτια</p>
-    <button class="btn" data-go="hearing">Έκλεισαν</button>
+    <p>Ολοι<br>κλεινουν<br>τα ματια</p>
+    ${ibtn("ekleisan.png",'data-go="hearing"')}
   </div>`;
 
 /* ΟΘΟΝΗ: ακρόαση — η άποψη ΚΑΙ το μέτρημα μαζί --------------- */
@@ -508,7 +525,7 @@ V.hearing = () => {
 
   let actions;
   if (done < all){
-    actions = `<button class="btn" disabled>Μέτρα όλους &middot; ${done}/${all}</button>`;
+    actions = `<button class="btn" disabled>Μετρα ολους &middot; ${done}/${all}</button>`;
   } else if (!split){
     actions = ibtn("omofwnia.png",'data-unanimous="1"');
   } else {
@@ -516,21 +533,21 @@ V.hearing = () => {
     const can3 = S.playerCount >= CFG.UNLOCK_3V3;
     const ok2 = pro.length >= 2 && con.length >= 2;
     const ok3 = pro.length >= 3 && con.length >= 3;
-    actions = `<button class="btn" data-mode="1" style="font-size:24px">Κόντρα!</button>`;
+    actions = ibtn("kontra.png",'data-mode="1"');
     if (can2 || can3){
       actions += `<div class="row">
         ${can2 ? ibtn("diplikontra.png",`data-mode="2" ${ok2?"":"disabled"}`) : ""}
         ${can3 ? ibtn("triplikontra.png",`data-mode="3" ${ok3?"":"disabled"}`) : ""}
       </div>`;
       if ((can2 && !ok2) || (can3 && !ok3))
-        actions += `<p class="mini">Οι ομαδικές θέλουν αρκετούς και στις δύο πλευρές</p>`;
+        actions += `<p class="mini">Οι ομαδικες θελουν αρκετους και στις δυο πλευρες</p>`;
     }
   }
 
   return `
-    <p class="eyebrow">Διάβασέ την δυνατά &middot; <b>${done}/${all}</b></p>
+    <p class="eyebrow">Διαβασε την δυνατα &middot; <b>${done}/${all}</b></p>
     <div class="card">${esc(r.op.text)}</div>
-    <p class="count">Συμφωνώ = δεξί χέρι &middot; Διαφωνώ = αριστερό</p>
+    <p class="count">Συμφωνω = δεξι χερι &middot; Διαφωνω = αριστερο</p>
     <div class="tally" style="margin-top:16px">${rows}</div>
     <div class="fill"></div>
     ${actions}`;
@@ -542,26 +559,25 @@ V.select = () => {
   const list = (side, sel) => sideOf(side).map(i => `
     <button class="t ${sel.includes(i) ? side + " picked" : "out"}" data-pick="${side}:${i}">
       <span>${esc(nameOf(i))}</span>
-      ${sel.includes(i) ? badge(side === "pro" ? "uper.png" : "kata.png") : `<em>ένορκος</em>`}
+      ${sel.includes(i) ? badge(side === "pro" ? "uper.png" : "kata.png") : `<em>ενορκος</em>`}
     </button>`).join("");
 
   const ready = r.proSel.length === n && r.conSel.length === n;
 
   return `
-    <p class="eyebrow">Επιλογή δικαστή &middot; <b>${n} vs ${n}</b></p>
-    <h2>Ποιοι κατεβαίνουν;</h2>
-    <p class="lede">Διάλεξε ${n} από κάθε πλευρά. Όσοι μείνουν εκτός γίνονται ένορκοι.</p>
+    <p class="eyebrow">Ο δικαστης διαλεγει &middot; <b>${n} vs ${n}</b></p>
+    <h2>Ποιοι κατεβαινουν;</h2>
+    <p class="lede">Διαλεξε ${n} απο καθε πλευρα. Οσοι μεινουν εξω γινονται ενορκοι.</p>
 
-    <label>Υπέρ &middot; ${r.proSel.length}/${n}</label>
+    <label>Υπερ &middot; ${r.proSel.length}/${n}</label>
     <div class="tally">${list("pro", r.proSel)}</div>
 
-    <label>Κατά &middot; ${r.conSel.length}/${n}</label>
+    <label>Κατα &middot; ${r.conSel.length}/${n}</label>
     <div class="tally">${list("con", r.conSel)}</div>
 
     <div class="fill"></div>
-    <button class="btn" data-go-contra="1" ${ready?"":"disabled"}>
-      ${ready ? "Αρχίζει ο υπέρ" : "Διάλεξε και τις δύο πλευρές"}
-    </button>
+    ${ready ? ibtn("etoimoi.png",'data-go-contra="1"')
+            : `<button class="btn" disabled>Διαλεξε και τις δυο πλευρες</button>`}
     ${ibtn("akyro.png",'data-go="hearing"')}`;
 };
 
@@ -572,7 +588,7 @@ V.contra = () => {
 
   const speakers = r.order.map((o,k) => {
     const active = k === r.cur, spent = k < r.cur;
-    const label = (o.side === "pro" ? "Υπέρ" : "Κατά") + " &middot; " + esc(nameOf(o.p));
+    const label = (o.side === "pro" ? "Υπερ" : "Κατα") + " &middot; " + esc(nameOf(o.p));
     if (active && !r.opa) return `
       <div class="side on ${o.side==="con"?"con":""}">
         <div class="who">${label}</div>
@@ -585,7 +601,7 @@ V.contra = () => {
       </div>`;
   }).join("");
 
-  const foe = cur.side === "pro" ? "οι κατά" : "οι υπέρ";
+  const foe = cur.side === "pro" ? "οι κατα" : "οι υπερ";
 
   return `
     <p class="eyebrow">Κόντρα ${r.mode} vs ${r.mode} &middot;
@@ -595,24 +611,24 @@ V.contra = () => {
 
     ${r.opa ? `
       <div class="side interrupt">
-        <div class="who">Διακοπή &middot; ${esc(foe)}</div>
+        <div class="who">Διακοπη &middot; ${esc(foe)}</div>
         <div class="clock" id="opaClock" style="font-size:42px;color:#D9736A">${mmss(r.opaT)}</div>
       </div>
-      <button class="btn" data-opa="0">Αρκετά — συνέχισε</button>
-      <p class="mini">Ο χρόνος του ομιλητή είναι παγωμένος</p>
+      ${ibtn("liji.png",'data-opa="0"')}
+      <p class="mini">Ο χρονος του ομιλητη ειναι παγωμενος</p>
     ` : `
       ${ibtn("opa.png",'data-opa="1"')}
-      <p class="mini">Κόβει η αντίπαλη πλευρά — ο δικαστής κρίνει πόσο θα την αφήσει</p>
+      <p class="mini">Κοβει η αντιπαλη πλευρα. Ο δικαστης κρινει ποσο θα την αφησει.</p>
     `}
 
     <details class="notes" ${r.notes ? "open" : ""}>
-      <summary>Σημειώσεις δικαστή</summary>
-      <textarea id="notes" placeholder="Τι είπε ο καθένας, τι σε έπεισε, τι θα θυμάσαι.">${esc(r.notes)}</textarea>
+      <summary>Σημειωσεις δικαστη</summary>
+      ${notesField(r.notes)}
     </details>
 
     <div class="fill"></div>
     ${ibtn("epomenos.png",'data-next="1"')}
-    <button class="btn ghost" data-go="verdict">Τέλος κόντρας</button>`;
+    ${ibtn("liji.png",'data-go="verdict"')}`;
 };
 
 /* ΟΘΟΝΗ: ετυμηγορία ----------------------------------------- */
@@ -620,13 +636,13 @@ V.verdict = () => {
   const r = S.round;
   const team = sel => sel.map(i => esc(nameOf(i))).join(" &amp; ");
   return `
-    <p class="eyebrow">Ετυμηγορία ενόρκων</p>
-    <h2>${r.mode === 1 ? "Ποιος κέρδισε;" : "Ποια ομάδα κέρδισε;"}</h2>
-    <p class="lede">Ο χαμένος: ${esc(S.penalty)}.</p>
+    <p class="eyebrow">Οι ενορκοι αποφασιζουν</p>
+    <h2>${r.mode === 1 ? "Ποιος κερδισε;" : "Ποια ομαδα κερδισε;"}</h2>
+    <p class="lede">Ο χαμενος πληρωνει: ${esc(S.penalty)}</p>
     <button class="btn brass" data-win="pro">${team(r.proSel)}</button>
     <button class="btn" style="color:#4D7BE0" data-win="con">${team(r.conSel)}</button>
     <div class="fill"></div>
-    <button class="btn ghost" data-win="none">Δεν βγήκε άκρη</button>`;
+    ${ibtn("denbgikeakrh.png",'data-win="none"')}`;
 };
 
 /* ΟΘΟΝΗ: ποινή ---------------------------------------------- */
@@ -635,90 +651,90 @@ V.sentence = () => {
   const losers = r.winner === "none" ? null
     : (r.winner === "pro" ? r.conSel : r.proSel).map(i => esc(nameOf(i))).join(" &amp; ");
   return `
-    <p class="eyebrow">Ποινή</p>
-    <div class="stamp ${r.winner==="none" ? "" : "small"}">${r.winner==="none" ? "Άκυρη" : "Ένοχοι"}</div>
+    <p class="eyebrow">Η ποινη</p>
+    <div class="stamp ${r.winner==="none" ? "" : "small"}">${r.winner==="none" ? "Ακυρη" : "Ενοχοι"}</div>
     <h2 style="text-align:center;margin-top:26px">
-      ${losers ? losers : "Οι ένορκοι"}<br>
+      ${losers ? losers : "Οι ενορκοι"}<br>
       <span style="color:var(--brass)">${esc(S.penalty)}</span>
     </h2>
     <div class="fill"></div>
-    <button class="btn" data-go="archive">Επόμενο</button>`;
+    ${ibtn("allhmia.png",'data-go="archive"')}`;
 };
 
 /* ΟΘΟΝΗ: αρχειοθέτηση --------------------------------------- */
 V.archive = () => `
-  <p class="eyebrow">Απόφαση δικαστή</p>
-  <h2>Έληξε η κουβέντα;</h2>
-  <p class="lede">Αν την αρχειοθετήσεις, βγαίνει από τον φάκελο και κάποιος γράφει καινούρια στη θέση της.</p>
+  <p class="eyebrow">Ο δικαστης αποφασιζει</p>
+  <h2>Εληξε η κουβεντα;</h2>
+  <p class="lede">Αν την καψεις, βγαινει απο τη δικογραφια και καποιος γραφει καινουρια στη θεση της.</p>
   <div class="card">${esc(S.round.op.text)}</div>
   <details class="notes" ${S.round.notes ? "open" : ""}>
-    <summary>Σημειώσεις δικαστή</summary>
-    <textarea id="notes" placeholder="Τελευταία ευκαιρία να γράψεις κάτι πριν κλείσει η δίκη.">${esc(S.round.notes)}</textarea>
+    <summary>Σημειωσεις δικαστη</summary>
+    ${notesField(S.round.notes)}
   </details>
   <div class="fill"></div>
-  <button class="btn" data-arch="1">Αρχειοθέτηση</button>
+  ${ibtn("arxeiothetisi.png",'data-arch="1"')}
   ${ibtn("keep.png",'data-arch="0"')}`;
 
 /* ΟΘΟΝΗ: αναπλήρωση ----------------------------------------- */
 V.refill = () => `
-  <p class="eyebrow">Αναπλήρωση φακέλου</p>
-  <div class="stamp small">Αρχειοθετήθηκε</div>
-  <h2 style="margin-top:24px">Δώσε το κινητό</h2>
-  <p class="lede">Μία άποψη έφυγε. Κάποιος γράφει καινούρια στη θέση της.</p>
+  <p class="eyebrow">Καινουρια αποψη</p>
+  <div class="stamp small">Καηκε</div>
+  <h2 style="margin-top:24px">Δωσε το κινητο</h2>
+  <p class="lede">Μια αποψη εφυγε. Καποιος γραφει καινουρια στη θεση της.</p>
   <div class="fill"></div>
-  <button class="btn" data-extra="round">Γράφω</button>`;
+  ${ibtn("dinworko.png",'data-extra="round"')}`;
 
 /* ΟΘΟΝΗ: άδειος φάκελος ------------------------------------- */
 V.empty = () => `
-  ${corner("empty")}
-  <p class="eyebrow">Ο φάκελος άδειασε</p>
-  <h2>Τέλος δίκης</h2>
-  <p class="lede">Όλες οι απόψεις αρχειοθετήθηκαν.</p>
+  ${header("empty")}
+  <p class="eyebrow">Αδειασε η δικογραφια</p>
+  <h2>Τελος δικης</h2>
+  <p class="lede">Καηκαν ολες οι αποψεις.</p>
   <div class="fill"></div>
-  <button class="btn" data-extra="round">Γράψε κι άλλη</button>`;
+  ${ibtn("dinworko.png",'data-extra="round"')}`;
 
 /* ΟΘΟΝΗ: πρακτικά ------------------------------------------- */
 V.records = () => {
   if (!S.records.length) return `
     <p class="eyebrow">Πρακτικά</p>
-    <h2>Κανένα ακόμα</h2>
-    <p class="lede">Οι δίκες καταγράφονται εδώ μόλις κλείσουν, μαζί με τις σημειώσεις του δικαστή.</p>
+    <h2>Κανενα ακομα</h2>
+    <p class="lede">Καθε δικη γραφεται εδω μολις κλεισει, μαζι με τις σημειωσεις του δικαστη.</p>
     <div class="fill"></div>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 
   const list = S.records.slice().reverse().map(r => `
     <div class="rec">
-      <div class="h">#${r.n} &middot; Δικαστής ${esc(r.judge)}</div>
+      <div class="h">#${r.n} &middot; Δικαστης ${esc(r.judge)}</div>
       <div class="o">${esc(r.opinion)}</div>
       <div class="h">${r.pro
         ? `${r.mode}v${r.mode} &middot; ${esc(r.pro.join(" & "))} vs ${esc(r.con.join(" & "))} &middot; ${
-            r.winner==="none" ? "άκυρη"
-            : "νίκησαν " + esc((r.winner==="pro" ? r.pro : r.con).join(" & "))}`
-        : "ομοφωνία, χωρίς κόντρα"}</div>
+            r.winner==="none" ? "ακυρη"
+            : "νικησαν " + esc((r.winner==="pro" ? r.pro : r.con).join(" & "))}`
+        : "ομοφωνια, χωρις κοντρα"}</div>
       ${r.notes ? `<div class="n">${esc(r.notes)}</div>` : ""}
     </div>`).join("");
 
   return `
     <p class="eyebrow">Πρακτικά &middot; <b>${S.records.length}</b>${Store.persistent?"":" &middot; προσωρινά"}</p>
-    <h2>Το αρχείο</h2>
+    <h2>Το αρχειο</h2>
     ${list}
     <hr>
     <div class="fill"></div>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}
     <div class="row">
-      <button class="btn ghost" data-export="1">Εξαγωγή</button>
-      <button class="btn ghost" data-clear="1">Διαγραφή όλων</button>
+      <button class="btn ghost" data-export="1">Εξαγωγη</button>
+      <button class="btn ghost" data-clear="1">Σβησ' τα ολα</button>
     </div>`;
 };
 
 /* ΟΘΟΝΗ: εξαγωγή -------------------------------------------- */
 V.export = () => `
-  <p class="eyebrow">Εξαγωγή πρακτικών</p>
-  <h2>Αντίγραψέ τα</h2>
+  <p class="eyebrow">Εξαγωγη πρακτικων</p>
+  <h2>Αντιγραψε τα</h2>
   <p class="lede">Κράτα τα κείμενο, στείλ' τα, βάλ' τα όπου θες.</p>
   <textarea style="min-height:320px" readonly id="dump">${esc(exportText())}</textarea>
   <div class="fill"></div>
-  <button class="btn" data-copy="1">Αντιγραφή</button>
+  <button class="btn" data-copy="1">Αντιγραφη</button>
   ${ibtn("akyro.png",'data-records=""')}`;
 
 /* === [12] ΛΟΓΙΚΗ =========================================== */
@@ -794,8 +810,8 @@ function exportText(){
     const head = `#${r.n} — δικαστής ${r.judge}`;
     const duel = r.pro
       ? `${r.mode}v${r.mode}: ${r.pro.join(" & ")} vs ${r.con.join(" & ")} — ${
-          r.winner==="none" ? "άκυρη" : "νίκησαν " + (r.winner==="pro"?r.pro:r.con).join(" & ")}`
-      : "ομοφωνία, χωρίς κόντρα";
+          r.winner==="none" ? "ακυρη" : "νικησαν " + (r.winner==="pro"?r.pro:r.con).join(" & ")}`
+      : "ομοφωνια, χωρις κοντρα";
     return [head, `"${r.opinion}"`, duel, r.notes ? `Σημειώσεις: ${r.notes}` : ""]
       .filter(Boolean).join("\n");
   }).join("\n\n---\n\n");
@@ -872,7 +888,7 @@ app.addEventListener("click", e => {
   if (d.records !== undefined){ if (d.records) S.back = d.records; return go("records"); }
   if (d.export){ return go("export"); }
   if (d.clear){
-    if (confirm("Διαγραφή όλων των πρακτικών;")){ S.records = []; Store.save(S.records); }
+    if (confirm("Να σβηστουν ολα τα πρακτικα;")){ S.records = []; Store.save(S.records); }
     return render();
   }
   if (d.copy){
@@ -880,7 +896,7 @@ app.addEventListener("click", e => {
     ta.focus(); ta.select(); ta.setSelectionRange(0, 999999);
     let done = false;
     try { done = document.execCommand("copy"); } catch(err){}
-    t.textContent = done ? "Αντιγράφηκε" : "Επίλεξε και αντίγραψε χειροκίνητα";
+    t.textContent = done ? "Αντιγραφηκε" : "Επιλεξε και αντιγραψε χειροκινητα";
     return;
   }
 
