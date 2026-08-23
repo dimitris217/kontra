@@ -86,6 +86,11 @@
 .players{font-family:var(--display);font-weight:700;font-size:27px;text-align:center;
   color:var(--bone);margin:14px 0 2px;
   text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000}
+  .plist2{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.prow2{display:flex;justify-content:space-between;align-items:center;
+  padding:9px 14px;background:var(--ink);border:4px solid var(--line);border-radius:14px}
+.prow2 span{font-family:var(--display);font-size:19px}
+.prow2 em{font-family:var(--mono);font-size:12px;font-style:normal;color:var(--brass)}
 
 /* επιλεγμένο / ανεπίλεκτο κουμπί-ζωγραφιά */
 .ibtn.dim{opacity:.42}
@@ -157,7 +162,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 input,textarea{width:100%;padding:12px;background:var(--surface);color:var(--bone);
   border:4px solid var(--line);border-radius:14px;font:inherit}
 textarea{min-height:120px;resize:none;font-family:var(--mono);font-size:15px;line-height:1.5}
-input:focus,textarea:focus,button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+button:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+input:focus,textarea:focus{outline:none}
 label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--muted);margin:20px 0 7px}
 
@@ -300,6 +306,7 @@ const Store = (() => {
 
 /* === [10] ΚΑΤΑΣΤΑΣΗ ΠΑΙΧΝΙΔΙΟΥ ============================= */
 const S = {
+  counts: [],        // πόσες έγραψε ο καθένας, χωρίς να ξέρουμε ποιες
   screen: "count",
   playerCount: CFG.DEFAULT_PLAYERS,
   players: [],       // γεμίζει καθώς συστήνονται, ένας ένας
@@ -344,6 +351,12 @@ const opField = ph => `
   <div class="field op">
     <img class="frame" src="${IMG}textbox_opinion.png" alt="">
     <textarea id="op" maxlength="${CFG.MAX_OPINION}" placeholder="${ph}"></textarea>
+  </div>`;
+
+const penaltyField = () => `
+  <div class="field name">
+    <img class="frame" src="${IMG}textbox_name.png" alt="">
+    <input id="penalty" value="${esc(S.penalty)}" placeholder="ο,τι συμφωνησετε" maxlength="30">
   </div>`;
 
 const notesField = val => `
@@ -399,7 +412,7 @@ V.count = () => {
     </div>
 
     <label>Τι πληρωνει ο χαμενος</label>
-    <input id="penalty" value="${esc(S.penalty)}" placeholder="ο,τι συμφωνησετε" maxlength="30">
+        ${penaltyField()}
 
     <label>Χρονος λογου</label>
     <div class="row">${times}</div>
@@ -472,14 +485,24 @@ V.more = () => {
 };
 
 /* ΟΘΟΝΗ: όλοι συστήθηκαν ------------------------------------ */
-V.lastCall = () => `
-  <p class="eyebrow">Η δικογραφια &middot; <b>${S.opinions.length} αποψεις</b></p>
-  <h2>Συστηθηκατε ολοι</h2>
-  <p class="lede">Θελει κανεις να προσθεσει κατι πριν ξεκινησουμε; Το κινητο γυρναει ελευθερα, μενει ανωνυμο.</p>
-  <div class="roster">${S.players.map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</div>
-  <div class="fill"></div>
-  ${ibtn("orthioi.png",'data-begin="1"')}
-  ${ibtn("allhmia.png",'data-extra="lastCall"')}`;
+V.lastCall = () => {
+  const list = S.players.map((p,i) => `
+    <div class="prow2">
+      <span>${esc(p)}</span>
+      <em>${S.counts[i]} ${S.counts[i]===1?"αποψη":"αποψεις"}</em>
+    </div>`).join("");
+
+  return `
+    <p class="eyebrow">Η δικογραφια &middot; <b>${S.opinions.length} αποψεις</b></p>
+    <h2>Συστηθηκατε ολοι</h2>
+    <p class="lede">Θελει κανεις να προσθεσει κατι πριν ξεκινησουμε; Το κινητο γυρναει ελευθερα, μενει ανωνυμο.</p>
+    <div class="plist2">${list}</div>
+    <div class="fill"></div>
+    <div class="row">
+      ${ibtn("orthioi.png",'data-begin="1"')}
+      ${ibtn("allhmia.png",'data-extra="lastCall"')}
+    </div>`;
+};
 
 /* ΟΘΟΝΗ: ανώνυμη προσθήκη άποψης ---------------------------- */
 V.extra = () => `
@@ -870,13 +893,14 @@ app.addEventListener("click", e => {
     const op = app.querySelector("#op").value.trim();
     if (!nm || !op) return;
     S.players.push(nm); addOpinion(op); S.mine = 1;
+    S.players.push(nm); S.counts.push(1); addOpinion(op); S.mine = 1;
     return go("more");
   }
   if (d.addOp !== undefined){
     const op = app.querySelector("#op").value.trim();
     if (!op) return;
     addOpinion(op);
-    if (S.screen === "more"){ S.mine++; return render(); }
+    if (S.screen === "more"){ S.mine++; S.counts[S.counts.length-1]++; return render(); }
     if (S.writeReturn === "round"){ stopTimer(); nextJudge(); startRound(); return render(); }
     return go(S.writeReturn);
   }
