@@ -45,7 +45,7 @@
 <style>
 /* === [1] ΧΡΩΜΑΤΑ & ΓΡΑΜΜΑΤΟΣΕΙΡΕΣ ============================== */
 :root{
-  --ink:#633008;        /* φόντο */
+  --ink:#2E1C0E;        /* φόντο */
   --surface:#732803;    /* κάρτες, πεδία = το μέσα των σχεδίων */
   --surface-2:#732803;  /* κουμπιά κειμένου */
   --line:#000000;       /* περιγράμματα, όπως στις ζωγραφιές */
@@ -93,41 +93,30 @@
 /* επιλεγμένο / ανεπίλεκτο κουμπί-ζωγραφιά */
 .ibtn.dim{opacity:.42}
 
-/* ── ΡΥΘΜΙΣΕΙΣ ΑΝΑ ΚΟΥΜΠΙ ────────────────────────────────
-   Το Άκυρο πιο μικρό, παντού όπου εμφανίζεται.            */
-.ibtn.b-akyro,
-.ibtn.b-etoimoi{width:56%;margin-left:auto;margin-right:auto}
-.ibtn.b-orthioi{width:70%;margin-left:auto;margin-right:auto}
-
-/* Αυτές οι ζωγραφιές είναι λίγο δεξιά μέσα στον καμβά τους,
-   οπότε τις σπρώχνουμε ελαφρώς αριστερά. Το καφέ που μένει
-   δεξιά δεν φαίνεται — είναι ίδιο με το φόντο.             */
-.ibtn.b-dinworko img,
-.ibtn.b-epomenos img,
-.ibtn.b-allhmia img{transform:translateX(-3.5%)}
-.ibtn.b-etoimoi img{transform:translateX(-5%)}
+/* Όλα τα κουμπιά-ζωγραφιές: πλήρες πλάτος, κεντραρισμένα.
+   (Οι παλιές ρυθμίσεις ανά κουμπί αφαιρέθηκαν.)            */
 
 /* δύο ζωγραφιστά κουμπιά δίπλα-δίπλα, στο ΙΔΙΟ ύψος
    (οι ζωγραφιές έχουν διαφορετικές αναλογίες, οπότε κλειδώνουμε το ύψος) */
 .row.even{align-items:center;gap:14px}
 .row.even .ibtn img{height:92px;width:auto;margin:0 auto}
 
-/* ζωγραφιστά πλαίσια κειμένου */
-.field{position:relative;margin:12px 0 6px}
-/* Η ζωγραφιά μεγαλώνει λίγο ώστε να μη «κόβονται» γράμματα
-   στις γωνίες. Άλλαξε το 1.07 αν θες πιο μεγάλη/μικρή.       */
-.field .frame{display:block;width:100%;height:auto;pointer-events:none;
-  transform:scale(1.05)}
-.field input,.field textarea{position:absolute;background:none;border:none;outline:none;
-  color:#161616;font-family:var(--display);font-size:17px;line-height:1.35;
-  padding:0;margin:0;resize:none;-webkit-appearance:none;width:auto}
+/* ── ΖΩΓΡΑΦΙΣΤΑ ΠΛΑΙΣΙΑ ΚΕΙΜΕΝΟΥ ───────────────────────────
+   Η ζωγραφιά είναι ΦΟΝΤΟ που τεντώνεται στο μέγεθος του κουτιού.
+   Το κείμενο είναι κανονικό στοιχείο με padding σε px, οπότε
+   κρατάει πάντα την ίδια απόσταση από το περίγραμμα, ό,τι
+   μέγεθος οθόνης κι αν έχει. ΑΠΟΣΤΑΣΗ = τα px του padding.   */
+.field{margin:12px 0 8px;
+  background:url(img/textbox_name.png) no-repeat center/100% 100%;
+  padding:30px 44px;min-height:104px;display:flex;align-items:center}
+.field.op{background-image:url(img/textbox_opinion.png);
+  padding:38px 46px;min-height:210px;align-items:flex-start}
+.field input,.field textarea{width:100%;background:none;border:none;outline:none;
+  color:#161616;font-family:var(--display);font-weight:400;text-shadow:none;
+  font-size:19px;line-height:1.4;padding:0;margin:0;display:block;text-align:left;
+  -webkit-appearance:none}
+.field textarea{min-height:130px;resize:none}
 .field input::placeholder,.field textarea::placeholder{color:#8C8C8C}
-/* ΕΞΑΙΡΕΣΗ: μέσα στα textbox χωρίς περίγραμμα, μαύρα, αριστερή στοίχιση */
-.field .frame{display:block;width:100%;height:auto;pointer-events:none;
-  transform:scale(1.03)}
-
-.field.name input{left:15%;right:12%;top:26%;bottom:26%;font-size:20px}
-.field.op textarea{left:15%;right:12%;top:20%;bottom:18%}
 
 /* μετρητής αριθμού ατόμων */
 .counter{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
@@ -396,24 +385,20 @@ const digitImgs = n => String(n).split("")
 /* πεδία κειμένου μέσα στα ζωγραφιστά πλαίσια */
 const nameField = () => `
   <div class="field name">
-    <img class="frame" src="${IMG}textbox_name.png" alt="">
     <input id="pname" placeholder="Πως σε φωναζουν" maxlength="${CFG.MAX_NAME}" autocomplete="off">
   </div>`;
 const opField = ph => `
   <div class="field op">
-    <img class="frame" src="${IMG}textbox_opinion.png" alt="">
     <textarea id="op" maxlength="${CFG.MAX_OPINION}" placeholder="${ph}"></textarea>
   </div>`;
 
 const penaltyField = () => `
   <div class="field name">
-    <img class="frame" src="${IMG}textbox_name.png" alt="">
     <input id="penalty" value="${esc(S.penalty)}" placeholder="ο,τι συμφωνησετε" maxlength="30">
   </div>`;
 
 const notesField = val => `
   <div class="field op">
-    <img class="frame" src="${IMG}textbox_opinion.png" alt="">
     <textarea id="notes" placeholder="Τι ειπε ο καθενας, τι σε επεισε, τι θα θυμασαι.">${esc(val)}</textarea>
   </div>`;
 
