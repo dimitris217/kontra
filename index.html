@@ -97,6 +97,7 @@
    Το Άκυρο πιο μικρό, παντού όπου εμφανίζεται.            */
 .ibtn.b-akyro,
 .ibtn.b-etoimoi{width:56%;margin-left:auto;margin-right:auto}
+.ibtn.b-orthioi{width:70%;margin-left:auto;margin-right:auto}
 
 /* Αυτές οι ζωγραφιές είναι λίγο δεξιά μέσα στον καμβά τους,
    οπότε τις σπρώχνουμε ελαφρώς αριστερά. Το καφέ που μένει
@@ -104,7 +105,7 @@
 .ibtn.b-dinworko img,
 .ibtn.b-epomenos img,
 .ibtn.b-allhmia img{transform:translateX(-3.5%)}
-.ibtn.b-etoimoi img{transform:translateX(-2%)}
+.ibtn.b-etoimoi img{transform:translateX(-5%)}
 
 /* δύο ζωγραφιστά κουμπιά δίπλα-δίπλα, στο ΙΔΙΟ ύψος
    (οι ζωγραφιές έχουν διαφορετικές αναλογίες, οπότε κλειδώνουμε το ύψος) */
@@ -112,16 +113,19 @@
 .row.even .ibtn img{height:92px;width:auto;margin:0 auto}
 
 /* ζωγραφιστά πλαίσια κειμένου */
-.field{position:relative;margin-top:6px}
-.field .frame{display:block;width:100%;height:auto;pointer-events:none}
+.field{position:relative;margin:12px 0 6px}
+/* Η ζωγραφιά μεγαλώνει λίγο ώστε να μη «κόβονται» γράμματα
+   στις γωνίες. Άλλαξε το 1.07 αν θες πιο μεγάλη/μικρή.       */
+.field .frame{display:block;width:100%;height:auto;pointer-events:none;
+  transform:scale(1.07)}
 .field input,.field textarea{position:absolute;background:none;border:none;outline:none;
   color:#161616;font-family:var(--display);font-size:17px;line-height:1.35;
   padding:0;margin:0;resize:none;-webkit-appearance:none;width:auto}
 .field input::placeholder,.field textarea::placeholder{color:#8C8C8C}
 /* ΕΞΑΙΡΕΣΗ: μέσα στα textbox χωρίς περίγραμμα, μαύρα, αριστερή στοίχιση */
 .field input,.field textarea{font-weight:400;text-shadow:none;color:#161616;text-align:left}
-.field.name input{left:8%;right:8%;top:22%;bottom:22%;font-size:21px}
-.field.op textarea{left:9%;right:9%;top:14%;bottom:14%}
+.field.name input{left:11%;right:11%;top:26%;bottom:26%;font-size:20px}
+.field.op textarea{left:12%;right:12%;top:18%;bottom:18%}
 
 /* μετρητής αριθμού ατόμων */
 .counter{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
@@ -195,6 +199,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .btn:active{transform:scale(.95)}
 .btn.primary{color:var(--blood)}
 .btn.ghost{font-size:16px;padding:11px 14px;border-width:4px}
+/* τετράγωνη εκδοχή, ίδια φάση με τα πλαίσια των ονομάτων */
+.btn.box{border-radius:16px}
 .btn.brass{color:var(--brass)}
 .btn:disabled{opacity:.35;cursor:default}
 
@@ -253,7 +259,7 @@ details.notes summary{font-family:var(--mono);font-size:11px;letter-spacing:.18e
   text-transform:uppercase;color:var(--brass);cursor:pointer;padding:10px 0;list-style:none}
 details.notes summary::-webkit-details-marker{display:none}
 details.notes summary::before{content:"\270E  "}
-details.notes textarea{min-height:92px;border-style:dashed;background:rgba(199,154,63,.05)}
+details.notes textarea{min-height:0;border:none;background:none}
 
 /* === [6] ΣΦΡΑΓΙΔΑ =========================================== */
 .stamp{border:6px double var(--line);color:var(--blood);font-family:var(--display);
@@ -696,8 +702,8 @@ V.verdict = () => {
     <p class="eyebrow">Οι ενορκοι αποφασιζουν</p>
     <h2>${r.mode === 1 ? "Ποιος κερδισε;" : "Ποια ομαδα κερδισε;"}</h2>
     <p class="lede">Ο χαμενος πληρωνει: ${esc(S.penalty)}</p>
-    <button class="btn brass" data-win="pro">${team(r.proSel)}</button>
-    <button class="btn" style="color:#4D7BE0" data-win="con">${team(r.conSel)}</button>
+    <button class="btn box brass" data-win="pro">${team(r.proSel)}</button>
+    <button class="btn box" style="color:#4D7BE0" data-win="con">${team(r.conSel)}</button>
     <div class="fill"></div>
     ${ibtn("denbgikeakrh.png",'data-win="none"')}`;
 };
