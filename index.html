@@ -86,14 +86,14 @@
 .players{font-family:var(--display);font-weight:700;font-size:27px;text-align:center;
   color:var(--bone);margin:14px 0 2px;
   text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000}
-  .plist2{display:flex;flex-direction:column;gap:6px;margin-top:10px}
-.prow2{display:flex;justify-content:space-between;align-items:center;
-  padding:9px 14px;background:var(--ink);border:4px solid var(--line);border-radius:14px}
-.prow2 span{font-family:var(--display);font-size:19px}
-.prow2 em{font-family:var(--mono);font-size:12px;font-style:normal;color:var(--brass)}
 
 /* επιλεγμένο / ανεπίλεκτο κουμπί-ζωγραφιά */
 .ibtn.dim{opacity:.42}
+
+/* δύο ζωγραφιστά κουμπιά δίπλα-δίπλα, στο ΙΔΙΟ ύψος
+   (οι ζωγραφιές έχουν διαφορετικές αναλογίες, οπότε κλειδώνουμε το ύψος) */
+.row.even{align-items:center;gap:14px}
+.row.even .ibtn img{height:92px;width:auto;margin:0 auto}
 
 /* ζωγραφιστά πλαίσια κειμένου */
 .field{position:relative;margin-top:6px}
@@ -253,8 +253,11 @@ details.notes textarea{min-height:92px;border-style:dashed;background:rgba(199,1
 /* οθόνη «κλείστε τα μάτια» */
 .dark{background:#000;position:fixed;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;padding:30px;text-align:center;z-index:9}
-.dark p{font-family:var(--display);font-size:30px;color:#5A4632;margin:0 0 36px;line-height:1.3}
+.dark p{font-family:var(--display);font-weight:700;font-size:32px;color:var(--bone);
+  text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;
+  margin:0 0 34px;line-height:1.25}
 .dark .btn{max-width:280px}
+.dark .ibtn{max-width:250px;margin:0 auto}
 </style>
 
 <div id="app"></div>
@@ -269,7 +272,7 @@ const CFG = {
   MAX_PLAYERS: 15,
   DEFAULT_PLAYERS: 5,
   DEFAULT_PENALTY: "ποινη",
-  TIME_OPTIONS: [120, 180, 240],   // χρονος λογου, σε δευτερολεπτα
+  TIME_OPTIONS: [120, 180, 300],   // χρονος λογου, σε δευτερολεπτα
   DEFAULT_TIME: 120,
   UNLOCK_2V2: 5,                   // από πόσους παίκτες ξεκλειδώνει το 2v2
   UNLOCK_3V3: 7,                   // από πόσους παίκτες ξεκλειδώνει το 3v3
@@ -282,7 +285,7 @@ const CFG = {
 const IMG = "img/";
 const DIGIT = ["zero","one","two","three","four","five","six","seven","eight","nine"];
 /* ζωγραφιές για τον χρόνο λόγου· όποιο λείπει βγαίνει ως κείμενο */
-const TIME_IMG = { 120:"2lepta.png", 180:"3lepta.png" };
+const TIME_IMG = { 120:"2lepta.png", 180:"3lepta.png", 300:"5lepta.png" };
 
 /* === [9] ΑΠΟΘΗΚΕΥΣΗ ========================================
    Δοκιμάζει localStorage. Αν δεν επιτρέπεται (π.χ. σε preview),
@@ -306,7 +309,6 @@ const Store = (() => {
 
 /* === [10] ΚΑΤΑΣΤΑΣΗ ΠΑΙΧΝΙΔΙΟΥ ============================= */
 const S = {
-  counts: [],        // πόσες έγραψε ο καθένας, χωρίς να ξέρουμε ποιες
   screen: "count",
   playerCount: CFG.DEFAULT_PLAYERS,
   players: [],       // γεμίζει καθώς συστήνονται, ένας ένας
@@ -412,7 +414,7 @@ V.count = () => {
     </div>
 
     <label>Τι πληρωνει ο χαμενος</label>
-        ${penaltyField()}
+    ${penaltyField()}
 
     <label>Χρονος λογου</label>
     <div class="row">${times}</div>
@@ -485,24 +487,16 @@ V.more = () => {
 };
 
 /* ΟΘΟΝΗ: όλοι συστήθηκαν ------------------------------------ */
-V.lastCall = () => {
-  const list = S.players.map((p,i) => `
-    <div class="prow2">
-      <span>${esc(p)}</span>
-      <em>${S.counts[i]} ${S.counts[i]===1?"αποψη":"αποψεις"}</em>
-    </div>`).join("");
-
-  return `
-    <p class="eyebrow">Η δικογραφια &middot; <b>${S.opinions.length} αποψεις</b></p>
-    <h2>Συστηθηκατε ολοι</h2>
-    <p class="lede">Θελει κανεις να προσθεσει κατι πριν ξεκινησουμε; Το κινητο γυρναει ελευθερα, μενει ανωνυμο.</p>
-    <div class="plist2">${list}</div>
-    <div class="fill"></div>
-    <div class="row">
-      ${ibtn("orthioi.png",'data-begin="1"')}
-      ${ibtn("allhmia.png",'data-extra="lastCall"')}
-    </div>`;
-};
+V.lastCall = () => `
+  <p class="eyebrow">Η δικογραφια &middot; <b>${S.opinions.length} αποψεις</b></p>
+  <h2>Συστηθηκατε ολοι</h2>
+  <p class="lede">Θελει κανεις να προσθεσει κατι πριν ξεκινησουμε; Το κινητο γυρναει ελευθερα, μενει ανωνυμο.</p>
+  <div class="roster">${S.players.map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</div>
+  <div class="fill"></div>
+  <div class="row even">
+    ${ibtn("orthioi.png",'data-begin="1"')}
+    ${ibtn("allhmia.png",'data-extra="lastCall"')}
+  </div>`;
 
 /* ΟΘΟΝΗ: ανώνυμη προσθήκη άποψης ---------------------------- */
 V.extra = () => `
@@ -548,7 +542,7 @@ V.hearing = () => {
 
   let actions;
   if (done < all){
-    actions = `<button class="btn" disabled>Μετρα ολους &middot; ${done}/${all}</button>`;
+    actions = `<p class="mini">Μετρα ολους &middot; ${done}/${all}</p>`;
   } else if (!split){
     actions = ibtn("omofwnia.png",'data-unanimous="1"');
   } else {
@@ -600,7 +594,7 @@ V.select = () => {
 
     <div class="fill"></div>
     ${ready ? ibtn("etoimoi.png",'data-go-contra="1"')
-            : `<button class="btn" disabled>Διαλεξε και τις δυο πλευρες</button>`}
+            : `<p class="mini">Διαλεξε ${n} απο καθε πλευρα</p>`}
     ${ibtn("akyro.png",'data-go="hearing"')}`;
 };
 
@@ -893,14 +887,13 @@ app.addEventListener("click", e => {
     const op = app.querySelector("#op").value.trim();
     if (!nm || !op) return;
     S.players.push(nm); addOpinion(op); S.mine = 1;
-    S.players.push(nm); S.counts.push(1); addOpinion(op); S.mine = 1;
     return go("more");
   }
   if (d.addOp !== undefined){
     const op = app.querySelector("#op").value.trim();
     if (!op) return;
     addOpinion(op);
-    if (S.screen === "more"){ S.mine++; S.counts[S.counts.length-1]++; return render(); }
+    if (S.screen === "more"){ S.mine++; return render(); }
     if (S.writeReturn === "round"){ stopTimer(); nextJudge(); startRound(); return render(); }
     return go(S.writeReturn);
   }
