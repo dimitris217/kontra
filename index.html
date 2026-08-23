@@ -123,9 +123,11 @@
   padding:0;margin:0;resize:none;-webkit-appearance:none;width:auto}
 .field input::placeholder,.field textarea::placeholder{color:#8C8C8C}
 /* ΕΞΑΙΡΕΣΗ: μέσα στα textbox χωρίς περίγραμμα, μαύρα, αριστερή στοίχιση */
-.field input,.field textarea{font-weight:400;text-shadow:none;color:#161616;text-align:left}
-.field.name input{left:11%;right:11%;top:26%;bottom:26%;font-size:20px}
-.field.op textarea{left:12%;right:12%;top:18%;bottom:18%}
+.field .frame{display:block;width:100%;height:auto;pointer-events:none;
+  transform:scale(1.03)}
+
+.field.name input{left:15%;right:12%;top:26%;bottom:26%;font-size:20px}
+.field.op textarea{left:15%;right:12%;top:20%;bottom:18%}
 
 /* μετρητής αριθμού ατόμων */
 .counter{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:6px}
