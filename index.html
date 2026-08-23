@@ -62,6 +62,9 @@
   /* --display:Georgia,"Times New Roman",serif; */
   --body:"Comic Sans MS","Comic Sans","Chalkboard SE",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+
+  /* το μαύρο περίγραμμα των γραμμάτων — άλλαξε το 2px για πιο χοντρό */
+  --stroke:-2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
 }
 
 /* === [1β] ΚΟΥΜΠΙΑ-ΕΙΚΟΝΕΣ & ΜΕΤΡΗΤΗΣ ==========================
@@ -101,6 +104,7 @@
 .ibtn.b-dinworko img,
 .ibtn.b-epomenos img,
 .ibtn.b-allhmia img{transform:translateX(-3.5%)}
+.ibtn.b-etoimoi img{transform:translateX(-2%)}
 
 /* δύο ζωγραφιστά κουμπιά δίπλα-δίπλα, στο ΙΔΙΟ ύψος
    (οι ζωγραφιές έχουν διαφορετικές αναλογίες, οπότε κλειδώνουμε το ύψος) */
@@ -114,6 +118,8 @@
   color:#161616;font-family:var(--display);font-size:17px;line-height:1.35;
   padding:0;margin:0;resize:none;-webkit-appearance:none;width:auto}
 .field input::placeholder,.field textarea::placeholder{color:#8C8C8C}
+/* ΕΞΑΙΡΕΣΗ: μέσα στα textbox χωρίς περίγραμμα, μαύρα, αριστερή στοίχιση */
+.field input,.field textarea{font-weight:400;text-shadow:none;color:#161616;text-align:left}
 .field.name input{left:8%;right:8%;top:22%;bottom:22%;font-size:21px}
 .field.op textarea{left:9%;right:9%;top:14%;bottom:14%}
 
@@ -132,12 +138,13 @@
 /* === [2] ΒΑΣΙΚΗ ΔΙΑΤΑΞΗ ====================================== */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%}
-body{background:var(--ink);color:var(--bone);font-family:var(--body);
+body{background:#000;color:var(--bone);font-family:var(--body);
   font-size:17px;line-height:1.45;overscroll-behavior:none}
 /* Η κορνίζα της εφαρμογής: μαύρη, στρογγυλεμένη.
    ΠΑΧΟΣ = το 11px. ΣΤΡΟΓΓΥΛΕΜΑ = το border-radius.
    Η inset σκιά ακολουθεί μόνη της τη στρογγυλή γωνία.        */
 #app{position:relative;max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
+  background:var(--ink);text-align:center;
   border-radius:28px;
   box-shadow:inset 0 0 0 11px #000;
   padding:calc(env(safe-area-inset-top) + 26px) 24px calc(env(safe-area-inset-bottom) + 26px)}
@@ -160,6 +167,21 @@ h2{font-family:var(--display);font-weight:700;font-size:25px;line-height:1.2;mar
   color:var(--muted);text-transform:uppercase;margin-top:14px}
 .mini{font-family:var(--mono);font-size:12px;letter-spacing:.1em;
   color:var(--muted);text-align:center;margin-top:14px}
+
+/* Comic Sans λευκό έντονο με μαύρο περίγραμμα — ΠΑΝΤΟΥ.
+   Οι μόνες εξαιρέσεις είναι τα πεδία μέσα στα ζωγραφιστά
+   textbox (πιο κάτω), που είναι μαύρα πάνω σε λευκό.        */
+#app, #app *{font-family:var(--display)}
+#app h1, #app h2, #app .lede, #app .count, #app .mini, #app .eyebrow,
+#app label, #app .card, #app .rules, #app .rules h3, #app .players,
+#app .chip, #app .t span, #app .t em, #app .side .who, #app .clock,
+#app .rec .h, #app .rec .o, #app .rec .n, #app details.notes summary{
+  font-weight:700;
+  text-shadow:var(--stroke);
+}
+/* τα ουδέτερα γίνονται λευκά· τα κίτρινα μένουν κίτρινα */
+#app .lede, #app .count, #app .mini, #app .eyebrow, #app label,
+#app .side .who, #app .t em, #app .rec .h, #app .rules{ color:var(--bone) }
 
 /* === [4] ΚΟΥΜΠΙΑ & ΠΕΔΙΑ ===================================== */
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
@@ -513,10 +535,8 @@ V.lastCall = () => `
   <p class="lede">Θελει κανεις να προσθεσει κατι πριν ξεκινησουμε; Το κινητο γυρναει ελευθερα, μενει ανωνυμο.</p>
   <div class="roster">${S.players.map(p=>`<span class="chip">${esc(p)}</span>`).join("")}</div>
   <div class="fill"></div>
-  <div class="row even">
-    ${ibtn("orthioi.png",'data-begin="1"')}
-    ${ibtn("allhmia.png",'data-extra="lastCall"')}
-  </div>`;
+  ${ibtn("orthioi.png",'data-begin="1"')}
+  ${ibtn("allhmia.png",'data-extra="lastCall"')}`;
 
 /* ΟΘΟΝΗ: ανώνυμη προσθήκη άποψης ---------------------------- */
 V.extra = () => `
