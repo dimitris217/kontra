@@ -1,4 +1,4 @@
-<!doctype html>
+  <!doctype html>
 <html lang="el">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -405,7 +405,7 @@ const notesField = val => `
 /* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά */
 const header = back => `
   <div class="hdr">
-    ${ibtn("info.png",'data-go="rules"')}
+    ${ibtn("info.png",`data-rules="${back}"`)}
     ${ibtn("praktika.png",`data-records="${back}"`)}
   </div>`;
 
@@ -414,12 +414,12 @@ const pm = (sign, attr) => `
   <button class="pm" ${attr}>
     <svg viewBox="0 0 100 100" aria-hidden="true">
       <path d="M50 6 C74 4 96 25 95 50 C96 75 74 96 50 95 C26 96 5 74 6 50 C5 25 26 7 50 6 Z"
-            fill="#732803" stroke="#000" stroke-width="11" stroke-linejoin="round"/>
+            fill="#3F4A52" stroke="#000" stroke-width="11" stroke-linejoin="round"/>
       <g stroke="#fff" stroke-width="19" stroke-linecap="round">
         <line x1="28" y1="50" x2="72" y2="50"/>
         ${sign === "+" ? '<line x1="50" y1="28" x2="50" y2="72"/>' : ""}
       </g>
-      <g stroke="#ED1C24" stroke-width="12" stroke-linecap="round">
+      <g stroke="#3F4A52" stroke-width="12" stroke-linecap="round">
         <line x1="28" y1="50" x2="72" y2="50"/>
         ${sign === "+" ? '<line x1="50" y1="28" x2="50" y2="72"/>' : ""}
       </g>
@@ -488,7 +488,7 @@ V.rules = () => `
 
   </div>
   <div class="fill"></div>
-  ${ibtn("akyro.png",'data-go="count"')}`;
+  ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 
 /* ΟΘΟΝΗ: σύσταση — όνομα + πρώτη άποψη ---------------------- */
 V.intro = () => {
@@ -932,6 +932,7 @@ app.addEventListener("click", e => {
 
   /* πρακτικά */
   if (d.records !== undefined){ if (d.records) S.back = d.records; return go("records"); }
+  if (d.rules !== undefined){ if (d.rules) S.back = d.rules; return go("rules"); }
   if (d.export){ return go("export"); }
   if (d.clear){
     if (confirm("Να σβηστουν ολα τα πρακτικα;")){ S.records = []; Store.save(S.records); }
