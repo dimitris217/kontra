@@ -368,7 +368,7 @@ const app = document.getElementById("app");
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g,
   c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const mmss = s => Math.floor(s/60) + ":" + String(Math.floor(s%60)).padStart(2,"0");
-const go = s => { stopTimer(); S.screen = s; render(); };
+const go = s => { stopTimer(); if (s === "rules") S.back = S.screen; S.screen = s; render(); };
 function stopTimer(){ if (S.timer){ clearInterval(S.timer); S.timer = null; } }
 const nameOf = i => S.players[i];
 
@@ -405,7 +405,7 @@ const notesField = val => `
 /* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά */
 const header = back => `
   <div class="hdr">
-    ${ibtn("info.png",`data-rules="${back}"`)}
+    ${ibtn("info.png",'data-go="rules"')}
     ${ibtn("praktika.png",`data-records="${back}"`)}
   </div>`;
 
@@ -419,7 +419,7 @@ const pm = (sign, attr) => `
         <line x1="28" y1="50" x2="72" y2="50"/>
         ${sign === "+" ? '<line x1="50" y1="28" x2="50" y2="72"/>' : ""}
       </g>
-      <g stroke="#3F4A52" stroke-width="12" stroke-linecap="round">
+      <g stroke="#ED1C24" stroke-width="12" stroke-linecap="round">
         <line x1="28" y1="50" x2="72" y2="50"/>
         ${sign === "+" ? '<line x1="50" y1="28" x2="50" y2="72"/>' : ""}
       </g>
