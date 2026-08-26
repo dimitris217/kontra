@@ -84,8 +84,6 @@
 /* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά */
 .hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px}
 .hdr .ibtn{width:54px;margin:0;flex:none}
-/* το κουμπί λήξης στη μέση της κορυφής — μικρό, μπαίνει από τον 3ο γύρο */
-.hdr .ibtn.endbtn{width:76px;align-self:center}
 
 /* «ΠΑΙΧΤΕΣ» — ετικέτα αντί για ζωγραφιά */
 .players{font-family:var(--display);font-weight:700;font-size:27px;text-align:center;
@@ -317,7 +315,6 @@ const CFG = {
   UNLOCK_3V3: 7,                   // από πόσους παίκτες ξεκλειδώνει το 3v3
   MAX_NAME: 14,
   MAX_OPINION: 240,
-  MIN_ROUNDS_TO_END: 3,            // απο ποσους γυρους και μετα ο δικαστης μπορει να ληξει
   STORE_KEY: "kontra.praktika.v1"
 };
 
@@ -361,9 +358,6 @@ const S = {
 
   judge: -1,
   round: null,
-  phase: "setup",    // "setup" = συσταση (οι αρχικες αποψεις), "play" = παιχνιδι
-  roundsDone: 0,     // ποσοι γυροι εχουν κλεισει σε αυτο το παιχνιδι
-  recordStart: 0,    // απο πoιο πρακτικο ξεκιναει αυτο το παιχνιδι
   records: Store.load(),
   timer: null,
   writeReturn: "lastCall",
@@ -408,12 +402,10 @@ const notesField = val => `
     <textarea id="notes" placeholder="Τι ειπε ο καθενας, τι σε επεισε, τι θα θυμασαι.">${esc(val)}</textarea>
   </div>`;
 
-/* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά.
-   Στη μέση, ΜΟΝΟ από τον 3ο γύρο και μετά, το κουμπί της λήξης. */
-const header = (back, canEnd) => `
+/* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά */
+const header = back => `
   <div class="hdr">
     ${ibtn("info.png",'data-go="rules"')}
-    ${canEnd ? ibtn("liji.png",'data-finish="1"',"endbtn") : ""}
     ${ibtn("praktika.png",`data-records="${back}"`)}
   </div>`;
 
@@ -494,12 +486,6 @@ V.rules = () => `
     <h3>Η αρχειοθέτηση</h3>
     <p>Στο τέλος, ο δικαστής κρίνει αν η κουβέντα έληξε. Αν την αρχειοθετήσει, η άποψη βγαίνει από τον φάκελο και κάποιος γράφει καινούρια στη θέση της. Αλλιώς μένει μέσα και μπορεί να ξανατύχει.</p>
 
-    <h3>Η σειρά των απόψεων</h3>
-    <p>Παίζονται <b>πρώτα οι απόψεις της σύστασης</b> — όσες έγραψε ο καθένας στην αρχή. Μόνο όταν ακουστούν όλες αυτές, μπαίνουν στο τραπέζι όσες προστέθηκαν αργότερα. Καμιά δεν ξανατυχαίνει πριν παίξουν όλες οι υπόλοιπες.</p>
-
-    <h3>Η λήξη</h3>
-    <p>Από τον <b>τρίτο γύρο</b> και μετά, ο δικαστής έχει στην έδρα του το κουμπί της <b>λήξης</b>. Το πατάει, το επιβεβαιώνει, και η δίκη κλείνει με απολογισμό: πόσοι γύροι παίχτηκαν και πόσες κόντρες κέρδισε ο καθένας.</p>
-
   </div>
   <div class="fill"></div>
   ${ibtn("akyro.png",'data-go="count"')}`;
@@ -556,52 +542,13 @@ V.extra = () => `
   ${ibtn("akyro.png",`data-go="${S.writeReturn === "round" ? "refill" : S.writeReturn}"`)}`;
 
 /* ΟΘΟΝΗ: ανακοίνωση δικαστή --------------------------------- */
-V.round = () => {
-  const canEnd = S.roundsDone >= CFG.MIN_ROUNDS_TO_END;
-  return `
-  ${header("round", canEnd)}
-  <p class="eyebrow">Η εδρα &middot; <b>${S.opinions.length} στη δικογραφια</b> &middot; γυρος ${S.roundsDone + 1}</p>
+V.round = () => `
+  ${header("round")}
+  <p class="eyebrow">Η εδρα &middot; <b>${S.opinions.length} στη δικογραφια</b></p>
   <h1 style="font-size:32px">${esc(nameOf(S.judge))}</h1>
   <p class="lede">Παρε το κινητο. Εισαι υπευθυνος για την ροη των ομιλιων της κοντρας.</p>
   <div class="fill"></div>
-  ${ibtn("etoimoi.png",'data-go="eyes"')}
-  ${canEnd ? `<p class="mini">Παιχτηκαν ${S.roundsDone} γυροι &middot; μπορεις να ληξεις τη δικη<br>απο το κουμπι στην κορυφη</p>` : ""}`;
-};
-
-/* ΟΘΟΝΗ: ο δικαστης ρωταει αν ληγει η δικη ------------------ */
-V.finishAsk = () => `
-  <p class="eyebrow">Ο δικαστης αποφασιζει</p>
-  <h2>Να ληξει η δικη;</h2>
-  <p class="lede">Παιχτηκαν ${S.roundsDone} γυροι. Αν ληξει, κλεινει ο φακελος και βγαινει ο απολογισμος.</p>
-  <div class="card">Μενουν ${S.opinions.length} ${S.opinions.length===1?"αποψη":"αποψεις"} στη δικογραφια</div>
-  <div class="fill"></div>
-  ${ibtn("liji.png",'data-end="1"')}
-  ${ibtn("akyro.png",'data-go="round"')}`;
-
-/* ΟΘΟΝΗ: απολογισμος ---------------------------------------- */
-V.theEnd = () => {
-  const mine = S.records.slice(S.recordStart);
-  const wins = {};
-  S.players.forEach(p => { wins[p] = 0; });
-  mine.forEach(r => {
-    const team = r.winner === "pro" ? r.pro : r.winner === "con" ? r.con : null;
-    if (team) team.forEach(n => { wins[n] = (wins[n] || 0) + 1; });
-  });
-  const board = S.players.slice().sort((a,b) => (wins[b]||0) - (wins[a]||0)).map(n => `
-    <div class="t ${wins[n] ? "pro" : ""}">
-      <span>${esc(n)}</span>
-      <em>${wins[n]||0} ${wins[n]===1?"νικη":"νικες"}</em>
-    </div>`).join("");
-
-  return `
-    <p class="eyebrow">Ο φακελος κλεινει</p>
-    <div class="stamp">Εληξε</div>
-    <h2 style="margin-top:24px">${S.roundsDone} γυροι, ${mine.length} ${mine.length===1?"πρακτικο":"πρακτικα"}</h2>
-    <div class="tally" style="margin-top:14px">${board}</div>
-    <div class="fill"></div>
-    ${ibtn("praktika.png",'data-records="theEnd"',"endbtn")}
-    ${ibtn("skotwtheite.png",'data-again="1"')}`;
-};
+  ${ibtn("etoimoi.png",'data-go="eyes"')}`;
 
 /* ΟΘΟΝΗ: κλείστε τα μάτια ----------------------------------- */
 V.eyes = () => `
@@ -843,33 +790,13 @@ function sideOf(side){
   return S.players.map((_,i)=>i).filter(i => S.round.vote[i] === side);
 }
 
-/* wave 0 = απο τη συσταση, wave 1 = μπηκε αργοτερα (ανωνυμη, αναπληρωση) */
-function addOpinion(text){
-  S.opinions.push({ id: S.nextId++, text: text, wave: S.phase === "setup" ? 0 : 1, used: 0 });
-}
+function addOpinion(text){ S.opinions.push({ id: S.nextId++, text: text }); }
 
-function beginGame(){
-  S.phase = "play";
-  S.roundsDone = 0;
-  S.recordStart = S.records.length;
-  S.judge = 0;
-  startRound();
-}
-
-/* ΣΕΙΡΑ: πρωτα οι αποψεις της συστασης, μετα οσες μπηκαν αργοτερα.
-   Καμια δεν ξανατυχαινει πριν ακουστουν ολες οι υπολοιπες.        */
-function pickOpinion(){
-  const least = Math.min.apply(null, S.opinions.map(o => o.used || 0));
-  let pool = S.opinions.filter(o => (o.used || 0) === least);
-  const early = Math.min.apply(null, pool.map(o => o.wave || 0));
-  pool = pool.filter(o => (o.wave || 0) === early);
-  return pool[Math.floor(Math.random()*pool.length)];
-}
+function beginGame(){ S.judge = 0; startRound(); }
 
 function startRound(){
   if (!S.opinions.length){ S.screen = "empty"; return; }
-  const op = pickOpinion();
-  op.used = (op.used || 0) + 1;
+  const op = S.opinions[Math.floor(Math.random()*S.opinions.length)];
   S.round = { op, vote:{}, mode:1, proSel:[], conSel:[],
               order:[], times:[], cur:0, opa:false, opaT:0, notes:"", winner:null };
   S.screen = "round";
@@ -921,7 +848,6 @@ function fileRecord(){
     winner: r.winner,
     notes: (r.notes || "").trim()
   });
-  S.roundsDone++;
   Store.save(S.records);
 }
 
@@ -972,7 +898,7 @@ function syncSubmit(){
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again]");
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear]");
   if (!t || t.disabled) return;
   const d = t.dataset;
 
@@ -1066,14 +992,6 @@ app.addEventListener("click", e => {
     }
     nextJudge(); startRound(); return render();
   }
-
-  /* ληξη της δικης — μονο απο τον 3ο γυρο και μετα */
-  if (d.finish){
-    if (S.roundsDone < CFG.MIN_ROUNDS_TO_END) return;
-    return go("finishAsk");
-  }
-  if (d.end){ return go("theEnd"); }
-  if (d.again){ return location.reload(); }
 
   /* πλοήγηση */
   if (d.go) return go(d.go);
