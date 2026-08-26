@@ -1,7 +1,9 @@
 <!doctype html>
 <html lang="el">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#633008">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -297,6 +299,32 @@ details.notes textarea{min-height:0;border:none;background:none}
   margin:0 0 34px;line-height:1.25}
 .dark .btn{max-width:280px}
 .dark .ibtn{max-width:250px;margin:0 auto}
+
+/* === [14] ΚΛΕΙΔΩΜΑ ΣΕ ΜΙΑ ΟΘΟΝΗ (app mode) ====================
+   Η σελιδα ΔΕΝ σκρολαρει ποτε. Σκρολαρει μονο το #app απο μεσα.
+   Ετσι φευγει το pull-to-refresh, το bounce και η μπαρα του browser. */
+html,body{height:100%;overflow:hidden;overscroll-behavior:none;
+  touch-action:manipulation;position:fixed;inset:0;width:100%}
+#app{height:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#app input,#app textarea{-webkit-user-select:text;user-select:text}
+
+/* === [15] ΝΑ ΜΗΝ ΚΟΒΕΤΑΙ ΚΑΝΕΝΑ ΚΕΙΜΕΝΟ ======================
+   Ολα τα κουτια σπανε τη λεξη αντι να τη βγαζουν απ εξω, και τα
+   ζωγραφιστα πλαισια δινουν λιγοτερο padding σε στενες οθονες.   */
+#app h1,#app h2,#app .lede,#app .card,#app .rules,#app .chip,
+#app .t span,#app .rec .o,#app .rec .n,#app .side .who,#app .eyebrow{
+  overflow-wrap:anywhere;word-break:break-word;hyphens:auto}
+.card{max-width:100%}
+.field{padding:clamp(20px,6vw,30px) clamp(24px,8vw,44px);height:auto}
+.field.op{padding:clamp(26px,7.5vw,38px) clamp(26px,8.5vw,46px);height:auto}
+/* το textarea μεγαλωνει μονο του οσο γραφεις — τιποτα δεν κρυβεται */
+.field textarea{min-height:120px;overflow:hidden;height:auto}
+.field input{text-overflow:ellipsis}
+/* το κρυφο 7αρι μεσα στους κανονες */
+.seven{width:54px;margin:18px auto 0;opacity:.34}
+.seven:active{opacity:1;transform:scale(1.1)}
 </style>
 
 <div id="app"></div>
@@ -367,7 +395,9 @@ const S = {
   records: Store.load(),
   timer: null,
   writeReturn: "lastCall",
-  back: "count"
+  back: "count",
+  rulesFrom: "count",   // σε ποια οθονη γυρναει το ΑΚΥΡΟ των κανονων
+  extraFrom: "lastCall" // σε ποια οθονη γυρναει το ΑΚΥΡΟ της καταθεσης
 };
 
 const app = document.getElementById("app");
@@ -412,7 +442,7 @@ const notesField = val => `
    Στη μέση, ΜΟΝΟ από τον 3ο γύρο και μετά, το κουμπί της λήξης. */
 const header = (back, canEnd) => `
   <div class="hdr">
-    ${ibtn("info.png",'data-go="rules"')}
+    ${ibtn("info.png",'data-rules="1"')}
     ${canEnd ? ibtn("liji.png",'data-finish="1"',"endbtn") : ""}
     ${ibtn("praktika.png",`data-records="${back}"`)}
   </div>`;
@@ -500,9 +530,12 @@ V.rules = () => `
     <h3>Η λήξη</h3>
     <p>Από τον <b>τρίτο γύρο</b> και μετά, ο δικαστής έχει στην έδρα του το κουμπί της <b>λήξης</b>. Το πατάει, το επιβεβαιώνει, και η δίκη κλείνει με απολογισμό: πόσοι γύροι παίχτηκαν και πόσες κόντρες κέρδισε ο καθένας.</p>
 
+    <p class="mini" style="margin-top:26px">Το τραπεζι εχει και δευτερη πορτα.</p>
+    <button class="ibtn seven" data-seven="1" aria-label="7"><img src="${IMG}seven.png" alt="7"></button>
+
   </div>
   <div class="fill"></div>
-  ${ibtn("akyro.png",'data-go="count"')}`;
+  ${ibtn("akyro.png",`data-go="${S.rulesFrom}"`)}`;
 
 /* ΟΘΟΝΗ: σύσταση — όνομα + πρώτη άποψη ---------------------- */
 V.intro = () => {
@@ -537,6 +570,7 @@ V.more = () => {
 
 /* ΟΘΟΝΗ: όλοι συστήθηκαν ------------------------------------ */
 V.lastCall = () => `
+  ${header("lastCall")}
   <p class="eyebrow">Η δικογραφια &middot; <b>${S.opinions.length} αποψεις</b></p>
   <h2>Συστηθηκατε ολοι</h2>
   <p class="lede">Θελει κανεις να προσθεσει κατι πριν ξεκινησουμε; Το κινητο γυρναει ελευθερα, μενει ανωνυμο.</p>
@@ -553,7 +587,7 @@ V.extra = () => `
   ${opField("Μια θεση που μπορεις να υπερασπιστεις.")}
   <div class="fill"></div>
   ${ibtn("dinworko.png",'data-add-op="1" disabled')}
-  ${ibtn("akyro.png",`data-go="${S.writeReturn === "round" ? "refill" : S.writeReturn}"`)}`;
+  ${ibtn("akyro.png",`data-go="${S.extraFrom}"`)}`;
 
 /* ΟΘΟΝΗ: ανακοίνωση δικαστή --------------------------------- */
 V.round = () => {
@@ -822,6 +856,10 @@ V.records = () => {
     <h2>Το αρχειο</h2>
     ${list}
     <hr>
+    <div class="row">
+      <button class="btn ghost" data-export="1">Εξαγωγη</button>
+      <button class="btn ghost" data-clear="1">Σβησιμο</button>
+    </div>
     <div class="fill"></div>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 };
@@ -834,7 +872,7 @@ V.export = () => `
   <textarea style="min-height:320px" readonly id="dump">${esc(exportText())}</textarea>
   <div class="fill"></div>
   <button class="btn" data-copy="1">Αντιγραφη</button>
-  ${ibtn("akyro.png",'data-records=""')}`;
+  ${ibtn("akyro.png",'data-go="records"')}`;
 
 /* === [12] ΛΟΓΙΚΗ =========================================== */
 
@@ -876,6 +914,22 @@ function startRound(){
 }
 
 function nextJudge(){ S.judge = (S.judge + 1) % S.players.length; }
+
+/* ΞΑΝΑ ΑΠΟ ΤΗΝ ΑΡΧΗ, ΧΩΡΙΣ ΑΡΧΙΚΗ ΟΘΟΝΗ.
+   Κρataei παιχτες, ποινη, χρονο και τις αποψεις που εμειναν.
+   Ο δικαστης προχωραει, ωστε να μην ξαναρχισει ο ιδιος.        */
+function playAgain(){
+  stopTimer();
+  S.opinions.forEach(o => { o.used = 0; });
+  S.phase = "play";
+  S.roundsDone = 0;
+  S.recordStart = S.records.length;
+  if (!S.players.length) return go("count");
+  nextJudge();
+  if (!S.opinions.length){ S.screen = "empty"; return render(); }
+  startRound();
+  render();
+}
 
 /* προεπιλογή μονομάχων: αν μια πλευρά έχει ακριβώς όσους
    χρειάζονται, μπαίνουν αυτόματα· αλλιώς διαλέγει ο δικαστής */
@@ -956,8 +1010,20 @@ function runTimer(){ stopTimer(); S.timer = setInterval(tick, 1000); }
 
 /* === [13] RENDER & ΣΥΜΒΑΝΤΑ ================================ */
 
+/* το textarea παιρνει το υψος του κειμενου του, ωστε να μην
+   κρυβεται ουτε μια γραμμη μεσα στο ζωγραφιστο πλαισιο */
+function grow(el){
+  if (!el) return;
+  el.style.height = "auto";
+  el.style.height = Math.max(el.scrollHeight, 120) + "px";
+}
+function growAll(){ app.querySelectorAll("textarea").forEach(grow); }
+
+let lastScreen = null;
 function render(){
   app.innerHTML = (V[S.screen] || V.count)();
+  growAll();
+  if (S.screen !== lastScreen){ app.scrollTop = 0; lastScreen = S.screen; }
   if (S.screen === "intro"){ const e = app.querySelector("#pname"); if (e) e.focus(); }
   if (S.screen === "more" || S.screen === "extra"){ const e = app.querySelector("#op"); if (e) e.focus(); }
 }
@@ -972,9 +1038,17 @@ function syncSubmit(){
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again]");
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-rules],[data-seven]");
   if (!t || t.disabled) return;
   const d = t.dataset;
+
+  /* κανονες: κρata πού ήμασταν, για να γυρίσουμε εκεί */
+  if (d.rules){
+    if (S.screen !== "rules") S.rulesFrom = S.screen;
+    return go("rules");
+  }
+  /* το 7αρι των κανονων: πορτα για την Κοντρα στα Γρηγορα */
+  if (d.seven){ location.href = "kontra-grigora.html"; return; }
 
   /* πρώτη οθόνη */
   if (d.step){
@@ -1002,7 +1076,7 @@ app.addEventListener("click", e => {
   }
   if (d.pass){ return go(S.players.length >= S.playerCount ? "lastCall" : "intro"); }
   if (d.begin){ beginGame(); return render(); }
-  if (d.extra !== undefined){ S.writeReturn = d.extra; return go("extra"); }
+  if (d.extra !== undefined){ S.writeReturn = d.extra; S.extraFrom = S.screen; return go("extra"); }
 
   /* πρακτικά */
   if (d.records !== undefined){ if (d.records) S.back = d.records; return go("records"); }
@@ -1073,7 +1147,7 @@ app.addEventListener("click", e => {
     return go("finishAsk");
   }
   if (d.end){ return go("theEnd"); }
-  if (d.again){ return location.reload(); }
+  if (d.again){ return playAgain(); }
 
   /* πλοήγηση */
   if (d.go) return go(d.go);
@@ -1081,10 +1155,77 @@ app.addEventListener("click", e => {
 
 app.addEventListener("input", e => {
   const t = e.target;
+  if (t.tagName === "TEXTAREA") grow(t);
   if (t.id === "op" || t.id === "pname") syncSubmit();
   if (t.id === "penalty") S.penalty = t.value;
   if (t.id === "notes" && S.round) S.round.notes = t.value;
 });
+
+/* === [16] APP MODE — ΚΛΕΙΔΩΜΑ ΣΕ ΜΙΑ ΟΘΟΝΗ ==================
+   Οσο πιο κοντα γινεται σε εφαρμογη, μεσα σε browser:
+   - καμια κινηση της σελιδας, κανενα zoom, κανενα pull-to-refresh
+   - το «πισω» του κινητου ΔΕΝ βγαζει απο το παιχνιδι
+   - fullscreen και οθονη που δεν σβηνει, στο πρωτο αγγιγμα
+   Αν κατι απο αυτα δεν υποστηριζεται, απλα αγνοειται.          */
+(function appMode(){
+  const touch = matchMedia("(pointer:coarse)").matches;
+
+  /* zoom με δυο δαχτυλα και διπλο ταπ */
+  ["gesturestart","gesturechange","gestureend"].forEach(ev =>
+    document.addEventListener(ev, e => e.preventDefault(), {passive:false}));
+  document.addEventListener("dblclick", e => e.preventDefault(), {passive:false});
+  document.addEventListener("contextmenu", e => {
+    if (!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) e.preventDefault();
+  });
+  /* τιποτα δεν κουναει τη σελιδα — σκρολαρει μονο το #app */
+  document.addEventListener("touchmove", e => {
+    if (!e.target.closest || !e.target.closest("#app")) e.preventDefault();
+  }, {passive:false});
+
+  /* το κουμπι «πισω» του Android γυρναει οθονη μεσα στο παιχνιδι */
+  try {
+    history.replaceState({k:0}, "");
+    history.pushState({k:1}, "");
+    addEventListener("popstate", () => {
+      history.pushState({k:1}, "");
+      if (S.screen === "rules")        go(S.rulesFrom);
+      else if (S.screen === "records") go(S.back);
+      else if (S.screen === "export")  go("records");
+      else if (S.screen === "extra")   go(S.extraFrom);
+    });
+  } catch(e){}
+
+  /* με κλειδωμενη σελιδα, το πληκτρολογιο μπορει να σκεπασει το πεδιο.
+     Οποτε το φερνουμε μονοι μας μπροστα.                            */
+  app.addEventListener("focusin", e => {
+    if (!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+    setTimeout(() => {
+      try { e.target.scrollIntoView({block:"center", behavior:"smooth"}); } catch(err){}
+    }, 320);
+  });
+
+  /* fullscreen + οθονη αναμμενη, με το πρωτο αγγιγμα (μονο σε κινητο) */
+  let wl = null, armed = false;
+  async function keepAwake(){
+    try { if ("wakeLock" in navigator) wl = await navigator.wakeLock.request("screen"); } catch(e){}
+  }
+  async function arm(){
+    if (armed) return; armed = true;
+    if (touch){
+      try { await document.documentElement.requestFullscreen({navigationUI:"hide"}); } catch(e){}
+      try { await screen.orientation.lock("portrait"); } catch(e){}
+    }
+    keepAwake();
+  }
+  addEventListener("pointerdown", arm, {once:true});
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && armed) keepAwake();
+  });
+
+  /* offline: δουλευει και χωρις ιντερνετ, σαν εφαρμογη */
+  if ("serviceWorker" in navigator)
+    addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+})();
 
 render();
 </script>
