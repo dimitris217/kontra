@@ -58,6 +58,24 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<sc-if value="{{ paletteOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:90;background:rgba(6,1,2,.9);display:flex;align-items:center;justify-content:center;padding:22px">
+<div style="width:100%;max-width:340px;padding:20px 18px;border-radius:22px;background:linear-gradient(#5f1118,#380a0f);border:4px solid #0b0203;text-align:center;box-shadow:inset 0 0 0 2px rgba(255,199,44,.34),0 20px 44px rgba(0,0,0,.65)">
+<div style="font:400 9px/1.6 'Press Start 2P',monospace;color:#ffc72c;letter-spacing:.05em">Η ΜΑΡΚΑ ΣΟΥ</div>
+<p style="margin:9px 0 15px;font:400 13.5px/1.5 Comfortaa,sans-serif;color:#f0c9b2">Διαλεξε χρωμα. Το ονομα σου θα το εχει παντου — στο τραπεζι, στις κοντρες, στην ετυμηγορια.</p>
+<div style="display:flex;flex-wrap:wrap;gap:11px;justify-content:center">
+<sc-for list="{{ palette }}" as="c" hint-placeholder-count="10">
+<button disabled="{{ c.off }}" style="{{ c.style }}" onClick="{{ c.on }}">{{ c.mark }}</button>
+</sc-for>
+</div>
+<div style="margin-top:16px;display:flex;justify-content:center">
+<span style="{{ draftPreview }}">{{ draftName }}</span>
+</div>
+<button style="display:block;width:100%;margin-top:15px;padding:13px;border:3px solid #0b0203;border-radius:15px;font:700 17px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 5px 0 #9c6c05" style-active="transform:translateY(5px);box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 0 0 #9c6c05" onClick="{{ closePalette }}">Ετοιμο</button>
+</div>
+</div>
+</sc-if>
+
 <div style="width:100%;max-width:470px;flex:none;height:100%;display:flex;flex-direction:column;background:linear-gradient(#331013,#160305);border:6px solid #0b0203;border-radius:28px;padding:calc(env(safe-area-inset-top) + 9px) 9px calc(env(safe-area-inset-bottom) + 9px);box-shadow:0 36px 74px rgba(0,0,0,.66),inset 0 0 0 3px rgba(255,199,44,.26),inset 0 2px 0 rgba(255,255,255,.1)">
 
 <div style="flex:none;display:flex;align-items:center;gap:9px;padding:0 4px 8px">
@@ -161,7 +179,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <span style="font:400 9px 'Press Start 2P',monospace;color:#9fe0b8">{{ r.when }}</span>
 <span style="font:400 9px 'Press Start 2P',monospace;color:#ffd75e">{{ r.duels }}R</span>
 </div>
-<div style="margin-top:7px;font:700 18px Comfortaa,sans-serif;color:#fff6e2">{{ r.winner }}</div>
+<div style="margin-top:8px"><span style="{{ r.style }}">{{ r.winner }}</span></div>
 <div style="margin-top:3px;font:400 12.5px/1.45 Comfortaa,sans-serif;color:#cceed6">{{ r.players }}</div>
 </div>
 </sc-for>
@@ -173,15 +191,19 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 
 <sc-if value="{{ atIntro }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
-<p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Μοιρασμα &middot; <b style="color:#fff6e2">{{ introNo }} απο {{ introTotal }}</b></p>
+<div style="flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+<p style="margin:0 0 10px;text-align:left;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Μοιρασμα &middot; <b style="color:#fff6e2">{{ introNo }} απο {{ introTotal }}</b></p>
+<button style="{{ draftChipBtn }}" onClick="{{ openPalette }}">&spades;</button>
+</div>
 <h2 style="margin:0 0 8px;font:700 26px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Πως σε λενε;</h2>
-<p style="margin:0 0 18px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Γραψε το ονομα σου και δες το φυλλο σου. Μονο εσυ.</p>
+<p style="margin:0 0 5px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Γραψε το ονομα σου και δες το φυλλο σου. Μονο εσυ.</p>
+<p style="margin:0 0 14px;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.5)">Η ΜΑΡΚΑ ΣΟΥ ΕΙΝΑΙ ΠΑΝΩ ΔΕΞΙΑ</p>
 <div style="padding:8px;border-radius:20px;background:linear-gradient(#12864d,#0b5731);border:3px solid #08301c;box-shadow:inset 0 0 0 2px rgba(255,199,44,.3),0 6px 0 #062515">
 <input ref="{{ nameRef }}" onInput="{{ onNameInput }}" maxlength="14" autocomplete="off" placeholder="Το ονομα σου" style="width:100%;padding:15px 14px;border:3px solid #0b0203;border-radius:14px;background:linear-gradient(#fffdf5,#f1e3c9);color:#1b1008;font:700 19px Comfortaa,sans-serif;text-align:center;outline:none;-webkit-appearance:none;box-shadow:inset 0 3px 8px rgba(0,0,0,.2)">
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:16px">
 <sc-for list="{{ namePills }}" as="p" hint-placeholder-count="2">
-<span style="padding:6px 13px;border-radius:999px;border:3px solid #0b0203;background:linear-gradient(#4d1017,#380a10);font:700 14px Comfortaa,sans-serif;color:#fff6e2;box-shadow:0 3px 0 rgba(0,0,0,.45)">{{ p.name }}</span>
+<span style="{{ p.style }}">{{ p.name }}</span>
 </sc-for>
 </div>
 <div style="flex:1;min-height:14px"></div>
@@ -191,7 +213,10 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 
 <sc-if value="{{ atRole }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
-<p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">{{ roleName }} &middot; μονο για σενα</p>
+<div style="flex:none;margin:0 0 10px;display:flex;align-items:center;justify-content:center;gap:9px">
+<span style="{{ roleChip }}">{{ roleName }}</span>
+<span style="font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">μονο για σενα</span>
+</div>
 <div style="flex:1;display:flex;align-items:center;justify-content:center">
 <div style="{{ roleCardStyle }}">
 <div style="position:absolute;top:10px;left:13px;font:700 20px Comfortaa,sans-serif;color:{{ roleSuitColor }}">{{ roleSuit }}</div>
@@ -212,11 +237,13 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="margin:12px auto 0;width:86px;height:86px;border-radius:50%;border:4px dashed rgba(255,199,44,.5);display:flex;align-items:center;justify-content:center;background-image:repeating-linear-gradient(135deg,rgba(255,246,226,.09) 0 7px,rgba(255,246,226,0) 7px 14px)">
 <span style="font:400 8px/1.6 ui-monospace,Menlo,monospace;color:#ffd98a">dealer<br>.png</span>
 </div>
-<h1 style="margin:16px 0 4px;font:700 36px/1.05 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 #7d150f,0 5px 0 rgba(0,0,0,.45);animation:pop .45s cubic-bezier(.2,1.5,.4,1) both">{{ judgeName }}</h1>
+<div style="flex:none;margin:16px 0 8px;display:flex;justify-content:center">
+<span style="{{ judgeChip }}">{{ judgeName }}</span>
+</div>
 <p style="margin:0 0 16px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Παρε το κινητο. Εσυ μοιραζεις αυτη την κοντρα.</p>
 <div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center">
 <sc-for list="{{ alivePills }}" as="p" hint-placeholder-count="6">
-<span style="padding:6px 13px;border-radius:999px;border:3px solid #0b0203;background:linear-gradient(#12864d,#0b5731);font:700 14px Comfortaa,sans-serif;color:#fff6e2;box-shadow:0 3px 0 #062515">{{ p.name }}</span>
+<span style="{{ p.style }}">{{ p.name }}</span>
 </sc-for>
 </div>
 <div style="flex:1;min-height:14px"></div>
@@ -253,7 +280,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
 <sc-for list="{{ voteRows }}" as="row" hint-placeholder-count="5">
 <button style="{{ row.style }}" onClick="{{ row.on }}">
-<span>{{ row.name }}</span>
+<span style="{{ row.chip }}">{{ row.name }}</span>
 <span style="{{ row.markStyle }}">{{ row.mark }}</span>
 </button>
 </sc-for>
@@ -283,7 +310,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="display:flex;flex-direction:column;gap:8px">
 <sc-for list="{{ proRows }}" as="row" hint-placeholder-count="2">
 <button style="{{ row.style }}" onClick="{{ row.on }}">
-<span>{{ row.name }}</span>
+<span style="{{ row.chip }}">{{ row.name }}</span>
 <span style="{{ row.markStyle }}">{{ row.mark }}</span>
 </button>
 </sc-for>
@@ -295,7 +322,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="display:flex;flex-direction:column;gap:8px">
 <sc-for list="{{ conRows }}" as="row" hint-placeholder-count="2">
 <button style="{{ row.style }}" onClick="{{ row.on }}">
-<span>{{ row.name }}</span>
+<span style="{{ row.chip }}">{{ row.name }}</span>
 <span style="{{ row.markStyle }}">{{ row.mark }}</span>
 </button>
 </sc-for>
@@ -313,7 +340,9 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atChicken }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <p style="margin:0 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">{{ chickenSide }}</p>
-<h1 style="margin:8px 0 12px;font:700 34px/1.05 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 #7d150f,0 5px 0 rgba(0,0,0,.45)">{{ chickenName }}</h1>
+<div style="flex:none;margin:8px 0 14px;display:flex;justify-content:center">
+<span style="{{ chickenChip }}">{{ chickenName }}</span>
+</div>
 <div style="position:relative;padding:22px 18px;border-radius:16px;background:linear-gradient(#fffdf5,#f2e4ca);border:3px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5)">
 <div style="position:absolute;top:9px;left:12px;font:700 18px Comfortaa,sans-serif;color:#1b1008">&spades;</div>
 <div style="position:absolute;bottom:9px;right:12px;font:700 18px Comfortaa,sans-serif;color:#1b1008;transform:rotate(180deg)">&spades;</div>
@@ -340,7 +369,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="{{ sp.style }}">
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
 <span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ffd98a">{{ sp.who }}</span>
-<span style="font:700 15px Comfortaa,sans-serif;color:#fff6e2">{{ sp.name }}</span>
+<span style="{{ sp.chip }}">{{ sp.name }}</span>
 </div>
 <div style="{{ sp.clockStyle }}">{{ sp.time }}</div>
 </div>
@@ -375,8 +404,8 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <p style="margin:0;font:600 16px/1.45 Comfortaa,sans-serif;color:#1b1008;text-wrap:pretty">{{ opinion }}</p>
 </div>
 <div style="margin-top:18px;display:flex;flex-direction:column;gap:12px">
-<button style="display:block;width:100%;padding:18px 16px;border:3px solid #0b0203;border-radius:18px;font:700 22px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#3ed878,#159a4b);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 7px 0 #0a5c2c;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 0 0 #0a5c2c" onClick="{{ winA }}">{{ aName }}</button>
-<button style="display:block;width:100%;padding:18px 16px;border:3px solid #0b0203;border-radius:18px;font:700 22px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#ff7a6b,#c8332a);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 7px 0 #7d150f;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 0 0 #7d150f" onClick="{{ winB }}">{{ bName }}</button>
+<button style="{{ aBtn }}" style-active="transform:translateY(5px)" onClick="{{ winA }}">{{ aName }}</button>
+<button style="{{ bBtn }}" style-active="transform:translateY(5px)" onClick="{{ winB }}">{{ bName }}</button>
 </div>
 <div style="flex:1;min-height:14px"></div>
 <p style="margin:12px 0 0;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.5)">ΚΑΠΟΙΟΣ ΠΡΕΠΕΙ ΝΑ ΚΕΡΔΙΣΕΙ<br>ΙΣΟΠΑΛΙΑ ΔΕΝ ΥΠΑΡΧΕΙ</p>
@@ -403,7 +432,9 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="margin:22px auto 4px;padding:10px 26px;border:5px double #ff6a5a;border-radius:10px;transform:rotate(-6deg);animation:pop .4s cubic-bezier(.2,1.5,.4,1) both">
 <span style="font:400 22px/1 'Press Start 2P',monospace;color:#ff6a5a;text-shadow:0 0 18px rgba(255,80,60,.6)">EXO</span>
 </div>
-<h1 style="margin:26px 0 4px;font:700 36px/1.05 Comfortaa,sans-serif;color:#ff8b7d;text-shadow:0 3px 0 rgba(0,0,0,.5)">{{ outName }}</h1>
+<div style="flex:none;margin:26px 0 8px;display:flex;justify-content:center">
+<span style="{{ outChip }}">{{ outName }}</span>
+</div>
 <p style="margin:0 0 18px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Σηκωθηκε απο το τραπεζι.</p>
 <div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center">
 <sc-for list="{{ outPills }}" as="p" hint-placeholder-count="6">
@@ -429,11 +460,14 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="padding:16px 14px;border-radius:18px;background:linear-gradient(#12864d,#0b5731);border:3px solid #08301c;box-shadow:inset 0 0 0 2px rgba(255,199,44,.3),inset 0 3px 0 rgba(255,255,255,.15),0 6px 0 #062515;margin-bottom:22px">
 <div style="font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#9fe0b8;text-transform:uppercase">Επομενη κοντρα</div>
 <div style="margin-top:9px;display:flex;align-items:center;justify-content:center;gap:12px">
-<span style="font:700 19px Comfortaa,sans-serif;color:#fff6e2">{{ tieA }}</span>
+<span style="{{ tieAChip }}">{{ tieA }}</span>
 <span style="font:400 11px 'Press Start 2P',monospace;color:#ffd75e">VS</span>
-<span style="font:700 19px Comfortaa,sans-serif;color:#fff6e2">{{ tieB }}</span>
+<span style="{{ tieBChip }}">{{ tieB }}</span>
 </div>
-<div style="margin-top:8px;font:400 12.5px Comfortaa,sans-serif;color:#cceed6">Δικαστης: {{ tieJudge }}</div>
+<div style="margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px">
+<span style="font:400 12.5px Comfortaa,sans-serif;color:#cceed6">Δικαστης:</span>
+<span style="{{ tieJudgeChip }}">{{ tieJudge }}</span>
+</div>
 </div>
 <button style="display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 22px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 7px 0 #9c6c05,0 12px 22px rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.55)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 0 0 #9c6c05" onClick="{{ tieGo }}">Μοιρασε</button>
 </div>
@@ -445,23 +479,27 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="{{ duelMedalStyle }}">{{ duelSuit }}</div>
 <h2 style="{{ duelTitleStyle }}">{{ duelTitle }}</h2>
 <div style="margin:0 0 18px;display:flex;align-items:center;justify-content:center;gap:12px">
-<span style="font:700 19px Comfortaa,sans-serif;color:#fff6e2">{{ dA }}</span>
+<span style="{{ dAChip }}">{{ dA }}</span>
 <span style="font:400 11px 'Press Start 2P',monospace;color:#ffc72c">VS</span>
-<span style="font:700 19px Comfortaa,sans-serif;color:#fff6e2">{{ dB }}</span>
+<span style="{{ dBChip }}">{{ dB }}</span>
 </div>
 <sc-if value="{{ duelGold }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;gap:10px;justify-content:center;margin-bottom:18px">
-<div style="padding:10px 16px;border-radius:14px;background:#0d0203;border:3px solid rgba(255,199,44,.5);box-shadow:inset 0 3px 10px rgba(0,0,0,.9)">
-<div style="font:400 8px/1.6 'Press Start 2P',monospace;color:rgba(255,246,226,.6)">{{ dA }}</div>
+<div style="padding:10px 14px;border-radius:14px;background:#0d0203;border:3px solid rgba(255,199,44,.5);box-shadow:inset 0 3px 10px rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;gap:6px">
+<span style="{{ dAMini }}">{{ dA }}</span>
 <div style="font:400 22px/1.3 'Press Start 2P',monospace;color:#ffc72c">{{ dWinsA }}</div>
 </div>
-<div style="padding:10px 16px;border-radius:14px;background:#0d0203;border:3px solid rgba(255,199,44,.5);box-shadow:inset 0 3px 10px rgba(0,0,0,.9)">
-<div style="font:400 8px/1.6 'Press Start 2P',monospace;color:rgba(255,246,226,.6)">{{ dB }}</div>
+<div style="padding:10px 14px;border-radius:14px;background:#0d0203;border:3px solid rgba(255,199,44,.5);box-shadow:inset 0 3px 10px rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;gap:6px">
+<span style="{{ dBMini }}">{{ dB }}</span>
 <div style="font:400 22px/1.3 'Press Start 2P',monospace;color:#ffc72c">{{ dWinsB }}</div>
 </div>
 </div>
 </sc-if>
-<p style="margin:0 0 26px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Δικαστης: <b style="color:#fff6e2">{{ dJudge }}</b><br>{{ duelNote }}</p>
+<div style="flex:none;margin:0 0 10px;display:flex;align-items:center;justify-content:center;gap:8px">
+<span style="font:400 14px Comfortaa,sans-serif;color:#f0c9b2">Δικαστης:</span>
+<span style="{{ dJudgeChip }}">{{ dJudge }}</span>
+</div>
+<p style="margin:0 0 26px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">{{ duelNote }}</p>
 <button style="display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 22px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 7px 0 #9c6c05,0 12px 22px rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.55)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 0 0 #9c6c05" onClick="{{ duelGo }}">Μοιρασε</button>
 </div>
 </sc-if>
@@ -474,12 +512,16 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="width:62px;padding:12px 0 10px;border-radius:12px;background:linear-gradient(#0d0203,#1e0509);border:3px solid #0b0203;box-shadow:inset 0 3px 10px rgba(0,0,0,.9),inset 0 0 0 2px rgba(255,199,44,.4);font:400 24px/1 'Press Start 2P',monospace;color:#ffc72c;text-shadow:0 0 16px rgba(255,199,44,.8)">7</div>
 <div style="width:62px;padding:12px 0 10px;border-radius:12px;background:linear-gradient(#0d0203,#1e0509);border:3px solid #0b0203;box-shadow:inset 0 3px 10px rgba(0,0,0,.9),inset 0 0 0 2px rgba(255,199,44,.4);font:400 24px/1 'Press Start 2P',monospace;color:#ffc72c;text-shadow:0 0 16px rgba(255,199,44,.8)">7</div>
 </div>
-<h1 style="margin:0 0 6px;font:700 40px/1.05 Comfortaa,sans-serif;color:#ffe083;text-shadow:0 3px 0 #7d150f,0 5px 0 rgba(0,0,0,.5),0 0 30px rgba(255,199,44,.55);animation:pop .5s cubic-bezier(.2,1.5,.4,1) both">{{ champName }}</h1>
+<div style="flex:none;margin:0 0 10px;display:flex;justify-content:center">
+<span style="{{ champChip }}">{{ champName }}</span>
+</div>
 <p style="margin:0 0 20px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Κερδισε τη χρυση κοντρα.</p>
 <sc-if value="{{ showLiar }}" hint-placeholder-val="{{ false }}">
 <div style="padding:16px;border-radius:18px;background:linear-gradient(#fffdf5,#f2e4ca);border:3px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5);margin-bottom:22px">
 <div style="font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#7a6a55;text-transform:uppercase">Ο αντιφατης ητανε</div>
-<div style="margin-top:6px;font:700 26px Comfortaa,sans-serif;color:#c0392b">{{ liarWasName }}</div>
+<div style="margin-top:9px;display:flex;justify-content:center">
+<span style="{{ liarChip }}">{{ liarWasName }}</span>
+</div>
 </div>
 </sc-if>
 <button style="display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 21px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#3ed878,#159a4b);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 7px 0 #0a5c2c;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 0 0 #0a5c2c" onClick="{{ again }}">Νεα παρτιδα</button>
@@ -511,6 +553,23 @@ class Component extends DCLogic {
     LIAR_MUST_LOSE: true, STORE_KEY: "kontra.grigora.v2",
     DEV_PASS: "makis67tselios"
   };
+
+  /* === ΤΑ ΧΡΩΜΑΤΑ ΤΩΝ ΜΑΡΚΩΝ =============================
+     Καθε παιχτης παιρνει μια μαρκα. Οπου εμφανιζεται το ονομα
+     του — λιστα, κουμπι, κοντρα, ετυμηγορια — εχει αυτο το χρωμα.
+     Προσθεσε/αλλαξε ελευθερα: fill = το χρωμα, ink = το γραμμα.  */
+  COLORS = [
+    { name: "Κοκκινη",  fill: "#c8332a", ink: "#fff6e2" },
+    { name: "Μπλε",     fill: "#2364b4", ink: "#fff6e2" },
+    { name: "Πρασινη",  fill: "#0f7a44", ink: "#fff6e2" },
+    { name: "Χρυση",    fill: "#e2a512", ink: "#3a1c00" },
+    { name: "Μωβ",      fill: "#6a32ba", ink: "#fff6e2" },
+    { name: "Πορτοκαλι",fill: "#d1660f", ink: "#fff6e2" },
+    { name: "Ροζ",      fill: "#d2358c", ink: "#fff6e2" },
+    { name: "Τιρκουαζ", fill: "#0f7d8c", ink: "#fff6e2" },
+    { name: "Μαυρη",    fill: "#2a1216", ink: "#fff6e2" },
+    { name: "Κρεμ",     fill: "#e8d3b2", ink: "#3a1c00" }
+  ];
 
   /* === ΤΟ POOL ΤΩΝ ΑΠΟΨΕΩΝ ============================== */
   POOL = [
@@ -546,7 +605,9 @@ class Component extends DCLogic {
     players: [], introIdx: 0, nameDraft: "", pool: [],
     roundNo: 0, duelNo: 0, duelTotal: 0, judge: 0, judgeSeed: 0,
     round: null, bronze: null, golden: null, tie: null, lastOut: null, champion: null,
-    back: "home", records: [], devUnlocked: false, askPass: false, passBad: false
+    back: "home", records: [], devUnlocked: false, askPass: false, passBad: false,
+    draft: 0,          // η μαρκα του παιχτη που γραφει τωρα το ονομα του
+    palette: false     // ανοιχτη η παλετα χρωματων
   };
   nameRef = React.createRef();
   passRef = React.createRef();
@@ -588,6 +649,7 @@ class Component extends DCLogic {
     S.liarIdx = S.liarOn ? Math.floor(Math.random() * S.playerCount) : -1;
     S.players = []; S.introIdx = 0; S.pool = this.POOL.slice(); S.roundNo = 0;
     S.bronze = null; S.golden = null; S.champion = null; S.lastOut = null;
+    S.draft = this.freeColor();
     S.screen = "intro"; this.u();
   }
   newDuel() {
@@ -669,6 +731,7 @@ class Component extends DCLogic {
     S.records = S.records.concat([{
       when: new Date().toLocaleDateString("el-GR"),
       winner: this.nm(S.champion),
+      wcol: this.colOf(S.champion),
       players: S.players.map(p => p.name).join(", "),
       duels: S.roundNo
     }]);
@@ -677,7 +740,7 @@ class Component extends DCLogic {
   advanceIntro() {
     const S = this.S;
     if (S.players.length >= S.playerCount) { this.newRound(); this.u(); return; }
-    S.introIdx++; this.go("intro");
+    S.introIdx++; S.draft = this.freeColor(); this.go("intro");
   }
 
   /* === DEMO ΓΙΑ ΤΟ DEV RAIL ============================= */
@@ -685,7 +748,7 @@ class Component extends DCLogic {
     const S = this.S;
     const names = ["Νικος", "Μαρια", "Τακης", "Ελενη", "Πετρος", "Ζωη"];
     S.playerCount = 6; S.liarOn = true; S.liarIdx = 2;
-    S.players = names.map((n, i) => ({ name: n, liar: i === 2, pts: 3 + (i % 3),
+    S.players = names.map((n, i) => ({ name: n, liar: i === 2, pts: 3 + (i % 3), color: i,
       chickens: i === 1 ? 1 : this.nCh(), alive: true, roundPts: i % 2, lost: i > 2, fought: true }));
     S.pool = this.POOL.slice(); S.roundNo = 2; S.duelNo = 1; S.duelTotal = 6;
     S.judge = 0; S.judgeSeed = 0; S.introIdx = 2;
@@ -726,6 +789,41 @@ class Component extends DCLogic {
     this.u();
   }
 
+  /* === Η ΜΑΡΚΑ ΤΟΥ ΠΟΚΕΡ ================================
+     Ενα και μοναδικο σχημα για καθε ονομα: γεμισμα στο χρωμα του
+     παιχτη και γυρω γυρω η διακεκομμενη ασπρη στεφανη της μαρκας
+     (χρωμα, ασπρο, χρωμα, ασπρο), με μαυρο περιγραμμα απ' εξω.
+     opts: pad, font, radius, dash, lift, block, dim, glow, extra   */
+  COL(ci) { const c = this.COLORS[(ci | 0) % this.COLORS.length]; return c || this.COLORS[0]; }
+  colOf(i) { const p = this.S.players[i]; return p && p.color != null ? p.color : 3; }
+  SWATCH(ci, o) {
+    o = o || {};
+    const c = this.COL(ci), dash = o.dash || 4, sh = [];
+    if (o.ring !== false) sh.push("0 0 0 3px #0b0203");
+    if (o.lift) sh.push("0 " + o.lift + "px 0 rgba(0,0,0,.45)");
+    if (o.glow) sh.push(o.glow);
+    return (o.block
+        ? "display:flex;width:100%;align-self:stretch;"
+        : "display:inline-flex;align-self:center;flex:0 0 auto;max-width:100%;") +
+      "box-sizing:border-box;align-items:center;justify-content:center;gap:8px;" +
+      "padding:" + (o.pad || "6px 14px") + ";border-radius:" + (o.radius || "999px") + ";" +
+      "background:" + c.fill + ";color:" + c.ink + ";" +
+      "font:" + (o.font || "700 14px Comfortaa,sans-serif") + ";" +
+      "border:" + dash + "px dashed rgba(255,255,255,.92);" +
+      (sh.length ? "box-shadow:" + sh.join(",") + ";" : "") +
+      "text-shadow:0 1px 0 rgba(0,0,0,.18);" +
+      (o.dim ? "opacity:.4;text-decoration:line-through;" : "") +
+      (o.extra || "");
+  }
+  CHIP(i, o) { return this.SWATCH(this.colOf(i), o); }
+  /* διαλεγει ελευθερο χρωμα — δυο παιχτες δεν παιρνουν το ιδιο */
+  freeColor() {
+    const used = this.S.players.map(p => p.color);
+    const free = this.COLORS.map((_, i) => i).filter(i => used.indexOf(i) < 0);
+    const pool = free.length ? free : this.COLORS.map((_, i) => i);
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
   /* === ΣΤΥΛ ΠΟΥ ΑΛΛΑΖΕΙ ΜΕ ΤΗΝ ΚΑΤΑΣΤΑΣΗ =============== */
   ROW(kind) {
     const base = "display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 14px;border-radius:14px;border:3px solid #0b0203;font:700 17px Comfortaa,sans-serif;cursor:pointer;text-align:left;";
@@ -740,7 +838,7 @@ class Component extends DCLogic {
     if (kind === "con") return base + "background:rgba(0,0,0,.28);color:#fff0ee";
     return base + "background:rgba(0,0,0,.3);color:rgba(255,246,226,.5)";
   }
-  CHIP(on, tone) {
+  OPT(on, tone) {
     const base = "flex:1;padding:12px 8px;border-radius:14px;border:3px solid #0b0203;font:700 16px Comfortaa,sans-serif;cursor:pointer;";
     if (!on) return base + "background:linear-gradient(#5c1219,#3f0b11);color:rgba(255,246,226,.6);box-shadow:inset 0 2px 0 rgba(255,255,255,.12),0 4px 0 rgba(0,0,0,.5)";
     if (tone === "pink") return base + "background:linear-gradient(#ff7ec0,#d2358c);color:#fff6e2;box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 4px 0 #8d1d5c;text-shadow:0 2px 0 rgba(0,0,0,.25)";
@@ -818,9 +916,9 @@ class Component extends DCLogic {
       decStyle: this.STEP(S.playerCount <= this.CFG.MIN_PLAYERS),
       incStyle: this.STEP(S.playerCount >= this.CFG.MAX_PLAYERS),
       timeChips: this.CFG.TIME_OPTIONS.map(t => ({
-        label: t + "''", style: this.CHIP(S.timeSec === t), on: () => { S.timeSec = t; this.u(); }
+        label: t + "''", style: this.OPT(S.timeSec === t), on: () => { S.timeSec = t; this.u(); }
       })),
-      liarOnStyle: this.CHIP(S.liarOn, "pink"), liarOffStyle: this.CHIP(!S.liarOn, "pink"),
+      liarOnStyle: this.OPT(S.liarOn, "pink"), liarOffStyle: this.OPT(!S.liarOn, "pink"),
       liarOn: () => { S.liarOn = true; this.u(); },
       liarOff: () => { S.liarOn = false; this.u(); },
       start: () => this.startGame(),
@@ -828,13 +926,39 @@ class Component extends DCLogic {
       goBack: () => this.go(S.back || "home"),
 
       /* ---- πρακτικα */
-      records: S.records.slice().reverse(),
+      records: S.records.slice().reverse().map(r => Object.assign({}, r, {
+        style: this.SWATCH(r.wcol == null ? 3 : r.wcol, { lift: 3, pad: "7px 15px",
+          font: "700 16px Comfortaa,sans-serif" })
+      })),
       noRecords: S.records.length === 0,
 
       /* ---- ονομα */
       introNo: S.introIdx + 1, introTotal: S.playerCount,
       nameRef: this.nameRef,
-      namePills: S.players.map(p => ({ name: p.name })),
+      namePills: S.players.map((p, i) => ({ name: p.name, style: this.CHIP(i, { lift: 3 }) })),
+
+      /* ---- η μαρκα του παιχτη που γραφει τωρα */
+      draftChipBtn: this.SWATCH(S.draft, { pad: "0", radius: "50%", dash: 3, lift: 3,
+        extra: "width:42px;height:42px;flex:none;cursor:pointer;font:700 17px Comfortaa,sans-serif" }),
+      draftPreview: this.SWATCH(S.draft, { lift: 3, pad: "8px 18px", font: "700 17px Comfortaa,sans-serif" }),
+      draftName: this.COL(S.draft).name,
+      paletteOpen: S.palette === true,
+      openPalette: () => { S.palette = true; this.u(); },
+      closePalette: () => { S.palette = false; this.u(); },
+      palette: this.COLORS.map((c, ci) => {
+        const taken = S.players.some(p => p.color === ci);
+        const on = S.draft === ci;
+        return {
+          mark: on ? "♠" : "",
+          off: taken && !on,
+          on: () => { if (taken && !on) return; S.draft = ci; this.u(); },
+          style: this.SWATCH(ci, { pad: "0", radius: "50%", dash: 4, lift: on ? 0 : 4,
+            glow: on ? "0 0 0 6px rgba(255,199,44,.85)" : "",
+            dim: taken && !on,
+            extra: "width:50px;height:50px;flex:none;font:700 18px Comfortaa,sans-serif;" +
+              (taken && !on ? "cursor:default" : "cursor:pointer") })
+        };
+      }),
       nameEmpty: !S.nameDraft.trim(),
       nameBtnStyle: this.BIG("blue", !S.nameDraft.trim()),
       onNameInput: e => {
@@ -846,7 +970,7 @@ class Component extends DCLogic {
         const nmv = S.nameDraft.trim();
         if (!nmv) return;
         S.players.push({ name: nmv.slice(0, this.CFG.MAX_NAME),
-          liar: S.liarOn && S.players.length === S.liarIdx,
+          liar: S.liarOn && S.players.length === S.liarIdx, color: S.draft,
           pts: 0, chickens: this.nCh(), alive: true, roundPts: 0, lost: false, fought: false });
         S.nameDraft = "";
         if (this.nameRef.current) this.nameRef.current.value = "";
@@ -859,19 +983,26 @@ class Component extends DCLogic {
       /* ---- γυρος */
       roundNo: S.roundNo, duelTotal: S.duelTotal, duelIdx: S.duelNo + 1,
       judgeName: this.nm(S.judge),
-      alivePills: this.alive().map(i => ({ name: this.nm(i) })),
+      judgeChip: this.CHIP(S.judge, { pad: "12px 26px", radius: "22px", dash: 5, lift: 6,
+        font: "700 30px Comfortaa,sans-serif",
+        extra: "animation:pop .45s cubic-bezier(.2,1.5,.4,1) both" }),
+      alivePills: this.alive().map(i => ({ name: this.nm(i), style: this.CHIP(i, { lift: 3 }) })),
       toEyes: () => this.go("eyes"), toHearing: () => this.go("hearing"),
       newRound: () => { this.newRound(); this.u(); },
       tieCount: S.tie ? S.tie.pool.length : 0,
       tieA: S.tie ? this.nm(S.tie.pool[0]) : "",
       tieB: S.tie ? this.nm(S.tie.pool[1]) : "",
       tieJudge: S.tie ? this.nm(S.tie.judge) : "",
+      tieAChip: this.CHIP(S.tie ? S.tie.pool[0] : null, { lift: 3, pad: "8px 16px",
+        font: "700 18px Comfortaa,sans-serif" }),
+      tieBChip: this.CHIP(S.tie ? S.tie.pool[1] : null, { lift: 3, pad: "8px 16px",
+        font: "700 18px Comfortaa,sans-serif" }),
+      tieJudgeChip: this.CHIP(S.tie ? S.tie.judge : null, { lift: 2, pad: "5px 12px",
+        font: "700 13px Comfortaa,sans-serif" }),
       tiePills: S.tie ? S.tie.pool.map((i, k) => ({
         name: this.nm(i),
-        style: "padding:6px 13px;border-radius:999px;border:3px solid #0b0203;font:700 14px Comfortaa,sans-serif;box-shadow:0 3px 0 rgba(0,0,0,.45);" +
-          (k < 2
-            ? "background:linear-gradient(#ffe083,#e2a512);color:#3a1c00"
-            : "background:linear-gradient(#5c1219,#3f0b11);color:rgba(255,246,226,.7)")
+        style: this.CHIP(i, { lift: 3,
+          glow: k < 2 ? "0 0 0 5px rgba(255,199,44,.6)" : "" })
       })) : [],
       tieGo: () => {
         if (!S.tie) return;
@@ -893,6 +1024,8 @@ class Component extends DCLogic {
     const last = S.players[S.players.length - 1];
     const liar = !!(last && last.liar);
     v.roleName = last ? last.name : "";
+    v.roleChip = this.SWATCH(last && last.color != null ? last.color : S.draft,
+      { lift: 3, pad: "7px 15px", font: "700 16px Comfortaa,sans-serif" });
     v.roleTitle = liar ? "ΑΝΤΙΦΑΤΗΣ" : "ΔΙΚΗΓΟΡΟΣ";
     v.roleSuit = liar ? "♦" : "♠";
     v.roleSuitColor = liar ? "#c0392b" : "#1b1008";
@@ -919,6 +1052,7 @@ class Component extends DCLogic {
         const st = r.vote[i];
         return {
           name: this.nm(i), style: this.ROW(st || ""), markStyle: this.MARK(st || ""),
+          chip: this.CHIP(i, { lift: 2, pad: "6px 14px", font: "700 16px Comfortaa,sans-serif" }),
           mark: st === "pro" ? "ΥΠΕΡ" : st === "con" ? "ΚΑΤΑ" : "—",
           on: () => { r.vote[i] = st === "pro" ? "con" : st === "con" ? undefined : "pro"; this.u(); }
         };
@@ -929,6 +1063,8 @@ class Component extends DCLogic {
       /* ---- επιλογη μονομαχων */
       const mk = (list, sel, key) => list.map(i => ({
         name: this.nm(i),
+        chip: this.CHIP(i, { lift: 2, pad: "6px 14px", font: "700 16px Comfortaa,sans-serif",
+          dim: sel !== i }),
         style: this.ROW(sel === i ? key : "off"),
         markStyle: this.MARK(sel === i ? key : ""),
         mark: sel === i ? "ΠΑΙΖΕΙ" : "ενορκος",
@@ -944,6 +1080,8 @@ class Component extends DCLogic {
       const who = r.asking === "a" ? r.a : r.b;
       const left = who == null ? 0 : this.P(who).chickens;
       v.chickenName = who == null ? "" : this.nm(who);
+      v.chickenChip = this.CHIP(who, { pad: "11px 24px", radius: "20px", dash: 5, lift: 6,
+        font: "700 28px Comfortaa,sans-serif" });
       v.chickenSide = r.asking === "a" ? "Πλευρα: υπερ" : "Πλευρα: κατα";
       v.chickenLeft = left;
       v.noChickens = left <= 0;
@@ -980,6 +1118,8 @@ class Component extends DCLogic {
         return {
           who: o.side === "pro" ? "Υπερ" : "Κατα",
           name: this.nm(o.p),
+          chip: this.CHIP(o.p, { lift: 3, pad: "6px 14px",
+            font: "700 " + (on ? "17px" : "14px") + " Comfortaa,sans-serif" }),
           time: this.mmss(r.times[k]),
           style: "padding:14px;border-radius:18px;border:3px solid #0b0203;text-align:left;" +
             (on
@@ -1001,6 +1141,9 @@ class Component extends DCLogic {
       const jurors = this.alive().filter(i => i !== S.judge && i !== r.a && i !== r.b).length;
       v.juryText = jurors ? "Οι ενορκοι αποφασιζουν" : "Ο δικαστης αποφασιζει";
       v.aName = this.nm(r.a); v.bName = this.nm(r.b);
+      const duelBtn = i => this.CHIP(i, { block: true, pad: "18px 16px", radius: "20px", dash: 5,
+        lift: 7, font: "700 22px Comfortaa,sans-serif", extra: "cursor:pointer" });
+      v.aBtn = duelBtn(r.a); v.bBtn = duelBtn(r.b);
       const decide = key => () => {
         const w = key === "a" ? r.a : r.b, l = key === "a" ? r.b : r.a;
         if (S.golden) {
@@ -1029,12 +1172,11 @@ class Component extends DCLogic {
 
     /* ---- αποβολη */
     v.outName = S.lastOut == null ? "" : this.nm(S.lastOut);
-    v.outPills = S.players.map(p => ({
+    v.outChip = this.CHIP(S.lastOut, { pad: "12px 26px", radius: "22px", dash: 5, lift: 6,
+      font: "700 30px Comfortaa,sans-serif" });
+    v.outPills = S.players.map((p, i) => ({
       name: p.name,
-      style: "padding:6px 13px;border-radius:999px;border:3px solid #0b0203;font:700 14px Comfortaa,sans-serif;box-shadow:0 3px 0 rgba(0,0,0,.45);" +
-        (p.alive
-          ? "background:linear-gradient(#12864d,#0b5731);color:#fff6e2"
-          : "background:linear-gradient(#3b0d12,#280709);color:rgba(255,246,226,.4);text-decoration:line-through")
+      style: this.CHIP(i, { lift: 3, dim: !p.alive })
     }));
 
     /* ---- χαλκινη / χρυση */
@@ -1052,6 +1194,15 @@ class Component extends DCLogic {
     v.duelTitleStyle = "margin:0 0 10px;font:700 30px/1.1 Comfortaa,sans-serif;color:" + (gold ? "#ffe083" : "#f0c9b2") +
       ";text-shadow:0 3px 0 rgba(0,0,0,.5)" + (gold ? ",0 0 26px rgba(255,199,44,.45)" : "");
     v.dA = d ? this.nm(d.a) : ""; v.dB = d ? this.nm(d.b) : ""; v.dJudge = d ? this.nm(d.judge) : "";
+    const duelChip = i => this.CHIP(i, { lift: 4, pad: "9px 18px",
+      font: "700 19px Comfortaa,sans-serif" });
+    v.dAChip = duelChip(d ? d.a : null); v.dBChip = duelChip(d ? d.b : null);
+    v.dJudgeChip = this.CHIP(d ? d.judge : null, { lift: 2, pad: "5px 12px",
+      font: "700 13px Comfortaa,sans-serif" });
+    v.dAMini = this.CHIP(d ? d.a : null, { lift: 0, dash: 3, pad: "4px 10px",
+      font: "700 11px Comfortaa,sans-serif" });
+    v.dBMini = this.CHIP(d ? d.b : null, { lift: 0, dash: 3, pad: "4px 10px",
+      font: "700 11px Comfortaa,sans-serif" });
     v.dWinsA = gold ? (S.golden.wins[S.golden.a] || 0) : 0;
     v.dWinsB = gold ? (S.golden.wins[S.golden.b] || 0) : 0;
     v.duelGo = () => {
@@ -1065,8 +1216,13 @@ class Component extends DCLogic {
 
     /* ---- νικητης */
     v.champName = S.champion == null ? "" : this.nm(S.champion);
+    v.champChip = this.CHIP(S.champion, { pad: "14px 28px", radius: "24px", dash: 6, lift: 7,
+      font: "700 34px Comfortaa,sans-serif",
+      glow: "0 0 34px rgba(255,199,44,.55)",
+      extra: "animation:pop .5s cubic-bezier(.2,1.5,.4,1) both" });
     const li = S.players.findIndex(p => p.liar);
     v.showLiar = S.liarOn && li >= 0;
+    v.liarChip = this.CHIP(li, { lift: 4, pad: "9px 20px", font: "700 22px Comfortaa,sans-serif" });
     v.liarWasName = li >= 0 ? this.nm(li) : "";
 
     return v;
