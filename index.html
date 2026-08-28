@@ -677,8 +677,14 @@ V.theEnd = () => {
     const team = r.winner === "pro" ? r.pro : r.winner === "con" ? r.con : null;
     if (team) team.forEach(n => { wins[n] = (wins[n] || 0) + 1; });
   });
+  const top = Math.max(0, ...S.players.map(n => wins[n]||0));
+  const champs = S.players.filter(n => (wins[n]||0) === top);
+  /* Νικητης βγαινει μονο αν ειναι ενας. Αν ισοβαθμουν στην κορυφη,
+     η δικη δεν βγαζει νικητη — το τραπεζι τα λεει οπως τα λεει. */
+  const solo = champs.length === 1 ? champs[0] : null;
+
   const board = S.players.slice().sort((a,b) => (wins[b]||0) - (wins[a]||0)).map(n => `
-    <div class="t ${wins[n] ? "pro" : ""}">
+    <div class="t ${solo === n ? "pro" : ""}">
       <span>${esc(n)}</span>
       <em>${wins[n]||0} ${wins[n]===1?"νικη":"νικες"}</em>
     </div>`).join("");
@@ -686,7 +692,12 @@ V.theEnd = () => {
   return `
     <p class="eyebrow">Ο φακελος κλεινει</p>
     <div class="stamp">Εληξε</div>
-    <h2 style="margin-top:24px">${S.roundsDone} γυροι, ${mine.length} ${mine.length===1?"πρακτικο":"πρακτικα"}</h2>
+    ${solo
+      ? `<h1 style="margin-top:24px">${esc(solo)}</h1>
+         <p class="lede">Νικητης της δικης με ${top} ${top===1?"νικη":"νικες"}.</p>`
+      : `<h2 style="margin-top:24px">Τι ειπατε ρε μαλακες καν;</h2>
+         <p class="lede">Ισοπαλια στην κορυφη. Δεν βγαινει νικητης.</p>`}
+    <p class="mini">${S.roundsDone} γυροι &middot; ${mine.length} ${mine.length===1?"πρακτικο":"πρακτικα"}</p>
     <div class="tally" style="margin-top:14px">${board}</div>
     <div class="fill"></div>
     ${ibtn("praktika.png",'data-records="theEnd"',"endbtn")}
@@ -973,7 +984,9 @@ function pickOpinion(){
 }
 
 function startRound(){
-  if (!S.opinions.length){ S.screen = "empty"; return; }
+  /* Οταν παιχτει και η τελευταια αποψη — «η κοντρα... και οπου
+     βγει» — η δικη απλα ληγει και βγαινει ο απολογισμος.        */
+  if (!S.opinions.length){ S.screen = "theEnd"; return; }
   const op = pickOpinion();
   op.used = (op.used || 0) + 1;
   S.round = { op, vote:{}, mode:1, proSel:[], conSel:[],
@@ -994,7 +1007,7 @@ function playAgain(){
   S.recordStart = S.records.length;
   if (!S.players.length) return go("count");
   nextJudge();
-  if (!S.opinions.length){ S.screen = "empty"; return render(); }
+  if (!S.opinions.length){ S.screen = "theEnd"; return render(); }
   startRound();
   render();
 }
@@ -1232,7 +1245,7 @@ app.addEventListener("click", e => {
     fileRecord();
     if (d.arch === "1"){
       S.opinions = S.opinions.filter(o => o.id !== S.round.op.id);
-      return go(S.opinions.length ? "refill" : "empty");
+      return go(S.opinions.length ? "refill" : "theEnd");
     }
     nextJudge(); startRound(); return render();
   }
@@ -1241,7 +1254,7 @@ app.addEventListener("click", e => {
   if (d.skiprefill){
     stopTimer();
     nextJudge();
-    if (!S.opinions.length){ S.screen = "empty"; return render(); }
+    if (!S.opinions.length){ S.screen = "theEnd"; return render(); }
     startRound();
     return render();
   }
