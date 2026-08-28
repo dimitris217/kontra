@@ -701,7 +701,7 @@ V.theEnd = () => {
     <div class="tally" style="margin-top:14px">${board}</div>
     <div class="fill"></div>
     ${ibtn("praktika.png",'data-records="theEnd"',"endbtn")}
-    ${ibtn("skotwtheite.png",'data-again="1"')}`;
+    ${ibtn("liji.png",'data-home="1"')}`;
 };
 
 /* ΟΘΟΝΗ: κλείστε τα μάτια ----------------------------------- */
@@ -1119,9 +1119,19 @@ function syncSubmit(){
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill]");
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill]");
   if (!t || t.disabled) return;
   const d = t.dataset;
+
+  /* ληξη: πισω στην αρχικη οθονη, καθαρο τραπεζι */
+  if (d.home){
+    stopTimer();
+    S.players = []; S.opinions = []; S.nextId = 1; S.peakOps = 0;
+    S.round = null; S.phase = "setup"; S.roundsDone = 0;
+    S.recordStart = S.records.length;
+    S.judge = 0; S.mine = 0;
+    return go("count");
+  }
 
   /* καλωσορισμα: παιζει μια φορα και δεν ξαναφαινεται */
   if (d.first !== undefined){
@@ -1212,7 +1222,15 @@ app.addEventListener("click", e => {
   if (d.unanimous){ return go("archive"); }
 
   /* επιλογή mode -> οθόνη επιλογής μονομάχων */
-  if (d.mode){ prepareSelection(+d.mode); return go("select"); }
+  if (d.mode){
+    const m = +d.mode;
+    prepareSelection(m);
+    const r = S.round;
+    if (r.proSel.length === m && r.conSel.length === m){
+      buildOrder(); go("contra"); return runTimer();
+    }
+    return go("select");
+  }
 
   /* επιλογή μονομάχων: τσεκ / ξετσεκ, με όριο τον αριθμό του mode */
   if (d.pick){

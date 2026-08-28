@@ -1118,7 +1118,15 @@ class Component extends DCLogic {
         };
       });
       v.unanimousGo = () => { this.nextDuel(); this.u(); };
-      v.toSelect = () => this.go("select");
+      /* Ενας υπερ κι ενας κατα: δεν υπαρχει τιποτα να διαλεξει
+         ο δικαστης — παμε κατευθειαν στην κοτα και στην κοντρα. */
+      v.toSelect = () => {
+        if (pro.length === 1 && con.length === 1) {
+          r.a = pro[0]; r.b = con[0];
+          return this.go("chicken");
+        }
+        this.go("select");
+      };
 
       /* ---- επιλογη μονομαχων */
       const mk = (list, sel, key) => list.map(i => ({
