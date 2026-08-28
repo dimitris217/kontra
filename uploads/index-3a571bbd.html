@@ -2,9 +2,9 @@
 <html lang="el">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#633008">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>ΚΟΝΤΡΑ</title>
@@ -144,8 +144,9 @@ body{background:#000;color:var(--bone);font-family:var(--body);
    Η inset σκιά ακολουθεί μόνη της τη στρογγυλή γωνία.        */
 #app{position:relative;max-width:520px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;
   background:var(--ink);text-align:center;
-  border:11px solid #000;border-radius:28px;
-  padding:calc(env(safe-area-inset-top) + 22px) 20px calc(env(safe-area-inset-bottom) + 22px)}
+  border-radius:28px;
+  box-shadow:inset 0 0 0 11px #000;
+  padding:calc(env(safe-area-inset-top) + 26px) 24px calc(env(safe-area-inset-bottom) + 26px)}
 .fill{flex:1}
 .row{display:flex;gap:10px;align-items:flex-end}
 .row .btn{flex:1}
@@ -292,7 +293,7 @@ details.notes textarea{min-height:0;border:none;background:none}
 /* οθόνη «κλείστε τα μάτια» */
 .dark{background:#000;position:fixed;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;padding:34px;text-align:center;z-index:9;
-  border:11px solid #000;border-radius:28px}
+  border-radius:28px;box-shadow:inset 0 0 0 11px #000}
 .dark p{font-family:var(--display);font-weight:700;font-size:32px;color:var(--bone);
   text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000;
   margin:0 0 34px;line-height:1.25}
@@ -321,14 +322,6 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 /* το textarea μεγαλωνει μονο του οσο γραφεις — τιποτα δεν κρυβεται */
 .field textarea{min-height:120px;overflow:hidden;height:auto}
 .field input{text-overflow:ellipsis}
-/* το λογοτυπο στις οθονες καλωσορισματος — μικρο, πανω πανω */
-.art.logo{width:52%;margin:0 auto 2px}
-
-/* κοκκινη προειδοποιηση στην εδρα: ποσες αποψεις εμειναν */
-.warn{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.3;
-  color:var(--blood);margin:14px 0 0;
-  text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000}
-
 /* το κρυφο 7αρι μεσα στους κανονες */
 .seven{width:54px;margin:18px auto 0;opacity:.34}
 .seven:active{opacity:1;transform:scale(1.1)}
@@ -353,9 +346,7 @@ const CFG = {
   MAX_NAME: 14,
   MAX_OPINION: 240,
   MIN_ROUNDS_TO_END: 3,            // απο ποσους γυρους και μετα ο δικαστης μπορει να ληξει
-  LOW_DECK: 3,                     // απο ποσες αποψεις και κατω βγαινει η κοκκινη προειδοποιηση
-  STORE_KEY: "kontra.praktika.v1",
-  SEEN_KEY: "kontra.seen.v1"       // αν εχει ξαναμπει ο χρηστης (καλωσορισμα μια φορα)
+  STORE_KEY: "kontra.praktika.v1"
 };
 
 /* φάκελος και ονόματα των ζωγραφιών σου */
@@ -384,17 +375,9 @@ const Store = (() => {
   };
 })();
 
-/* θυμαται αν εχει ξαναμπει ο χρηστης — το καλωσορισμα παιζει μια φορα.
-   Για να το ξαναδεις: σβησε το κλειδι απο τον browser, ή αλλαξε το SEEN_KEY. */
-const Seen = {
-  get(){ try { return localStorage.getItem(CFG.SEEN_KEY) === "1"; } catch(e){ return false; } },
-  set(){ try { localStorage.setItem(CFG.SEEN_KEY, "1"); } catch(e){} }
-};
-
 /* === [10] ΚΑΤΑΣΤΑΣΗ ΠΑΙΧΝΙΔΙΟΥ ============================= */
 const S = {
-  screen: Seen.get() ? "count" : "welcome",
-  msg: null,         // το κειμενο της οθονης-απαντησης στο καλωσορισμα
+  screen: "count",
   playerCount: CFG.DEFAULT_PLAYERS,
   players: [],       // γεμίζει καθώς συστήνονται, ένας ένας
   penalty: CFG.DEFAULT_PENALTY,
@@ -402,7 +385,6 @@ const S = {
 
   opinions: [],      // [{id, text}] — ΧΩΡΙΣ σύνδεση με παίκτη
   nextId: 1,
-  peakOps: 0,        // ποσες αποψεις ειχε το πολυ ο φακελος (για την προειδοποιηση)
   mine: 0,           // πόσες έγραψε ο τωρινός παίκτης στη σύσταση
 
   judge: -1,
@@ -470,7 +452,7 @@ const pm = (sign, attr) => `
   <button class="pm" ${attr}>
     <svg viewBox="0 0 100 100" aria-hidden="true">
       <path d="M50 6 C74 4 96 25 95 50 C96 75 74 96 50 95 C26 96 5 74 6 50 C5 25 26 7 50 6 Z"
-            fill="#3F4A52" stroke="#000" stroke-width="11" stroke-linejoin="round"/>
+            fill="#732803" stroke="#000" stroke-width="11" stroke-linejoin="round"/>
       <g stroke="#fff" stroke-width="19" stroke-linecap="round">
         <line x1="28" y1="50" x2="72" y2="50"/>
         ${sign === "+" ? '<line x1="50" y1="28" x2="50" y2="72"/>' : ""}
@@ -484,42 +466,6 @@ const pm = (sign, attr) => `
 
 /* === [11] ΟΘΟΝΕΣ =========================================== */
 const V = {};
-
-/* ΟΘΟΝΗ: καλωσορισμα — παιζει ΜΟΝΟ την πρωτη φορα ------------
-   Ιδιο φοντο, ιδια κορνιζα, το λογοτυπο μικρο στην κορυφη.
-   Τα κουμπια εδω ειναι κειμενο (δεν υπαρχει ζωγραφια για ΝΑΙ/ΟΧΙ),
-   αλλα κρατανε το ιδιο σχημα και την ιδια στοιχηση με τα υπολοιπα. */
-V.welcome = () => `
-  ${art("kontra.png","logo")}
-  <div class="fill"></div>
-  <h1>Καλωσηρθες στην Κοντρα!</h1>
-  <p class="lede">Ειναι η πρωτη φορα που παιζεις;</p>
-  <button class="btn box" data-first="1">Ναι</button>
-  <button class="btn box" data-first="0">Οχι</button>
-  <div class="fill"></div>`;
-
-/* ΟΘΟΝΗ: η ερωτηση εισοδου ---------------------------------- */
-V.breakfast = () => `
-  ${art("kontra.png","logo")}
-  <div class="fill"></div>
-  <p class="lede">Πρωτη φορα ε; Παντα η πιο δυσκολη... και αβολη...</p>
-  <h2>Πριν παιξεις οφειλεις να μου απαντησεις σε μια ερωτηση.</h2>
-  <div class="card">Αν δεν ετρωγες πρωινο σημερα, πως θα ενιωθες;</div>
-  <button class="btn box" data-bfast="kala">Καλα</button>
-  <button class="btn box" data-bfast="asxima">Ασχημα</button>
-  <button class="btn box" data-bfast="idk">Δεν ξερω</button>
-  <button class="btn box" data-bfast="idk2">Δεν γνωριζω</button>
-  <div class="fill"></div>`;
-
-/* ΟΘΟΝΗ: η απαντηση του παιχνιδιου -------------------------- */
-V.msg = () => `
-  ${art("kontra.png","logo")}
-  <div class="fill"></div>
-  <h2>${S.msg ? S.msg.title : ""}</h2>
-  <div class="card">${S.msg ? S.msg.body : ""}</div>
-  ${S.msg && S.msg.warn ? `<p class="warn">${S.msg.warn}</p>` : ""}
-  <div class="fill"></div>
-  <button class="btn box" data-seen="1">Στο τραπεζι</button>`;
 
 /* ΟΘΟΝΗ: ρυθμίσεις εκκίνησης -------------------------------- */
 V.count = () => {
@@ -651,7 +597,6 @@ V.round = () => {
   <p class="eyebrow">Η εδρα &middot; <b>${S.opinions.length} στη δικογραφια</b> &middot; γυρος ${S.roundsDone + 1}</p>
   <h1 style="font-size:32px">${esc(nameOf(S.judge))}</h1>
   <p class="lede">Παρε το κινητο. Εισαι υπευθυνος για την ροη των ομιλιων της κοντρας.</p>
-  ${lowDeck()}
   <div class="fill"></div>
   ${ibtn("etoimoi.png",'data-go="eyes"')}
   ${canEnd ? `<p class="mini">Παιχτηκαν ${S.roundsDone} γυροι &middot; μπορεις να ληξεις τη δικη<br>απο το κουμπι στην κορυφη</p>` : ""}`;
@@ -663,7 +608,6 @@ V.finishAsk = () => `
   <h2>Να ληξει η δικη;</h2>
   <p class="lede">Παιχτηκαν ${S.roundsDone} γυροι. Αν ληξει, κλεινει ο φακελος και βγαινει ο απολογισμος.</p>
   <div class="card">Μενουν ${S.opinions.length} ${S.opinions.length===1?"αποψη":"αποψεις"} στη δικογραφια</div>
-  ${lowDeck()}
   <div class="fill"></div>
   ${ibtn("liji.png",'data-end="1"')}
   ${ibtn("akyro.png",'data-go="round"')}`;
@@ -860,7 +804,6 @@ V.archive = () => `
   <h2>Εληξε η κουβεντα;</h2>
   <p class="lede">Αν την καψεις, βγαινει απο τη δικογραφια και καποιος γραφει καινουρια στη θεση της.</p>
   <div class="card">${esc(S.round.op.text)}</div>
-  ${lowDeck()}
   <details class="notes" ${S.round.notes ? "open" : ""}>
     <summary>Σημειωσεις δικαστη</summary>
     ${notesField(S.round.notes)}
@@ -874,12 +817,9 @@ V.refill = () => `
   <p class="eyebrow">Καινουρια αποψη</p>
   <div class="stamp small">Καηκε</div>
   <h2 style="margin-top:24px">Δωσε το κινητο</h2>
-  <p class="lede">Μια αποψη εφυγε. Καποιος γραφει καινουρια στη θεση της — ή συνεχιζετε με οσες εμειναν.</p>
-  ${lowDeck()}
+  <p class="lede">Μια αποψη εφυγε. Καποιος γραφει καινουρια στη θεση της.</p>
   <div class="fill"></div>
-  ${ibtn("dinworko.png",'data-extra="round"')}
-  ${ibtn("epomenos.png",'data-skiprefill="1"')}
-  <p class="mini">Χωρις καινουρια αποψη, ο φακελος μικραινει</p>`;
+  ${ibtn("dinworko.png",'data-extra="round"')}`;
 
 /* ΟΘΟΝΗ: άδειος φάκελος ------------------------------------- */
 V.empty = () => `
@@ -915,6 +855,11 @@ V.records = () => {
     <p class="eyebrow">Πρακτικά &middot; <b>${S.records.length}</b>${Store.persistent?"":" &middot; προσωρινά"}</p>
     <h2>Το αρχειο</h2>
     ${list}
+    <hr>
+    <div class="row">
+      <button class="btn ghost" data-export="1">Εξαγωγη</button>
+      <button class="btn ghost" data-clear="1">Σβησιμο</button>
+    </div>
     <div class="fill"></div>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 };
@@ -939,19 +884,6 @@ function sideOf(side){
 /* wave 0 = απο τη συσταση, wave 1 = μπηκε αργοτερα (ανωνυμη, αναπληρωση) */
 function addOpinion(text){
   S.opinions.push({ id: S.nextId++, text: text, wave: S.phase === "setup" ? 0 : 1, used: 0 });
-  if (S.opinions.length > S.peakOps) S.peakOps = S.opinions.length;
-}
-
-/* Οταν ο φακελος αδειαζει, ο δικαστης το βλεπει με κοκκινα.
-   ΔΕΝ βγαινει αν το τραπεζι ξεκινησε ετσι κι αλλιως με 3 αποψεις —
-   βγαινει μονο οταν εχουν καει και εχουν μεινει λιγες.
-   Στην τελευταια: «η κοντρα... και οπου βγει».                 */
-function lowDeck(){
-  if (S.phase !== "play") return "";
-  const n = S.opinions.length;
-  if (n > CFG.LOW_DECK || S.peakOps <= CFG.LOW_DECK) return "";
-  if (n <= 1) return `<p class="warn">Τελευταια αποψη &middot;<br>η κοντρα... και οπου βγει</p>`;
-  return `<p class="warn">Μενουν ${n} αποψεις</p>`;
 }
 
 function beginGame(){
@@ -1106,37 +1038,9 @@ function syncSubmit(){
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill]");
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-rules],[data-seven]");
   if (!t || t.disabled) return;
   const d = t.dataset;
-
-  /* καλωσορισμα: παιζει μια φορα και δεν ξαναφαινεται */
-  if (d.first !== undefined){
-    if (d.first === "1") return go("breakfast");
-    S.msg = {
-      title: "Α, βετερανος.",
-      body: "Τοτε το ξερεις: δεν υπαρχει σωστη και λαθος αποψη, μονο σωστη και λαθος τεκμηριωση.",
-      warn: "Σας παρακαλουμε, μην παιρνετε τιποτα προσωπικα..."
-    };
-    return go("msg");
-  }
-  if (d.bfast){
-    if (d.bfast === "kala") S.msg = {
-      title: "Καλα, ε;",
-      body: "Οποιος αντεχει νηστικος, αντεχει και κοντρα. Καθισε."
-    };
-    else if (d.bfast === "asxima") S.msg = {
-      title: "Ασχημα, ε;",
-      body: "Τιμια απαντηση. Το τραπεζι σεβεται τους ειλικρινεις — μεχρι να διαφωνησει μαζι τους."
-    };
-    else S.msg = {
-      title: "Δεν ξερεις;",
-      body: "Καποιος που δεν εχει αποψη ουτε για το πρωινο του, εδω θα βρει μπελα. Καλως ηρθες.",
-      warn: "Σας παρακαλουμε, μην παιρνετε τιποτα προσωπικα..."
-    };
-    return go("msg");
-  }
-  if (d.seen){ Seen.set(); return go("count"); }
 
   /* κανονες: κρata πού ήμασταν, για να γυρίσουμε εκεί */
   if (d.rules){
@@ -1237,15 +1141,6 @@ app.addEventListener("click", e => {
     nextJudge(); startRound(); return render();
   }
 
-  /* καηκε η αποψη και δεν μπαινει καινουρια: συνεχιζουμε με οσες εμειναν */
-  if (d.skiprefill){
-    stopTimer();
-    nextJudge();
-    if (!S.opinions.length){ S.screen = "empty"; return render(); }
-    startRound();
-    return render();
-  }
-
   /* ληξη της δικης — μονο απο τον 3ο γυρο και μετα */
   if (d.finish){
     if (S.roundsDone < CFG.MIN_ROUNDS_TO_END) return;
@@ -1297,8 +1192,6 @@ app.addEventListener("input", e => {
       else if (S.screen === "records") go(S.back);
       else if (S.screen === "export")  go("records");
       else if (S.screen === "extra")   go(S.extraFrom);
-      else if (S.screen === "breakfast") go("welcome");
-      else if (S.screen === "msg")      go("welcome");
     });
   } catch(e){}
 
