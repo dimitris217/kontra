@@ -107,9 +107,9 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="margin-top:8px;font:400 15px Comfortaa,sans-serif;letter-spacing:.5em;color:#ffc72c"><span style="color:#fff6e2">&spades;</span> <span style="color:#ff8b7d">&hearts;</span> <span style="color:#ff8b7d">&diams;</span> <span style="color:#fff6e2">&clubs;</span></div>
 </div>
 
-<div style="position:relative;height:126px;margin:10px 0 4px;border:3px dashed rgba(255,199,44,.5);border-radius:18px;background-image:repeating-linear-gradient(135deg,rgba(255,246,226,.09) 0 8px,rgba(255,246,226,0) 8px 16px);display:flex;align-items:center;justify-content:center">
-<div style="font:400 9px/1.9 ui-monospace,Menlo,monospace;letter-spacing:.14em;color:#ffd98a">img/grigora-mascot.png<br>Ο ΚΡΟΥΠΙΕΡΗΣ ΜΠΑΙΝΕΙ ΕΔΩ</div>
-</div>
+<div style="flex:none;position:relative;height:150px;margin:8px 0 2px;display:flex;align-items:flex-end;justify-content:center">
+<div style="position:absolute;bottom:6px;width:190px;height:110px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,199,44,.28),rgba(255,199,44,0))"></div>
+<img src="img/mascot-hero.png" alt="Ο κρουπιερης" style="position:relative;height:150px;width:auto;filter:drop-shadow(0 8px 0 rgba(0,0,0,.35))"></div>
 
 <p style="margin:2px 0 4px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Ετοιμες αποψεις. Κρυφοι ρολοι.<br>Ενας φευγει απο το τραπεζι καθε γυρο.</p>
 
@@ -135,12 +135,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <button style="{{ liarOffStyle }}" onClick="{{ liarOff }}">Εκτος</button>
 </div>
 
-<div style="flex:none;margin:18px 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Το φιναλε</div>
-<div style="flex:none;display:flex;gap:8px">
-<button style="{{ vegasOffStyle }}" onClick="{{ vegasOff }}">Last call</button>
-<button style="{{ vegasOnStyle }}" onClick="{{ vegasOn }}">VEGAS</button>
-</div>
-<p style="flex:none;margin:8px 0 0;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.5)">{{ finaleNote }}</p>
+
 
 <div style="flex:1;min-height:14px"></div>
 <button style="display:block;width:100%;margin-top:12px;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 24px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 7px 0 #9c6c05,0 12px 22px rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.55);letter-spacing:.02em" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 0 0 #9c6c05" onClick="{{ start }}">ΜΟΙΡΑΣΕ!</button>
@@ -158,7 +153,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Ο γυρος</h3>
 <p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Καθε γυρος εχει τοσες κοντρες οσοι και οι παιχτες. Ο δικαστης αλλαζει καθε φορα: μοιραζει μια ετοιμη αποψη, ολοι σηκωνουν χερι υπερ ή κατα, και διαλεγει <b style="color:#fff6e2">δυο</b> να μονομαχησουν — ενα απο καθε πλευρα.</p>
 <h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Η κοτα</h3>
-<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Καθενας εχει <b style="color:#fff6e2">{{ chickens }} μαρκες κοτας</b> για ολο το παιχνιδι. Πριν απο καθε κοντρα το τραπεζι ρωταει τους δυο μονομαχους: οποιος την καιει, πατα το ονομα του και ο αντιπαλος παιρνει τον ποντο χωρις να μιλησει κανεις. Οταν τελειωσουν οι μαρκες, παιζεις.</p>
+<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Καθενας εχει <b style="color:#fff6e2">{{ chickens }}</b> για ολο το παιχνιδι. Πριν απο καθε κοντρα το τραπεζι ρωταει τους δυο μονομαχους: οποιος την καιει, πατα το ονομα του και ο αντιπαλος παιρνει τον ποντο χωρις να μιλησει κανεις. Οταν τελειωσουν οι μαρκες, παιζεις.</p>
 <h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Η αποβολη</h3>
 <p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Οι ποντοι <b style="color:#fff6e2">δεν φανερωνονται ποτε</b>. Στο τελος του γυρου φευγει αυτος με τους λιγοτερους. Αν ισοβαθμουν δυο, παιζουν <b style="color:#fff6e2">χαλκινη κοντρα</b> με δικαστη τον <b style="color:#fff6e2">τριτο απο τον πατο</b> — κι αν ολοι απο πανω εχουν τους ιδιους ποντους, ο δικαστης βγαινει στην τυχη. Αν ισοβαθμουν τρεις ή παραπανω δεν βγαινει συμπερασμα: <b style="color:#fff6e2">παιζουν ολοι μεταξυ τους</b>, καθε κοντρα σωζει τον νικητη της, μεχρι να μεινουν δυο για τη χαλκινη. Κανεις δεν δικαζει κοντρα που παιζει ο ιδιος.</p>
 <h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Το τελος</h3>
@@ -241,8 +236,8 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atRoundStart }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <p style="margin:0 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Γυρος {{ roundNo }} &middot; <b style="color:#fff6e2">{{ duelTotal }} κοντρες</b></p>
-<div style="margin:12px auto 0;width:86px;height:86px;border-radius:50%;border:4px dashed rgba(255,199,44,.5);display:flex;align-items:center;justify-content:center;background-image:repeating-linear-gradient(135deg,rgba(255,246,226,.09) 0 7px,rgba(255,246,226,0) 7px 14px)">
-<span style="font:400 8px/1.6 ui-monospace,Menlo,monospace;color:#ffd98a">dealer<br>.png</span>
+<div style="flex:none;margin:12px auto 0;width:96px;height:96px;border-radius:50%;overflow:hidden;border:4px solid #0b0203;background:linear-gradient(#7b1620,#4a0c12);box-shadow:inset 0 0 0 3px rgba(255,199,44,.4),0 6px 0 rgba(0,0,0,.45);position:relative">
+<img src="img/mascot-head.png" alt="" style="position:absolute;left:50%;top:50%;width:106px;transform:translate(-50%,-48%)">
 </div>
 <div style="flex:none;margin:16px 0 8px;display:flex;justify-content:center">
 <span style="{{ judgeChip }}">{{ judgeName }}</span>
@@ -438,7 +433,10 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atOut }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Αποβολη</p>
-<div style="margin:22px auto 4px;padding:10px 26px;border:5px double #ff6a5a;border-radius:10px;transform:rotate(-6deg);animation:pop .4s cubic-bezier(.2,1.5,.4,1) both">
+<div style="flex:none;margin:14px auto 0;width:150px;height:104px;border-radius:16px;overflow:hidden;border:4px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5)">
+<img src="img/mascot-out.png" alt="" style="width:100%;height:100%;object-fit:cover">
+</div>
+<div style="flex:none;margin:18px auto 4px;padding:10px 26px;border:5px double #ff6a5a;border-radius:10px;transform:rotate(-6deg);animation:pop .4s cubic-bezier(.2,1.5,.4,1) both">
 <span style="font:400 22px/1 'Press Start 2P',monospace;color:#ff6a5a;text-shadow:0 0 18px rgba(255,80,60,.6)">EXO</span>
 </div>
 <div style="flex:none;margin:26px 0 8px;display:flex;justify-content:center">
@@ -461,7 +459,9 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atReplay }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
 <p style="margin:0 0 16px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Ισοπαλια στον πατο &middot; <b style="color:#fff6e2">{{ tieCount }} ισοβαθμοι</b></p>
-<div style="margin:0 auto 18px;width:96px;height:96px;border-radius:50%;border:5px solid rgba(255,199,44,.55);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 22px rgba(255,199,44,.25);font:700 34px Comfortaa,sans-serif;color:#ffc72c">&clubs;</div>
+<div style="flex:none;margin:0 auto 18px;width:150px;height:100px;border-radius:16px;overflow:hidden;border:4px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5)">
+<img src="img/mascot-shrug.png" alt="" style="width:100%;height:100%;object-fit:cover">
+</div>
 <h2 style="margin:0 0 10px;font:700 26px/1.18 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Παιζουν ολοι<br>μεχρι να μεινουν δυο</h2>
 <p style="margin:0 0 16px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Καθε κοντρα σωζει τον νικητη της. Οποιοι μεινουν τελευταιοι δυο παιζουν τη χαλκινη κοντρα για την παραμονη.</p>
 <div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:18px">
@@ -556,6 +556,29 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<sc-if value="{{ atAskVegas }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
+<p style="flex:none;margin:0 0 12px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Μεινατε δυο</p>
+<div style="flex:none;margin:0 auto 16px;width:150px;height:112px;border-radius:16px;overflow:hidden;border:4px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5)">
+<img src="img/mascot-boss.png" alt="" style="width:100%;height:100%;object-fit:cover">
+</div>
+<h2 style="flex:none;margin:0 0 8px;font:700 26px/1.18 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Το παιζετε καζινο;</h2>
+<div style="flex:none;margin:0 0 16px;display:flex;align-items:center;justify-content:center;gap:12px">
+<span style="{{ fAChip }}">{{ fA }}</span>
+<span style="font:400 11px 'Press Start 2P',monospace;color:#ffc72c">VS</span>
+<span style="{{ fBChip }}">{{ fB }}</span>
+</div>
+<button style="flex:none;display:block;width:100%;padding:22px 16px 20px;border:4px solid #0b0203;border-radius:22px;cursor:pointer;background:linear-gradient(#e8564a,#a4172c);box-shadow:inset 0 0 0 3px #ffc72c,inset 0 4px 0 rgba(255,255,255,.28),0 9px 0 #5c0a17,0 16px 26px rgba(0,0,0,.5)" style-active="transform:translateY(9px);box-shadow:inset 0 0 0 3px #ffc72c,inset 0 4px 0 rgba(255,255,255,.28),0 0 0 #5c0a17" onClick="{{ vegasYes }}">
+<span style="display:block;font:400 9px/1.6 'Press Start 2P',monospace;color:#ffe083;letter-spacing:.1em">WELCOME TO</span>
+<span style="display:block;margin-top:6px;font:400 30px/1.1 'Press Start 2P',monospace;color:#fff6e2;text-shadow:0 3px 0 #5c0a17,0 0 22px rgba(255,199,44,.75)">VEGAS</span>
+<span style="display:block;margin-top:8px;font:700 12px Comfortaa,sans-serif;color:#ffd98a;letter-spacing:.16em;text-transform:uppercase">Με chips και στοιχηματα</span>
+</button>
+<div style="flex:none;height:0"></div>
+<button style="flex:none;display:block;width:100%;margin-top:12px;padding:15px 16px;border:3px solid #0b0203;border-radius:16px;font:700 18px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#7a6259,#4c3a33);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 6px 0 #241b17;text-shadow:0 2px 0 rgba(0,0,0,.4)" style-active="transform:translateY(6px);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 0 0 #241b17" onClick="{{ vegasNo }}">Οχι — last call</button>
+<p style="flex:none;margin:11px 0 0;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.5)">LAST CALL: ΜΙΑ ΚΟΝΤΡΑ, ΤΑ ΠΑΙΡΝΕΙ ΟΛΑ</p>
+</div>
+</sc-if>
+
 <sc-if value="{{ atFinale }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
 <p style="flex:none;margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">{{ finaleEyebrow }}</p>
@@ -624,7 +647,10 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 
 <sc-if value="{{ atWinner }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
-<p style="margin:0 0 16px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Εσπασε η μπανκα</p>
+<p style="margin:0 0 12px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Εσπασε η μπανκα</p>
+<div style="flex:none;margin:0 auto 16px;width:160px;height:106px;border-radius:16px;overflow:hidden;border:4px solid #0b0203;box-shadow:inset 0 0 0 3px rgba(255,199,44,.5),0 7px 0 rgba(0,0,0,.5)">
+<img src="img/mascot-win.png" alt="" style="width:100%;height:100%;object-fit:cover">
+</div>
 <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px">
 <div style="width:62px;padding:12px 0 10px;border-radius:12px;background:linear-gradient(#0d0203,#1e0509);border:3px solid #0b0203;box-shadow:inset 0 3px 10px rgba(0,0,0,.9),inset 0 0 0 2px rgba(255,199,44,.4);font:400 24px/1 'Press Start 2P',monospace;color:#ffc72c;text-shadow:0 0 16px rgba(255,199,44,.8)">7</div>
 <div style="width:62px;padding:12px 0 10px;border-radius:12px;background:linear-gradient(#0d0203,#1e0509);border:3px solid #0b0203;box-shadow:inset 0 3px 10px rgba(0,0,0,.9),inset 0 0 0 2px rgba(255,199,44,.4);font:400 24px/1 'Press Start 2P',monospace;color:#ffc72c;text-shadow:0 0 16px rgba(255,199,44,.8)">7</div>
@@ -662,11 +688,11 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;chickens&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;min&quot;:1,&quot;max&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Κανονες&quot;},&quot;bulbsOn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Θεμα&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;chickens&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:2,&quot;min&quot;:1,&quot;max&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Κανονες&quot;},&quot;bulbsOn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Θεμα&quot;}}">
 class Component extends DCLogic {
   /* === ΡΥΘΜΙΣΕΙΣ ΠΑΙΧΝΙΔΙΟΥ ============================== */
   CFG = {
-    MIN_PLAYERS: 4, MAX_PLAYERS: 15, DEFAULT_PLAYERS: 6,
+    MIN_PLAYERS: 4, MAX_PLAYERS: 15, DEFAULT_PLAYERS: 6, DEFAULT_CHICKENS: 2,
     TIME_OPTIONS: [45, 60, 90], DEFAULT_TIME: 60, MAX_NAME: 14,
     LIAR_MUST_LOSE: true, STORE_KEY: "kontra.grigora.v2",
     DEV_PASS: "makis67tselios"
@@ -748,7 +774,7 @@ class Component extends DCLogic {
 
   /* === ΒΟΗΘΗΤΙΚΑ ======================================== */
   u() { this.forceUpdate(); }
-  nCh() { return this.props.chickens ?? 3; }
+  nCh() { return this.props.chickens ?? this.CFG.DEFAULT_CHICKENS; }
 
   P(i) { return this.S.players[i] || { name: "", chickens: 0 }; }
   nm(i) { return (this.S.players[i] || {}).name || ""; }
@@ -919,12 +945,36 @@ class Component extends DCLogic {
     }
     S.judge = this.finalJudge();
     S.finale = { a: a[0], b: a[1], bets: {}, asking: "a", stake: 0, chips: {} };
-    if (S.vegas) {
-      /* Καθε παιχτης μπαινει με τις νικες του x2 σε chips. */
-      S.finale.chips[a[0]] = Math.max(2, (this.P(a[0]).wins || 0) * 2);
-      S.finale.chips[a[1]] = Math.max(2, (this.P(a[1]).wins || 0) * 2);
+    S.screen = "askVegas";   /* το ρωτανε οι δυο φιναλιστ */
+  }
+  /* Καθε παιχτης μπαινει στο VEGAS με τις νικες του x2 σε chips. */
+  pickVegas(on) {
+    const S = this.S, f = S.finale;
+    S.vegas = !!on;
+    if (on && f) {
+      f.chips[f.a] = Math.max(2, (this.P(f.a).wins || 0) * 2);
+      f.chips[f.b] = Math.max(2, (this.P(f.b).wins || 0) * 2);
     }
-    S.screen = "finale";
+    this.go("finale");
+  }
+  /* ΚΟΤΑ: καιει μαρκα, κανεις δεν παιρνει ποντο, συνεχιζουμε.
+     Χωρις μαρκες, η αρνηση δινει τον ποντο στον αντιπαλο.        */
+  burnChicken(i) {
+    const S = this.S, r = S.round;
+    const other = i === r.a ? r.b : r.a;
+    if (this.P(i).chickens <= 0) return this.settle(other, i);
+    this.P(i).chickens--;
+    if (S.finale) {
+      const f = S.finale;
+      f.bets = {}; f.asking = "a"; f.stake = 0;
+      return this.go("finale");
+    }
+    if (S.tie || S.bronze) {          /* η κοντρα ξαναμοιραζεται */
+      this.newDuel();
+      S.round.a = r.a; S.round.b = r.b;
+      return this.go("chicken");
+    }
+    this.nextDuel(); this.u();
   }
   /* Ψηφος για τον αντιφατη: οποιον δειξουν, φευγει. */
   voteOut(i) {
@@ -991,7 +1041,7 @@ class Component extends DCLogic {
       S.finale = null;
       if (a.length >= 3) S.bronze = { a: a[0], b: a[1], judge: a[2] };
     }
-    if (k === "finale" || k === "bet" || k === "stake") {
+    if (k === "finale" || k === "bet" || k === "stake" || k === "askVegas") {
       const a = this.alive();
       S.bronze = null;
       S.judge = a[2] != null ? a[2] : a[0];
@@ -1097,7 +1147,7 @@ class Component extends DCLogic {
       ["select", "Επιλογη"], ["chicken", "Κοτα"], ["contra", "Κοντρα"], ["verdict", "Ετυμηγορια"],
       ["roundEnd", "Ταμειο"], ["out", "Αποβολη"], ["vote", "Ψηφος"], ["voteResult", "Αποκαλυψη"],
       ["replay", "Ισοπαλια"], ["duelIntro", "Χαλκινη"], ["finale", "Φιναλε"], ["bet", "Στοιχημα"],
-      ["stake", "Ποτ"], ["winner", "Νικητης"]
+      ["askVegas", "Vegas?"], ["stake", "Ποτ"], ["winner", "Νικητης"]
     ];
 
     const v = {
@@ -1109,6 +1159,7 @@ class Component extends DCLogic {
       atRoundEnd: sc === "roundEnd", atOut: sc === "out", atReplay: sc === "replay",
       atDuel: sc === "duelIntro", atWinner: sc === "winner",
       atFinale: sc === "finale", atBet: sc === "bet", atStake: sc === "stake",
+      atAskVegas: sc === "askVegas",
       atVote: sc === "vote", atVoteResult: sc === "voteResult",
       bulbs: (this.props.bulbsOn ?? true) === true,
       noBulbs: (this.props.bulbsOn ?? true) !== true,
@@ -1145,11 +1196,9 @@ class Component extends DCLogic {
 
       /* ---- αρχικη */
       playerCount: S.playerCount,
-      chickens: this.nCh(),
-      /* ---- λειτουργια τραπεζιου: κλασσικη ή VEGAS */
-      vegasOnStyle: this.OPT(S.vegas, "gold"), vegasOffStyle: this.OPT(!S.vegas),
-      vegasOn: () => { S.vegas = true; this.u(); },
-      vegasOff: () => { S.vegas = false; this.u(); },
+      chickens: this.nCh() === 1 ? "1 μαρκα κοτας" : this.nCh() + " μαρκες κοτας",
+      vegasYes: () => this.pickVegas(true),
+      vegasNo: () => this.pickVegas(false),
       dec: () => { S.playerCount = Math.max(this.CFG.MIN_PLAYERS, S.playerCount - 1); this.u(); },
       inc: () => { S.playerCount = Math.min(this.CFG.MAX_PLAYERS, S.playerCount + 1); this.u(); },
       decStyle: this.STEP(S.playerCount <= this.CFG.MIN_PLAYERS),
@@ -1335,17 +1384,11 @@ class Component extends DCLogic {
         return {
           name: this.nm(i),
           side: i === r.a ? "Υπερ" : "Κατα",
-          left: left > 0 ? "Μαρκες: " + left : "Χωρις μαρκες",
-          off: left <= 0,
+          left: left > 1 ? left + " κοτες" : left === 1 ? "1 κοτα" : "Χωρις κοτες — δινει τον ποντο",
+          off: false,
           style: this.CHIP(i, { block: true, pad: "15px 14px", radius: "18px", dash: 5,
-            lift: left > 0 ? 6 : 0, dim: left <= 0,
-            extra: left > 0 ? "cursor:pointer;flex-direction:column;gap:3px"
-                            : "cursor:default;flex-direction:column;gap:3px" }),
-          on: () => {
-            if (left <= 0) return;
-            this.P(i).chickens--;
-            this.settle(i === r.a ? r.b : r.a, i);
-          }
+            lift: 6, extra: "cursor:pointer;flex-direction:column;gap:3px" }),
+          on: () => this.burnChicken(i)
         };
       });
       v.play = () => { this.buildOrder(); this.go("contra"); this.runTimer(); };
