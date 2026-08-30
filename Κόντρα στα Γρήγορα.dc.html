@@ -109,17 +109,20 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 
 <div style="flex:none;position:relative;height:150px;margin:8px 0 2px;display:flex;align-items:flex-end;justify-content:center">
 <div style="position:absolute;bottom:6px;width:190px;height:110px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,199,44,.28),rgba(255,199,44,0))"></div>
-<img src="img/mascot-hero.png" alt="Ο κρουπιερης" style="position:relative;height:150px;width:auto;filter:drop-shadow(0 8px 0 rgba(0,0,0,.35))"></div>
+<img src="img/km-hero.png" alt="Ο κρουπιερης" style="position:relative;height:150px;width:auto;filter:drop-shadow(0 8px 0 rgba(0,0,0,.35))"></div>
 
-<p style="margin:2px 0 4px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Ετοιμες αποψεις. Κρυφοι ρολοι.<br>Ενας φευγει απο το τραπεζι καθε γυρο.</p>
+<p style="margin:2px 0 4px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Ετοιμες αποψεις. Δυο κρυφα φυλλα.<br>Ενας φευγει απο το τραπεζι καθε γυρο.</p>
 
-<div style="margin:14px 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Παιχτες στο τραπεζι</div>
-<div style="display:flex;align-items:center;justify-content:center;gap:14px">
-<button style="{{ decStyle }}" onClick="{{ dec }}">&minus;</button>
-<div style="min-width:104px;padding:12px 10px 10px;border-radius:14px;background:linear-gradient(#0d0203,#1e0509);border:3px solid #0b0203;box-shadow:inset 0 3px 10px rgba(0,0,0,.9),inset 0 0 0 2px rgba(255,199,44,.3),0 4px 0 rgba(0,0,0,.4)">
-<div style="font:400 30px/1 'Press Start 2P',monospace;color:#ffc72c;text-shadow:0 0 16px rgba(255,199,44,.7)">{{ playerCount }}</div>
+<div style="margin:16px 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Τα κρυφα φυλλα</div>
+<div style="display:flex;gap:8px">
+<div style="flex:1;text-align:left;padding:11px 11px 12px;border-radius:15px;background:linear-gradient(#8a1f63,#4d0f37);border:3px solid #0b0203;box-shadow:inset 0 2px 0 rgba(255,255,255,.18),0 5px 0 rgba(0,0,0,.45)">
+<div style="font:700 15px Comfortaa,sans-serif;color:#ffb3dd">Το Κομπλεξ</div>
+<div style="margin-top:3px;font:400 11.5px/1.4 Comfortaa,sans-serif;color:rgba(255,246,226,.75)">Εναν τον εχει σφηνα</div>
 </div>
-<button style="{{ incStyle }}" onClick="{{ inc }}">+</button>
+<div style="flex:1;text-align:left;padding:11px 11px 12px;border-radius:15px;background:linear-gradient(#1f6893,#0d3a58);border:3px solid #0b0203;box-shadow:inset 0 2px 0 rgba(255,255,255,.18),0 5px 0 rgba(0,0,0,.45)">
+<div style="font:700 15px Comfortaa,sans-serif;color:#9fd8ff">Το Βυσμα</div>
+<div style="margin-top:3px;font:400 11.5px/1.4 Comfortaa,sans-serif;color:rgba(255,246,226,.75)">Εναν τον προσεχει</div>
+</div>
 </div>
 
 <div style="margin:18px 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Χρονος λογου</div>
@@ -128,14 +131,6 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <button style="{{ c.style }}" onClick="{{ c.on }}">{{ c.label }}</button>
 </sc-for>
 </div>
-
-<div style="margin:18px 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Ο αντιφατης</div>
-<div style="display:flex;gap:8px">
-<button style="{{ liarOnStyle }}" onClick="{{ liarOn }}">Παιζει</button>
-<button style="{{ liarOffStyle }}" onClick="{{ liarOff }}">Εκτος</button>
-</div>
-
-
 
 <div style="flex:1;min-height:14px"></div>
 <button style="display:block;width:100%;margin-top:12px;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 24px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 7px 0 #9c6c05,0 12px 22px rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.55);letter-spacing:.02em" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 0 0 #9c6c05" onClick="{{ start }}">ΜΟΙΡΑΣΕ!</button>
@@ -148,16 +143,23 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <p style="margin:0 0 8px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Ο κανονισμος του τραπεζιου</p>
 <h2 style="margin:0 0 14px;font:700 25px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Κοντρα στα γρηγορα</h2>
 <div style="text-align:left;padding:16px 15px;border-radius:18px;background:linear-gradient(#12864d,#0b5731);border:3px solid #08301c;box-shadow:inset 0 0 0 2px rgba(255,199,44,.3),inset 0 3px 0 rgba(255,255,255,.15),0 6px 0 #062515">
-<h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Ρολοι</h3>
-<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Στην αρχη ο καθενας βλεπει κρυφα το φυλλο του. Οι <b style="color:#fff6e2">δικηγοροι</b> παιζουν κανονικα και παιρνουν ποντο σε καθε νικη. Ο <b style="color:#fff6e2">αντιφατης</b> ειναι ενας και <b style="color:#fff6e2">δεν μαζευει ποντους</b>: οι κοντρες που κερδιζει δεν δινουν ποντο πουθενα. Κερδιζει τον δικο του γυρο μονο αν εχει χασει τουλαχιστον μια κοντρα — και τοτε δεν κινδυνευει με αποβολη.</p>
+<h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Τα φυλλα</h3>
+<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Πρωτα μπαινουν ολα τα ονοματα, μετα περναει το κινητο απο χερι σε χερι και ο καθενας βλεπει κρυφα το φυλλο του. Οι <b style="color:#fff6e2">δικηγοροι</b> παιζουν καθαρα και μαζευουν ποντο σε καθε νικη. Μεσα τους κρυβονται δυο: το <b style="color:#ffb3dd">Κομπλεξ</b> και το <b style="color:#9fd8ff">Βυσμα</b>. Κανεις δεν ξερει ποιοι ειναι — ουτε καν αυτοι μεταξυ τους.</p>
+<h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffb3dd">Το Κομπλεξ</h3>
+<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Του πεφτει ενας στην τυχη και τον εχει σφηνα. <b style="color:#fff6e2">Καθε γυρα πρεπει να τον φαει σε μια κοντρα</b> — καθε γυρα, χωρις δικαιολογιες. Αμα κλεισει η γυρα και δεν τον νικησε, σηκωνεται το Κομπλεξ απο το τραπεζι στη θεση αυτου που το αξιζε στους ποντους. Κερδιζει μονο αν τον <b style="color:#fff6e2">βγαλει εξω πριν τον τελικο</b>. Αν φτασουν και οι δυο στους τελευταιους δυο, το Κομπλεξ εχασε.</p>
+<h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#9fd8ff">Το Βυσμα</h3>
+<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Του πεφτει ενας στην τυχη και τον προσεχει. Δικαστης, ενορκος, οτι να'ναι — αρκει να τον κρατησει ορθιο. <b style="color:#fff6e2">Φτανει ο δικος του στους δυο; Το Βυσμα νικησε, τελος.</b> Παει να πεσει; Το Βυσμα <b style="color:#fff6e2">τρωει τη σφαιρα</b> και σηκωνεται αυτο στη θεση του — φευγει, αλλα το στοιχημα του μενει ζωντανο.</p>
+<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#ffd75e">Και τα δυο: αμα σε βγαλουν <b style="color:#fff6e2">κανονικα</b>, καηκες. Οτι και να γινει μετα, εχασες.</p>
 <h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Ο γυρος</h3>
 <p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Καθε γυρος εχει τοσες κοντρες οσοι και οι παιχτες. Ο δικαστης αλλαζει καθε φορα: μοιραζει μια ετοιμη αποψη, ολοι σηκωνουν χερι υπερ ή κατα, και διαλεγει <b style="color:#fff6e2">δυο</b> να μονομαχησουν — ενα απο καθε πλευρα.</p>
 <h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Η κοτα</h3>
 <p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Καθενας εχει <b style="color:#fff6e2">{{ chickens }}</b> για ολο το παιχνιδι. Πριν απο καθε κοντρα το τραπεζι ρωταει τους δυο μονομαχους: οποιος την καιει, πατα το ονομα του και ο αντιπαλος παιρνει τον ποντο χωρις να μιλησει κανεις. Οταν τελειωσουν οι μαρκες, παιζεις.</p>
 <h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Η αποβολη</h3>
-<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Οι ποντοι <b style="color:#fff6e2">δεν φανερωνονται ποτε</b>. Στο τελος του γυρου φευγει αυτος με τους λιγοτερους. Αν ισοβαθμουν δυο, παιζουν <b style="color:#fff6e2">χαλκινη κοντρα</b> με δικαστη τον <b style="color:#fff6e2">τριτο απο τον πατο</b> — κι αν ολοι απο πανω εχουν τους ιδιους ποντους, ο δικαστης βγαινει στην τυχη. Αν ισοβαθμουν τρεις ή παραπανω δεν βγαινει συμπερασμα: <b style="color:#fff6e2">παιζουν ολοι μεταξυ τους</b>, καθε κοντρα σωζει τον νικητη της, μεχρι να μεινουν δυο για τη χαλκινη. Κανεις δεν δικαζει κοντρα που παιζει ο ιδιος.</p>
+<p style="margin:0 0 14px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Οι ποντοι <b style="color:#fff6e2">δεν φανερωνονται ποτε</b>. Στο τελος του γυρου φευγει αυτος με τους λιγοτερους — <b style="color:#ffb3dd">εκτος αν το Κομπλεξ δεν εκανε τη δουλεια του</b>, οποτε φευγει εκεινο στη θεση του. Αν ισοβαθμουν δυο, παιζουν <b style="color:#fff6e2">χαλκινη κοντρα</b> με δικαστη τον <b style="color:#fff6e2">τριτο απο τον πατο</b> — κι αν ολοι απο πανω εχουν τους ιδιους ποντους, ο δικαστης βγαινει στην τυχη. Αν ισοβαθμουν τρεις ή παραπανω δεν βγαινει συμπερασμα: <b style="color:#fff6e2">παιζουν ολοι μεταξυ τους</b>, καθε κοντρα σωζει τον νικητη της, μεχρι να μεινουν δυο για τη χαλκινη. Κανεις δεν δικαζει κοντρα που παιζει ο ιδιος.</p>
 <h3 style="margin:0 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Το τελος</h3>
-<p style="margin:0;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Οταν μεινουν δυο, ο τελευταιος που εφυγε γινεται δικαστης του φιναλε. Στο <b style="color:#fff6e2">last call</b> παιζεται μια και μοναδικη κοντρα: ο νικητης τα παιρνει ολα. Στο <b style="color:#fff6e2">VEGAS</b> ο καθενας μπαινει με τις νικες του x2 σε chips, στοιχηματιζουν κρυφα πριν απο καθε κοντρα, παιζεται το μικροτερο ποσο και ο νικητης το σηκωνει. Ο πρωτος στα μηδεν χανει. Αν ο αντιφατης φτασει ως το φιναλε, <b style="color:#fff6e2">κερδιζει αυτοματα</b> — γι' αυτο μετα απο καθε αποβολη το τραπεζι μπορει να ψηφισει ποιος ειναι.</p>
+<p style="margin:0;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Οταν μεινουν δυο, ο τελευταιος που εφυγε γινεται δικαστης του φιναλε. Στο <b style="color:#fff6e2">last call</b> παιζεται μια και μοναδικη κοντρα: ο νικητης τα παιρνει ολα. Στο <b style="color:#fff6e2">VEGAS</b> ο καθενας μπαινει με τις νικες του x2 σε chips, στοιχηματιζουν κρυφα πριν απο καθε κοντρα, παιζεται το μικροτερο ποσο και ο νικητης το σηκωνει. Ο πρωτος στα μηδεν χανει. Στο τελος ανοιγουν και τα κρυφα φυλλα: μπορει να νικησαν και τα δυο μαζι με τον νικητη του τραπεζιου, μπορει και κανενα.</p>
+<h3 style="margin:14px 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd75e">Η ψηφοφορια</h3>
+<p style="margin:0;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#e9f7ec">Μετα απο καθε αποβολη το τραπεζι μπορει να καψει εναν: διαλεγετε φυλλο — Κομπλεξ ή Βυσμα — και δειχνετε εναν. <b style="color:#fff6e2">Οποιον δειξετε σηκωνεται</b>, ειτε πεσατε μεσα ειτε οχι.</p>
 </div>
 <div style="flex:1;min-height:14px"></div>
 <button style="display:block;width:100%;margin-top:12px;padding:15px 16px;border:3px solid #0b0203;border-radius:16px;font:700 19px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#7a6259,#4c3a33);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 6px 0 #241b17;text-shadow:0 2px 0 rgba(0,0,0,.4)" style-active="transform:translateY(6px);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 0 0 #241b17" onClick="{{ goBack }}">Πισω στο τραπεζι</button>
@@ -194,22 +196,54 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atIntro }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <div style="flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
-<p style="margin:0 0 10px;text-align:left;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Μοιρασμα &middot; <b style="color:#fff6e2">{{ introNo }} απο {{ introTotal }}</b></p>
+<p style="margin:0 0 10px;text-align:left;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Στο τραπεζι &middot; <b style="color:#fff6e2">{{ introCount }}</b></p>
 <button style="{{ draftChipBtn }}" onClick="{{ openPalette }}">&spades;</button>
 </div>
-<h2 style="margin:0 0 8px;font:700 26px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Πως σε λενε;</h2>
-<p style="margin:0 0 5px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Γραψε το ονομα σου και δες το φυλλο σου. Μονο εσυ.</p>
-<p style="margin:0 0 14px;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.5)">Η ΜΑΡΚΑ ΣΟΥ ΕΙΝΑΙ ΠΑΝΩ ΔΕΞΙΑ</p>
+<h2 style="margin:0 0 8px;font:700 26px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Ποιοι καθεστε;</h2>
+<p style="margin:0 0 14px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Ενας ενας: ονομα, προσθεσε, δωσε το κινητο παραπερα. Τα φυλλα μοιραζονται στο τελος.</p>
 <div style="padding:8px;border-radius:20px;background:linear-gradient(#12864d,#0b5731);border:3px solid #08301c;box-shadow:inset 0 0 0 2px rgba(255,199,44,.3),0 6px 0 #062515">
-<input ref="{{ nameRef }}" onInput="{{ onNameInput }}" maxlength="14" autocomplete="off" placeholder="Το ονομα σου" style="width:100%;padding:15px 14px;border:3px solid #0b0203;border-radius:14px;background:linear-gradient(#fffdf5,#f1e3c9);color:#1b1008;font:700 19px Comfortaa,sans-serif;text-align:center;outline:none;-webkit-appearance:none;box-shadow:inset 0 3px 8px rgba(0,0,0,.2)">
+<input ref="{{ nameRef }}" onInput="{{ onNameInput }}" onKeyDown="{{ nameKey }}" maxlength="14" autocomplete="off" placeholder="Το ονομα σου" style="width:100%;padding:15px 14px;border:3px solid #0b0203;border-radius:14px;background:linear-gradient(#fffdf5,#f1e3c9);color:#1b1008;font:700 19px Comfortaa,sans-serif;text-align:center;outline:none;-webkit-appearance:none;box-shadow:inset 0 3px 8px rgba(0,0,0,.2)">
 </div>
-<div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:16px">
+<button disabled="{{ nameEmpty }}" style="{{ nameBtnStyle }}" onClick="{{ addName }}">Προσθεσε στο τραπεζι</button>
+<sc-if value="{{ hasNames }}" hint-placeholder-val="{{ false }}">
+<p style="margin:20px 0 9px;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.5)">ΠΑΤΑ ΕΝΑ ΟΝΟΜΑ ΓΙΑ ΝΑ ΤΟ ΣΒΗΣΕΙΣ</p>
+</sc-if>
+<div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center">
 <sc-for list="{{ namePills }}" as="p" hint-placeholder-count="2">
-<span style="{{ p.style }}">{{ p.name }}</span>
+<button style="{{ p.style }}" onClick="{{ p.on }}">{{ p.name }}</button>
 </sc-for>
 </div>
-<div style="flex:1;min-height:14px"></div>
-<button disabled="{{ nameEmpty }}" style="{{ nameBtnStyle }}" onClick="{{ nameOk }}">Δες το φυλλο σου</button>
+<div style="flex:1;min-height:16px"></div>
+<button style="{{ endBtnStyle }}" onClick="{{ endNaming }}">Τελος — μοιρασε φυλλα</button>
+<p style="margin:10px 0 0;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.45)">{{ introCount }} ΣΤΟ ΤΡΑΠΕΖΙ &middot; ΘΕΛΕΙ 4+</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ atTooFew }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
+<p style="flex:none;margin:0 0 12px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Το τραπεζι δεν ανοιγει</p>
+<div style="flex:none;margin:0 auto 14px;width:210px;height:126px;display:flex;align-items:flex-end;justify-content:center">
+<img src="img/km-shrug.png" alt="" style="max-width:100%;max-height:100%;filter:drop-shadow(0 7px 0 rgba(0,0,0,.35))">
+</div>
+<h2 style="flex:none;margin:0 0 10px;font:700 28px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Δεν φτανετε</h2>
+<p style="flex:none;margin:0 0 22px;font:400 14.5px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Ειστε <b style="color:#fff6e2">{{ introCount }}</b>. Θελει τουλαχιστον <b style="color:#fff6e2">4</b> για να βγουν τα κρυφα φυλλα. Φωναξτε κι αλλον, η παιξτε κλασσικη Κοντρα με οσους ειστε.</p>
+<button style="flex:none;display:block;width:100%;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.6),0 7px 0 #9c6c05;text-shadow:0 1px 0 rgba(255,255,255,.5)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.6),0 0 0 #9c6c05" onClick="{{ backToNames }}">Μαζευω κι αλλους</button>
+<a href="index.html" style="display:block;margin-top:12px;padding:14px;border:3px solid #0b0203;border-radius:16px;font:700 17px Comfortaa,sans-serif;color:#fff6e2;background:linear-gradient(#7a6259,#4c3a33);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 6px 0 #241b17;text-shadow:0 2px 0 rgba(0,0,0,.4)">Παμε κλασσικη Κοντρα &rarr;</a>
+</div>
+</sc-if>
+
+<sc-if value="{{ atHandoff }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
+<p style="flex:none;margin:0 0 20px;font:400 9px/1.6 'Press Start 2P',monospace;color:rgba(255,199,44,.75)">ΚΡΥΦΟ ΦΥΛΛΟ {{ handNo }} / {{ handTotal }}</p>
+<div style="flex:none;margin:0 auto 24px;width:96px;height:132px;border-radius:14px;border:4px solid #0b0203;background:repeating-linear-gradient(135deg,#8a2029 0 9px,#5c1017 9px 18px);box-shadow:inset 0 0 0 3px rgba(255,199,44,.45),0 9px 0 rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;transform:rotate(-4deg)">
+<span style="font:700 40px Comfortaa,sans-serif;color:rgba(255,199,44,.85);text-shadow:0 2px 0 rgba(0,0,0,.5)">?</span>
+</div>
+<h2 style="flex:none;margin:0 0 16px;font:700 26px/1.18 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Δωσε το κινητο</h2>
+<div style="flex:none;margin:0 0 16px;display:flex;justify-content:center">
+<span style="{{ handChip }}">{{ handName }}</span>
+</div>
+<p style="flex:none;margin:0 0 26px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Κανεις αλλος δεν κοιταει την οθονη.</p>
+<button style="flex:none;display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 21px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#a877ee,#6a32ba);box-shadow:inset 0 3px 0 rgba(255,255,255,.32),0 7px 0 #3d1a70,0 12px 20px rgba(0,0,0,.4);text-shadow:0 2px 0 rgba(0,0,0,.35)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.32),0 0 0 #3d1a70" onClick="{{ handGo }}">Το κραταω εγω — δειξε μου</button>
 </div>
 </sc-if>
 
@@ -225,7 +259,15 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="position:absolute;bottom:10px;right:13px;font:700 20px Comfortaa,sans-serif;color:{{ roleSuitColor }};transform:rotate(180deg)">{{ roleSuit }}</div>
 <div style="font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#7a6a55;text-transform:uppercase">Το φυλλο σου</div>
 <div style="{{ roleTitleStyle }}">{{ roleTitle }}</div>
-<div style="width:54px;height:4px;border-radius:2px;background:#d8c7a6;margin:2px auto 12px"></div>
+<div style="width:54px;height:4px;border-radius:2px;background:#d8c7a6;margin:2px auto 14px"></div>
+<sc-if value="{{ roleHasTarget }}" hint-placeholder-val="{{ false }}">
+<div style="margin:0 0 14px;padding:12px 10px 13px;border-radius:14px;background:#f6ead2;box-shadow:inset 0 0 0 2px rgba(27,16,8,.12)">
+<div style="font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#8a7659;text-transform:uppercase">{{ roleTargetLabel }}</div>
+<div style="margin-top:9px;display:flex;justify-content:center">
+<span style="{{ roleTargetChip }}">{{ roleTargetName }}</span>
+</div>
+</div>
+</sc-if>
 <p style="margin:0;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#4a3a26;text-wrap:pretty">{{ roleText }}</p>
 </div>
 </div>
@@ -236,10 +278,16 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atRoundStart }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <p style="margin:0 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Γυρος {{ roundNo }} &middot; <b style="color:#fff6e2">{{ duelTotal }} κοντρες</b></p>
-<div style="flex:none;margin:12px auto 0;width:96px;height:96px;border-radius:50%;overflow:hidden;border:4px solid #0b0203;background:linear-gradient(#7b1620,#4a0c12);box-shadow:inset 0 0 0 3px rgba(255,199,44,.4),0 6px 0 rgba(0,0,0,.45);position:relative">
-<img src="img/mascot-head.png" alt="" style="position:absolute;left:50%;top:50%;width:106px;transform:translate(-50%,-48%)">
+<div style="flex:none;position:relative;margin:14px auto 0;width:158px;height:158px;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;inset:0;border-radius:50%;background:radial-gradient(closest-side,rgba(255,199,44,.3),rgba(255,199,44,0))"></div>
+<div style="position:absolute;inset:4px;border-radius:50%;border:3px dashed rgba(255,199,44,.42)"></div>
+<div style="position:relative;width:124px;height:124px;border-radius:50%;overflow:hidden;border:4px solid #0b0203;background:radial-gradient(122% 108% at 50% 6%,#a8343d 0%,#661219 56%,#3a0a0f 100%);box-shadow:inset 0 0 0 3px rgba(255,199,44,.5),inset 0 -14px 30px rgba(0,0,0,.55),0 8px 0 rgba(0,0,0,.45)">
+<div style="position:absolute;left:0;right:0;top:0;height:46%;background:linear-gradient(rgba(255,255,255,.14),rgba(255,255,255,0))"></div>
+<img src="img/km-head.png" alt="" style="position:absolute;left:50%;top:51%;width:118px;transform:translate(-50%,-50%);filter:drop-shadow(0 3px 4px rgba(0,0,0,.45))">
 </div>
-<div style="flex:none;margin:16px 0 8px;display:flex;justify-content:center">
+</div>
+<p style="flex:none;margin:16px 0 0;font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.34em;color:#ffc72c;text-transform:uppercase">Ο δικαστης</p>
+<div style="flex:none;margin:9px 0 12px;display:flex;justify-content:center">
 <span style="{{ judgeChip }}">{{ judgeName }}</span>
 </div>
 <p style="margin:0 0 16px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Παρε το κινητο. Εσυ μοιραζεις αυτη την κοντρα.</p>
@@ -339,6 +387,33 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<sc-if value="{{ atSides }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px">
+<span style="font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Ποιος παιρνει ποια πλευρα</span>
+<span style="{{ sidesJudgeChip }}">{{ sidesJudge }}</span>
+</div>
+<div style="position:relative;padding:22px 18px;border-radius:16px;background:linear-gradient(#fffdf5,#f2e4ca);border:3px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5)">
+<div style="position:absolute;top:9px;left:12px;font:700 18px Comfortaa,sans-serif;color:#1b1008">&spades;</div>
+<div style="position:absolute;bottom:9px;right:12px;font:700 18px Comfortaa,sans-serif;color:#1b1008;transform:rotate(180deg)">&spades;</div>
+<p style="margin:0;font:600 17px/1.45 Comfortaa,sans-serif;color:#1b1008;text-wrap:pretty">{{ opinion }}</p>
+</div>
+<p style="margin:18px 0 4px;font:700 22px/1.25 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 2px 0 rgba(0,0,0,.4)">Ποιος ειναι υπερ;</p>
+<p style="margin:0 0 14px;font:400 13.5px/1.5 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Πατα ενα ονομα για να αλλαξουν πλευρες. Αν συμφωνειτε κι οι δυο, ο δικαστης βγαζει αλλη αποψη.</p>
+<div style="flex:none;display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ sideRows }}" as="s" hint-placeholder-count="2">
+<button style="{{ s.style }}" onClick="{{ s.on }}">
+<span style="font:700 20px Comfortaa,sans-serif">{{ s.name }}</span>
+<span style="{{ s.tagStyle }}">{{ s.tag }}</span>
+</button>
+</sc-for>
+</div>
+<div style="flex:1;min-height:14px"></div>
+<button style="flex:none;display:block;width:100%;margin-top:12px;padding:15px 16px;border:3px solid #0b0203;border-radius:16px;font:700 17px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#7a6259,#4c3a33);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 6px 0 #241b17;text-shadow:0 2px 0 rgba(0,0,0,.4)" style-active="transform:translateY(6px);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 0 0 #241b17" onClick="{{ sidesNewOp }}">Ομοφωνια — αλλη αποψη</button>
+<button style="flex:none;display:block;width:100%;margin-top:10px;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 22px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#3ed878,#159a4b);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 7px 0 #0a5c2c,0 12px 20px rgba(0,0,0,.4);text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 0 0 #0a5c2c" onClick="{{ sidesGo }}">Εχουμε κοντρα</button>
+</div>
+</sc-if>
+
 <sc-if value="{{ atChicken }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px">
@@ -433,8 +508,8 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atOut }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Αποβολη</p>
-<div style="flex:none;margin:14px auto 0;width:150px;height:104px;border-radius:16px;overflow:hidden;border:4px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5)">
-<img src="img/mascot-out.png" alt="" style="width:100%;height:100%;object-fit:cover">
+<div style="flex:none;margin:8px auto 0;width:210px;height:132px;display:flex;align-items:flex-end;justify-content:center">
+<img src="img/km-out.png" alt="" style="max-width:100%;max-height:100%;filter:drop-shadow(0 7px 0 rgba(0,0,0,.35))">
 </div>
 <div style="flex:none;margin:18px auto 4px;padding:10px 26px;border:5px double #ff6a5a;border-radius:10px;transform:rotate(-6deg);animation:pop .4s cubic-bezier(.2,1.5,.4,1) both">
 <span style="font:400 22px/1 'Press Start 2P',monospace;color:#ff6a5a;text-shadow:0 0 18px rgba(255,80,60,.6)">EXO</span>
@@ -451,7 +526,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="flex:1;min-height:14px"></div>
 <button style="display:block;width:100%;margin-top:12px;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#5b9ff0,#2364b4);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 7px 0 #123f73;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 0 0 #123f73" onClick="{{ afterOut }}">Συνεχεια</button>
 <sc-if value="{{ canHunt }}" hint-placeholder-val="{{ false }}">
-<button style="flex:none;display:block;width:100%;margin-top:10px;padding:14px 16px;border:3px solid #0b0203;border-radius:16px;font:700 17px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#ff7ec0,#d2358c);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 6px 0 #8d1d5c;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(6px);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 0 0 #8d1d5c" onClick="{{ goVote }}">Ψηφος για τον αντιφατη</button>
+<button style="flex:none;display:block;width:100%;margin-top:10px;padding:14px 16px;border:3px solid #0b0203;border-radius:16px;font:700 17px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#ff7ec0,#d2358c);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 6px 0 #8d1d5c;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(6px);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 0 0 #8d1d5c" onClick="{{ goVote }}">Ψηφοφορια για τα κρυφα φυλλα</button>
 </sc-if>
 </div>
 </sc-if>
@@ -459,8 +534,8 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atReplay }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
 <p style="margin:0 0 16px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Ισοπαλια στον πατο &middot; <b style="color:#fff6e2">{{ tieCount }} ισοβαθμοι</b></p>
-<div style="flex:none;margin:0 auto 18px;width:150px;height:100px;border-radius:16px;overflow:hidden;border:4px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5)">
-<img src="img/mascot-shrug.png" alt="" style="width:100%;height:100%;object-fit:cover">
+<div style="flex:none;margin:0 auto 14px;width:210px;height:126px;display:flex;align-items:flex-end;justify-content:center">
+<img src="img/km-shrug.png" alt="" style="max-width:100%;max-height:100%;filter:drop-shadow(0 7px 0 rgba(0,0,0,.35))">
 </div>
 <h2 style="margin:0 0 10px;font:700 26px/1.18 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Παιζουν ολοι<br>μεχρι να μεινουν δυο</h2>
 <p style="margin:0 0 16px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Καθε κοντρα σωζει τον νικητη της. Οποιοι μεινουν τελευταιοι δυο παιζουν τη χαλκινη κοντρα για την παραμονη.</p>
@@ -519,8 +594,12 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atVote }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <p style="flex:none;margin:0 0 8px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Ψηφος του τραπεζιου</p>
-<h2 style="flex:none;margin:0 0 6px;font:700 26px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Ποιος ειναι ο αντιφατης;</h2>
-<p style="flex:none;margin:0 0 16px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Οποιον δειξει το τραπεζι, σηκωνεται. Αν πεσατε μεσα, το παιχνιδι συνεχιζεται. Αν οχι, χασατε εναν δικο σας.</p>
+<h2 style="flex:none;margin:0 0 6px;font:700 26px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Ποιον καιτε;</h2>
+<p style="flex:none;margin:0 0 14px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Διαλεξτε φυλλο, δειξτε εναν. Οποιον δειξετε σηκωνεται — ειτε πεσατε μεσα ειτε οχι.</p>
+<div style="flex:none;display:flex;gap:8px;margin-bottom:16px">
+<button style="{{ huntKStyle }}" onClick="{{ huntK }}">Το Κομπλεξ</button>
+<button style="{{ huntVStyle }}" onClick="{{ huntV }}">Το Βυσμα</button>
+</div>
 <div style="flex:none;display:flex;flex-direction:column;gap:9px">
 <sc-for list="{{ huntRows }}" as="h" hint-placeholder-count="4">
 <button style="{{ h.style }}" onClick="{{ h.on }}">{{ h.name }}</button>
@@ -543,14 +622,18 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <span style="font:400 20px/1 'Press Start 2P',monospace;color:#ff6a5a;text-shadow:0 0 18px rgba(255,80,60,.6)">LATHOS</span>
 </div>
 </sc-if>
-<div style="flex:none;margin:22px 0 10px;display:flex;justify-content:center">
+<p style="flex:none;margin:20px 0 8px;font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.28em;color:#ffc72c;text-transform:uppercase">Δειξατε</p>
+<div style="flex:none;margin:0 0 10px;display:flex;justify-content:center">
 <span style="{{ voteChip }}">{{ voteName }}</span>
 </div>
-<sc-if value="{{ voteRight }}" hint-placeholder-val="{{ true }}">
-<p style="flex:none;margin:0 0 26px;font:400 15px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Ητανε ο αντιφατης. Εφυγε απο το τραπεζι και το παιχνιδι συνεχιζεται καθαρο.</p>
-</sc-if>
-<sc-if value="{{ voteWrong }}" hint-placeholder-val="{{ false }}">
-<p style="flex:none;margin:0 0 26px;font:400 15px/1.55 Comfortaa,sans-serif;color:#f0c9b2">Δεν ητανε. Εφυγε ενας δικηγορος, και ο αντιφατης καθεται ακομα στο τραπεζι.</p>
+<p style="flex:none;margin:0 0 22px;font:400 15px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">{{ voteNote }}</p>
+<sc-if value="{{ voteSwap }}" hint-placeholder-val="{{ false }}">
+<div style="flex:none;margin:0 0 22px;padding:14px 12px;border-radius:16px;background:linear-gradient(#12864d,#0b5731);border:3px solid #08301c;box-shadow:inset 0 0 0 2px rgba(255,199,44,.3),0 5px 0 #062515">
+<div style="font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#9fe0b8;text-transform:uppercase">Απο το τραπεζι σηκωθηκε</div>
+<div style="margin-top:9px;display:flex;justify-content:center">
+<span style="{{ voteGoneChip }}">{{ voteGoneName }}</span>
+</div>
+</div>
 </sc-if>
 <button style="flex:none;display:block;width:100%;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#5b9ff0,#2364b4);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 7px 0 #123f73;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 0 0 #123f73" onClick="{{ voteGo }}">Συνεχεια</button>
 </div>
@@ -559,8 +642,8 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atAskVegas }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
 <p style="flex:none;margin:0 0 12px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Μεινατε δυο</p>
-<div style="flex:none;margin:0 auto 16px;width:150px;height:112px;border-radius:16px;overflow:hidden;border:4px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5)">
-<img src="img/mascot-boss.png" alt="" style="width:100%;height:100%;object-fit:cover">
+<div style="flex:none;margin:0 auto 12px;width:220px;height:138px;display:flex;align-items:flex-end;justify-content:center">
+<img src="img/km-deal.png" alt="" style="max-width:100%;max-height:100%;filter:drop-shadow(0 7px 0 rgba(0,0,0,.35))">
 </div>
 <h2 style="flex:none;margin:0 0 8px;font:700 26px/1.18 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Το παιζετε καζινο;</h2>
 <div style="flex:none;margin:0 0 16px;display:flex;align-items:center;justify-content:center;gap:12px">
@@ -648,8 +731,8 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ atWinner }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
 <p style="margin:0 0 12px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Εσπασε η μπανκα</p>
-<div style="flex:none;margin:0 auto 16px;width:160px;height:106px;border-radius:16px;overflow:hidden;border:4px solid #0b0203;box-shadow:inset 0 0 0 3px rgba(255,199,44,.5),0 7px 0 rgba(0,0,0,.5)">
-<img src="img/mascot-win.png" alt="" style="width:100%;height:100%;object-fit:cover">
+<div style="flex:none;margin:0 auto 12px;width:190px;height:136px;display:flex;align-items:flex-end;justify-content:center">
+<img src="img/km-boss.png" alt="" style="max-width:100%;max-height:100%;filter:drop-shadow(0 7px 0 rgba(0,0,0,.35))">
 </div>
 <div style="display:flex;gap:8px;justify-content:center;margin-bottom:20px">
 <div style="width:62px;padding:12px 0 10px;border-radius:12px;background:linear-gradient(#0d0203,#1e0509);border:3px solid #0b0203;box-shadow:inset 0 3px 10px rgba(0,0,0,.9),inset 0 0 0 2px rgba(255,199,44,.4);font:400 24px/1 'Press Start 2P',monospace;color:#ffc72c;text-shadow:0 0 16px rgba(255,199,44,.8)">7</div>
@@ -660,12 +743,22 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <span style="{{ champChip }}">{{ champName }}</span>
 </div>
 <p style="margin:0 0 20px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">{{ champNote }}</p>
-<sc-if value="{{ showLiar }}" hint-placeholder-val="{{ false }}">
-<div style="padding:16px;border-radius:18px;background:linear-gradient(#fffdf5,#f2e4ca);border:3px solid #0b0203;box-shadow:0 7px 0 rgba(0,0,0,.5);margin-bottom:22px">
-<div style="font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#7a6a55;text-transform:uppercase">Ο αντιφατης ητανε</div>
-<div style="margin-top:9px;display:flex;justify-content:center">
-<span style="{{ liarChip }}">{{ liarWasName }}</span>
+<sc-if value="{{ showRoles }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px">
+<sc-for list="{{ roleReveal }}" as="rr" hint-placeholder-count="2">
+<div style="{{ rr.style }}">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+<span style="{{ rr.titleStyle }}">{{ rr.title }}</span>
+<span style="{{ rr.verdictStyle }}">{{ rr.verdict }}</span>
 </div>
+<div style="margin-top:11px;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap">
+<span style="{{ rr.chip }}">{{ rr.who }}</span>
+<span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,246,226,.65)">{{ rr.rel }}</span>
+<span style="{{ rr.tChip }}">{{ rr.target }}</span>
+</div>
+<p style="margin:11px 0 0;font:400 12.5px/1.5 Comfortaa,sans-serif;color:rgba(255,246,226,.75);text-wrap:pretty">{{ rr.note }}</p>
+</div>
+</sc-for>
 </div>
 </sc-if>
 <button style="display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 21px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#3ed878,#159a4b);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 7px 0 #0a5c2c;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.35),0 0 0 #0a5c2c" onClick="{{ again }}">Νεα παρτιδα</button>
@@ -692,9 +785,9 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 class Component extends DCLogic {
   /* === ΡΥΘΜΙΣΕΙΣ ΠΑΙΧΝΙΔΙΟΥ ============================== */
   CFG = {
-    MIN_PLAYERS: 4, MAX_PLAYERS: 15, DEFAULT_PLAYERS: 6, DEFAULT_CHICKENS: 2,
+    MIN_PLAYERS: 4, MAX_PLAYERS: 15, DEFAULT_CHICKENS: 2,
     TIME_OPTIONS: [45, 60, 90], DEFAULT_TIME: 60, MAX_NAME: 14,
-    LIAR_MUST_LOSE: true, STORE_KEY: "kontra.grigora.v2",
+    STORE_KEY: "kontra.grigora.v2",
     DEV_PASS: "makis67tselios"
   };
 
@@ -745,16 +838,22 @@ class Component extends DCLogic {
 
   /* === ΚΑΤΑΣΤΑΣΗ ======================================== */
   S = {
-    screen: "home", playerCount: 6, timeSec: 60, liarOn: true, liarIdx: -1,
-    players: [], introIdx: 0, nameDraft: "", pool: [],
+    screen: "home", timeSec: 60,
+    players: [], nameDraft: "", pool: [],
     roundNo: 0, duelNo: 0, duelTotal: 0, judge: 0, judgeSeed: 0,
     round: null, bronze: null, tie: null, lastOut: null, champion: null,
     back: "home", records: [], devUnlocked: false, askPass: false, passBad: false,
     vegas: false,      // λειτουργια καζινο: το φιναλε παιζεται με chips
     gone: [],          // η σειρα των αποβολων
     finale: null,      // το τελευταιο τραπεζι
-    voteResult: null,  // η ψηφος για τον αντιφατη
-    liarWon: false,
+    voteResult: null,  // η ψηφος του τραπεζιου για τα κρυφα φυλλα
+    huntRole: "komplex", // ποιο φυλλο κυνηγαει η ψηφοφορια
+    /* ΤΑ ΚΡΥΦΑ ΦΥΛΛΑ: k = το Κομπλεξ, kT = ο στοχος του,
+       v = το Βυσμα, vT = ο προστατευομενος του.                  */
+    roles: null,
+    roleIdx: 0,        // ποιος βλεπει τωρα το φυλλο του
+    vysmaBullet: false,// το Βυσμα εφαγε τη σφαιρα αντι για τον δικο του
+    roleOut: null,     // το αποτελεσμα των κρυφων φυλλων, κλειδωνει στο φιναλε
     draft: 0,          // η μαρκα του παιχτη που γραφει τωρα το ονομα του
     palette: false     // ανοιχτη η παλετα χρωματων
   };
@@ -797,12 +896,64 @@ class Component extends DCLogic {
   }
   startGame() {
     const S = this.S;
-    S.liarIdx = S.liarOn ? Math.floor(Math.random() * S.playerCount) : -1;
-    S.players = []; S.introIdx = 0; S.pool = this.POOL.slice(); S.roundNo = 0;
+    S.players = []; S.pool = this.POOL.slice(); S.roundNo = 0;
     S.bronze = null; S.tie = null; S.finale = null; S.champion = null;
-    S.lastOut = null; S.gone = []; S.voteResult = null; S.liarWon = false;
-    S.draft = this.freeColor();
+    S.lastOut = null; S.gone = []; S.voteResult = null;
+    S.roles = null; S.roleOut = null; S.vysmaBullet = false; S.roleIdx = 0;
+    S.nameDraft = ""; S.draft = this.freeColor();
     S.screen = "intro"; this.u();
+  }
+
+  /* === ΤΑ ΟΝΟΜΑΤΑ ΚΑΙ ΤΑ ΚΡΥΦΑ ΦΥΛΛΑ =====================
+     Πρωτα μπαινουν ολοι στο τραπεζι — οσοι θελουν, με ενα κουμπι
+     τελος. Μετα, και μονο μετα, μοιραζονται τα φυλλα και περναει
+     το κινητο απο χερι σε χερι.                                  */
+  addPlayer() {
+    const S = this.S, nmv = S.nameDraft.trim();
+    if (!nmv || S.players.length >= this.CFG.MAX_PLAYERS) return;
+    S.players.push({ name: nmv.slice(0, this.CFG.MAX_NAME), color: S.draft, role: "law",
+      pts: 0, chickens: this.nCh(), alive: true, roundPts: 0, lost: false,
+      fought: false, beat: {} });
+    S.nameDraft = "";
+    if (this.nameRef.current) { this.nameRef.current.value = ""; this.nameRef.current.focus(); }
+    S.draft = this.freeColor();
+    this.u();
+  }
+  dropPlayer(i) { this.S.players.splice(i, 1); this.u(); }
+  endNaming() {
+    const S = this.S;
+    if (S.nameDraft.trim()) this.addPlayer();
+    if (S.players.length < this.CFG.MIN_PLAYERS) return this.go("tooFew");
+    this.assignRoles();
+    S.roleIdx = 0; this.go("handoff");
+  }
+  pickOne(list) { return list[Math.floor(Math.random() * list.length)]; }
+  assignRoles() {
+    const S = this.S, idx = S.players.map((_, i) => i);
+    const sh = idx.slice();
+    for (let i = sh.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)), t = sh[i]; sh[i] = sh[j]; sh[j] = t;
+    }
+    const k = sh[0], v = sh[1];
+    S.roles = { k: k, kT: this.pickOne(idx.filter(i => i !== k)),
+                v: v, vT: this.pickOne(idx.filter(i => i !== v)) };
+    S.players.forEach((p, i) => { p.role = i === k ? "komplex" : i === v ? "vysma" : "law"; });
+  }
+  roleOf(i) { return (this.S.players[i] || {}).role || "law"; }
+  roleNext() {
+    const S = this.S;
+    S.roleIdx++;
+    if (S.roleIdx >= S.players.length) { this.newRound(); this.u(); return; }
+    this.go("handoff");
+  }
+  /* ΤΟ ΚΟΜΠΛΕΞ: καθε γυρα πρεπει να φαει τον στοχο του σε μια
+     κοντρα. Αν ο στοχος εχει ηδη βγει, η δουλεια εγινε.          */
+  komplexFailed() {
+    const S = this.S;
+    if (!S.roles || S.roles.k == null) return false;
+    const k = S.roles.k, t = S.roles.kT;
+    if (!this.P(k).alive || !this.P(t).alive) return false;
+    return !((this.P(k).beat || {})[t]);
   }
   newDuel() {
     this.S.round = { op: this.drawOpinion(), vote: {}, a: null, b: null,
@@ -812,7 +963,8 @@ class Component extends DCLogic {
     const S = this.S; S.roundNo++;
     const a = this.alive();
     S.duelTotal = a.length; S.duelNo = 0;
-    a.forEach(i => { const p = this.P(i); p.roundPts = 0; p.roundLoss = 0; p.lost = false; p.fought = false; });
+    a.forEach(i => { const p = this.P(i);
+      p.roundPts = 0; p.roundLoss = 0; p.lost = false; p.fought = false; p.beat = {}; });
     S.judgeSeed = (S.judgeSeed + 1) % a.length;
     S.judge = a[S.judgeSeed % a.length];
     this.newDuel(); S.screen = "roundStart";
@@ -836,27 +988,17 @@ class Component extends DCLogic {
     this.P(l).lost = true;
     this.P(l).roundLoss = (this.P(l).roundLoss || 0) + 1;
     this.P(w).fought = true; this.P(l).fought = true;
+    const W = this.P(w); W.beat = W.beat || {}; W.beat[l] = true;
   }
-  /* Ο ΑΝΤΙΦΑΤΗΣ ΠΑΙΡΝΕΙ ΠΟΝΤΟ ΣΤΗΝ ΗΤΤΑ.
-     Οι κοντρες που κερδιζει δεν του δινουν τιποτα. Πρεπει να χασει
-     τουλαχιστον μια φορα σε καθε γυρο για να κερδισει τον γυρο —
-     και τοτε ειναι ασφαλης απο την αποβολη.                        */
   closeRound() {
-    this.alive().forEach(i => {
-      const p = this.P(i);
-      p.pts += (p.liar ? (p.roundLoss || 0) : (p.roundPts || 0));
-    });
+    this.alive().forEach(i => { const p = this.P(i); p.pts += (p.roundPts || 0); });
   }
-  liarSafe(i) { const p = this.P(i); return !!(p.liar && p.fought && p.lost); }
-  atRisk() { return this.alive().filter(i => !this.liarSafe(i)); }
 
   /* Ο δικαστης της χαλκινης ειναι ο 3ος απο τον πατο — ο πρωτος
      πανω απο τους δυο ισοβαθμους. Αν ολοι απο πανω εχουν τους
      ιδιους ποντους, διαλεγεται στην τυχη αναμεσα τους.            */
   bronzeJudge(a, b) {
-    const rest = this.alive().filter(i => i !== a && i !== b);
-    const pool = rest.filter(i => !this.liarSafe(i)).length
-      ? rest.filter(i => !this.liarSafe(i)) : rest;
+    const pool = this.alive().filter(i => i !== a && i !== b);
     if (!pool.length) return null;
     const min = Math.min(...pool.map(i => this.P(i).pts));
     const low = pool.filter(i => this.P(i).pts === min);
@@ -875,7 +1017,11 @@ class Component extends DCLogic {
     if (S.tie) S.tie.judge = this.freeJudge(S.tie.pool[0], S.tie.pool[1]);
   }
   resolveElimination() {
-    const S = this.S, risk = this.atRisk();
+    const S = this.S;
+    /* Το Κομπλεξ δεν εφαγε τον στοχο του: φευγει αυτο, χωρις
+       μετρημα και χωρις χαλκινη. Κανεις δεν μαθαινει γιατι.      */
+    if (this.komplexFailed()) { this.eliminate(S.roles.k); S.screen = "out"; return; }
+    const risk = this.alive();
     const min = Math.min(...risk.map(i => this.P(i).pts));
     const worst = risk.filter(i => this.P(i).pts === min);
     if (worst.length === 1) { this.eliminate(worst[0]); S.screen = "out"; return; }
@@ -920,7 +1066,18 @@ class Component extends DCLogic {
     if (S.bronze) { this.eliminate(l); S.bronze = null; return this.go("out"); }
     this.awardDuel(w, l); this.nextDuel(); this.u();
   }
-  eliminate(i) { this.P(i).alive = false; this.S.lastOut = i; this.S.gone.push(i); }
+  /* Η ΣΦΑΙΡΑ ΤΟΥ ΒΥΣΜΑΤΟΣ: αν πεσει ο προστατευομενος, σηκωνεται
+     το Βυσμα στη θεση του. Γινεται σιωπηλα — οι ποντοι ειναι
+     κρυφοι, οποτε κανεις δεν ξερει αν εφυγε στο ταμειο η στη
+     σφαιρα.                                                       */
+  eliminate(i) {
+    const S = this.S, R = S.roles;
+    let out = i;
+    if (R && R.v != null && R.vT === i && R.v !== i && this.P(R.v).alive) {
+      out = R.v; S.vysmaBullet = true;
+    }
+    this.P(out).alive = false; S.lastOut = out; S.gone.push(out);
+  }
   afterOut() {
     const S = this.S, a = this.alive();
     if (a.length <= 2) { this.startFinale(); this.u(); return; }
@@ -928,23 +1085,26 @@ class Component extends DCLogic {
   }
 
   /* === ΤΟ ΤΕΛΕΥΤΑΙΟ ΤΡΑΠΕΖΙ =============================
-     Δικαστης του φιναλε ειναι ο τελευταιος που εφυγε — αλλα ποτε ο
-     αντιφατης, οποτε πηγαινουμε στον προηγουμενο (τον 4ο).        */
+     Δικαστης του φιναλε ειναι ο τελευταιος που εφυγε.            */
   finalJudge() {
-    const g = this.S.gone.slice().reverse();
-    const clean = g.filter(i => !this.P(i).liar);
-    return clean.length ? clean[0] : (g.length ? g[0] : null);
+    const g = this.S.gone;
+    return g.length ? g[g.length - 1] : null;
   }
-  /* Αν ο αντιφατης βγαλει μεχρι το φιναλε, κερδιζει αυτοματα. */
+  /* Μολις κλεισουν οι δυο φιναλιστ, τα κρυφα φυλλα εχουν κριθει.
+     Το αποτελεσμα κλειδωνει εδω και ανοιγει στο τελος.           */
+  freezeRoles(fin) {
+    const S = this.S, R = S.roles;
+    if (!R) { S.roleOut = null; return; }
+    S.roleOut = {
+      kWon: R.k != null && this.P(R.k).alive && !this.P(R.kT).alive,
+      vWon: R.v != null && (this.P(R.v).alive || S.vysmaBullet) && fin.indexOf(R.vT) >= 0
+    };
+  }
   startFinale() {
     const S = this.S, a = this.alive();
-    const liar = a.filter(i => this.P(i).liar)[0];
-    if (liar != null) {
-      S.champion = liar; S.liarWon = true; this.saveRecord();
-      S.screen = "winner"; return;
-    }
     S.judge = this.finalJudge();
     S.finale = { a: a[0], b: a[1], bets: {}, asking: "a", stake: 0, chips: {} };
+    this.freezeRoles(a);
     S.screen = "askVegas";   /* το ρωτανε οι δυο φιναλιστ */
   }
   /* Καθε παιχτης μπαινει στο VEGAS με τις νικες του x2 σε chips. */
@@ -972,16 +1132,16 @@ class Component extends DCLogic {
     if (S.tie || S.bronze) {          /* η κοντρα ξαναμοιραζεται */
       this.newDuel();
       S.round.a = r.a; S.round.b = r.b;
-      return this.go("chicken");
+      return this.go("sides");
     }
     this.nextDuel(); this.u();
   }
-  /* Ψηφος για τον αντιφατη: οποιον δειξουν, φευγει. */
+  /* Ψηφος του τραπεζιου: διαλεγουν φυλλο, δειχνουν εναν, φευγει. */
   voteOut(i) {
-    const S = this.S;
-    const right = !!this.P(i).liar;
+    const S = this.S, role = S.huntRole;
+    const right = this.roleOf(i) === role;
     this.eliminate(i);
-    S.voteResult = { who: i, right: right };
+    S.voteResult = { who: i, gone: S.lastOut, right: right, role: role };
     S.screen = "voteResult";
   }
   tick() {
@@ -1007,21 +1167,18 @@ class Component extends DCLogic {
     }]);
     try { localStorage.setItem(this.CFG.STORE_KEY, JSON.stringify(S.records)); } catch (e) {}
   }
-  advanceIntro() {
-    const S = this.S;
-    if (S.players.length >= S.playerCount) { this.newRound(); this.u(); return; }
-    S.introIdx++; S.draft = this.freeColor(); this.go("intro");
-  }
-
   /* === DEMO ΓΙΑ ΤΟ DEV RAIL ============================= */
   seed() {
     const S = this.S;
     const names = ["Νικος", "Μαρια", "Τακης", "Ελενη", "Πετρος", "Ζωη"];
-    S.playerCount = 6; S.liarOn = true; S.liarIdx = 2;
-    S.players = names.map((n, i) => ({ name: n, liar: i === 2, pts: 3 + (i % 3), color: i,
-      chickens: i === 1 ? 1 : this.nCh(), alive: true, roundPts: i % 2, lost: i > 2, fought: true }));
+    S.players = names.map((n, i) => ({ name: n, pts: 3 + (i % 3), color: i,
+      role: i === 2 ? "komplex" : i === 4 ? "vysma" : "law",
+      chickens: i === 1 ? 1 : this.nCh(), alive: true, roundPts: i % 2,
+      lost: i > 2, fought: true, beat: {} }));
+    S.roles = { k: 2, kT: 0, v: 4, vT: 1 };
+    S.vysmaBullet = false; S.roleOut = null; S.roleIdx = 2;
     S.pool = this.POOL.slice(); S.roundNo = 2; S.duelNo = 1; S.duelTotal = 6;
-    S.judge = 0; S.judgeSeed = 0; S.introIdx = 2;
+    S.judge = 0; S.judgeSeed = 0;
     this.newDuel();
     const r = S.round;
     r.vote[1] = "pro"; r.vote[2] = "pro"; r.vote[3] = "con"; r.vote[4] = "con"; r.vote[5] = "pro";
@@ -1032,6 +1189,11 @@ class Component extends DCLogic {
     /* το dev rail θελει τουλαχιστον το demo τραπεζι των 6 */
     if (S.players.length < 6) this.seed();
     if (!S.round) this.newDuel();
+    if (k === "sides" || k === "chicken") {
+      const av = this.alive();
+      if (S.round.a == null) S.round.a = av[0];
+      if (S.round.b == null) S.round.b = av[1];
+    }
     if (k === "out" || k === "winner") {
       const lastIdx = S.players.length - 1;
       if (S.players[lastIdx]) { S.players[lastIdx].alive = false; S.lastOut = lastIdx; }
@@ -1053,9 +1215,13 @@ class Component extends DCLogic {
     }
     if (k === "voteResult") {
       const a = this.alive();
-      S.voteResult = { who: a[a.length - 1], right: true };
+      S.voteResult = { who: a[a.length - 1], gone: a[a.length - 1], right: true, role: S.huntRole };
     }
-    if (k === "winner") { S.champion = this.alive()[0] ?? 0; }
+    if (k === "winner") {
+      S.champion = this.alive()[0] ?? 0;
+      S.roleOut = { kWon: false, vWon: true };
+    }
+    if (k === "tooFew") { S.players = S.players.slice(0, 3); }
     if (k === "replay") {
       const a = this.alive();
       S.tie = { pool: a.slice(0, Math.max(3, Math.min(4, a.length - 1))), saved: null, judge: null };
@@ -1142,9 +1308,10 @@ class Component extends DCLogic {
   renderVals() {
     const S = this.S, sc = S.screen, r = S.round;
     const devKeys = [
-      ["home", "Αρχικη"], ["rules", "Κανονες"], ["records", "Πρακτικα"], ["intro", "Ονομα"],
-      ["role", "Ρολος"], ["roundStart", "Δικαστης"], ["eyes", "Ματια"], ["hearing", "Μετρημα"],
-      ["select", "Επιλογη"], ["chicken", "Κοτα"], ["contra", "Κοντρα"], ["verdict", "Ετυμηγορια"],
+      ["home", "Αρχικη"], ["rules", "Κανονες"], ["records", "Πρακτικα"], ["intro", "Ονοματα"],
+      ["tooFew", "Λιγοι"], ["handoff", "Παραδοση"],
+      ["role", "Φυλλο"], ["roundStart", "Δικαστης"], ["eyes", "Ματια"], ["hearing", "Μετρημα"],
+      ["select", "Επιλογη"], ["sides", "Πλευρες"], ["chicken", "Κοτα"], ["contra", "Κοντρα"], ["verdict", "Ετυμηγορια"],
       ["roundEnd", "Ταμειο"], ["out", "Αποβολη"], ["vote", "Ψηφος"], ["voteResult", "Αποκαλυψη"],
       ["replay", "Ισοπαλια"], ["duelIntro", "Χαλκινη"], ["finale", "Φιναλε"], ["bet", "Στοιχημα"],
       ["askVegas", "Vegas?"], ["stake", "Ποτ"], ["winner", "Νικητης"]
@@ -1153,8 +1320,10 @@ class Component extends DCLogic {
     const v = {
       /* ---- πλοηγηση */
       atHome: sc === "home", atRules: sc === "rules", atRecords: sc === "records",
-      atIntro: sc === "intro", atRole: sc === "role", atRoundStart: sc === "roundStart",
+      atIntro: sc === "intro", atTooFew: sc === "tooFew", atHandoff: sc === "handoff",
+      atRole: sc === "role", atRoundStart: sc === "roundStart",
       atEyes: sc === "eyes", atHearing: sc === "hearing", atSelect: sc === "select",
+      atSides: sc === "sides",
       atChicken: sc === "chicken", atContra: sc === "contra", atVerdict: sc === "verdict",
       atRoundEnd: sc === "roundEnd", atOut: sc === "out", atReplay: sc === "replay",
       atDuel: sc === "duelIntro", atWinner: sc === "winner",
@@ -1195,20 +1364,12 @@ class Component extends DCLogic {
       })),
 
       /* ---- αρχικη */
-      playerCount: S.playerCount,
       chickens: this.nCh() === 1 ? "1 μαρκα κοτας" : this.nCh() + " μαρκες κοτας",
       vegasYes: () => this.pickVegas(true),
       vegasNo: () => this.pickVegas(false),
-      dec: () => { S.playerCount = Math.max(this.CFG.MIN_PLAYERS, S.playerCount - 1); this.u(); },
-      inc: () => { S.playerCount = Math.min(this.CFG.MAX_PLAYERS, S.playerCount + 1); this.u(); },
-      decStyle: this.STEP(S.playerCount <= this.CFG.MIN_PLAYERS),
-      incStyle: this.STEP(S.playerCount >= this.CFG.MAX_PLAYERS),
       timeChips: this.CFG.TIME_OPTIONS.map(t => ({
         label: t + "''", style: this.OPT(S.timeSec === t), on: () => { S.timeSec = t; this.u(); }
       })),
-      liarOnStyle: this.OPT(S.liarOn, "pink"), liarOffStyle: this.OPT(!S.liarOn, "pink"),
-      liarOn: () => { S.liarOn = true; this.u(); },
-      liarOff: () => { S.liarOn = false; this.u(); },
       start: () => this.startGame(),
       goRules: () => this.go("rules"), goRecords: () => this.go("records"),
       goBack: () => this.go(S.back || "home"),
@@ -1220,10 +1381,20 @@ class Component extends DCLogic {
       })),
       noRecords: S.records.length === 0,
 
-      /* ---- ονομα */
-      introNo: S.introIdx + 1, introTotal: S.playerCount,
+      /* ---- ονοματα */
+      introCount: S.players.length,
+      hasNames: S.players.length > 0,
       nameRef: this.nameRef,
-      namePills: S.players.map((p, i) => ({ name: p.name, style: this.CHIP(i, { lift: 3 }) })),
+      namePills: S.players.map((p, i) => ({
+        name: p.name,
+        style: this.CHIP(i, { lift: 3, extra: "cursor:pointer" }),
+        on: () => this.dropPlayer(i)
+      })),
+      addName: () => this.addPlayer(),
+      nameKey: e => { if (e.key === "Enter") { e.preventDefault(); this.addPlayer(); } },
+      endNaming: () => this.endNaming(),
+      endBtnStyle: "display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 21px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 7px 0 #9c6c05,0 12px 22px rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.55)",
+      backToNames: () => this.go("intro"),
 
       /* ---- η μαρκα του παιχτη που γραφει τωρα */
       draftChipBtn: this.SWATCH(S.draft, { pad: "0", radius: "50%", dash: 3, lift: 3,
@@ -1254,25 +1425,15 @@ class Component extends DCLogic {
         S.nameDraft = e.target.value;
         if (was !== now) this.u();
       },
-      nameOk: () => {
-        const nmv = S.nameDraft.trim();
-        if (!nmv) return;
-        S.players.push({ name: nmv.slice(0, this.CFG.MAX_NAME),
-          liar: S.liarOn && S.players.length === S.liarIdx, color: S.draft,
-          pts: 0, chickens: this.nCh(), alive: true, roundPts: 0, lost: false, fought: false });
-        S.nameDraft = "";
-        if (this.nameRef.current) this.nameRef.current.value = "";
-        if (S.liarOn) this.go("role"); else this.advanceIntro();
-      },
-
-      /* ---- ρολος */
-      roleOk: () => this.advanceIntro(),
+      /* ---- κρυφο φυλλο */
+      handGo: () => this.go("role"),
+      roleOk: () => this.roleNext(),
 
       /* ---- γυρος */
       roundNo: S.roundNo, duelTotal: S.duelTotal, duelIdx: S.duelNo + 1,
       judgeName: this.nm(S.judge),
-      judgeChip: this.CHIP(S.judge, { pad: "12px 26px", radius: "22px", dash: 5, lift: 6,
-        font: "700 30px Comfortaa,sans-serif",
+      judgeChip: this.CHIP(S.judge, { pad: "11px 26px", radius: "20px", dash: 5, lift: 6,
+        font: "700 27px Comfortaa,sans-serif",
         extra: "animation:pop .45s cubic-bezier(.2,1.5,.4,1) both" }),
       alivePills: this.alive().map(i => ({ name: this.nm(i), style: this.CHIP(i, { lift: 3 }) })),
       toEyes: () => this.go("eyes"), toHearing: () => this.go("hearing"),
@@ -1298,35 +1459,52 @@ class Component extends DCLogic {
         S.judge = S.tie.judge;
         this.newDuel();
         S.round.a = S.tie.pool[0]; S.round.b = S.tie.pool[1];
-        this.go("chicken");
+        this.go("sides");
       },
       tally: () => { this.closeRound(); this.resolveElimination(); this.u(); },
       afterOut: () => this.afterOut(),
       again: () => {
         this.stopTimer();
         S.screen = "home"; S.players = []; S.round = null; S.bronze = null; S.tie = null;
-        S.finale = null; S.voteResult = null; S.liarWon = false; S.gone = [];
+        S.finale = null; S.voteResult = null; S.gone = [];
+        S.roles = null; S.roleOut = null; S.vysmaBullet = false; S.roleIdx = 0;
         S.roundNo = 0; S.champion = null; S.lastOut = null; this.u();
       }
     };
 
-    /* ---- ρολος (καρτα) */
-    const last = S.players[S.players.length - 1];
-    const liar = !!(last && last.liar);
-    v.roleName = last ? last.name : "";
-    v.roleChip = this.SWATCH(last && last.color != null ? last.color : S.draft,
-      { lift: 3, pad: "7px 15px", font: "700 16px Comfortaa,sans-serif" });
-    v.roleTitle = liar ? "ΑΝΤΙΦΑΤΗΣ" : "ΔΙΚΗΓΟΡΟΣ";
-    v.roleSuit = liar ? "♦" : "♠";
-    v.roleSuitColor = liar ? "#c0392b" : "#1b1008";
-    v.roleText = liar
-      ? "Υποστηριζεις το αντιθετο απο αυτο που πιστευεις. Πρεπει να χασεις τουλαχιστον μια κοντρα σε καθε γυρο, αλλιως ο γυρος σου δεν μετραει. Μην σε πιασουν."
-      : "Παιζεις κανονικα. Λες αυτο που πιστευεις και προσπαθεις να κερδισεις την κοντρα.";
-    v.roleCardStyle = "position:relative;width:100%;padding:30px 22px 26px;border-radius:18px;border:3px solid #0b0203;background:linear-gradient(#fffdf5,#f1e2c7);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 34px rgba(0,0,0,.4)," +
-      (liar ? "inset 0 0 0 3px rgba(192,57,43,.35)" : "inset 0 0 0 3px rgba(35,100,180,.28)") + ";animation:pop .45s cubic-bezier(.2,1.5,.4,1) both";
-    v.roleTitleStyle = "margin:8px 0 6px;font:700 32px/1.1 Comfortaa,sans-serif;letter-spacing:-.5px;color:" +
-      (liar ? "#c0392b" : "#1f5da8");
-    v.roleBtnStyle = this.BIG(liar ? "pink" : "blue");
+    /* ---- η παραδοση του κινητου + το κρυφο φυλλο */
+    const rp = S.players[S.roleIdx] || null;
+    const rk = rp ? (rp.role || "law") : "law";
+    const kom = rk === "komplex", vys = rk === "vysma";
+    v.handNo = S.roleIdx + 1; v.handTotal = S.players.length;
+    v.handName = rp ? rp.name : "";
+    v.handChip = this.CHIP(S.roleIdx, { pad: "12px 26px", radius: "22px", dash: 5, lift: 6,
+      font: "700 28px Comfortaa,sans-serif",
+      extra: "animation:pop .45s cubic-bezier(.2,1.5,.4,1) both" });
+    v.roleName = rp ? rp.name : "";
+    v.roleChip = this.CHIP(S.roleIdx, { lift: 3, pad: "7px 15px",
+      font: "700 16px Comfortaa,sans-serif" });
+    v.roleTitle = kom ? "ΤΟ ΚΟΜΠΛΕΞ" : vys ? "ΤΟ ΒΥΣΜΑ" : "ΔΙΚΗΓΟΡΟΣ";
+    v.roleSuit = kom ? "♦" : vys ? "♣" : "♠";
+    v.roleSuitColor = kom ? "#b01a63" : vys ? "#1f5da8" : "#1b1008";
+    v.roleText = kom
+      ? "Τον εχεις σφηνα και δεν εξηγειται. Καθε γυρα πρεπει να τον φας σε μια κοντρα — καθε γυρα. Αμα κλεισει η γυρα και δεν τον νικησες, σηκωνεσαι εσυ απο το τραπεζι, οχι αυτος. Κερδιζεις μονο αν τον βγαλεις εξω πριν τον τελικο."
+      : vys
+      ? "Δικος σου ανθρωπος. Τον κρατας ορθιο ως τον τελικο — δικαστης, ενορκος, οπως μπορεις. Φτανει στους δυο, νικησες, τελος. Παει να πεσει, τρως εσυ τη σφαιρα και φευγεις στη θεση του — αλλα το στοιχημα σου μενει ζωντανο."
+      : "Καθαρο φυλλο. Παιζεις για τη δικη σου νικη: λες αυτο που πιστευεις, το υπερασπιζεσαι, μαζευεις ποντους. Δυο στο τραπεζι εχουν ατζεντα — βρες τους πριν σε φανε.";
+    v.roleHasTarget = kom || vys;
+    v.roleTargetLabel = kom ? "Ο στοχος σου" : "Ο δικος σου ανθρωπος";
+    const tgt = !S.roles ? null : kom ? S.roles.kT : vys ? S.roles.vT : null;
+    v.roleTargetName = tgt == null ? "" : this.nm(tgt);
+    v.roleTargetChip = this.CHIP(tgt, { lift: 4, pad: "9px 20px",
+      font: "700 21px Comfortaa,sans-serif" });
+    v.roleCardStyle = "position:relative;width:100%;padding:30px 22px 26px;border-radius:18px;border:3px solid #0b0203;background:linear-gradient(#fffdf5,#f1e2c7);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 34px rgba(0,0,0,.4),inset 0 0 0 3px " +
+      (kom ? "rgba(176,26,99,.35)" : vys ? "rgba(31,93,168,.32)" : "rgba(27,16,8,.18)") +
+      ";animation:pop .45s cubic-bezier(.2,1.5,.4,1) both";
+    v.roleTitleStyle = "margin:8px 0 6px;font:700 " + (kom || vys ? "30px" : "32px") +
+      "/1.1 Comfortaa,sans-serif;letter-spacing:-.5px;color:" +
+      (kom ? "#b01a63" : vys ? "#1f5da8" : "#1b1008");
+    v.roleBtnStyle = this.BIG(kom ? "pink" : vys ? "blue" : "orange");
 
     /* ---- μετρημα */
     if (r) {
@@ -1373,6 +1551,26 @@ class Component extends DCLogic {
       v.selectReady = r.a != null && r.b != null;
       v.selectPending = !(r.a != null && r.b != null);
       v.toChicken = () => this.go("chicken");
+
+      /* ---- πλευρες (χαλκινη, ισοπαλια, φιναλε)
+         Στις μονομαχιες δεν εχει προηγηθει μετρημα, αρα κανεις δεν
+         εχει δηλωσει πλευρα. Εδω την παιρνουν: ενα ταπ αλλαζει
+         πλευρες, κι αν συμφωνουν κι οι δυο βγαινει αλλη αποψη.      */
+      v.sidesJudge = this.nm(S.judge);
+      v.sidesJudgeChip = this.CHIP(S.judge, { lift: 2, pad: "5px 12px",
+        font: "700 13px Comfortaa,sans-serif" });
+      const sideTag = c => "flex:none;padding:6px 12px;border-radius:9px;border:2px solid #0b0203;" +
+        "font:700 10px Comfortaa,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#0b0203;background:" + c;
+      v.sideRows = [r.a, r.b].filter(i => i != null).map(i => ({
+        name: this.nm(i),
+        tag: i === r.a ? "Υπερ" : "Κατα",
+        tagStyle: sideTag(i === r.a ? "#5fe08f" : "#ff9c90"),
+        style: this.CHIP(i, { block: true, pad: "15px 16px", radius: "18px", dash: 5, lift: 6,
+          extra: "cursor:pointer;flex-direction:row;align-items:center;justify-content:space-between;gap:10px" }),
+        on: () => { const t = r.a; r.a = r.b; r.b = t; this.u(); }
+      }));
+      v.sidesNewOp = () => { r.op = this.drawOpinion(); this.u(); };
+      v.sidesGo = () => this.go("chicken");
 
       /* ---- κοτα */
       /* ΜΙΑ οθονη κοτας: ρωταει και τους δυο μαζι, ο ενας δηλωνει. */
@@ -1477,7 +1675,7 @@ class Component extends DCLogic {
         ? dd.judge : this.freeJudge(dd.a, dd.b);
       this.newDuel();                       /* παντα φρεσκια αποψη */
       S.round.a = dd.a; S.round.b = dd.b;
-      this.go("chicken");                   /* πρωτα φαινεται η αποψη */
+      this.go("sides");                     /* πρωτα διαλεγουν πλευρα */
     };
 
     /* === ΤΟ ΦΙΝΑΛΕ ====================================== */
@@ -1504,7 +1702,7 @@ class Component extends DCLogic {
       if (S.vegas) { f.bets = {}; f.asking = "a"; S.betErr = false; return this.go("bet"); }
       this.newDuel();
       S.round.a = f.a; S.round.b = f.b;
-      this.go("chicken");
+      this.go("sides");
     };
 
     /* ---- κρυφο στοιχημα */
@@ -1534,14 +1732,20 @@ class Component extends DCLogic {
       if (!f) return;
       this.newDuel();
       S.round.a = f.a; S.round.b = f.b;
-      this.go("chicken");
+      this.go("sides");
     };
 
-    /* ---- ψηφος για τον αντιφατη */
-    const liarIdx = S.players.findIndex(p => p.liar);
-    v.canHunt = !!(S.liarOn && liarIdx >= 0 && this.P(liarIdx).alive && this.alive().length >= 3);
-    v.goVote = () => this.go("vote");
+    /* ---- ψηφος του τραπεζιου για τα κρυφα φυλλα */
+    const R = S.roles;
+    const kAlive = !!(R && R.k != null && this.P(R.k).alive);
+    const vAlive = !!(R && R.v != null && this.P(R.v).alive);
+    v.canHunt = !!(R && (kAlive || vAlive) && this.alive().length >= 3);
+    v.goVote = () => { S.huntRole = "komplex"; this.go("vote"); };
     v.voteBack = () => this.go("out");
+    v.huntKStyle = this.OPT(S.huntRole === "komplex", "pink");
+    v.huntVStyle = this.OPT(S.huntRole === "vysma");
+    v.huntK = () => { S.huntRole = "komplex"; this.u(); };
+    v.huntV = () => { S.huntRole = "vysma"; this.u(); };
     v.huntRows = this.alive().map(i => ({
       name: this.nm(i),
       style: this.CHIP(i, { block: true, pad: "14px 14px", radius: "16px", dash: 5, lift: 5,
@@ -1549,26 +1753,60 @@ class Component extends DCLogic {
       on: () => { this.voteOut(i); this.u(); }
     }));
     const vr = S.voteResult;
+    const vrRole = vr ? (vr.role === "vysma" ? "το Βυσμα" : "το Κομπλεξ") : "";
     v.voteRight = !!(vr && vr.right);
     v.voteWrong = !!(vr && !vr.right);
     v.voteName = vr ? this.nm(vr.who) : "";
     v.voteChip = this.CHIP(vr ? vr.who : null, { pad: "11px 24px", radius: "20px", dash: 5,
       lift: 6, font: "700 28px Comfortaa,sans-serif" });
+    v.voteNote = !vr ? "" : vr.right
+      ? "Πεσατε μεσα — ητανε " + vrRole + ". Το φυλλο καηκε και οτι κι αν γινει απο δω και περα, εχασε."
+      : "Δεν ητανε " + vrRole + ". Καψατε εναν δικο σας, και το φυλλο καθεται ακομα στο τραπεζι.";
+    v.voteSwap = !!(vr && vr.gone != null && vr.gone !== vr.who);
+    v.voteGoneName = vr && vr.gone != null ? this.nm(vr.gone) : "";
+    v.voteGoneChip = this.CHIP(vr ? vr.gone : null, { lift: 4, pad: "9px 20px",
+      font: "700 21px Comfortaa,sans-serif" });
     v.voteGo = () => { S.voteResult = null; this.afterOut(); };
 
     /* ---- νικητης */
     v.champName = S.champion == null ? "" : this.nm(S.champion);
-    v.champNote = S.liarWon
-      ? "Ο αντιφατης εφτασε στο φιναλε. Κερδιζει αυτοματα."
-      : (S.vegas ? "Καθαρισε το τραπεζι στο φιναλε." : "Πηρε το last call.");
+    v.champNote = S.vegas ? "Καθαρισε το τραπεζι στο φιναλε." : "Πηρε το last call.";
     v.champChip = this.CHIP(S.champion, { pad: "14px 28px", radius: "24px", dash: 6, lift: 7,
       font: "700 34px Comfortaa,sans-serif",
       glow: "0 0 34px rgba(255,199,44,.55)",
       extra: "animation:pop .5s cubic-bezier(.2,1.5,.4,1) both" });
-    const li = S.players.findIndex(p => p.liar);
-    v.showLiar = S.liarOn && li >= 0;
-    v.liarChip = this.CHIP(li, { lift: 4, pad: "9px 20px", font: "700 22px Comfortaa,sans-serif" });
-    v.liarWasName = li >= 0 ? this.nm(li) : "";
+    /* ---- τα κρυφα φυλλα ανοιγουν */
+    const RO = S.roleOut;
+    v.showRoles = !!(R && RO);
+    v.roleReveal = !(R && RO) ? [] : [
+      { key: "k", title: "ΤΟ ΚΟΜΠΛΕΞ", who: R.k, target: R.kT, won: RO.kWon,
+        rel: "τον κυνηγουσε", tone: ["#8a1f63", "#4d0f37", "#ffb3dd"],
+        note: RO.kWon
+          ? "Τον εβγαλε εξω πριν τον τελικο. Καθαρη δουλεια."
+          : (this.P(R.k).alive
+            ? "Εφτασε ως το τελος με τον στοχο του ορθιο. Δεν μετραει."
+            : "Σηκωθηκε πριν προλαβει. Οτι κι αν εγινε μετα, δεν το αφορουσε.") },
+      { key: "v", title: "ΤΟ ΒΥΣΜΑ", who: R.v, target: R.vT, won: RO.vWon,
+        rel: "τον κρατουσε", tone: ["#1f6893", "#0d3a58", "#9fd8ff"],
+        note: RO.vWon
+          ? (this.P(R.v).alive
+            ? "Ο δικος του εφτασε στους δυο. Νικη χωρις να ιδρωσει."
+            : "Εφαγε τη σφαιρα, αλλα ο δικος του εφτασε στους δυο. Νικη.")
+          : (this.P(R.v).alive
+            ? "Ο δικος του δεν εφτασε στους δυο. Το βυσμα δεν επιασε."
+            : "Το εκαψαν πριν προλαβει να τον στειλει στον τελικο.") }
+    ].map(o => ({
+      title: o.title, who: this.nm(o.who), target: this.nm(o.target),
+      rel: o.rel, note: o.note,
+      verdict: o.won ? "ΝΙΚΗΣΕ" : "ΕΧΑΣΕ",
+      style: "text-align:left;padding:14px 13px 15px;border-radius:18px;border:3px solid #0b0203;background:linear-gradient(" +
+        o.tone[0] + "," + o.tone[1] + ");box-shadow:inset 0 2px 0 rgba(255,255,255,.16),0 6px 0 rgba(0,0,0,.45)",
+      titleStyle: "font:700 15px Comfortaa,sans-serif;letter-spacing:.04em;color:" + o.tone[2],
+      verdictStyle: "flex:none;padding:5px 11px;border-radius:9px;border:2px solid #0b0203;font:700 10px Comfortaa,sans-serif;letter-spacing:.18em;color:#0b0203;background:" +
+        (o.won ? "#5fe08f" : "#ff9c90"),
+      chip: this.CHIP(o.who, { lift: 3, pad: "7px 15px", font: "700 16px Comfortaa,sans-serif" }),
+      tChip: this.CHIP(o.target, { lift: 3, pad: "7px 15px", font: "700 16px Comfortaa,sans-serif" })
+    }));
 
     return v;
   }

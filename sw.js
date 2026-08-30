@@ -4,12 +4,14 @@
    HTML το ζηταει παντα φρεσκο (για να βλεπεις τις αλλαγες σου).
 
    ΟΤΑΝ ΑΝΕΒΑΖΕΙΣ ΝΕΑ ΕΚΔΟΣΗ: αλλαξε τον αριθμο στο VER.  */
-const VER = "kontra-v2";
+const VER = "kontra-v3";
 const CORE = [
   "./",
   "index.html",
   "kontra-grigora.html",
-  "manifest.json"
+  "manifest.json",
+  "img/icon-192.png",
+  "img/icon-512.png"
 ];
 
 self.addEventListener("install", e => {

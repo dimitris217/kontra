@@ -195,6 +195,14 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .btn.ghost{font-size:16px;padding:11px 14px;border-width:4px}
 /* τετράγωνη εκδοχή, ίδια φάση με τα πλαίσια των ονομάτων */
 .btn.box{border-radius:16px}
+/* ΖΩΓΡΑΦΙΣΤΟ ΚΟΥΜΠΙ — η ζωγραφιά είναι φόντο που τεντώνεται,
+   το κείμενο μένει μέσα στο λευκό με σταθερό padding σε px.  */
+.btn.tmpl{background:url(img/km-btn.png) no-repeat center/100% 100%;
+  border:none;border-radius:0;color:#161616;text-shadow:none;
+  min-height:88px;padding:22px 58px;margin-top:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;line-height:1.15}
+.btn.tmpl:active{transform:scale(.96)}
 .btn.brass{color:var(--brass)}
 .btn:disabled{opacity:.35;cursor:default}
 
@@ -494,8 +502,8 @@ V.welcome = () => `
   <div class="fill"></div>
   <h1>Καλωσηρθες στην Κοντρα!</h1>
   <p class="lede">Ειναι η πρωτη φορα που παιζεις;</p>
-  <button class="btn box" data-first="1">Ναι</button>
-  <button class="btn box" data-first="0">Οχι</button>
+  <button class="btn tmpl" data-first="1">Ναι</button>
+  <button class="btn tmpl" data-first="0">Οχι</button>
   <div class="fill"></div>`;
 
 /* ΟΘΟΝΗ: η ερωτηση εισοδου ---------------------------------- */
@@ -505,10 +513,10 @@ V.breakfast = () => `
   <p class="lede">Πρωτη φορα ε; Παντα η πιο δυσκολη... και αβολη...</p>
   <h2>Πριν παιξεις οφειλεις να μου απαντησεις σε μια ερωτηση.</h2>
   <div class="card">Αν δεν ετρωγες πρωινο σημερα, πως θα ενιωθες;</div>
-  <button class="btn box" data-bfast="kala">Καλα</button>
-  <button class="btn box" data-bfast="asxima">Ασχημα</button>
-  <button class="btn box" data-bfast="idk">Δεν ξερω</button>
-  <button class="btn box" data-bfast="idk2">Δεν γνωριζω</button>
+  <button class="btn tmpl" data-bfast="kala">Καλα</button>
+  <button class="btn tmpl" data-bfast="asxima">Ασχημα</button>
+  <button class="btn tmpl" data-bfast="idk">Δεν ξερω</button>
+  <button class="btn tmpl" data-bfast="idk2">Δεν γνωριζω</button>
   <div class="fill"></div>`;
 
 /* ΟΘΟΝΗ: η απαντηση του παιχνιδιου -------------------------- */
@@ -519,7 +527,7 @@ V.msg = () => `
   <div class="card">${S.msg ? S.msg.body : ""}</div>
   ${S.msg && S.msg.warn ? `<p class="warn">${S.msg.warn}</p>` : ""}
   <div class="fill"></div>
-  <button class="btn box" data-seen="1">Στο τραπεζι</button>`;
+  <button class="btn tmpl" data-seen="1">Στο τραπεζι</button>`;
 
 /* ΟΘΟΝΗ: ρυθμίσεις εκκίνησης -------------------------------- */
 V.count = () => {
@@ -1152,11 +1160,8 @@ app.addEventListener("click", e => {
       title: "Ασχημα, ε;",
       body: "Τιμια απαντηση. Το τραπεζι σεβεται τους ειλικρινεις — μεχρι να διαφωνησει μαζι τους."
     };
-    else S.msg = {
-      title: "Δεν ξερεις;",
-      body: "Καποιος που δεν εχει αποψη ουτε για το πρωινο του, εδω θα βρει μπελα. Καλως ηρθες.",
-      warn: "Σας παρακαλουμε, μην παιρνετε τιποτα προσωπικα..."
-    };
+    /* «Δεν ξερω»: χωρις σχολιο — καθεται κατευθειαν στο τραπεζι. */
+    else { Seen.set(); return go("count"); }
     return go("msg");
   }
   if (d.seen){ Seen.set(); return go("count"); }
