@@ -343,9 +343,12 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 .palbtn{padding:0;border:none;background:none;flex:none;width:58px}
 .palbtn img{display:block;width:100%;height:auto}
 .palbtn:active{transform:scale(.94)}
+/* Η παλετα πρεπει να χωραει ΠΑΝΤΑ, ακομα και σε κοντο κινητο:
+   το φυλλο κυλαει μεσα του και το «Ετοιμο» μενει προσβασιμο. */
 .modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.9);
-  display:flex;align-items:center;justify-content:center;padding:22px}
-.modal .sheet{width:100%;max-width:344px;padding:20px 18px;border-radius:22px;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:22px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal .sheet{width:100%;max-width:344px;margin:auto 0;padding:20px 18px;border-radius:22px;
   background:var(--ink);border:6px solid #000;text-align:center;
   box-shadow:inset 0 0 0 3px rgba(255,201,14,.25),0 18px 40px rgba(0,0,0,.6)}
 .swatches{display:flex;flex-wrap:wrap;gap:11px;justify-content:center}
@@ -397,15 +400,18 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 /* η πορτα για την Κοντρα στα Γρηγορα — σκετη ζωγραφια */
 .kdoor{width:23%;margin:6px auto 0;opacity:.62;transition:opacity .2s,transform .1s}
 .kdoor:active{opacity:1;transform:scale(1.08)}
-/* τα δυο κουμπια «πως το παιζετε»: ζωγραφιστο φοντο + comic sans */
-.how{display:flex;gap:10px;margin-top:8px}
-.how button{flex:1;min-height:76px;padding:14px 10px;border:none;border-radius:0;
+/* ΖΩΓΡΑΦΙΣΤΟ ΚΟΥΜΠΙ: το ιδιο πλαισιο με comic sans, οπου χρειαζεται */
+.imgbtn{border:none;border-radius:0;cursor:pointer;
   background:url(img/km-btn.png) no-repeat center/100% 100%;
   font:700 17px/1.15 "Comic Sans MS","Comic Sans",Comfortaa,cursive;
-  color:#161616;text-shadow:none;cursor:pointer;
+  color:#161616;text-shadow:none;min-height:64px;padding:12px 16px;
   display:flex;align-items:center;justify-content:center;transition:transform .1s}
-.how button:active{transform:scale(.96)}
-.how button.off{filter:grayscale(.75) brightness(.82);opacity:.72}
+.imgbtn:active{transform:scale(.96)}
+.imgbtn.off{filter:grayscale(.75) brightness(.82);opacity:.72}
+.how{display:flex;gap:10px;margin-top:8px}
+.how .imgbtn{flex:1;min-height:76px}
+.sheet .imgbtn{width:100%;min-height:58px;font-size:16px}
+.sheet .row .imgbtn{flex:1}
 </style>
 
 <div id="app"></div>
@@ -464,7 +470,7 @@ const OP_EG = [
   "ο σκετος καφες ειναι για επιδειξη",
   "τα ζωδια τα πιστευουν οσοι βαριουνται",
   "το βουνο ειναι καλυτερο απτη θαλασσα",
-  "οποιος βαζει μουσικη σε ηχειο στην παραλια θελει ξυλο",
+  "οποιος βαζει μουσικη σε ηχειο στην παραλια ειναι για δεσιμο",
   "η ταινια ειναι παντα χειροτερη απτο βιβλιο",
   "δεν υπαρχει καλη δικαιολογια για αργοπορια",
   "ο φραπες δεν ειναι καφες, ειναι τροπος ζωης",
@@ -564,7 +570,7 @@ function swatch(ci, pi, o){
     + "padding:" + (o.pad || "6px 14px") + ";border-radius:" + (o.radius || "999px") + ";"
     + "background:" + p.css(c.fill) + ";color:" + c.ink + ";"
     + "font:700 " + (o.size || "15px") + "/1.2 var(--display);"
-    + "border:" + (o.dash || 4) + "px dashed #000;"
+    + "border:" + (o.dash || 4) + "px solid #000;"
     + "box-shadow:" + sh.join(",") + ";text-shadow:none;"
     + (o.dim ? "opacity:.42;" : "") + (o.extra || "");
 }
@@ -615,8 +621,7 @@ function paletteHTML(){
       >${on ? "&#10003;" : taken ? "&times;" : ""}</button>`;
   }).join("");
   const pats = PATS.map((p, pi) =>
-    `<button class="btn ghost box ${S.draftPat === pi ? "brass" : ""}" data-pickpat="${pi}"
-       style="margin-top:0">${p.name}</button>`).join("");
+    `<button class="imgbtn ${S.draftPat === pi ? "" : "off"}" data-pickpat="${pi}">${p.name}</button>`).join("");
   return `
   <div class="modal">
     <div class="sheet">
@@ -629,7 +634,7 @@ function paletteHTML(){
         <span class="pchip" style="${swatch(S.draftCol, S.draftPat, { pad:"9px 22px", lift:4, size:"19px" })}"
           >${esc(COLORS[S.draftCol % COLORS.length].name)} &middot; ${esc(PATS[S.draftPat % PATS.length].name)}</span>
       </div>
-      <button class="btn box brass" data-closepal="1">Ετοιμο</button>
+      <button class="imgbtn" data-closepal="1" style="margin-top:6px">Ετοιμο</button>
     </div>
   </div>`;
 }
@@ -730,8 +735,8 @@ V.count = () => {
 
     <label>Πως το παιζετε</label>
     <div class="how">
-      <button class="${S.scoring==="points"?"":"off"}" data-scoring="points">Με ποντους</button>
-      <button class="${S.scoring==="penalty"?"":"off"}" data-scoring="penalty">Με ποινη</button>
+      <button class="imgbtn ${S.scoring==="points"?"":"off"}" data-scoring="points">Με ποντους</button>
+      <button class="imgbtn ${S.scoring==="penalty"?"":"off"}" data-scoring="penalty">Με ποινη</button>
     </div>
     ${S.scoring === "penalty" ? `<label>Τι πληρωνει ο χαμενος</label>${penaltyField()}` : ""}
 
@@ -756,7 +761,7 @@ V.rules = () => `
 
     <h3 style="margin-top:6px">(Κλασική) κόντρα</h3>
     <p>Γράφουν όλοι τα ονόματα τους και όσες απόψεις λαχτάρα η ψυχή τους. Αυτες θα μείνουν ανώνυμες για πάντα.</p>
-    <p>Ένας παίχτης καλείτε ως ο δικαστής του γύρου (η αλλιώς μπορείτε να τον φωνάζεται και δικαστή του κωλου). Οι υπόλοιποι κλείνουν τα μάτια τους και ο δικαστής του γύρου (του κωλου) διαβάζει μια άποψη δυνατά.</p>
+    <p>Ένας παίχτης καλείτε ως ο δικαστής του γύρου (η αλλιώς μπορείτε να τον φωνάζεται και δικαστή της συμφοράς). Οι υπόλοιποι κλείνουν τα μάτια τους και ο δικαστής του γύρου (του κωλου) διαβάζει μια άποψη δυνατά.</p>
     <p>Ολοι οι άλλοι σηκώνουν δεξί αν συμφωνούν, αριστερό αν διαφωνούν. Ο δικαστής μετράει και αν υπάρχει τουλάχιστον ένα δεξί και ένα αριστερό, υπάρχει κοντρα. Οι υπόλοιποι? Ένορκοι</p>
     <p>Με 2 λεπτά ο καθένας προσπαθούν να πείσουν τους υπόλοιπους ότι έχουν δίκιο. Ο δικαστής στο τέλος αποφασίζει (αν γίνεται αντικείμενα) ποιος είχε τα καλύτερα επιχειρήματα.</p>
 
@@ -766,9 +771,9 @@ V.rules = () => `
       <p>Κατά την διάρκεια ενός λόγου όλοι οι άλλοι το βουλώνουν. Μόνο ο αντίπαλος του έχει το δικαίωμα να πει την λέξη ΟΠΑ! Οι άλλοι κρίνουν αν είναι δικαιολογημένη η διακοπή και τον αφήνουν να μιλήσει για λίγο. Λίγο Ε</p>
     </div>
 
-    <p>Ο ηττημένος έχει το δικαίωμα να ρωτήσει για μια εξήγηση, αλλά αν οι άλλοι είναι φλωροι μπορουν και να μην πουν τίποτα.</p>
+    <p>Ο ηττημένος έχει το δικαίωμα να ρωτήσει για μια εξήγηση, αλλά αν οι άλλοι το παίζουν σπουδαίοι μπορουν και να μην πουν τίποτα.</p>
     <p>Στην λήξη της κόντρας, η σε περίπτωση ομοφωνίας στην άποψη ο δικαστής διαλέγει αν θέλει να κρατήσει την άποψη αν θέλει να μιλήσει ο ίδιος πάνω στο θεμα η να την κάψει και να μην ξανά συζητηθεί ποτε.</p>
-    <p>Στο τέλος του γύρου δίνει το κινητό σε άλλον και ο κύκλος επαναλαμβάνεται. Μέχρι να τελειώσουν οι απόψεις η, αν κάποιος ρίξει ένα σκαμπό στον δικαστή του κωλου.</p>
+    <p>Στο τέλος του γύρου δίνει το κινητό σε άλλον και ο κύκλος επαναλαμβάνεται. Μέχρι να τελειώσουν οι απόψεις η, αν κάποιος ρίξει ένα σκαμπό στον δικαστή.</p>
 
     <p class="mini" style="margin-top:26px">Τι? δεν σου αρεσε; καλα λοιπον,<br>ας δοκιμασουμε κατι πιο στα γρηγορα.</p>
     <button class="ibtn kdoor" data-seven="1" aria-label="Κοντρα στα Γρηγορα"><img src="${IMG}km-hero.png" alt=""></button>
@@ -866,7 +871,7 @@ V.round = () => {
   <div class="fill"></div>
   <div style="margin:0 0 18px">${chip(S.judge, { pad:"14px 30px", radius:"26px", dash:6, lift:7, size:"40px" })}</div>
   <p class="lede" style="color:var(--bone);font-size:20px;margin:0 0 4px">Παρε το κινητο.</p>
-  <p class="lede" style="margin:0">εισαι ο δικαστης του γυρου. η μοιρα του τραπεζιου κρεμεται απτα αρχιδια σου</p>
+  <p class="lede" style="margin:0">εισαι ο δικαστης του γυρου. η μοιρα του τραπεζιου κρεμεται απο τα χερια σου</p>
   ${lowDeck()}
   <div class="fill"></div>
   ${ibtn("etoimoi.png",'data-go="eyes"')}
@@ -939,7 +944,7 @@ V.theEnd = () => {
     ${t.solo != null
       ? `<div style="margin:24px 0 8px">${chipName(t.solo, S.players[t.solo], { pad:"13px 28px", radius:"24px", dash:6, lift:6, size:"32px" })}</div>
          <p class="lede">Νικητης της δικης με ${t.top} ${t.top===1?"νικη":"νικες"}.</p>`
-      : `<h2 style="margin-top:24px">Τι ειπατε ρε μαλακες καν;</h2>
+      : `<h2 style="margin-top:24px">Τι ειπατε ρε παιδια καν;</h2>
          <p class="lede">Ισοπαλια στην κορυφη. Δεν βγαινει νικητης.</p>`}
     <p class="mini">${S.roundsDone} γυροι &middot; ${t.mine.length} ${t.mine.length===1?"πρακτικο":"πρακτικα"}</p>
     <div class="tally" style="margin-top:14px">${board}</div>

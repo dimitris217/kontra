@@ -94,6 +94,10 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,rgba(0,0,0,0) 1px 4px);opacity:.5;z-index:5"></div>
 <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(80% 55% at 50% 0%,rgba(255,199,44,.12),rgba(0,0,0,0) 70%);z-index:4"></div>
 
+<sc-if value="{{ showHelp }}" hint-placeholder-val="{{ false }}">
+<button style="position:absolute;left:13px;top:13px;z-index:41;width:42px;height:42px;border-radius:50%;border:3px solid #0b0203;background:linear-gradient(#ffd75e,#dc9f10);color:#4a2600;font:700 18px Comfortaa,sans-serif;cursor:pointer;box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 4px 0 #96690a" style-active="transform:translateY(4px);box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 0 0 #96690a" onClick="{{ goRules }}" aria-label="Οι κανονες">i</button>
+</sc-if>
+
 <sc-if value="{{ atHome }}" hint-placeholder-val="{{ true }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <div style="display:flex;justify-content:space-between;align-items:center">
@@ -113,20 +117,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="position:absolute;bottom:6px;width:190px;height:110px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,199,44,.28),rgba(255,199,44,0))"></div>
 <img src="img/km-hero.png" alt="Ο κρουπιερης" style="position:relative;height:150px;width:auto;filter:drop-shadow(0 8px 0 rgba(0,0,0,.35))"></div>
 
-<p style="margin:2px 0 4px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Ετοιμες αποψεις. {{ rolesLine }}<br>Ενας φευγει απο το τραπεζι καθε γυρο.</p>
-
-<div style="margin:16px 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Τα κρυφα φυλλα</div>
-<div style="display:flex;gap:8px">
-<button style="{{ kCardStyle }}" onClick="{{ kToggle }}">
-<span style="{{ kMarkStyle }}">{{ kMark }}</span>
-<span style="font:700 16px Comfortaa,sans-serif;color:#ffb3dd">Το Κομπλεξ</span>
-</button>
-<button style="{{ vCardStyle }}" onClick="{{ vToggle }}">
-<span style="{{ vMarkStyle }}">{{ vMark }}</span>
-<span style="font:700 16px Comfortaa,sans-serif;color:#9fd8ff">Το Βυσμα</span>
-</button>
-</div>
-<p style="margin:9px 2px 0;text-align:left;font:400 11.5px/1.45 Comfortaa,sans-serif;color:rgba(255,246,226,.6)">αν ειστε 4, συστινεται να παιξεται με εναν ρολο μαξ</p>
+<p style="margin:2px 0 4px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Ετοιμες αποψεις. Κρυφα φυλλα στο τραπεζι.<br>Ενας φευγει απο το τραπεζι καθε γυρο.</p>
 
 <div style="margin:18px 0 6px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Χρονος λογου</div>
 <div style="display:flex;gap:8px">
@@ -526,6 +517,58 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<sc-if value="{{ atPicks }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
+<p style="flex:none;margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Πριν μοιρασει</p>
+<h2 style="flex:none;margin:0 0 6px;font:700 27px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Τα κρυφα φυλλα</h2>
+<p style="flex:none;margin:0 0 16px;font:400 13.5px/1.5 Comfortaa,sans-serif;color:#f0c9b2">Πατα το φυλλο για να μπει η να βγει απο την τραπουλα.</p>
+<div style="flex:none;display:flex;gap:8px">
+<button style="{{ kCardStyle }}" onClick="{{ kToggle }}">
+<span style="{{ kMarkStyle }}">{{ kMark }}</span>
+<span style="font:700 16px Comfortaa,sans-serif;color:#ffb3dd">Το Κομπλεξ</span>
+</button>
+<button style="{{ vCardStyle }}" onClick="{{ vToggle }}">
+<span style="{{ vMarkStyle }}">{{ vMark }}</span>
+<span style="font:700 16px Comfortaa,sans-serif;color:#9fd8ff">Το Βυσμα</span>
+</button>
+</div>
+<sc-if value="{{ picksSolo }}" hint-placeholder-val="{{ false }}">
+<p style="flex:none;margin:11px 2px 0;font:400 11.5px/1.45 Comfortaa,sans-serif;color:rgba(255,246,226,.6)">Στους 4 παιζει ενα φυλλο μονο.</p>
+</sc-if>
+<div style="flex:1;min-height:18px"></div>
+<button style="flex:none;display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 22px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 7px 0 #9c6c05,0 12px 22px rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.55)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 0 0 #9c6c05" onClick="{{ picksGo }}">ΜΟΙΡΑΣΕ ΤΑ ΦΥΛΛΑ</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atBullet }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
+<div style="flex:none;margin:0 auto 18px;padding:10px 26px;border:5px double #ff6a5a;border-radius:10px;transform:rotate(-5deg);animation:pop .4s cubic-bezier(.2,1.5,.4,1) both">
+<span style="font:400 17px/1 'Press Start 2P',monospace;color:#ff6a5a;text-shadow:0 0 18px rgba(255,80,60,.6)">I SFAIRA</span>
+</div>
+<sc-if value="{{ bVysma }}" hint-placeholder-val="{{ true }}">
+<div style="flex:none;padding:22px 16px;border-radius:20px;background:linear-gradient(#12365e,#071b30);border:4px solid #0b0203;box-shadow:inset 0 0 0 3px rgba(159,216,255,.25),0 8px 0 rgba(0,0,0,.5)">
+<p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#9fd8ff;text-transform:uppercase">Το βυσμα φανερωθηκε</p>
+<h2 style="margin:0;font:700 26px/1.2 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.5)">Εφαγε τη σφαιρα γι' αυτον</h2>
+</div>
+</sc-if>
+<sc-if value="{{ bKomplex }}" hint-placeholder-val="{{ false }}">
+<div style="flex:none;padding:22px 16px;border-radius:20px;background:linear-gradient(#8a1f63,#3d0a2b);border:4px solid #0b0203;box-shadow:inset 0 0 0 3px rgba(255,179,221,.25),0 8px 0 rgba(0,0,0,.5)">
+<p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffb3dd;text-transform:uppercase">Το κομπλεξ φανερωθηκε</p>
+<h2 style="margin:0;font:700 26px/1.2 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.5)">Δεν το αντεξε και σηκωθηκε</h2>
+</div>
+</sc-if>
+<div style="flex:none;margin:24px 0 0;display:flex;justify-content:center">
+<span style="{{ bChip }}">{{ bName }}</span>
+</div>
+<div style="flex:none;margin:14px 0 0;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap">
+<span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,246,226,.6)">για τον</span>
+<span style="{{ bTargetChip }}">{{ bTarget }}</span>
+</div>
+<div style="flex:1;min-height:20px"></div>
+<button style="flex:none;display:block;width:100%;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#5b9ff0,#2364b4);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 7px 0 #123f73;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 0 0 #123f73" onClick="{{ bulletGo }}">Συνεχεια</button>
+</div>
+</sc-if>
+
 <sc-if value="{{ atOut }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Αποβολη</p>
@@ -647,9 +690,10 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <span style="font:400 20px/1 'Press Start 2P',monospace;color:#ff6a5a;text-shadow:0 0 18px rgba(255,80,60,.6)">LATHOS</span>
 </div>
 </sc-if>
-<div style="flex:none;margin:22px 0 26px;display:flex;justify-content:center">
+<div style="flex:none;margin:22px 0 0;display:flex;justify-content:center">
 <span style="{{ voteChip }}">{{ voteName }}</span>
 </div>
+<p style="flex:none;margin:16px 0 26px;font:700 21px/1.3 Comfortaa,sans-serif;color:#ffd98a;text-shadow:0 2px 0 rgba(0,0,0,.4)">{{ voteTitle }}</p>
 <button style="flex:none;display:block;width:100%;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#5b9ff0,#2364b4);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 7px 0 #123f73;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 0 0 #123f73" onClick="{{ voteGo }}">Συνεχεια</button>
 </div>
 </sc-if>
@@ -794,10 +838,6 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 </sc-if>
 
-<sc-if value="{{ showHelp }}" hint-placeholder-val="{{ false }}">
-<button style="position:fixed;left:11px;bottom:11px;z-index:40;width:38px;height:38px;border-radius:50%;border:3px solid #0b0203;background:linear-gradient(#ffd75e,#dc9f10);color:#4a2600;font:700 16px Comfortaa,sans-serif;cursor:pointer;opacity:.62;box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 4px 0 #96690a" style-active="transform:translateY(4px);opacity:1;box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 0 0 #96690a" onClick="{{ goRules }}" aria-label="Οι κανονες">i</button>
-</sc-if>
-
 <sc-if value="{{ atRoleWin }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
 
@@ -813,7 +853,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="flex:none;padding:26px 18px 24px;border-radius:22px;background:linear-gradient(#8a1f63,#3d0a2b);border:4px solid #0b0203;box-shadow:inset 0 0 0 3px rgba(255,179,221,.3),0 9px 0 rgba(0,0,0,.5),0 16px 30px rgba(0,0,0,.45)">
 <p style="margin:0 0 12px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#ffb3dd;text-transform:uppercase">Το φυλλο μιλησε</p>
 <h1 style="margin:0;font:700 34px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.5)">νικησε το κομπλεξ!</h1>
-<p style="margin:16px 0 0;font:400 12.5px/1.5 Comfortaa,sans-serif;color:rgba(255,246,226,.72)">αντε φασωθειτε ομως μπας και τα βρειτε</p>
+<p style="margin:16px 0 0;font:400 12.5px/1.5 Comfortaa,sans-serif;color:rgba(255,246,226,.72)">τοσα χρονια θεραπειας, και το ελυσε σε ενα τραπεζι.</p>
 </div>
 </sc-if>
 
@@ -918,7 +958,9 @@ class Component extends DCLogic {
     huntRole: "komplex", // ποιο φυλλο κυνηγαει η ψηφοφορια
     duelsPlayed: 0,    // ποσες κοντρες ΠΑΙΧΤΗΚΑΝ σε αυτον τον γυρο
     kOn: true, vOn: true, // ποια κρυφα φυλλα μπαινουν στην τραπουλα
-    kVoid: false, vVoid: false, // ο στοχος βγηκε με ψηφο — το φυλλο ακυρωθηκε
+    kVoid: false, vVoid: false, // το φυλλο καηκε — οτι κι αν γινει, εχασε
+    noJudge: [],       // φανερωμενα φυλλα: δεν καθονται δικαστες στον τελικο
+    bulletInfo: null,  // ποιος εφαγε τη σφαιρα και για ποιον
     /* ΤΑ ΚΡΥΦΑ ΦΥΛΛΑ: k = το Κομπλεξ, kT = ο στοχος του,
        v = το Βυσμα, vT = ο προστατευομενος του.                  */
     roles: null,
@@ -999,8 +1041,10 @@ class Component extends DCLogic {
     const S = this.S;
     if (S.nameDraft.trim()) this.addPlayer();
     if (S.players.length < this.CFG.MIN_PLAYERS) return this.go("tooFew");
-    this.assignRoles();
-    S.roleIdx = 0; this.go("handoff");
+    /* Τα φυλλα διαλεγονται ΑΦΟΥ μπουν τα ονοματα. Στους 4 παιζει
+       μονο το ενα — αλλιως μισο τραπεζι ειναι κρυφο.              */
+    if (S.players.length <= 4 && (S.kOn ?? true) && (S.vOn ?? true)) S.vOn = false;
+    this.go("picks");
   }
   pickOne(list) { return list[Math.floor(Math.random() * list.length)]; }
   /* Μοιραζει τα κρυφα φυλλα. Με rolesOn = 0 δεν παιζει κανενα και
@@ -1040,8 +1084,7 @@ class Component extends DCLogic {
     const a = this.alive();
     if (R.k != null && R.kT != null && !S.kVoid && this.P(R.k).alive && !this.P(R.kT).alive) {
       S.roleOut = { who: "komplex", i: R.k, t: R.kT };
-    } else if (R.v != null && R.vT != null && !S.vVoid && a.length <= 2 && a.indexOf(R.vT) >= 0
-               && (this.P(R.v).alive || S.vysmaBullet)) {
+    } else if (R.v != null && R.vT != null && !S.vVoid && a.length <= 2 && a.indexOf(R.vT) >= 0) {
       S.roleOut = { who: "vysma", i: R.v, t: R.vT };
     } else return false;
     S.champion = S.roleOut.i;
@@ -1117,7 +1160,10 @@ class Component extends DCLogic {
     const risk = this.alive();
     const min = Math.min(...risk.map(i => this.P(i).pts));
     const worst = risk.filter(i => this.P(i).pts === min);
-    if (worst.length === 1) { this.eliminate(worst[0]); S.screen = "out"; return; }
+    if (worst.length === 1) {
+      this.eliminate(worst[0]);
+      S.screen = S.bulletInfo ? "bullet" : "out"; return;
+    }
     if (worst.length === 2) {
       S.bronze = { a: worst[0], b: worst[1], judge: this.bronzeJudge(worst[0], worst[1]) };
       S.screen = "duelIntro"; return;
@@ -1159,7 +1205,7 @@ class Component extends DCLogic {
       }
       this.armTie(); return this.go("replay");
     }
-    if (S.bronze) { this.eliminate(l); S.bronze = null; return this.go("out"); }
+    if (S.bronze) { this.eliminate(l); S.bronze = null; return this.goOut(); }
     this.awardDuel(w, l); this.nextDuel(); this.u();
   }
   /* Η ΣΦΑΙΡΑ ΤΟΥ ΒΥΣΜΑΤΟΣ: αν πεσει ο προστατευομενος, σηκωνεται
@@ -1169,13 +1215,33 @@ class Component extends DCLogic {
   eliminate(i) {
     const S = this.S, R = S.roles;
     let out = i;
-    if (R && R.v != null && R.vT === i && R.v !== i && this.P(R.v).alive) {
-      out = R.v; S.vysmaBullet = true;
+    S.bulletInfo = null;
+    if (R) {
+      const after = this.alive().filter(x => x !== i);
+      /* ΒΥΣΜΑ: ο δικος του παει να πεσει — τρωει τη σφαιρα στη θεση
+         του, φανερωνεται και το στοιχημα του χαλαει.               */
+      if (R.v != null && R.vT === i && R.v !== i && this.P(R.v).alive) {
+        out = R.v; S.vysmaBullet = true; S.vVoid = true;
+        S.bulletInfo = { kind: "vysma", who: R.v, target: R.vT };
+      }
+      /* ΚΟΜΠΛΕΞ: θα κατεληγε στον τελικο με τον στοχο του — αντι
+         γι' αυτο σηκωνεται το ιδιο και χανει.                      */
+      else if (R.k != null && R.kT != null && R.k !== i && R.kT !== i
+               && this.P(R.k).alive && this.P(R.kT).alive
+               && after.length === 2
+               && after.indexOf(R.k) >= 0 && after.indexOf(R.kT) >= 0) {
+        out = R.k; S.kVoid = true;
+        S.bulletInfo = { kind: "komplex", who: R.k, target: R.kT };
+      }
     }
     this.P(out).alive = false; S.lastOut = out; S.gone.push(out);
+    if (S.bulletInfo) { S.noJudge = S.noJudge || []; S.noJudge.push(out); }
   }
+  goOut() { this.go(this.S.bulletInfo ? "bullet" : "out"); }
   afterOut() {
-    const S = this.S, a = this.alive();
+    const S = this.S;
+    S.bulletInfo = null;
+    const a = this.alive();
     if (this.checkRoleWin()) { this.u(); return; }
     if (a.length <= 2) { this.startFinale(); this.u(); return; }
     this.newRound(); this.u();
@@ -1183,8 +1249,10 @@ class Component extends DCLogic {
 
   /* === ΤΟ ΤΕΛΕΥΤΑΙΟ ΤΡΑΠΕΖΙ =============================
      Δικαστης του φιναλε ειναι ο τελευταιος που εφυγε.            */
+  /* Φανερωμενο φυλλο δεν δικαζει τον τελικο — παει ο προηγουμενος. */
   finalJudge() {
-    const g = this.S.gone;
+    const g = this.S.gone, nj = this.S.noJudge || [];
+    for (let i = g.length - 1; i >= 0; i--) if (nj.indexOf(g[i]) < 0) return g[i];
     return g.length ? g[g.length - 1] : null;
   }
   startFinale() {
@@ -1226,10 +1294,14 @@ class Component extends DCLogic {
   voteOut(i) {
     const S = this.S, role = S.huntRole;
     const right = this.roleOf(i) === role;
+    /* Πιασμενο φυλλο = καμενο φυλλο: φανερωνεται και χανει. */
+    if (right) {
+      if (role === "komplex") S.kVoid = true; else S.vVoid = true;
+      S.noJudge = S.noJudge || []; S.noJudge.push(i);
+    }
     /* Αν το τραπεζι εβγαλε με ψηφο τον στοχο του Κομπλεξ, το
        Κομπλεξ ΔΕΝ κερδιζει — δεν εκανε αυτο τη δουλεια.          */
     if (S.roles && S.roles.kT === i) S.kVoid = true;
-    if (S.roles && S.roles.vT === i) S.vVoid = true;
     this.eliminate(i);
     S.voteResult = { who: i, gone: S.lastOut, right: right, role: role };
     S.screen = "voteResult";
@@ -1312,6 +1384,10 @@ class Component extends DCLogic {
       const R = S.roles || {};
       S.roleOut = { who: "vysma", i: R.v ?? 4, t: R.vT ?? 1 };
       S.champion = S.roleOut.i;
+    }
+    if (k === "bullet") {
+      const R = S.roles || {};
+      S.bulletInfo = { kind: "vysma", who: R.v ?? 4, target: R.vT ?? 1 };
     }
     if (k === "tooFew") { S.players = S.players.slice(0, 3); }
     if (k === "replay") {
@@ -1421,7 +1497,7 @@ class Component extends DCLogic {
       ["roundEnd", "Ταμειο"], ["out", "Αποβολη"], ["vote", "Ψηφος"], ["voteResult", "Αποκαλυψη"],
       ["replay", "Ισοπαλια"], ["duelIntro", "Χαλκινη"], ["finale", "Φιναλε"], ["bet", "Στοιχημα"],
       ["askVegas", "Vegas?"], ["stake", "Ποτ"], ["winner", "Νικητης"],
-      ["roleWin", "Νικη φυλλου"]
+      ["roleWin", "Νικη φυλλου"], ["picks", "Τα φυλλα"], ["bullet", "Η σφαιρα"]
     ];
 
     const v = {
@@ -1437,6 +1513,7 @@ class Component extends DCLogic {
       atFinale: sc === "finale", atBet: sc === "bet", atStake: sc === "stake",
       atAskVegas: sc === "askVegas", atRoleWin: sc === "roleWin",
       atVote: sc === "vote", atVoteResult: sc === "voteResult",
+      atPicks: sc === "picks", atBullet: sc === "bullet",
       bulbs: (this.props.bulbsOn ?? true) === true,
       noBulbs: (this.props.bulbsOn ?? true) !== true,
       devOn: S.devUnlocked === true,
@@ -1481,8 +1558,21 @@ class Component extends DCLogic {
       vMark: (S.vOn ?? true) === true ? "ΜΕΣΑ" : "ΕΞΩ",
       kMarkStyle: this.ROLEMARK((S.kOn ?? true) === true),
       vMarkStyle: this.ROLEMARK((S.vOn ?? true) === true),
-      kToggle: () => { S.kOn = !(S.kOn ?? true); this.u(); },
-      vToggle: () => { S.vOn = !(S.vOn ?? true); this.u(); },
+      /* Στους 4 παιζει ενα φυλλο μονο: αναβεις το ενα, σβηνει το αλλο. */
+      kToggle: () => {
+        const solo = S.players.length <= 4;
+        S.kOn = !(S.kOn ?? true);
+        if (solo && S.kOn) S.vOn = false;
+        this.u();
+      },
+      vToggle: () => {
+        const solo = S.players.length <= 4;
+        S.vOn = !(S.vOn ?? true);
+        if (solo && S.vOn) S.kOn = false;
+        this.u();
+      },
+      picksSolo: S.players.length <= 4,
+      picksGo: () => { this.assignRoles(); S.roleIdx = 0; this.go("handoff"); },
       rolesLine: (((S.kOn ?? true) ? 1 : 0) + ((S.vOn ?? true) ? 1 : 0)) === 2
         ? "Δυο κρυφα φυλλα."
         : (((S.kOn ?? true) ? 1 : 0) + ((S.vOn ?? true) ? 1 : 0)) === 1
@@ -1923,7 +2013,27 @@ class Component extends DCLogic {
     v.voteGoneName = vr && vr.gone != null ? this.nm(vr.gone) : "";
     v.voteGoneChip = this.CHIP(vr ? vr.gone : null, { lift: 4, pad: "9px 20px",
       font: "700 21px Comfortaa,sans-serif" });
-    v.voteGo = () => { S.voteResult = null; this.afterOut(); };
+    /* Σωστη ψηφος = φανερωμενο φυλλο. Λεει ΤΙ ητανε, οχι ποιον
+       ειχε στο χερι — αυτο βγαινει μονο αν φαει τη σφαιρα.        */
+    v.voteTitle = !vr || !vr.right ? ""
+      : vr.role === "vysma" ? "βρηκατε τον λιποτακτη!" : "βρηκατε το κομπλεξ!";
+    v.voteGo = () => {
+      S.voteResult = null;
+      if (S.bulletInfo) return this.go("bullet");
+      this.afterOut();
+    };
+
+    /* ---- Η ΣΦΑΙΡΑ: καποιο φυλλο σηκωθηκε στη θεση αλλου */
+    const bi = S.bulletInfo;
+    v.bVysma = !!(bi && bi.kind === "vysma");
+    v.bKomplex = !!(bi && bi.kind === "komplex");
+    v.bName = bi ? this.nm(bi.who) : "";
+    v.bTarget = bi ? this.nm(bi.target) : "";
+    v.bChip = this.CHIP(bi ? bi.who : null, { pad: "11px 24px", radius: "20px", dash: 5,
+      lift: 6, font: "700 26px Comfortaa,sans-serif" });
+    v.bTargetChip = this.CHIP(bi ? bi.target : null, { lift: 3, pad: "7px 16px",
+      font: "700 16px Comfortaa,sans-serif" });
+    v.bulletGo = () => this.afterOut();
 
     /* ---- νικητης */
     v.champName = S.champion == null ? "" : this.nm(S.champion);
@@ -1970,8 +2080,8 @@ class Component extends DCLogic {
       extra: "animation:pop .5s cubic-bezier(.2,1.5,.4,1) both" });
     v.rwTargetChip = this.CHIP(RO ? RO.t : null, { lift: 3, pad: "7px 16px",
       font: "700 16px Comfortaa,sans-serif" });
-    v.rwRel = isVy ? "τον προστατευε" : "τον κυνηγουσε";
-    v.rwBurned = !!(RO && isVy && S.vysmaBullet);
+    v.rwRel = isVy ? "προστατευομενος του ο" : "εβγαλε εξω τον";
+    v.rwBurned = false;
     v.rwBack = () => {
       S.screen = "home"; S.players = []; S.round = null; S.bronze = null; S.tie = null;
       S.finale = null; S.voteResult = null; S.gone = [];
