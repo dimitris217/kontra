@@ -95,7 +95,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(80% 55% at 50% 0%,rgba(255,199,44,.12),rgba(0,0,0,0) 70%);z-index:4"></div>
 
 <sc-if value="{{ showHelp }}" hint-placeholder-val="{{ false }}">
-<button style="position:absolute;left:13px;top:13px;z-index:41;width:42px;height:42px;border-radius:50%;border:3px solid #0b0203;background:linear-gradient(#ffd75e,#dc9f10);color:#4a2600;font:700 18px Comfortaa,sans-serif;cursor:pointer;box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 4px 0 #96690a" style-active="transform:translateY(4px);box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 0 0 #96690a" onClick="{{ goRules }}" aria-label="Οι κανονες">i</button>
+<button style="position:absolute;left:13px;top:13px;z-index:41;width:24px;height:24px;padding:0;border-radius:50%;border:2px solid #0b0203;background:linear-gradient(#ffd75e,#dc9f10);color:#4a2600;font:700 12px Comfortaa,sans-serif;cursor:pointer;opacity:.78;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 0 #96690a" style-active="transform:translateY(2px);opacity:1;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 #96690a" onClick="{{ goRules }}" aria-label="Οι κανονες">i</button>
 </sc-if>
 
 <sc-if value="{{ atHome }}" hint-placeholder-val="{{ true }}">
@@ -558,11 +558,11 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 </sc-if>
 <div style="flex:none;margin:24px 0 0;display:flex;justify-content:center">
-<span style="{{ bChip }}">{{ bName }}</span>
+<span style="{{ bulChip }}">{{ bulName }}</span>
 </div>
 <div style="flex:none;margin:14px 0 0;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap">
 <span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,246,226,.6)">για τον</span>
-<span style="{{ bTargetChip }}">{{ bTarget }}</span>
+<span style="{{ bulTargetChip }}">{{ bulTarget }}</span>
 </div>
 <div style="flex:1;min-height:20px"></div>
 <button style="flex:none;display:block;width:100%;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#5b9ff0,#2364b4);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 7px 0 #123f73;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 0 0 #123f73" onClick="{{ bulletGo }}">Συνεχεια</button>
@@ -1235,6 +1235,12 @@ class Component extends DCLogic {
       }
     }
     this.P(out).alive = false; S.lastOut = out; S.gone.push(out);
+    /* ΟΠΟΙΟ ΦΥΛΛΟ ΣΗΚΩΘΕΙ, ΕΧΑΣΕ. Ειτε στους ποντους, ειτε στην
+       ψηφο, ειτε στη σφαιρα — δεν ξανακερδιζει με τιποτα.         */
+    if (R) {
+      if (R.k != null && out === R.k) S.kVoid = true;
+      if (R.v != null && out === R.v) S.vVoid = true;
+    }
     if (S.bulletInfo) { S.noJudge = S.noJudge || []; S.noJudge.push(out); }
   }
   goOut() { this.go(this.S.bulletInfo ? "bullet" : "out"); }
@@ -1351,7 +1357,8 @@ class Component extends DCLogic {
     /* το dev rail θελει τουλαχιστον το demo τραπεζι των 6 */
     if (S.players.length < 6) this.seed();
     if (!S.round) this.newDuel();
-    if (k === "sides" || k === "chicken") {
+    if (k === "sides" || k === "chicken" || k === "select"
+        || k === "contra" || k === "verdict") {
       const av = this.alive();
       if (S.round.a == null) S.round.a = av[0];
       if (S.round.b == null) S.round.b = av[1];
@@ -1427,7 +1434,8 @@ class Component extends DCLogic {
       "font:" + (o.font || "700 14px Comfortaa,sans-serif") + ";" +
       "border:" + dash + "px dashed rgba(255,255,255,.92);" +
       (sh.length ? "box-shadow:" + sh.join(",") + ";" : "") +
-      "text-shadow:0 1px 0 rgba(0,0,0,.18);" +
+      "text-shadow:0 1px 0 rgba(0,0,0,.18);min-width:0;text-align:center;" +
+      "overflow-wrap:anywhere;word-break:break-word;line-height:1.15;" +
       (o.dim ? "opacity:.4;text-decoration:line-through;" : "") +
       (o.extra || "");
   }
@@ -1842,12 +1850,22 @@ class Component extends DCLogic {
       };
       v.endContra = () => this.go("verdict");
 
-      /* ---- ετυμηγορια */
+      /* ---- ετυμηγορια
+         Δικλειδα: αν για οποιονδηποτε λογο λειπει πλευρα, μπαινει
+         καποιος ζωντανος — να μη βγει ποτε κουμπι χωρις ονομα.    */
+      const bad = i => i == null || !S.players[i] || !S.players[i].name;
+      if (bad(r.a) || bad(r.b)) {
+        const av = this.alive().filter(i => !bad(i));
+        const free = av.filter(i => i !== S.judge);
+        if (bad(r.a)) r.a = free[0] != null ? free[0] : av[0];
+        const alt = free.filter(i => i !== r.a);
+        if (bad(r.b)) r.b = alt[0] != null ? alt[0] : av.filter(i => i !== r.a)[0];
+      }
       const jurors = this.alive().filter(i => i !== S.judge && i !== r.a && i !== r.b).length;
       v.juryText = jurors ? "Οι ενορκοι αποφασιζουν" : "Ο δικαστης αποφασιζει";
       v.aName = this.nm(r.a); v.bName = this.nm(r.b);
       const duelBtn = i => this.CHIP(i, { block: true, pad: "18px 16px", radius: "20px", dash: 5,
-        lift: 7, font: "700 22px Comfortaa,sans-serif", extra: "cursor:pointer" });
+        lift: 7, font: "700 21px Comfortaa,sans-serif", extra: "cursor:pointer" });
       v.aBtn = duelBtn(r.a); v.bBtn = duelBtn(r.b);
       v.winA = () => this.settle(r.a, r.b, true);
       v.winB = () => this.settle(r.b, r.a, true);
@@ -2027,11 +2045,13 @@ class Component extends DCLogic {
     const bi = S.bulletInfo;
     v.bVysma = !!(bi && bi.kind === "vysma");
     v.bKomplex = !!(bi && bi.kind === "komplex");
-    v.bName = bi ? this.nm(bi.who) : "";
-    v.bTarget = bi ? this.nm(bi.target) : "";
-    v.bChip = this.CHIP(bi ? bi.who : null, { pad: "11px 24px", radius: "20px", dash: 5,
+    /* ΠΡΟΣΟΧΗ: ονοματα κλειδιων μοναδικα — το bName ειναι της
+       ετυμηγοριας, εδω παει bulName.                              */
+    v.bulName = bi ? this.nm(bi.who) : "";
+    v.bulTarget = bi ? this.nm(bi.target) : "";
+    v.bulChip = this.CHIP(bi ? bi.who : null, { pad: "11px 24px", radius: "20px", dash: 5,
       lift: 6, font: "700 26px Comfortaa,sans-serif" });
-    v.bTargetChip = this.CHIP(bi ? bi.target : null, { lift: 3, pad: "7px 16px",
+    v.bulTargetChip = this.CHIP(bi ? bi.target : null, { lift: 3, pad: "7px 16px",
       font: "700 16px Comfortaa,sans-serif" });
     v.bulletGo = () => this.afterOut();
 
