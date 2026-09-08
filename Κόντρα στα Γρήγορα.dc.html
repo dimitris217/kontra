@@ -206,6 +206,30 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 </sc-if>
 
+<sc-if value="{{ atCats }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
+<p style="flex:none;margin:0 0 8px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Πριν τα ονοματα</p>
+<h2 style="flex:none;margin:0 0 6px;font:700 27px/1.15 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.45)">Τι θα συζητησετε;</h2>
+<p style="flex:none;margin:0 0 16px;font:400 13.5px/1.5 Comfortaa,sans-serif;color:#f0c9b2;text-wrap:pretty">Πατα οσες κατηγοριες θελετε. Οσο πιο βαριες, τοσο πιο πολυ ξυλο.</p>
+<div style="flex:none;display:flex;flex-wrap:wrap;gap:9px">
+<sc-for list="{{ catRows }}" as="c" hint-placeholder-count="8">
+<button style="{{ c.style }}" onClick="{{ c.on }}">
+<span style="{{ c.markStyle }}">{{ c.mark }}</span>
+<span style="{{ c.nameStyle }}">{{ c.name }}</span>
+<span style="{{ c.noteStyle }}">{{ c.note }}</span>
+</button>
+</sc-for>
+</div>
+<button style="flex:none;display:block;width:100%;margin-top:14px;padding:12px 16px;border:3px solid #0b0203;border-radius:14px;font:700 14px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#7a6259,#4c3a33);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 5px 0 #241b17;text-shadow:0 2px 0 rgba(0,0,0,.4)" style-active="transform:translateY(5px);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 0 0 #241b17" onClick="{{ catsAll }}">Ολα μεσα</button>
+<div style="flex:1;min-height:16px"></div>
+<sc-if value="{{ catsNone }}" hint-placeholder-val="{{ false }}">
+<p style="flex:none;margin:0 0 10px;font:400 9px/1.7 'Press Start 2P',monospace;color:#ff8b7d">ΔΙΑΛΕΞΕ ΤΟΥΛΑΧΙΣΤΟΝ ΜΙΑ</p>
+</sc-if>
+<button style="flex:none;display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 22px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 7px 0 #9c6c05,0 12px 22px rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.55)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 0 0 #9c6c05" onClick="{{ catsGo }}">Παμε στα ονοματα</button>
+<p style="flex:none;margin:10px 0 0;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.45)">{{ catsTotal }} ΑΠΟΨΕΙΣ ΣΤΗΝ ΤΡΑΠΟΥΛΑ</p>
+</div>
+</sc-if>
+
 <sc-if value="{{ atIntro }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
 <div style="flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
@@ -402,7 +426,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 
 <sc-if value="{{ atSides }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
-<div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px;padding-left:30px">
 <span style="font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Ποιος παιρνει ποια πλευρα</span>
 <span style="{{ sidesJudgeChip }}">{{ sidesJudge }}</span>
 </div>
@@ -429,7 +453,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 
 <sc-if value="{{ atChicken }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column">
-<div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px;padding-left:30px">
 <span style="font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffc72c;text-transform:uppercase">Η αποψη</span>
 <span style="{{ chickenJudgeChip }}">{{ chickenJudge }}</span>
 </div>
@@ -916,38 +940,142 @@ class Component extends DCLogic {
     { name: "Κρεμ",     fill: "#e8d3b2", ink: "#3a1c00" }
   ];
 
-  /* === ΤΟ POOL ΤΩΝ ΑΠΟΨΕΩΝ ============================== */
-  POOL = [
-    "Η αληθινη φιλια δεν αντεχει τη μεγαλη αποσταση.",
-    "Το ταλεντο μετραει περισσοτερο απο τη σκληρη δουλεια.",
-    "Καλυτερα να πεις μια σκληρη αληθεια παρα ενα ψεμα που προστατευει.",
-    "Τα χρηματα αγοραζουν ευτυχια μεχρι ενα σημειο, και αυτο το σημειο ειναι ψηλα.",
-    "Το να μενεις στην πολη που γεννηθηκες ειναι επιλογη, οχι αδρανεια.",
-    "Καποιος που δεν διαβαζει βιβλια δεν ειναι λιγοτερο μορφωμενος.",
-    "Η οικογενεια δεν σου δινει αυτοματα δικαιωμα στην αγαπη σου.",
-    "Το να ζητας συγγνωμη χωρις να το εννοεις ειναι χειροτερο απο το να μην τη ζητας.",
-    "Οι ταινιες ηταν καλυτερες πριν απο εικοσι χρονια.",
-    "Ενας ανθρωπος μπορει να αλλαξει ριζικα μετα τα τριαντα.",
-    "Το να δουλευεις σε κατι που δεν αγαπας δεν ειναι αποτυχια.",
-    "Η τυχη παιζει μεγαλυτερο ρολο στην επιτυχια απο οτι παραδεχομαστε.",
-    "Ειναι λαθος να κρινεις καποιον απο το παρελθον του.",
-    "Το κινητο εχει κανει τις παρεες χειροτερες.",
-    "Καλυτερα να ζεις μονος παρα με λαθος ανθρωπο.",
-    "Η ελευθερια του λογου πρεπει να εχει οριο.",
-    "Το να συγχωρεις ειναι πιο πολυ για σενα παρα για τον αλλον.",
-    "Ο ανταγωνισμος μεταξυ φιλων ειναι υγιης.",
-    "Δεν υπαρχει κακη μουσικη, μονο μουσικη που δεν καταλαβες.",
-    "Οι κανονες υπαρχουν για να σπανε οταν εχεις καλο λογο.",
-    "Το να μην εχεις γνωμη για κατι ειναι κι αυτο γνωμη.",
-    "Η πρωτη εντυπωση εχει σχεδον παντα δικιο.",
-    "Οι αναμνησεις αξιζουν περισσοτερο απο τα πραγματα.",
-    "Καλυτερα να προσπαθησεις και να αποτυχεις δημοσια παρα να μην προσπαθησεις."
+  /* === ΟΙ ΑΠΟΨΕΙΣ, ΧΩΡΙΣΜΕΝΕΣ ΣΕ ΚΑΤΗΓΟΡΙΕΣ ==============
+     Το τραπεζι διαλεγει με ποιες θα παιξει πριν μπουν ονοματα.  */
+  CATS = [
+    { id: "parees", name: "Παρεες & σχεσεις", note: "για το τραπεζι",
+      tone: ["#c8496b", "#7a1330", "#ffd2de"], ops: [
+      "Η αληθινη φιλια δεν αντεχει τη μεγαλη αποσταση.",
+      "Ο κολλητος σου εχει δικαιωμα να σου πει οτι ο συντροφος σου δεν σου κανει.",
+      "Καλυτερα μονος παρα με παρεα που σε κουραζει.",
+      "Ο ανταγωνισμος μεσα στην παρεα ειναι υγιης.",
+      "Το να κρατας μυστικο για καποιον ειναι μεγαλυτερη πραξη φιλιας απο το να πεις την αληθεια.",
+      "Οποιος δεν απανταει σε μηνυμα για μερες, δεν σε θελει τοσο.",
+      "Η παρεα που δεν τσακωνεται ποτε ειναι ψευτικη.",
+      "Καποιοι φιλοι πρεπει να μεινουν στη φαση που τους γνωρισες.",
+      "Οι φιλιες που κρατανε απο το σχολειο κρατανε απο συνηθεια, οχι απο αγαπη.",
+      "Το να ζητας συγγνωμη χωρις να το εννοεις ειναι χειροτερο απο το να μην τη ζητας.",
+      "Ενας ανθρωπος μπορει να αλλαξει ριζικα μετα τα τριαντα.",
+      "Δεν χρωστας εξηγηση σε κανεναν για το ποιον κοβεις απο τη ζωη σου."
+    ]},
+    { id: "erwtas", name: "Ερωτας", note: "λιγο πικαντικα",
+      tone: ["#b0378f", "#590d45", "#ffcdf0"], ops: [
+      "Η απιστια στο μυαλο μετραει το ιδιο με την απιστια στην πραξη.",
+      "Καλυτερα να σε αφησουν με ενα μηνυμα παρα με ενα ψεμα.",
+      "Το να κοιταξεις το κινητο του συντροφου σου καποιες φορες δικαιολογειται.",
+      "Δεν υπαρχει φιλια μεταξυ πρωην.",
+      "Η χημεια μαθαινεται, ο σεβασμος οχι.",
+      "Η διαφορα ηλικιας πανω απο δεκα χρονια φερνει παντα προβλημα.",
+      "Το να μεινεις για τα παιδια ειναι πιο εγωιστικο απο το να φυγεις.",
+      "Ο ερωτας απο την πρωτη στιγμη ειναι απλα ορμονες.",
+      "Οποιος δεν εχει μεινει ποτε μονος του δεν ξερει να ειναι με καποιον.",
+      "Το ζευγαρι που τα λεει ολα στους φιλους του δεν κρατησει.",
+      "Η ζηλια σε μικρη δοση ειναι αποδειξη ενδιαφεροντος.",
+      "Καλυτερα να αγαπας καποιον που σε θελει λιγοτερο παρα το αναποδο."
+    ]},
+    { id: "kathimerina", name: "Καθημερινα", note: "ασφαλη νερα",
+      tone: ["#2f8f5b", "#12472c", "#c9f3da"], ops: [
+      "Ο πρωινος τυπος ειναι πιο παραγωγικος και δεν συζητιεται.",
+      "Το να αργεις παντα δεκα λεπτα ειναι ελλειψη σεβασμου, οχι χαρακτηρας.",
+      "Το βουνο ειναι καλυτερο απο τη θαλασσα.",
+      "Οποιος βαζει μουσικη σε ηχειο στην παραλια θελει ξυλο.",
+      "Η ταινια ειναι σχεδον παντα χειροτερη απο το βιβλιο.",
+      "Το να ταξιδευεις μονος ειναι καλυτερο απο το να ταξιδευεις με παρεα.",
+      "Καποιος που δεν διαβαζει βιβλια δεν ειναι λιγοτερο μορφωμενος.",
+      "Οι αναμνησεις αξιζουν περισσοτερο απο τα πραγματα.",
+      "Τα ζωδια τα πιστευουν οσοι βαριουνται να γνωρισουν τον εαυτο τους.",
+      "Το να μενεις στην πολη που γεννηθηκες ειναι επιλογη, οχι αδρανεια.",
+      "Ο υπνος πριν τα μεσανυχτα ειναι μυθος για να μας βαζουν για υπνο.",
+      "Δεν υπαρχει κακη μουσικη, μονο μουσικη που δεν καταλαβες."
+    ]},
+    { id: "fagito", name: "Φαγητο & ποτο", note: "ιερος πολεμος",
+      tone: ["#d1791a", "#7a3c05", "#ffe1bc"], ops: [
+      "Η πιτσα με ανανα ειναι εγκλημα.",
+      "Ο φραπες δεν ειναι καφες, ειναι τροπος ζωης.",
+      "Ο σκετος καφες ειναι για επιδειξη.",
+      "Το σουβλακι με πατατες μεσα ειναι το μονο σωστο.",
+      "Το delivery εχει καταστρεψει το να βγαινεις εξω.",
+      "Ο χορτοφαγος που κρινει τους αλλους ειναι χειροτερος απο τον κρεατοφαγο που δεν κρινει κανεναν.",
+      "Το ακριβο εστιατοριο πουλαει ατμοσφαιρα, οχι φαγητο.",
+      "Ο καφες μετα τις εξι το απογευμα ειναι για ανθρωπους χωρις σχεδιο.",
+      "Το μαγειρεμα του παππου δεν ηταν καλυτερο, απλα ημασταν πεινασμενοι.",
+      "Οποιος βαζει κετσαπ στα παντα δεν εχει γευση.",
+      "Το ουζο δεν πινεται χωρις μεζε, τελος.",
+      "Το πρωινο δεν ειναι το πιο σημαντικο γευμα της ημερας."
+    ]},
+    { id: "lefta", name: "Λεφτα & δουλεια", note: "πιανει νευρα",
+      tone: ["#b8901c", "#5f4708", "#ffeeb8"], ops: [
+      "Τα χρηματα αγοραζουν ευτυχια, και το σημειο που σταματανε ειναι πολυ ψηλα.",
+      "Η τυχη παιζει μεγαλυτερο ρολο στην επιτυχια απο οσο παραδεχομαστε.",
+      "Το να δουλευεις σε κατι που δεν αγαπας δεν ειναι αποτυχια.",
+      "Το ταλεντο μετραει περισσοτερο απο τη σκληρη δουλεια.",
+      "Καλυτερα σιγουρος μισθος παρα δικη σου δουλεια.",
+      "Οποιος δανειζει λεφτα σε φιλο τα χαριζει.",
+      "Το πτυχιο δεν εχει πια καμια αξια.",
+      "Η δουλεια απο το σπιτι εκανε τους ανθρωπους πιο μονους, οχι πιο ελευθερους.",
+      "Ειναι λαθος να ρωτας καποιον ποσα βγαζει.",
+      "Οποιος δεν εχει πεινασει δεν ξερει την αξια των χρηματων.",
+      "Το να αφησεις καλη δουλεια για ενα ονειρο ειναι ανευθυνο.",
+      "Καλυτερα να προσπαθησεις και να αποτυχεις δημοσια παρα να μην προσπαθησεις."
+    ]},
+    { id: "othones", name: "Οθονες & ιντερνετ", note: "νεανικα",
+      tone: ["#2f6fb8", "#123f73", "#cde4ff"], ops: [
+      "Το κινητο εχει κανει τις παρεες χειροτερες.",
+      "Οποιος ανεβαζει τα παντα στο story δεν τα ζει.",
+      "Οι ταινιες ηταν καλυτερες πριν απο εικοσι χρονια.",
+      "Το να κανεις unfollow καποιον ειναι δηλωση, οχι κινηση.",
+      "Τα σχολια στο ιντερνετ πρεπει να εχουν ονομα και επωνυμο.",
+      "Η τεχνητη νοημοσυνη θα παρει τη δουλεια σου και καλα θα κανει.",
+      "Το να βλεπεις σειρα σε διπλη ταχυτητα ειναι ασεβεια.",
+      "Οποιος δεν εχει καμερα ανοιχτη σε κληση κατι κρυβει.",
+      "Τα παιδια δεν πρεπει να εχουν κινητο πριν τα δεκατεσσερα.",
+      "Το να μπλοκαρεις καποιον ειναι πιο ωριμο απο το να τσακωθεις.",
+      "Η μουσικη σημερα ειναι πιο τολμηρη απο ποτε.",
+      "Οποιος διαβαζει μονο τιτλους δεν εχει δικαιωμα γνωμης."
+    ]},
+    { id: "ellada", name: "Ελλαδα", note: "θα ανοιξουν θεματα",
+      tone: ["#2b78a8", "#0d3a58", "#cfeaff"], ops: [
+      "Ο Ελληνας παραπονιεται πιο πολυ απο οσο διορθωνει.",
+      "Η μετακομιση στο εξωτερικο ειναι λυση, οχι προδοσια.",
+      "Το δημοσιο δεν φταιει, οι ανθρωποι που το γεμισαμε φταινε.",
+      "Το ελληνικο καλοκαιρι ειναι υπερτιμημενο.",
+      "Οποιος ψηφιζει το ιδιο κομμα μια ζωη δεν ψηφιζει, οπαδευει.",
+      "Το βυσμα ειναι πιο χρησιμο απο το πτυχιο σε αυτη τη χωρα.",
+      "Η Αθηνα δεν ειναι ασχημη, εμεις την κανουμε ασχημη.",
+      "Τα ελληνικα σχολεια μαθαινουν παπαγαλια, οχι σκεψη.",
+      "Το φιλοτιμο ειναι δικαιολογια για να μη λεμε οχι.",
+      "Η στρατιωτικη θητεια πρεπει να ειναι προαιρετικη.",
+      "Οι Ελληνες οδηγουν χειροτερα απο οτι παραδεχονται.",
+      "Το να μενεις με τους γονεις σου στα τριαντα δεν ειναι ντροπη."
+    ]},
+    { id: "varia", name: "Βαρια", note: "θα τσακωθειτε",
+      tone: ["#a3322a", "#5a1009", "#ffd3cd"], ops: [
+      "Η ελευθερια του λογου πρεπει να εχει οριο.",
+      "Ειναι λαθος να κρινεις καποιον απο το παρελθον του.",
+      "Καλυτερα μια σκληρη αληθεια παρα ενα ψεμα που προστατευει.",
+      "Η οικογενεια δεν σου δινει αυτοματα δικαιωμα στην αγαπη σου.",
+      "Καποιοι ανθρωποι δεν αξιζουν δευτερη ευκαιρια.",
+      "Το να συγχωρεις ειναι πιο πολυ για σενα παρα για τον αλλον.",
+      "Ολοι εχουμε ενα τιμημα, απλα δεν το εχουν βρει ολοι.",
+      "Οι κανονες υπαρχουν για να σπανε οταν εχεις καλο λογο.",
+      "Η καλοσυνη χωρις οφελος δεν υπαρχει.",
+      "Το να μην εχεις γνωμη για κατι ειναι κι αυτο γνωμη.",
+      "Η πρωτη εντυπωση εχει σχεδον παντα δικιο.",
+      "Καποιες αληθειες ειναι καλυτερα να μην ειπωθουν ποτε."
+    ]}
   ];
+  get POOL() {
+    const on = this.S.cats || [];
+    const use = this.CATS.filter(c => on.indexOf(c.id) >= 0);
+    const list = (use.length ? use : this.CATS).reduce((a, c) => a.concat(c.ops), []);
+    return list.slice();
+  }
 
   /* === ΚΑΤΑΣΤΑΣΗ ======================================== */
   S = {
     screen: "home", timeSec: 60,
     players: [], nameDraft: "", pool: [],
+    cats: ["parees", "kathimerina", "fagito", "othones"], // ποιες κατηγοριες παιζουν
     roundNo: 0, duelNo: 0, duelTotal: 0, judge: 0, judgeSeed: 0,
     round: null, bronze: null, tie: null, lastOut: null, champion: null,
     back: "home", records: [], devUnlocked: false, askPass: false, passBad: false,
@@ -1018,7 +1146,8 @@ class Component extends DCLogic {
     S.kVoid = false; S.vVoid = false;
     S.betAllIn = false;
     S.nameDraft = ""; S.draft = this.freeColor();
-    S.screen = "intro"; this.u();
+    /* Πρωτα διαλεγει το τραπεζι θεματολογια, μετα μπαινουν ονοματα. */
+    S.screen = "cats"; this.u();
   }
 
   /* === ΤΑ ΟΝΟΜΑΤΑ ΚΑΙ ΤΑ ΚΡΥΦΑ ΦΥΛΛΑ =====================
@@ -1257,8 +1386,13 @@ class Component extends DCLogic {
      Δικαστης του φιναλε ειναι ο τελευταιος που εφυγε.            */
   /* Φανερωμενο φυλλο δεν δικαζει τον τελικο — παει ο προηγουμενος. */
   finalJudge() {
-    const g = this.S.gone, nj = this.S.noJudge || [];
-    for (let i = g.length - 1; i >= 0; i--) if (nj.indexOf(g[i]) < 0) return g[i];
+    const S = this.S, g = S.gone, nj = S.noJudge || [];
+    /* ΚΑΝΟΝΑΣ: κρυφο φυλλο ΔΕΝ δικαζει ποτε τον τελικο — ουτε
+       φανερωμενο, ουτε κρυφο. Παει ο προηγουμενος που εφυγε.     */
+    const isRole = i => this.roleOf(i) !== "law";
+    for (let i = g.length - 1; i >= 0; i--)
+      if (nj.indexOf(g[i]) < 0 && !isRole(g[i])) return g[i];
+    for (let i = g.length - 1; i >= 0; i--) if (!isRole(g[i])) return g[i];
     return g.length ? g[g.length - 1] : null;
   }
   startFinale() {
@@ -1498,7 +1632,7 @@ class Component extends DCLogic {
   renderVals() {
     const S = this.S, sc = S.screen, r = S.round;
     const devKeys = [
-      ["home", "Αρχικη"], ["rules", "Κανονες"], ["records", "Πρακτικα"], ["intro", "Ονοματα"],
+      ["home", "Αρχικη"], ["rules", "Κανονες"], ["records", "Πρακτικα"], ["cats", "Κατηγοριες"], ["intro", "Ονοματα"],
       ["tooFew", "Λιγοι"], ["handoff", "Παραδοση"],
       ["role", "Φυλλο"], ["roundStart", "Δικαστης"], ["eyes", "Ματια"], ["hearing", "Μετρημα"],
       ["select", "Επιλογη"], ["sides", "Πλευρες"], ["chicken", "Κοτα"], ["contra", "Κοντρα"], ["verdict", "Ετυμηγορια"],
@@ -1512,6 +1646,7 @@ class Component extends DCLogic {
       /* ---- πλοηγηση */
       atHome: sc === "home", atRules: sc === "rules", atRecords: sc === "records",
       atIntro: sc === "intro", atTooFew: sc === "tooFew", atHandoff: sc === "handoff",
+      atCats: sc === "cats",
       atRole: sc === "role", atRoundStart: sc === "roundStart",
       atEyes: sc === "eyes", atHearing: sc === "hearing", atSelect: sc === "select",
       atSides: sc === "sides",
@@ -1591,6 +1726,41 @@ class Component extends DCLogic {
         label: t + "''", style: this.OPT(S.timeSec === t), on: () => { S.timeSec = t; this.u(); }
       })),
       start: () => this.startGame(),
+
+      /* ---- ΟΙ ΚΑΤΗΓΟΡΙΕΣ: με ποια θεματα θα παιξει το τραπεζι */
+      catRows: this.CATS.map(c => {
+        const on = (S.cats || []).indexOf(c.id) >= 0;
+        return {
+          name: c.name, note: c.note,
+          count: c.ops.length + " αποψεις",
+          mark: on ? "ΜΕΣΑ" : "ΕΞΩ",
+          markStyle: this.ROLEMARK(on),
+          style: "flex:1 1 46%;min-width:0;text-align:left;padding:13px 12px 14px;border-radius:16px;cursor:pointer;"
+            + "border:3px solid #0b0203;display:flex;flex-direction:column;gap:8px;"
+            + "background:linear-gradient(" + (on ? c.tone[0] + "," + c.tone[1] : "#3b0d12,#280709") + ");"
+            + "box-shadow:inset 0 2px 0 rgba(255,255,255," + (on ? ".18" : ".06") + "),0 5px 0 rgba(0,0,0,.45)"
+            + (on ? "" : ";opacity:.55"),
+          nameStyle: "font:700 15px/1.2 Comfortaa,sans-serif;color:" + (on ? c.tone[2] : "rgba(255,246,226,.7)"),
+          noteStyle: "font:400 11px/1.35 Comfortaa,sans-serif;color:rgba(255,246,226," + (on ? ".72" : ".45") + ")",
+          on: () => {
+            const list = (S.cats || []).slice(), at = list.indexOf(c.id);
+            if (at >= 0) list.splice(at, 1); else list.push(c.id);
+            S.cats = list; this.u();
+          }
+        };
+      }),
+      catsTotal: (() => {
+        const on = S.cats || [];
+        const use = this.CATS.filter(c => on.indexOf(c.id) >= 0);
+        return use.reduce((n, c) => n + c.ops.length, 0);
+      })(),
+      catsNone: (S.cats || []).length === 0,
+      catsAll: () => { S.cats = this.CATS.map(c => c.id); this.u(); },
+      catsGo: () => {
+        if (!(S.cats || []).length) return;
+        S.pool = this.POOL.slice();
+        this.go("intro");
+      },
       /* Οι κανονες ανοιγουν απο οπουδηποτε και γυριζουν πισω
          στην ιδια οθονη — ο χρονος παγωνει οσο διαβαζεις.        */
       goRules: () => { S.back = sc === "rules" ? (S.back || "home") : sc; this.go("rules"); },
@@ -1757,10 +1927,11 @@ class Component extends DCLogic {
       /* Ενας υπερ κι ενας κατα: δεν υπαρχει τιποτα να διαλεξει
          ο δικαστης — παμε κατευθειαν στην κοτα και στην κοντρα. */
       v.toSelect = () => {
-        if (pro.length === 1 && con.length === 1) {
-          r.a = pro[0]; r.b = con[0];
-          return this.go("chicken");
-        }
+        /* Πλευρα με ενα μονο ατομο δεν εχει επιλογη — κλειδωνει
+           μονη της, ωστε να μη μεινει κουμπι αδιαλεκτο.           */
+        if (pro.length === 1) r.a = pro[0];
+        if (con.length === 1) r.b = con[0];
+        if (pro.length === 1 && con.length === 1) return this.go("chicken");
         this.go("select");
       };
 
@@ -1854,7 +2025,9 @@ class Component extends DCLogic {
          Δικλειδα: αν για οποιονδηποτε λογο λειπει πλευρα, μπαινει
          καποιος ζωντανος — να μη βγει ποτε κουμπι χωρις ονομα.    */
       const bad = i => i == null || !S.players[i] || !S.players[i].name;
-      if (bad(r.a) || bad(r.b)) {
+      /* ΜΟΝΟ στην ετυμηγορια — αλλιως θα προδιαλεγε μονο του και
+         στην οθονη επιλογης, οπου διαλεγει ο δικαστης.            */
+      if (sc === "verdict" && (bad(r.a) || bad(r.b))) {
         const av = this.alive().filter(i => !bad(i));
         const free = av.filter(i => i !== S.judge);
         if (bad(r.a)) r.a = free[0] != null ? free[0] : av[0];

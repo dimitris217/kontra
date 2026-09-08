@@ -433,7 +433,7 @@ const CFG = {
   UNLOCK_3V3: 7,                   // από πόσους παίκτες ξεκλειδώνει το 3v3
   MAX_NAME: 14,
   MAX_OPINION: 240,
-  AGAIN_EACH: 3,                   // ποσες αποψεις γραφει ο καθενας στο νεο παιχνιδι
+  AGAIN_EACH: 1,                   // ποσες αποψεις γραφει ο καθενας στο νεο παιχνιδι
   MIN_ROUNDS_TO_END: 3,            // απο ποσους γυρους και μετα ο δικαστης μπορει να ληξει
   LOW_DECK: 3,                     // απο ποσες αποψεις και κατω βγαινει η κοκκινη προειδοποιηση
   STORE_KEY: "kontra.praktika.v1",
@@ -836,9 +836,9 @@ V.lastCall = () => `
 V.reIntro = () => {
   const done = S.againIdx % CFG.AGAIN_EACH;
   return `
-    <p class="eyebrow">Νεα δικογραφια &middot; <b>αποψη ${done + 1} απο ${CFG.AGAIN_EACH}</b></p>
+    <p class="eyebrow">Νεα δικογραφια &middot; <b>${S.againIdx + 1} απο ${S.players.length}</b></p>
     <h2 style="margin-top:6px">Σειρα σου</h2>
-    <p class="lede">γραψε ${CFG.AGAIN_EACH} καινουριες αποψεις, μετα δινεις το κινητο. κανενα ονομα — κανεις δεν ξερει ποιος εγραψε τι.</p>
+    <p class="lede">${CFG.AGAIN_EACH === 1 ? "μια καινουρια αποψη" : "γραψε " + CFG.AGAIN_EACH + " καινουριες αποψεις"}, μετα δινεις το κινητο. κανενα ονομα — κανεις δεν ξερει ποιος εγραψε τι.</p>
     ${opField()}
     <div class="fill"></div>
     ${ibtn("dinworko.png",'data-reop="1" disabled')}
