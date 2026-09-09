@@ -34,12 +34,48 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="height:100dvh;overflow:hidden;background:radial-gradient(130% 85% at 50% -12%,#8a2029 0%,#4d0e14 44%,#1a0407 100%);display:flex;justify-content:center;align-items:stretch">
 
 <sc-if value="{{ devOn }}" hint-placeholder-val="{{ false }}">
-<div style="position:fixed;left:14px;top:14px;width:132px;max-height:calc(100vh - 28px);overflow:auto;padding:9px;border-radius:15px;background:rgba(11,2,4,.93);border:2px solid rgba(255,199,44,.34);display:flex;flex-direction:column;gap:4px;z-index:60">
-<div style="font:700 9px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.2em;color:#ffc72c;padding:3px 3px 6px">ΟΘΟΝΕΣ &middot; DEV</div>
+<div style="position:fixed;left:14px;top:14px;width:216px;max-height:calc(100vh - 28px);overflow:auto;padding:10px;border-radius:15px;background:rgba(11,2,4,.95);border:2px solid rgba(255,199,44,.34);display:flex;flex-direction:column;gap:6px;z-index:60">
+<div style="display:flex;gap:5px">
+<button style="flex:1;padding:6px 4px;border-radius:9px;border:2px solid rgba(255,199,44,.4);background:rgba(255,199,44,.14);color:#ffc72c;font:700 10px ui-monospace,Menlo,monospace;letter-spacing:.1em;cursor:pointer" onClick="{{ devTabMail }}">ΠΟΣΤΑΛΙ {{ devCounts }}</button>
+<button style="flex:none;padding:6px 9px;border-radius:9px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:rgba(255,246,226,.75);font:700 10px ui-monospace,Menlo,monospace;cursor:pointer" onClick="{{ devTabScreens }}">ΟΘ.</button>
+</div>
+
+<sc-if value="{{ devMail }}" hint-placeholder-val="{{ true }}">
+<div style="font:700 9px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#ffc72c;padding:4px 2px 0">ΠΕΡΙΜΕΝΟΥΝ ΕΓΚΡΙΣΗ</div>
+<sc-if value="{{ devInboxEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="font:400 10px/1.5 Comfortaa,sans-serif;color:rgba(255,246,226,.4);padding:2px 2px 6px">Καμια. Στειλε καποια απο την Κλασσικη.</div>
+</sc-if>
+<sc-for list="{{ devInbox }}" as="m" hint-placeholder-count="2">
+<div style="padding:7px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)">
+<div style="font:400 10.5px/1.4 Comfortaa,sans-serif;color:#fff6e2;margin-bottom:6px">{{ m.text }}</div>
+<div style="display:flex;gap:5px">
+<button style="flex:1;padding:5px;border-radius:8px;border:2px solid #0b0203;background:#5fe08f;color:#0b0203;font:700 10px Comfortaa,sans-serif;cursor:pointer" onClick="{{ m.ok }}">Εγκριση</button>
+<button style="flex:1;padding:5px;border-radius:8px;border:2px solid #0b0203;background:#ff9c90;color:#0b0203;font:700 10px Comfortaa,sans-serif;cursor:pointer" onClick="{{ m.no }}">Καψε</button>
+</div>
+</div>
+</sc-for>
+
+<div style="font:700 9px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#9fe0b8;padding:8px 2px 0">ΣΤΗΝ ΤΡΑΠΟΥΛΑ</div>
+<sc-if value="{{ devApprovedEmpty }}" hint-placeholder-val="{{ true }}">
+<div style="font:400 10px/1.5 Comfortaa,sans-serif;color:rgba(255,246,226,.4);padding:2px">Καμια εγκεκριμενη.</div>
+</sc-if>
+<sc-for list="{{ devApproved }}" as="m" hint-placeholder-count="0">
+<div style="display:flex;gap:5px;align-items:flex-start;padding:6px 7px;border-radius:10px;background:rgba(95,224,143,.08);border:1px solid rgba(95,224,143,.25)">
+<span style="flex:1;font:400 10px/1.4 Comfortaa,sans-serif;color:#d8f6e4">{{ m.text }}</span>
+<button style="flex:none;padding:2px 7px;border-radius:7px;border:1px solid rgba(255,120,110,.5);background:rgba(255,120,110,.14);color:#ff9c90;font:700 10px Comfortaa,sans-serif;cursor:pointer" onClick="{{ m.no }}">&times;</button>
+</div>
+</sc-for>
+
+<button style="margin-top:8px;padding:6px 8px;border-radius:9px;border:2px solid rgba(255,120,110,.45);background:rgba(255,120,110,.12);color:#ff9c90;font:700 10px Comfortaa,sans-serif;cursor:pointer" onClick="{{ devClearRecords }}">Ακυρο — σβησε τα πρακτικα</button>
+</sc-if>
+
+<sc-if value="{{ devScreens }}" hint-placeholder-val="{{ false }}">
 <sc-for list="{{ devItems }}" as="d" hint-placeholder-count="17">
 <button style="{{ d.style }}" onClick="{{ d.on }}">{{ d.label }}</button>
 </sc-for>
-<button style="margin-top:5px;padding:6px 8px;border-radius:9px;border:2px solid rgba(255,120,110,.45);background:rgba(255,120,110,.12);color:#ff9c90;font:700 10.5px Comfortaa,sans-serif;cursor:pointer" onClick="{{ devLock }}">Κλειδωμα</button>
+</sc-if>
+
+<button style="margin-top:5px;padding:6px 8px;border-radius:9px;border:2px solid rgba(255,199,44,.35);background:rgba(255,199,44,.1);color:#ffd75e;font:700 10.5px Comfortaa,sans-serif;cursor:pointer" onClick="{{ devLock }}">Κλειδωμα</button>
 </div>
 </sc-if>
 
@@ -203,6 +239,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 <div style="flex:1;min-height:14px"></div>
 <button style="display:block;width:100%;margin-top:12px;padding:15px 16px;border:3px solid #0b0203;border-radius:16px;font:700 19px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#7a6259,#4c3a33);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 6px 0 #241b17;text-shadow:0 2px 0 rgba(0,0,0,.4)" style-active="transform:translateY(6px);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 0 0 #241b17" onClick="{{ goBack }}">Πισω στο τραπεζι</button>
+<button style="display:block;width:100%;margin-top:10px;padding:12px 16px;border:3px solid rgba(255,120,110,.5);border-radius:14px;font:700 14px Comfortaa,sans-serif;color:#ff9c90;cursor:pointer;background:rgba(255,120,110,.1)" style-active="transform:translateY(3px)" onClick="{{ clearRecords }}">Ακυρο — σβησε τα ολα</button>
 </div>
 </sc-if>
 
@@ -572,7 +609,8 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ bVysma }}" hint-placeholder-val="{{ true }}">
 <div style="flex:none;padding:22px 16px;border-radius:20px;background:linear-gradient(#12365e,#071b30);border:4px solid #0b0203;box-shadow:inset 0 0 0 3px rgba(159,216,255,.25),0 8px 0 rgba(0,0,0,.5)">
 <p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#9fd8ff;text-transform:uppercase">Το βυσμα φανερωθηκε</p>
-<h2 style="margin:0;font:700 26px/1.2 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.5)">Εφαγε τη σφαιρα γι' αυτον</h2>
+<h2 style="margin:0 0 8px;font:700 26px/1.2 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.5)">Εφαγε τη σφαιρα γι' αυτον</h2>
+<p style="margin:0;font:400 13px/1.5 Comfortaa,sans-serif;color:rgba(255,246,226,.8)">{{ outName }} &mdash; μενει στο τραπεζι.</p>
 </div>
 </sc-if>
 <sc-if value="{{ bKomplex }}" hint-placeholder-val="{{ false }}">
@@ -612,7 +650,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </sc-for>
 </div>
 <div style="flex:1;min-height:14px"></div>
-<button style="display:block;width:100%;margin-top:12px;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#5b9ff0,#2364b4);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 7px 0 #123f73;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 0 0 #123f73" onClick="{{ afterOut }}">Συνεχεια</button>
+<button style="display:block;width:100%;margin-top:12px;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#5b9ff0,#2364b4);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 7px 0 #123f73;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 0 0 #123f73" onClick="{{ outGo }}">Συνεχεια</button>
 <sc-if value="{{ canHunt }}" hint-placeholder-val="{{ false }}">
 <button style="flex:none;display:block;width:100%;margin-top:10px;padding:14px 16px;border:3px solid #0b0203;border-radius:16px;font:700 17px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#ff7ec0,#d2358c);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 6px 0 #8d1d5c;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(6px);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 0 0 #8d1d5c" onClick="{{ goVote }}">Ψηφοφορια για τα κρυφα φυλλα</button>
 </sc-if>
@@ -676,6 +714,28 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 </div>
 <p style="margin:0 0 26px;font:400 14px/1.55 Comfortaa,sans-serif;color:#f0c9b2">{{ duelNote }}</p>
 <button style="display:block;width:100%;padding:17px 16px;border:3px solid #0b0203;border-radius:18px;font:700 22px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 7px 0 #9c6c05,0 12px 22px rgba(0,0,0,.45);text-shadow:0 1px 0 rgba(255,255,255,.55)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.65),0 0 0 #9c6c05" onClick="{{ duelGo }}">Μοιρασε</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atReveal }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center">
+<sc-if value="{{ revVysma }}" hint-placeholder-val="{{ true }}">
+<div style="flex:none;padding:24px 16px;border-radius:20px;background:linear-gradient(#12365e,#071b30);border:4px solid #0b0203;box-shadow:inset 0 0 0 3px rgba(159,216,255,.25),0 8px 0 rgba(0,0,0,.5)">
+<p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#9fd8ff;text-transform:uppercase">Ανοιγουν τα χαρτια</p>
+<h2 style="margin:0;font:700 27px/1.2 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.5)">Ητανε το Βυσμα</h2>
+</div>
+</sc-if>
+<sc-if value="{{ revKomplex }}" hint-placeholder-val="{{ false }}">
+<div style="flex:none;padding:24px 16px;border-radius:20px;background:linear-gradient(#8a1f63,#3d0a2b);border:4px solid #0b0203;box-shadow:inset 0 0 0 3px rgba(255,179,221,.25),0 8px 0 rgba(0,0,0,.5)">
+<p style="margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.24em;color:#ffb3dd;text-transform:uppercase">Ανοιγουν τα χαρτια</p>
+<h2 style="margin:0;font:700 27px/1.2 Comfortaa,sans-serif;color:#fff6e2;text-shadow:0 3px 0 rgba(0,0,0,.5)">Ητανε το Κομπλεξ</h2>
+</div>
+</sc-if>
+<div style="flex:none;margin:24px 0 0;display:flex;justify-content:center">
+<span style="{{ revChip }}">{{ revName }}</span>
+</div>
+<div style="flex:1;min-height:20px"></div>
+<button style="flex:none;display:block;width:100%;padding:16px;border:3px solid #0b0203;border-radius:18px;font:700 20px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#5b9ff0,#2364b4);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 7px 0 #123f73;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(7px);box-shadow:inset 0 3px 0 rgba(255,255,255,.3),0 0 0 #123f73" onClick="{{ revGo }}">Συνεχεια</button>
 </div>
 </sc-if>
 
@@ -1064,9 +1124,17 @@ class Component extends DCLogic {
       "Καποιες αληθειες ειναι καλυτερα να μην ειπωθουν ποτε."
     ]}
   ];
+  /* Οι εγκεκριμενες αποψεις της Κλασσικης γινονται κι αυτες
+     κατηγορια, αρκει να υπαρχει εστω μια.                       */
+  get ALLCATS() {
+    const ap = (this.S.approved || []).map(o => o.t).filter(Boolean);
+    if (!ap.length) return this.CATS;
+    return this.CATS.concat([{ id: "kontra", name: "Απο την Κοντρα",
+      note: "δικες σας αποψεις", tone: ["#b8901c", "#5f4708", "#ffeeb8"], ops: ap }]);
+  }
   get POOL() {
-    const on = this.S.cats || [];
-    const use = this.CATS.filter(c => on.indexOf(c.id) >= 0);
+    const on = this.S.cats || [], all = this.ALLCATS;
+    const use = all.filter(c => on.indexOf(c.id) >= 0);
     const list = (use.length ? use : this.CATS).reduce((a, c) => a.concat(c.ops), []);
     return list.slice();
   }
@@ -1076,6 +1144,7 @@ class Component extends DCLogic {
     screen: "home", timeSec: 60,
     players: [], nameDraft: "", pool: [],
     cats: ["parees", "kathimerina", "fagito", "othones"], // ποιες κατηγοριες παιζουν
+    inbox: [], approved: [], devTab: "mail", // το ποσταλι απο την Κλασσικη
     roundNo: 0, duelNo: 0, duelTotal: 0, judge: 0, judgeSeed: 0,
     round: null, bronze: null, tie: null, lastOut: null, champion: null,
     back: "home", records: [], devUnlocked: false, askPass: false, passBad: false,
@@ -1104,8 +1173,19 @@ class Component extends DCLogic {
   passRef = React.createRef();
   betRef = React.createRef();
 
+  /* Το ποσταλι της Κλασσικης Κοντρας: ο,τι ψηφισε το τραπεζι εκει
+     περιμενει εγκριση εδω. Ιδιος φακελος = ιδιο localStorage.    */
+  INBOX_KEY = "kontra.inbox.v1";
+  APPROVED_KEY = "kontra.approved.v1";
+  lsGet(k) { try { return JSON.parse(localStorage.getItem(k)) || []; } catch (e) { return []; } }
+  lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  syncMail() {
+    this.S.inbox = this.lsGet(this.INBOX_KEY);
+    this.S.approved = this.lsGet(this.APPROVED_KEY);
+  }
   componentDidMount() {
-    try { this.S.records = JSON.parse(localStorage.getItem(this.CFG.STORE_KEY)) || []; this.u(); } catch (e) {}
+    try { this.S.records = JSON.parse(localStorage.getItem(this.CFG.STORE_KEY)) || []; } catch (e) {}
+    this.syncMail(); this.u();
   }
   componentDidUpdate() {
     if (this.S.askPass && this.passRef.current) return this.passRef.current.focus();
@@ -1146,7 +1226,9 @@ class Component extends DCLogic {
     S.kVoid = false; S.vVoid = false;
     S.betAllIn = false;
     S.nameDraft = ""; S.draft = this.freeColor();
-    /* Πρωτα διαλεγει το τραπεζι θεματολογια, μετα μπαινουν ονοματα. */
+    /* Πρωτα διαλεγει το τραπεζι θεματολογια, μετα μπαινουν ονοματα.
+       Ξαναδιαβαζουμε το ποσταλι: μπορει να εγκριθηκαν καινουριες. */
+    this.syncMail();
     S.screen = "cats"; this.u();
   }
 
@@ -1204,16 +1286,18 @@ class Component extends DCLogic {
   }
   /* ΤΟ ΚΟΜΠΛΕΞ: δεν χρωσταει νικη καθε γυρα. Ενα εχει να κανει —
      να μην αφησει τον στοχο του να φτασει στον τελικο.           */
-  /* ΑΜΕΣΗ ΝΙΚΗ ΦΥΛΛΟΥ: μολις καποιο πετυχει τον σκοπο του, το
-     παιχνιδι κλεινει επιτοπου. Κανενα φιναλε, κανενα τραπεζι.
-     Αν το φυλλο εχει βγει κανονικα, δεν μετραει τιποτα.          */
+  /* ΑΜΕΣΗ ΝΙΚΗ ΦΥΛΛΟΥ: το φυλλο κερδιζει ΜΟΝΟ αν πετυχει τον
+     σκοπο του — το Κομπλεξ βγαζει εναν, το Βυσμα κραταει εναν.
+     Μολις γινει, το παιχνιδι κλεινει επιτοπου: ουτε φιναλε,
+     ουτε τραπεζι. Δεν εχει σημασια αν το ιδιο το φυλλο καθεται
+     ακομα στο τραπεζι η αν εχει σηκωθει στη διαδρομη.            */
   checkRoleWin() {
     const S = this.S, R = S.roles;
     if (!R || S.roleOut) return false;
     const a = this.alive();
-    if (R.k != null && R.kT != null && !S.kVoid && this.P(R.k).alive && !this.P(R.kT).alive) {
+    if (R.k != null && R.kT != null && !this.P(R.kT).alive) {
       S.roleOut = { who: "komplex", i: R.k, t: R.kT };
-    } else if (R.v != null && R.vT != null && !S.vVoid && a.length <= 2 && a.indexOf(R.vT) >= 0) {
+    } else if (R.v != null && R.vT != null && a.length <= 2 && a.indexOf(R.vT) >= 0) {
       S.roleOut = { who: "vysma", i: R.v, t: R.vT };
     } else return false;
     S.champion = S.roleOut.i;
@@ -1359,23 +1443,36 @@ class Component extends DCLogic {
                && this.P(R.k).alive && this.P(R.kT).alive
                && after.length === 2
                && after.indexOf(R.k) >= 0 && after.indexOf(R.kT) >= 0) {
-        out = R.k; S.kVoid = true;
+        out = R.k;
         S.bulletInfo = { kind: "komplex", who: R.k, target: R.kT };
       }
     }
+    S.outIntended = i;          /* αυτος που ελεγαν οι ποντοι */
     this.P(out).alive = false; S.lastOut = out; S.gone.push(out);
-    /* ΟΠΟΙΟ ΦΥΛΛΟ ΣΗΚΩΘΕΙ, ΕΧΑΣΕ. Ειτε στους ποντους, ειτε στην
-       ψηφο, ειτε στη σφαιρα — δεν ξανακερδιζει με τιποτα.         */
-    if (R) {
-      if (R.k != null && out === R.k) S.kVoid = true;
-      if (R.v != null && out === R.v) S.vVoid = true;
-    }
+    /* ΦΑΝΕΡΩΜΑ: οταν σηκωνεται κρυφο φυλλο και μενουν δυο στο
+       τραπεζι, το τραπεζι μαθαινει τι ητανε.                      */
+    S.revealInfo = null; S.stepDone = {};
+    const left = this.alive().length;
+    if (!S.bulletInfo && this.roleOf(out) !== "law" && left <= 2)
+      S.revealInfo = { who: out, role: this.roleOf(out) };
     if (S.bulletInfo) { S.noJudge = S.noJudge || []; S.noJudge.push(out); }
   }
-  goOut() { this.go(this.S.bulletInfo ? "bullet" : "out"); }
+  goOut() { this.go("out"); }
+  /* Μια οθονη τη φορα: πρωτα ποιος επεσε, μετα η σφαιρα η το
+     φανερωμα, και στο τελος προχωραει το παιχνιδι.               */
+  stepOut() {
+    const S = this.S; S.stepDone = S.stepDone || {};
+    if (S.bulletInfo && !S.stepDone.bullet) {
+      S.stepDone.bullet = true; return this.go("bullet");
+    }
+    if (S.revealInfo && !S.stepDone.reveal) {
+      S.stepDone.reveal = true; return this.go("reveal");
+    }
+    this.afterOut();
+  }
   afterOut() {
     const S = this.S;
-    S.bulletInfo = null;
+    S.bulletInfo = null; S.revealInfo = null; S.stepDone = {};
     const a = this.alive();
     if (this.checkRoleWin()) { this.u(); return; }
     if (a.length <= 2) { this.startFinale(); this.u(); return; }
@@ -1434,14 +1531,8 @@ class Component extends DCLogic {
   voteOut(i) {
     const S = this.S, role = S.huntRole;
     const right = this.roleOf(i) === role;
-    /* Πιασμενο φυλλο = καμενο φυλλο: φανερωνεται και χανει. */
-    if (right) {
-      if (role === "komplex") S.kVoid = true; else S.vVoid = true;
-      S.noJudge = S.noJudge || []; S.noJudge.push(i);
-    }
-    /* Αν το τραπεζι εβγαλε με ψηφο τον στοχο του Κομπλεξ, το
-       Κομπλεξ ΔΕΝ κερδιζει — δεν εκανε αυτο τη δουλεια.          */
-    if (S.roles && S.roles.kT === i) S.kVoid = true;
+    /* Πιασμενο φυλλο = φανερωμενο φυλλο: δεν δικαζει τελικο. */
+    if (right) { S.noJudge = S.noJudge || []; S.noJudge.push(i); }
     this.eliminate(i);
     S.voteResult = { who: i, gone: S.lastOut, right: right, role: role };
     S.screen = "voteResult";
@@ -1521,6 +1612,13 @@ class Component extends DCLogic {
       S.voteResult = { who: a[a.length - 1], gone: a[a.length - 1], right: true, role: S.huntRole };
     }
     if (k === "winner") { S.champion = this.alive()[0] ?? 0; S.roleOut = null; }
+    if (k === "reveal") {
+      const R = S.roles || {};
+      const who = R.v != null ? R.v : (R.k != null ? R.k : this.alive()[0]);
+      const rl = this.roleOf(who);
+      S.revealInfo = { who: who, role: rl === "law" ? "vysma" : rl };
+      S.stepDone = { reveal: true };
+    }
     if (k === "roleWin") {
       const R = S.roles || {};
       S.roleOut = { who: "vysma", i: R.v ?? 4, t: R.vT ?? 1 };
@@ -1638,6 +1736,7 @@ class Component extends DCLogic {
       ["select", "Επιλογη"], ["sides", "Πλευρες"], ["chicken", "Κοτα"], ["contra", "Κοντρα"], ["verdict", "Ετυμηγορια"],
       ["roundEnd", "Ταμειο"], ["out", "Αποβολη"], ["vote", "Ψηφος"], ["voteResult", "Αποκαλυψη"],
       ["replay", "Ισοπαλια"], ["duelIntro", "Χαλκινη"], ["finale", "Φιναλε"], ["bet", "Στοιχημα"],
+      ["reveal", "Φανερωμα"],
       ["askVegas", "Vegas?"], ["stake", "Ποτ"], ["winner", "Νικητης"],
       ["roleWin", "Νικη φυλλου"], ["picks", "Τα φυλλα"], ["bullet", "Η σφαιρα"]
     ];
@@ -1656,7 +1755,7 @@ class Component extends DCLogic {
       atFinale: sc === "finale", atBet: sc === "bet", atStake: sc === "stake",
       atAskVegas: sc === "askVegas", atRoleWin: sc === "roleWin",
       atVote: sc === "vote", atVoteResult: sc === "voteResult",
-      atPicks: sc === "picks", atBullet: sc === "bullet",
+      atPicks: sc === "picks", atBullet: sc === "bullet", atReveal: sc === "reveal",
       bulbs: (this.props.bulbsOn ?? true) === true,
       noBulbs: (this.props.bulbsOn ?? true) !== true,
       devOn: S.devUnlocked === true,
@@ -1681,6 +1780,46 @@ class Component extends DCLogic {
         this.u();
       },
       devLock: () => { S.devUnlocked = false; this.u(); },
+
+      /* ---- ΤΟ ΠΟΣΤΑΛΙ: εγκριση/καψιμο αποψεων απο την Κλασσικη */
+      devTab: S.devTab === "screens" ? "screens" : "mail",
+      devMail: S.devTab !== "screens",
+      devScreens: S.devTab === "screens",
+      devTabMail: () => { S.devTab = "mail"; this.syncMail(); this.u(); },
+      devTabScreens: () => { S.devTab = "screens"; this.u(); },
+      devInbox: (S.inbox || []).map((o, ix) => ({
+        text: o.t,
+        ok: () => {
+          const inb = this.lsGet(this.INBOX_KEY), ap = this.lsGet(this.APPROVED_KEY);
+          const it = inb[ix]; if (!it) return;
+          if (!ap.some(x => x.t === it.t)) ap.push(it);
+          inb.splice(ix, 1);
+          this.lsSet(this.INBOX_KEY, inb); this.lsSet(this.APPROVED_KEY, ap);
+          this.syncMail(); this.u();
+        },
+        no: () => {
+          const inb = this.lsGet(this.INBOX_KEY);
+          inb.splice(ix, 1); this.lsSet(this.INBOX_KEY, inb);
+          this.syncMail(); this.u();
+        }
+      })),
+      devInboxEmpty: !(S.inbox || []).length,
+      devApproved: (S.approved || []).map((o, ix) => ({
+        text: o.t,
+        no: () => {
+          const ap = this.lsGet(this.APPROVED_KEY);
+          ap.splice(ix, 1); this.lsSet(this.APPROVED_KEY, ap);
+          this.syncMail();
+          S.cats = (S.cats || []).filter(c => c !== "kontra" || ap.length);
+          this.u();
+        }
+      })),
+      devApprovedEmpty: !(S.approved || []).length,
+      devCounts: (S.inbox || []).length + " / " + (S.approved || []).length,
+      devClearRecords: () => {
+        S.records = []; this.lsSet(this.CFG.STORE_KEY, []); this.u();
+      },
+
       devItems: devKeys.map(([k, label]) => ({
         label,
         on: () => this.jump(k),
@@ -1715,7 +1854,13 @@ class Component extends DCLogic {
         this.u();
       },
       picksSolo: S.players.length <= 4,
-      picksGo: () => { this.assignRoles(); S.roleIdx = 0; this.go("handoff"); },
+      /* Χωρις κρυφα φυλλα δεν εχει νοημα να περασει το κινητο
+         χερι-χερι για να δει ο καθενας «ΔΙΚΗΓΟΡΟΣ». Παμε κατευθειαν. */
+      picksGo: () => {
+        this.assignRoles(); S.roleIdx = 0;
+        if (!S.roles) { this.newRound(); return this.u(); }
+        this.go("handoff");
+      },
       rolesLine: (((S.kOn ?? true) ? 1 : 0) + ((S.vOn ?? true) ? 1 : 0)) === 2
         ? "Δυο κρυφα φυλλα."
         : (((S.kOn ?? true) ? 1 : 0) + ((S.vOn ?? true) ? 1 : 0)) === 1
@@ -1728,7 +1873,7 @@ class Component extends DCLogic {
       start: () => this.startGame(),
 
       /* ---- ΟΙ ΚΑΤΗΓΟΡΙΕΣ: με ποια θεματα θα παιξει το τραπεζι */
-      catRows: this.CATS.map(c => {
+      catRows: this.ALLCATS.map(c => {
         const on = (S.cats || []).indexOf(c.id) >= 0;
         return {
           name: c.name, note: c.note,
@@ -1751,11 +1896,11 @@ class Component extends DCLogic {
       }),
       catsTotal: (() => {
         const on = S.cats || [];
-        const use = this.CATS.filter(c => on.indexOf(c.id) >= 0);
+        const use = this.ALLCATS.filter(c => on.indexOf(c.id) >= 0);
         return use.reduce((n, c) => n + c.ops.length, 0);
       })(),
       catsNone: (S.cats || []).length === 0,
-      catsAll: () => { S.cats = this.CATS.map(c => c.id); this.u(); },
+      catsAll: () => { S.cats = this.ALLCATS.map(c => c.id); this.u(); },
       catsGo: () => {
         if (!(S.cats || []).length) return;
         S.pool = this.POOL.slice();
@@ -1765,6 +1910,7 @@ class Component extends DCLogic {
          στην ιδια οθονη — ο χρονος παγωνει οσο διαβαζεις.        */
       goRules: () => { S.back = sc === "rules" ? (S.back || "home") : sc; this.go("rules"); },
       goRecords: () => this.go("records"),
+      clearRecords: () => { S.records = []; this.lsSet(this.CFG.STORE_KEY, []); this.u(); },
       showHelp: ["rules", "records", "home", "intro", "tooFew", "dev"].indexOf(sc) < 0,
       goBack: () => this.go(S.back || "home"),
 
@@ -2044,9 +2190,11 @@ class Component extends DCLogic {
       v.winB = () => this.settle(r.b, r.a, true);
     }
 
-    /* ---- αποβολη */
-    v.outName = S.lastOut == null ? "" : this.nm(S.lastOut);
-    v.outChip = this.CHIP(S.lastOut, { pad: "12px 26px", radius: "22px", dash: 5, lift: 6,
+    /* ---- αποβολη: δειχνει ΑΥΤΟΝ ΠΟΥ ΕΔΕΙΞΑΝ ΟΙ ΠΟΝΤΟΙ. Αν
+       μεσολαβησε σφαιρα, το λεει η επομενη οθονη.               */
+    const outWho = S.outIntended != null ? S.outIntended : S.lastOut;
+    v.outName = outWho == null ? "" : this.nm(outWho);
+    v.outChip = this.CHIP(outWho, { pad: "12px 26px", radius: "22px", dash: 5, lift: 6,
       font: "700 30px Comfortaa,sans-serif" });
     v.outPills = S.players.map((p, i) => ({
       name: p.name,
@@ -2210,6 +2358,10 @@ class Component extends DCLogic {
       : vr.role === "vysma" ? "βρηκατε τον λιποτακτη!" : "βρηκατε το κομπλεξ!";
     v.voteGo = () => {
       S.voteResult = null;
+      return this.stepOut();
+    };
+    v.voteGoOld = () => {
+      S.voteResult = null;
       if (S.bulletInfo) return this.go("bullet");
       this.afterOut();
     };
@@ -2226,7 +2378,17 @@ class Component extends DCLogic {
       lift: 6, font: "700 26px Comfortaa,sans-serif" });
     v.bulTargetChip = this.CHIP(bi ? bi.target : null, { lift: 3, pad: "7px 16px",
       font: "700 16px Comfortaa,sans-serif" });
-    v.bulletGo = () => this.afterOut();
+    v.bulletGo = () => this.stepOut();
+    v.outGo = () => this.stepOut();
+
+    /* ---- ΦΑΝΕΡΩΜΑ: σηκωθηκε κρυφο φυλλο και μειναν δυο */
+    const ri = S.revealInfo;
+    v.revVysma = !!(ri && ri.role === "vysma");
+    v.revKomplex = !!(ri && ri.role === "komplex");
+    v.revName = ri ? this.nm(ri.who) : "";
+    v.revChip = this.CHIP(ri ? ri.who : null, { pad: "11px 24px", radius: "20px", dash: 5,
+      lift: 6, font: "700 26px Comfortaa,sans-serif" });
+    v.revGo = () => this.stepOut();
 
     /* ---- νικητης */
     v.champName = S.champion == null ? "" : this.nm(S.champion);
@@ -2296,7 +2458,9 @@ class Component extends DCLogic {
       S.roleOut = null; S.vysmaBullet = false; S.betAllIn = false; S.vegas = false;
       S.kVoid = false; S.vVoid = false;
       this.assignRoles();
-      S.roleIdx = 0; this.go("handoff");
+      S.roleIdx = 0;
+      if (!S.roles) { this.newRound(); return this.u(); }
+      this.go("handoff");
     };
 
     return v;

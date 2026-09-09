@@ -651,12 +651,18 @@ const notesField = val => `
 
 /* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά.
    Στη μέση, ΜΟΝΟ από τον 3ο γύρο και μετά, το κουμπί της λήξης. */
-const header = (back, canEnd) => `
+const header = (back, canEnd) => {
+  /* Μολις κλεισουν 3 γυροι, η ληξη ειναι διαθεσιμη σε ΚΑΘΕ οθονη
+     του παιχνιδιου — οχι μονο στην εδρα.                        */
+  if (canEnd === undefined)
+    canEnd = S.phase === "play" && S.roundsDone >= CFG.MIN_ROUNDS_TO_END;
+  return `
   <div class="hdr">
     ${ibtn("info.png",'data-rules="1"')}
     ${canEnd ? ibtn("liji.png",'data-finish="1"',"endbtn") : ""}
     ${ibtn("praktika.png",`data-records="${back}"`)}
   </div>`;
+};
 
 /* το − και το + σε SVG, μέχρι να τα ζωγραφίσεις */
 const pm = (sign, attr) => `
@@ -1113,8 +1119,20 @@ V.sentence = () => {
       : (winSel ? team(winSel) : "<span class=\"lede\">Κανενας</span>")}</div>
     <h2 style="color:var(--brass);margin:0">${pen ? esc(S.penalty) : (winSel ? "+1" : "χωρις ποντο")}</h2>
     <div class="fill"></div>
-    ${ibtn("allhmia.png",'data-go="archive"')}`;
+    ${ibtn("allhmia.png",'data-go="donate"')}`;
 };
+
+/* ΟΘΟΝΗ: να ταξιδεψει η αποψη; ------------------------------
+   Ιδιο στησιμο με την εισαγωγη: ερωτηση και δυο ζωγραφιστα
+   κουμπια. Οτι πουνε ναι, παει για εγκριση.                    */
+V.donate = () => `
+  <p class="eyebrow">Πριν κλεισει ο φακελος</p>
+  <h2>Να παιξει και στα Γρηγορα;</h2>
+  <div class="card">${esc(S.round.op.text)}</div>
+  <div class="fill"></div>
+  <button class="btn tmpl" data-donate="1">Ναι</button>
+  <button class="btn tmpl" data-donate="0">Οχι</button>
+  <p class="mini">Θα μπει στη λιστα των Γρηγορων μολις εγκριθει</p>`;
 
 /* ΟΘΟΝΗ: αρχειοθέτηση --------------------------------------- */
 V.archive = () => `
@@ -1177,6 +1195,8 @@ V.records = () => {
     <h2>Το αρχειο</h2>
     ${list}
     <div class="fill"></div>
+    <button class="btn ghost box" data-clear="1"
+      style="border-color:rgba(255,120,110,.5);color:#ff9c90">Ακυρο — σβησε τα ολα</button>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 };
 
@@ -1189,6 +1209,22 @@ V.export = () => `
   <div class="fill"></div>
   <button class="btn" data-copy="1">Αντιγραφη</button>
   ${ibtn("akyro.png",'data-go="records"')}`;
+
+/* ΤΟ ΠΟΣΤΑΛΙ ΓΙΑ ΤΑ ΓΡΗΓΟΡΑ
+   Οι αποψεις που ψηφιζει το τραπεζι μπαινουν εδω και περιμενουν
+   εγκριση. Ιδιος φακελος = ιδιο localStorage, αρα η Κοντρα στα
+   Γρηγορα τις βρισκει μολις εγκριθουν.                          */
+const Inbox = {
+  KEY: "kontra.inbox.v1",
+  load(){ try { return JSON.parse(localStorage.getItem(this.KEY)) || []; } catch(e){ return []; } },
+  add(text){
+    const t = (text || "").trim(); if (!t) return;
+    const l = this.load();
+    if (l.some(o => o.t === t)) return;
+    l.push({ t: t, d: Date.now() });
+    try { localStorage.setItem(this.KEY, JSON.stringify(l)); } catch(e){}
+  }
+};
 
 /* === [12] ΛΟΓΙΚΗ =========================================== */
 
@@ -1376,7 +1412,7 @@ function syncSubmit(){
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass]");
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass],[data-donate]");
   if (!t || t.disabled) return;
   const d = t.dataset;
 
@@ -1403,6 +1439,10 @@ app.addEventListener("click", e => {
   }
   if (d.pickpat !== undefined){ S.draftPat = +d.pickpat; return render(); }
   if (d.scoring){ S.scoring = d.scoring; return render(); }
+  if (d.donate !== undefined){
+    if (d.donate === "1" && S.round && S.round.op) Inbox.add(S.round.op.text);
+    return go("archive");
+  }
 
   /* καλωσορισμα: παιζει μια φορα και δεν ξαναφαινεται */
   if (d.first !== undefined){
