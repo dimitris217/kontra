@@ -354,6 +354,19 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 .swatches{display:flex;flex-wrap:wrap;gap:11px;justify-content:center}
 .pcell{padding:0;border:none;background:none}
 .pcell:disabled{cursor:default}
+/* λιστα επιλογης αποψεων: ταπ = τσεκ */
+.picks{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.pick{display:flex;align-items:flex-start;gap:11px;width:100%;padding:13px 14px;
+  border:3px solid #000;border-radius:16px;background:rgba(0,0,0,.32);
+  color:var(--muted);font:inherit;font-size:15px;line-height:1.4;text-align:left;
+  cursor:pointer;transition:transform .1s}
+.pick .tick{flex:none;width:26px;height:26px;border:3px solid #000;border-radius:8px;
+  background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;
+  font-size:15px;color:#0b0203}
+.pick.on{background:rgba(255,201,14,.16);border-color:var(--brass);color:var(--bone)}
+.pick.on .tick{background:var(--brass)}
+.pick:active{transform:scale(.98)}
+
 /* το Υ.Σ κατω απο το πλαισιο της αποψης — μικρα, αριστερα */
 .ps{font-size:12.5px;line-height:1.4;color:var(--muted);text-align:left;
   margin:8px 4px 0;font-weight:400}
@@ -526,6 +539,7 @@ const S = {
   opPh: "",          // το τυχαιο παραδειγμα του πλαισιου αποψης
   scoring: CFG.DEFAULT_SCORING,
   penalty: CFG.DEFAULT_PENALTY,
+  sendPick: [],      // ποιες αποψεις τσεκαρε το τραπεζι για τα Γρηγορα
   contraSecs: CFG.DEFAULT_TIME,
 
   opinions: [],      // [{id, text}] — ΧΩΡΙΣ σύνδεση με παίκτη
@@ -935,8 +949,7 @@ V.theEnd = () => {
         ${t.losers.map(k => chipName(k, S.players[k], { lift:3 })).join("")}
       </div>` : ""}
     <div class="fill"></div>
-    ${ibtn("kontra.png",'data-again="1"')}
-    ${ibtn("akyro.png",'data-home="1"')}`;
+    ${ibtn("allhmia.png",'data-go="sendOps"')}`;
 
   const board = t.order.map(k => `
     <div class="t ${t.solo === k ? "pro" : ""}">
@@ -955,9 +968,16 @@ V.theEnd = () => {
     <p class="mini">${S.roundsDone} γυροι &middot; ${t.mine.length} ${t.mine.length===1?"πρακτικο":"πρακτικα"}</p>
     <div class="tally" style="margin-top:14px">${board}</div>
     <div class="fill"></div>
-    ${ibtn("kontra.png",'data-again="1"')}
-    ${ibtn("akyro.png",'data-home="1"')}`;
+    ${ibtn("allhmia.png",'data-go="sendOps"')}`;
 };
+
+/* ΟΘΟΝΗ: το τραπεζι σηκωνεται ------------------------------- */
+V.outro = () => `
+  <div class="fill"></div>
+  <div class="stamp">Εληξε</div>
+  <div class="fill"></div>
+  ${ibtn("kontra.png",'data-again="1"')}
+  ${ibtn("akyro.png",'data-home="1"')}`;
 
 /* ΟΘΟΝΗ: κλείστε τα μάτια ----------------------------------- */
 V.eyes = () => `
@@ -1119,20 +1139,38 @@ V.sentence = () => {
       : (winSel ? team(winSel) : "<span class=\"lede\">Κανενας</span>")}</div>
     <h2 style="color:var(--brass);margin:0">${pen ? esc(S.penalty) : (winSel ? "+1" : "χωρις ποντο")}</h2>
     <div class="fill"></div>
-    ${ibtn("allhmia.png",'data-go="donate"')}`;
+    ${ibtn("allhmia.png",'data-go="archive"')}`;
 };
 
-/* ΟΘΟΝΗ: να ταξιδεψει η αποψη; ------------------------------
-   Ιδιο στησιμο με την εισαγωγη: ερωτηση και δυο ζωγραφιστα
-   κουμπια. Οτι πουνε ναι, παει για εγκριση.                    */
-V.donate = () => `
-  <p class="eyebrow">Πριν κλεισει ο φακελος</p>
-  <h2>Να παιξει και στα Γρηγορα;</h2>
-  <div class="card">${esc(S.round.op.text)}</div>
-  <div class="fill"></div>
-  <button class="btn tmpl" data-donate="1">Ναι</button>
-  <button class="btn tmpl" data-donate="0">Οχι</button>
-  <p class="mini">Θα μπει στη λιστα των Γρηγορων μολις εγκριθει</p>`;
+/* ΟΘΟΝΗ: ΠΟΙΕΣ ΑΠΟΨΕΙΣ ΤΑΞΙΔΕΥΟΥΝ
+   Βγαινει μια φορα, στο τελος. Το τραπεζι τσεκαρει οσες θελει
+   να ξαναπαιχτουν στα Γρηγορα και τις στελνει για εγκριση.     */
+V.sendOps = () => {
+  const all = allOpinions();
+  if (!all.length) return `
+    <p class="eyebrow">Πριν κλεισει ο φακελος</p>
+    <h2>Δεν εμεινε τιποτα</h2>
+    <div class="fill"></div>
+    ${ibtn("kontra.png",'data-again="1"')}
+    ${ibtn("akyro.png",'data-home="1"')}`;
+
+  const rows = all.map((t, k) => `
+    <button class="pick ${S.sendPick[k] ? "on" : ""}" data-send="${k}">
+      <span class="tick">${S.sendPick[k] ? "&#10003;" : ""}</span>
+      <span class="tx">${esc(t)}</span>
+    </button>`).join("");
+  const n = S.sendPick.filter(Boolean).length;
+
+  return `
+    <p class="eyebrow">Πριν κλεισει ο φακελος</p>
+    <h2>Να παιξουν στα Γρηγορα;</h2>
+    <p class="lede">Πατα οσες θελεις να ξαναδεις σε αλλο τραπεζι. Οι υπολοιπες μενουν εδω.</p>
+    <div class="picks">${rows}</div>
+    <div class="fill"></div>
+    <button class="btn tmpl" data-sendgo="1" ${n ? "" : "disabled"}>${
+      n ? "Στειλ' " + (n === 1 ? "την" : "τις " + n) : "Διαλεξε καμια"}</button>
+    <button class="btn tmpl" data-sendgo="0">Καμια, τελος</button>`;
+};
 
 /* ΟΘΟΝΗ: αρχειοθέτηση --------------------------------------- */
 V.archive = () => `
@@ -1195,8 +1233,7 @@ V.records = () => {
     <h2>Το αρχειο</h2>
     ${list}
     <div class="fill"></div>
-    <button class="btn ghost box" data-clear="1"
-      style="border-color:rgba(255,120,110,.5);color:#ff9c90">Ακυρο — σβησε τα ολα</button>
+    <button class="btn tmpl" data-clear="1">Σβησε τα ολα</button>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 };
 
@@ -1209,6 +1246,17 @@ V.export = () => `
   <div class="fill"></div>
   <button class="btn" data-copy="1">Αντιγραφη</button>
   ${ibtn("akyro.png",'data-go="records"')}`;
+
+/* Ολες οι αποψεις της παρτιδας: οσες εμειναν ζωντανες + οσες
+   καηκαν στην πορεια, χωρις διπλα.                             */
+function allOpinions(){
+  const seen = {}, out = [];
+  S.opinions.forEach(o => { if (!seen[o.text]){ seen[o.text] = 1; out.push(o.text); } });
+  S.records.slice(S.recordStart).forEach(r => {
+    if (r.opinion && !seen[r.opinion]){ seen[r.opinion] = 1; out.push(r.opinion); }
+  });
+  return out;
+}
 
 /* ΤΟ ΠΟΣΤΑΛΙ ΓΙΑ ΤΑ ΓΡΗΓΟΡΑ
    Οι αποψεις που ψηφιζει το τραπεζι μπαινουν εδω και περιμενουν
@@ -1412,7 +1460,7 @@ function syncSubmit(){
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass],[data-donate]");
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass],[data-send],[data-sendgo]");
   if (!t || t.disabled) return;
   const d = t.dataset;
 
@@ -1424,7 +1472,7 @@ app.addEventListener("click", e => {
     S.round = null; S.phase = "setup"; S.roundsDone = 0;
     S.recordStart = S.records.length;
     S.judge = 0; S.mine = 0; S.againIdx = 0;
-    S.nameDraft = ""; S.opDraft = ""; S.palette = false;
+    S.nameDraft = ""; S.opDraft = ""; S.palette = false; S.sendPick = [];
     S.draftCol = freeColor(); S.draftPat = 0;
     return go("count");
   }
@@ -1439,9 +1487,13 @@ app.addEventListener("click", e => {
   }
   if (d.pickpat !== undefined){ S.draftPat = +d.pickpat; return render(); }
   if (d.scoring){ S.scoring = d.scoring; return render(); }
-  if (d.donate !== undefined){
-    if (d.donate === "1" && S.round && S.round.op) Inbox.add(S.round.op.text);
-    return go("archive");
+  if (d.send !== undefined){
+    const k = +d.send; S.sendPick[k] = !S.sendPick[k]; return render();
+  }
+  if (d.sendgo !== undefined){
+    if (d.sendgo === "1") allOpinions().forEach((t, k) => { if (S.sendPick[k]) Inbox.add(t); });
+    S.sendPick = [];
+    return go("outro");
   }
 
   /* καλωσορισμα: παιζει μια φορα και δεν ξαναφαινεται */
