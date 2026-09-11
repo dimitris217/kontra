@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="manifest" href="manifest.json">
+<script src="ops.js"></script>
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -450,7 +451,10 @@ const CFG = {
   MIN_ROUNDS_TO_END: 3,            // απο ποσους γυρους και μετα ο δικαστης μπορει να ληξει
   LOW_DECK: 3,                     // απο ποσες αποψεις και κατω βγαινει η κοκκινη προειδοποιηση
   STORE_KEY: "kontra.praktika.v1",
-  SEEN_KEY: "kontra.seen.v1"       // αν εχει ξαναμπει ο χρηστης (καλωσορισμα μια φορα)
+  SEEN_KEY: "kontra.seen.v1",      // αν εχει ξαναμπει ο χρηστης (καλωσορισμα μια φορα)
+  FOLDER_KEY: "kontra.folder.v1",     // Ο ΦΑΚΕΛΟΣ: οι αποψεις που κρατησε το τραπεζι
+  DEVOPS_KEY: "kontra.dimiourgos.v1", // ο φακελος του δημιουργου
+  READY_DECK: 16                      // ποσες ετοιμες αποψεις μπαινουν στη δικογραφια
 };
 
 /* ΜΑΡΚΕΣ: το ιδιο χρωματολογιο με την Κοντρα στα Γρηγορα.
@@ -539,7 +543,10 @@ const S = {
   opPh: "",          // το τυχαιο παραδειγμα του πλαισιου αποψης
   scoring: CFG.DEFAULT_SCORING,
   penalty: CFG.DEFAULT_PENALTY,
-  sendPick: [],      // ποιες αποψεις τσεκαρε το τραπεζι για τα Γρηγορα
+  sendPick: [],      // ποιες αποψεις τσεκαρε το τραπεζι για τον φακελο
+  topic: "ours",     // "ours" = δικες σας αποψεις, αλλιως ετοιμος φακελος
+  folder: [],        // Ο ΦΑΚΕΛΟΣ — οσες αποψεις κρατησατε απο παλιες δικες
+  showWho: false,    // φανερωθηκε ποιος το ειπε σε αυτον τον γυρο
   contraSecs: CFG.DEFAULT_TIME,
 
   opinions: [],      // [{id, text}] — ΧΩΡΙΣ σύνδεση με παίκτη
@@ -780,22 +787,22 @@ V.rules = () => `
   <div class="rules">
 
     <h3 style="margin-top:6px">(Κλασική) κόντρα</h3>
-    <p>Γράφουν όλοι τα ονόματα τους και όσες απόψεις λαχτάρα η ψυχή τους. Αυτες θα μείνουν ανώνυμες για πάντα.</p>
-    <p>Ένας παίχτης καλείτε ως ο δικαστής του γύρου (η αλλιώς μπορείτε να τον φωνάζεται και δικαστή της συμφοράς). Οι υπόλοιποι κλείνουν τα μάτια τους και ο δικαστής του γύρου (του κωλου) διαβάζει μια άποψη δυνατά.</p>
-    <p>Ολοι οι άλλοι σηκώνουν δεξί αν συμφωνούν, αριστερό αν διαφωνούν. Ο δικαστής μετράει και αν υπάρχει τουλάχιστον ένα δεξί και ένα αριστερό, υπάρχει κοντρα. Οι υπόλοιποι? Ένορκοι</p>
-    <p>Με 2 λεπτά ο καθένας προσπαθούν να πείσουν τους υπόλοιπους ότι έχουν δίκιο. Ο δικαστής στο τέλος αποφασίζει (αν γίνεται αντικείμενα) ποιος είχε τα καλύτερα επιχειρήματα.</p>
+    <p>Γράφουν όλοι τα ονόματά τους και όσες απόψεις γουστάρει. Αυτές θα μείνουν ανώνυμες για πάντα.</p>
+    <p>Ένας παίχτης καλείται ως ο δικαστής του γύρου (ή αλλιώς μπορείτε να τον φωνάζετε και δικαστή της συμφοράς). Οι υπόλοιποι κλείνουν τα μάτια τους και ο δικαστής της συμφοράς διαβάζει μια άποψη δυνατά.</p>
+    <p>Όλοι οι άλλοι σηκώνουν δεξί αν συμφωνούν, αριστερό αν διαφωνούν. Ο δικαστής μετράει και αν υπάρχει τουλάχιστον ένα δεξί και ένα αριστερό, υπάρχει κόντρα. Οι υπόλοιποι; Ένορκοι.</p>
+    <p>Με 2 λεπτά ο καθένας, προσπαθούν να πείσουν τους υπόλοιπους ότι έχουν δίκιο. Ο δικαστής στο τέλος αποφασίζει (χωρίς να βγάζει κόμπλεξ σε κανέναν αν γίνεται) ποιος είχε τα καλύτερα επιχειρήματα.</p>
 
     <div class="para">
       <div class="para-tag">Παρένθεση</div>
       <h3 style="margin:0 0 6px">Το ΟΠΑ!</h3>
-      <p>Κατά την διάρκεια ενός λόγου όλοι οι άλλοι το βουλώνουν. Μόνο ο αντίπαλος του έχει το δικαίωμα να πει την λέξη ΟΠΑ! Οι άλλοι κρίνουν αν είναι δικαιολογημένη η διακοπή και τον αφήνουν να μιλήσει για λίγο. Λίγο Ε</p>
+      <p>Κατά τη διάρκεια ενός λόγου όλοι οι άλλοι το βουλώνουν. Μόνο ο αντίπαλός του έχει το δικαίωμα να πει τη λέξη ΟΠΑ! Οι άλλοι κρίνουν αν είναι δικαιολογημένη η διακοπή και τον αφήνουν να μιλήσει για λίγο. Λίγο ε.</p>
     </div>
 
-    <p>Ο ηττημένος έχει το δικαίωμα να ρωτήσει για μια εξήγηση, αλλά αν οι άλλοι το παίζουν σπουδαίοι μπορουν και να μην πουν τίποτα.</p>
-    <p>Στην λήξη της κόντρας, η σε περίπτωση ομοφωνίας στην άποψη ο δικαστής διαλέγει αν θέλει να κρατήσει την άποψη αν θέλει να μιλήσει ο ίδιος πάνω στο θεμα η να την κάψει και να μην ξανά συζητηθεί ποτε.</p>
-    <p>Στο τέλος του γύρου δίνει το κινητό σε άλλον και ο κύκλος επαναλαμβάνεται. Μέχρι να τελειώσουν οι απόψεις η, αν κάποιος ρίξει ένα σκαμπό στον δικαστή.</p>
+    <p>Ο ηττημένος έχει το δικαίωμα να ρωτήσει για μια εξήγηση, αλλά αν οι άλλοι το παίζουν σπουδαίοι μπορούν και να μην πουν τίποτα.</p>
+    <p>Στην λήξη της κόντρας, ή σε περίπτωση ομοφωνίας στην άποψη, ο δικαστής διαλέγει αν θέλει να κρατήσει την άποψη (σε περίπτωση που πιστεύει ότι δεν έχει λήξει το θέμα) ή να την κάψει και να μην ξανασυζητηθεί ποτέ.</p>
+    <p>Στο τέλος του γύρου δίνει το κινητό σε άλλον και ο κύκλος επαναλαμβάνεται. Μέχρι να τελειώσουν οι απόψεις ή, αν κάποιος ρίξει ένα σκαμπό στον δικαστή.</p>
 
-    <p class="mini" style="margin-top:26px">Τι? δεν σου αρεσε; καλα λοιπον,<br>ας δοκιμασουμε κατι πιο στα γρηγορα.</p>
+    <p class="mini" style="margin-top:26px">Τι; δεν σου άρεσε; καλά λοιπόν,<br>ας δοκιμάσουμε κάτι πιο στα γρήγορα.</p>
     <button class="ibtn kdoor" data-seven="1" aria-label="Κοντρα στα Γρηγορα"><img src="${IMG}km-hero.png" alt=""></button>
 
   </div>
@@ -803,6 +810,31 @@ V.rules = () => `
   </div>
   <div class="fill"></div>
   ${ibtn("akyro.png",`data-go="${S.rulesFrom}"`)}`;
+
+/* ΟΘΟΝΗ: θεματολογια — με τι αποψεις παιζετε --------------
+   Βγαινει μετα το ΣΚΟΤΩΘΕΙΤΕ, πριν μπουν ονοματα. Οι δυο
+   ετοιμοι φακελοι παιζονται ΑΝΩΝΥΜΑ — ποιος το ειπε φανερωνεται
+   μονο μετα την κοντρα, και μονο αν το ζητησει το τραπεζι.      */
+V.topic = () => {
+  const has = id => readyDeck(id).length > 0;
+  const card = (id, name, note) => `
+    <button class="pick ${S.topic === id ? "on" : ""}" data-topic="${id}" style="flex-direction:column;align-items:stretch;gap:4px">
+      <span style="font-size:20px;font-weight:700">${name}</span>
+      <span style="font-size:13.5px;font-weight:400;opacity:.85">${note}</span>
+    </button>`;
+  return `
+    ${header("topic")}
+    <p class="eyebrow">Πριν τα ονοματα</p>
+    <h2>Λοιπον, πριν ξεκινησουμε,<br>τι θα κουβεντιασουμε σημερα;</h2>
+    <div class="picks">
+      ${card("ours", "Τα δικα μας", "δικες σας αποψεις, παραμενουν ανωνυμες.")}
+      ${card("diasimoi", "Αποψεις διασημων", "μην περιμενετε να ειναι και λογια φιλοσοφων ομως.")}
+      ${card("politikoi", "Αποψεις πολιτικων", "για αυτους που κατεβασαν την εφαρμογη με ορεξη.")}
+      ${has("dev") ? card("dev", "Οι αποψεις του δημιουργου", "φρεσκα απο το εργαστηρι.") : ""}
+    </div>
+    <div class="fill"></div>
+    ${ibtn("orthioi.png",'data-topicgo="1"')}`;
+};
 
 /* ΟΘΟΝΗ: σύσταση — όνομα + πρώτη άποψη ---------------------- */
 V.intro = () => {
@@ -815,11 +847,12 @@ V.intro = () => {
       <p class="eyebrow" style="margin:0;text-align:left;padding-top:8px">Τα χαρτια σας &middot; <b>${i} απο ${S.playerCount}</b></p>
       <button class="palbtn" data-openpal="1" aria-label="Η μαρκα σου"><img src="${IMG}colorpick.png" alt=""></button>
     </div>
-    <p class="lede">γραφεις το ονομα σου και μια αποψη σου στην οποια θα εβαζες την υπογραφη σου</p>
+    <p class="lede">${S.topic === "ours"
+      ? "γραφεις το ονομα σου και μια αποψη σου στην οποια θα εβαζες την υπογραφη σου"
+      : "γραφεις μονο το ονομα σου — οι αποψεις ειναι ηδη στη δικογραφια"}</p>
 
     ${nameField()}
-    ${opField()}
-    <p class="ps">Υ.Σ αν παιζεις με ατομα που θίγονται ευκολα, παιξε λιγο με τα νευρα τους</p>
+    ${S.topic === "ours" ? opField() + `<p class="ps">Υ.Σ αν παιζεις με ατομα που θίγονται ευκολα, παιξε λιγο με τα νευρα τους</p>` : ""}
 
     <div class="fill"></div>
     ${ibtn("dinworko.png",'data-intro="1" disabled')}
@@ -843,12 +876,14 @@ V.more = () => {
 V.lastCall = () => `
   ${header("lastCall")}
   <div class="fill"></div>
-  <h1>κατι αλλο?</h1>
-  <p class="lede">τελευταια ευκαρια πριν ξεκινησουμε</p>
+  <h1>${S.topic === "ours" ? "κατι αλλο?" : "ετοιμοι?"}</h1>
+  <p class="lede">${S.topic === "ours"
+    ? "τελευταια ευκαρια πριν ξεκινησουμε"
+    : "η δικογραφια ειναι ετοιμη — τιποτα αλλο να γραφτει"}</p>
   <div class="roster" style="justify-content:center">${S.players.map((p,k)=>chipName(k,p,{lift:3})).join("")}</div>
   <div class="fill"></div>
   ${ibtn("orthioi.png",'data-begin="1"')}
-  ${ibtn("allhmia.png",'data-extra="lastCall"')}`;
+  ${S.topic === "ours" ? ibtn("allhmia.png",'data-extra="lastCall"') : ""}`;
 
 /* ΟΘΟΝΗ: ΝΕΟ ΠΑΙΧΝΙΔΙ — ο καθενας βαζει μια καινουρια αποψη.
    Ιδια λογικη με τη συσταση: wave 0, ιδια σειρα, ιδια
@@ -891,7 +926,7 @@ V.round = () => {
   <div class="fill"></div>
   <div style="margin:0 0 18px">${chip(S.judge, { pad:"14px 30px", radius:"26px", dash:6, lift:7, size:"40px" })}</div>
   <p class="lede" style="color:var(--bone);font-size:20px;margin:0 0 4px">Παρε το κινητο.</p>
-  <p class="lede" style="margin:0">εισαι ο δικαστης του γυρου. η μοιρα του τραπεζιου κρεμεται απο τα χερια σου</p>
+  <p class="lede" style="margin:0">εισαι ο δικαστης του γυρου. η μοιρα του τραπεζιου κρεμεται απο τα χειλη σου</p>
   ${lowDeck()}
   <div class="fill"></div>
   ${ibtn("etoimoi.png",'data-go="eyes"')}
@@ -1096,7 +1131,7 @@ V.contra = () => {
       ${ibtn("liji.png",'data-opa="0"')}
     ` : `
       ${ibtn("opa.png",'data-opa="1"')}
-      <p class="mini">δινεις τον λογο στον αλλον, μην τον αφησεις να μας ζαλισει τα παπαρια</p>
+      <p class="mini">δινεις τον λογο στον αλλον, μην τον αφησεις να μας ζαλισει</p>
     `}
 
     <details class="notes" ${r.notes ? "open" : ""}>
@@ -1142,9 +1177,9 @@ V.sentence = () => {
     ${ibtn("allhmia.png",'data-go="archive"')}`;
 };
 
-/* ΟΘΟΝΗ: ΠΟΙΕΣ ΑΠΟΨΕΙΣ ΤΑΞΙΔΕΥΟΥΝ
-   Βγαινει μια φορα, στο τελος. Το τραπεζι τσεκαρει οσες θελει
-   να ξαναπαιχτουν στα Γρηγορα και τις στελνει για εγκριση.     */
+/* ΟΘΟΝΗ: ΠΟΙΕΣ ΑΠΟΨΕΙΣ ΜΕΝΟΥΝ ΣΤΟΝ ΦΑΚΕΛΟ
+   Βγαινει μια φορα, στο τελος καθε παιχνιδιου. Το τραπεζι
+   τσεκαρει οσες αξιζει να κρατησει — οι υπολοιπες χανονται.  */
 V.sendOps = () => {
   const all = allOpinions();
   if (!all.length) return `
@@ -1154,29 +1189,40 @@ V.sendOps = () => {
     ${ibtn("kontra.png",'data-again="1"')}
     ${ibtn("akyro.png",'data-home="1"')}`;
 
-  const rows = all.map((t, k) => `
+  const rows = all.map((o, k) => `
     <button class="pick ${S.sendPick[k] ? "on" : ""}" data-send="${k}">
       <span class="tick">${S.sendPick[k] ? "&#10003;" : ""}</span>
-      <span class="tx">${esc(t)}</span>
+      <span class="tx">${esc(o.t)}</span>
     </button>`).join("");
   const n = S.sendPick.filter(Boolean).length;
 
   return `
     <p class="eyebrow">Πριν κλεισει ο φακελος</p>
-    <h2>Να παιξουν στα Γρηγορα;</h2>
-    <p class="lede">Πατα οσες θελεις να ξαναδεις σε αλλο τραπεζι. Οι υπολοιπες μενουν εδω.</p>
+    <h2>Ποιες κρατατε;</h2>
+    <p class="lede">Πατα οσες θελεις να μπουν στον φακελο. Οι υπολοιπες φευγουν.</p>
     <div class="picks">${rows}</div>
     <div class="fill"></div>
     <button class="btn tmpl" data-sendgo="1" ${n ? "" : "disabled"}>${
-      n ? "Στειλ' " + (n === 1 ? "την" : "τις " + n) : "Διαλεξε καμια"}</button>
+      n ? "Βαλε " + (n === 1 ? "την" : "τις " + n) : "Διαλεξε καμια"}</button>
+    <button class="btn tmpl" data-sendgo="all">Ολες μεσα</button>
     <button class="btn tmpl" data-sendgo="0">Καμια, τελος</button>`;
 };
+
+/* ΠΟΙΟΣ ΤΟ ΕΙΠΕ — μονο μετα την κοντρα, και μονο αν το ζητησει
+   το τραπεζι. Οσο παιζεται η αποψη, ειναι ανωνυμη.           */
+function whoBlock(){
+  const w = S.round && S.round.op ? (S.round.op.who || "") : "";
+  if (!w) return "";
+  if (!S.showWho) return `<button class="btn ghost brass" data-who="1">ποιος το ειπε;</button>`;
+  return `<div class="stamp small brass" style="font-size:clamp(17px,5.5vw,24px)">${esc(w)}</div>`;
+}
 
 /* ΟΘΟΝΗ: αρχειοθέτηση --------------------------------------- */
 V.archive = () => `
   <p class="eyebrow">Ο δικαστης αποφασιζει</p>
   <h2>Εληξε η κουβεντα;</h2>
   <div class="card">${esc(S.round.op.text)}</div>
+  ${whoBlock()}
   ${lowDeck()}
   <details class="notes" ${S.round.notes ? "open" : ""}>
     <summary>Σημειωσεις δικαστη</summary>
@@ -1207,72 +1253,85 @@ V.empty = () => `
   <div class="fill"></div>
   ${ibtn("dinworko.png",'data-extra="round"')}`;
 
-/* ΟΘΟΝΗ: πρακτικά ------------------------------------------- */
-V.records = () => {
-  if (!S.records.length) return `
-    <p class="eyebrow">Πρακτικά</p>
-    <h2>Κανενα ακομα</h2>
-    <p class="lede">Καθε δικη γραφεται εδω μολις κλεισει, μαζι με τις σημειωσεις του δικαστη.</p>
+/* ΟΘΟΝΗ: Ο ΦΑΚΕΛΟΣ -------------------------------------------
+   Στη θεση των πρακτικων: μονο οι αποψεις που κρατησατε.   */
+V.folder = () => {
+  const list = S.folder;
+  if (!list.length) return `
+    <p class="eyebrow">Ο φακελος</p>
+    <h2>Αδειος ακομα</h2>
+    <p class="lede">Στο τελος καθε παιχνιδιου διαλεγετε ποιες αποψεις μενουν εδω για την επομενη φορα.</p>
     <div class="fill"></div>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 
-  const list = S.records.slice().reverse().map(r => `
+  const rows = list.map((o, k) => `
     <div class="rec">
-      <div class="h">#${r.n} &middot; Δικαστης ${esc(r.judge)}</div>
-      <div class="o">${esc(r.opinion)}</div>
-      <div class="h">${r.pro
-        ? `${r.mode}v${r.mode} &middot; ${esc(r.pro.join(" & "))} vs ${esc(r.con.join(" & "))} &middot; ${
-            r.winner==="none" ? "ακυρη"
-            : "νικησαν " + esc((r.winner==="pro" ? r.pro : r.con).join(" & "))}`
-        : "ομοφωνια, χωρις κοντρα"}</div>
-      ${r.notes ? `<div class="n">${esc(r.notes)}</div>` : ""}
-    </div>`).join("");
+      <div class="o">${esc(o.t)}</div>
+      ${o.who ? `<div class="h">${esc(o.who)}</div>` : ""}
+      <button class="btn ghost" data-drop="${k}"
+        style="width:auto;padding:6px 16px;margin-top:8px">βγαλτο</button>
+    </div>`).reverse().join("");
 
   return `
-    <p class="eyebrow">Πρακτικά &middot; <b>${S.records.length}</b>${Store.persistent?"":" &middot; προσωρινά"}</p>
-    <h2>Το αρχειο</h2>
-    ${list}
+    <p class="eyebrow">Ο φακελος &middot; <b>${list.length}</b>${Store.persistent?"":" &middot; προσωρινα"}</p>
+    <h2>Οι αποψεις σου</h2>
+    ${rows}
     <div class="fill"></div>
-    <button class="btn tmpl" data-clear="1">Σβησε τα ολα</button>
+    <button class="btn tmpl" data-clear="1">Αδειασε τον φακελο</button>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 };
 
-/* ΟΘΟΝΗ: εξαγωγή -------------------------------------------- */
-V.export = () => `
-  <p class="eyebrow">Εξαγωγη πρακτικων</p>
-  <h2>Αντιγραψε τα</h2>
-  <p class="lede">Κράτα τα κείμενο, στείλ' τα, βάλ' τα όπου θες.</p>
-  <textarea style="min-height:320px" readonly id="dump">${esc(exportText())}</textarea>
-  <div class="fill"></div>
-  <button class="btn" data-copy="1">Αντιγραφη</button>
-  ${ibtn("akyro.png",'data-go="records"')}`;
-
 /* Ολες οι αποψεις της παρτιδας: οσες εμειναν ζωντανες + οσες
-   καηκαν στην πορεια, χωρις διπλα.                             */
+   καηκαν στην πορεια, χωρις διπλα. Καθε μια με το «ποιος το ειπε»,
+   ωστε να ταξιδεψει ακεραιη στον φακελο.                       */
 function allOpinions(){
   const seen = {}, out = [];
-  S.opinions.forEach(o => { if (!seen[o.text]){ seen[o.text] = 1; out.push(o.text); } });
-  S.records.slice(S.recordStart).forEach(r => {
-    if (r.opinion && !seen[r.opinion]){ seen[r.opinion] = 1; out.push(r.opinion); }
-  });
+  const push = (t, w) => { if (t && !seen[t]){ seen[t] = 1; out.push({ t: t, who: w || "" }); } };
+  S.opinions.forEach(o => push(o.text, o.who));
+  S.records.slice(S.recordStart).forEach(r => push(r.opinion, r.who));
   return out;
 }
 
-/* ΤΟ ΠΟΣΤΑΛΙ ΓΙΑ ΤΑ ΓΡΗΓΟΡΑ
-   Οι αποψεις που ψηφιζει το τραπεζι μπαινουν εδω και περιμενουν
-   εγκριση. Ιδιος φακελος = ιδιο localStorage, αρα η Κοντρα στα
-   Γρηγορα τις βρισκει μολις εγκριθουν.                          */
-const Inbox = {
-  KEY: "kontra.inbox.v1",
-  load(){ try { return JSON.parse(localStorage.getItem(this.KEY)) || []; } catch(e){ return []; } },
-  add(text){
-    const t = (text || "").trim(); if (!t) return;
+/* Ο ΦΑΚΕΛΟΣ
+   Στη θεση των πρακτικων. Ο,τι κρατησε το τραπεζι στο τελος καθε
+   παιχνιδιου μενει εδω — μονο οι αποψεις, τιποτα αλλο.          */
+const Folder = {
+  load(){ try { return JSON.parse(localStorage.getItem(CFG.FOLDER_KEY)) || []; } catch(e){ return []; } },
+  save(v){ try { localStorage.setItem(CFG.FOLDER_KEY, JSON.stringify(v)); } catch(e){} },
+  add(t, who){
+    const s = (t || "").trim(); if (!s) return;
     const l = this.load();
-    if (l.some(o => o.t === t)) return;
-    l.push({ t: t, d: Date.now() });
-    try { localStorage.setItem(this.KEY, JSON.stringify(l)); } catch(e){}
-  }
+    if (l.some(o => o.t === s)) return;
+    l.push({ t: s, who: who || "", d: Date.now() });
+    this.save(l);
+  },
+  drop(i){ const l = this.load(); l.splice(i, 1); this.save(l); },
+  clear(){ this.save([]); }
 };
+
+/* ΕΤΟΙΜΕΣ ΑΠΟΨΕΙΣ (διασημων / πολιτικων / του δημιουργου)
+   Ερχονται απο το ops.js, μπαινουν ανακατεμενες στη δικογραφια και
+   παιζονται ΑΝΩΝΥΜΑ. Το ονομα φυλαγεται στο who και βγαινει μονο
+   αν το ζητησει το τραπεζι, μετα την κοντρα.                     */
+function devOps(){
+  try { return JSON.parse(localStorage.getItem(CFG.DEVOPS_KEY)) || []; } catch(e){ return []; }
+}
+function readyDeck(id){
+  const K = window.KONTRA_OPS || {};
+  if (id === "dev") return devOps().map(o => ({ t: o.t, who: "" }));
+  const cat = (K.quotes || []).filter(c => c.id === id)[0];
+  return (cat && cat.ops ? cat.ops : []).map(o => ({ t: o.t || o, who: o.who || "" }));
+}
+function loadReadyDeck(id){
+  const ops = readyDeck(id);
+  for (let i = ops.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random()*(i+1)), t = ops[i]; ops[i] = ops[j]; ops[j] = t;
+  }
+  S.opinions = []; S.nextId = 1;
+  ops.slice(0, CFG.READY_DECK).forEach(o =>
+    S.opinions.push({ id: S.nextId++, text: o.t, who: o.who, wave: 0, used: 0 }));
+  S.peakOps = S.opinions.length;
+}
 
 /* === [12] ΛΟΓΙΚΗ =========================================== */
 
@@ -1323,6 +1382,7 @@ function startRound(){
   if (!S.opinions.length){ S.screen = "theEnd"; return; }
   const op = pickOpinion();
   op.used = (op.used || 0) + 1;
+  S.showWho = false;
   S.round = { op, vote:{}, mode:1, proSel:[], conSel:[],
               order:[], times:[], cur:0, opa:false, opaT:0, notes:"", winner:null };
   S.screen = "round";
@@ -1347,6 +1407,13 @@ function playAgain(){
   S.againLeft = S.players.length;
   nextJudge();
   freshOp();
+  /* Ετοιμος φακελος: κανενας δεν γραφει τιποτα, μοιραζεται
+     καινουρια δικογραφια και ξεκιναμε κατευθειαν.              */
+  if (S.topic !== "ours"){
+    loadReadyDeck(S.topic);
+    beginGame();
+    return render();
+  }
   S.screen = "reIntro";
   render();
 }
@@ -1389,6 +1456,7 @@ function fileRecord(){
     ts: Date.now(),
     judge: nameOf(S.judge),
     opinion: r.op.text,
+    who: r.op.who || "",
     mode: r.mode,
     pro: r.proSel.length ? r.proSel.map(nameOf) : null,
     con: r.conSel.length ? r.conSel.map(nameOf) : null,
@@ -1399,17 +1467,7 @@ function fileRecord(){
   Store.save(S.records);
 }
 
-function exportText(){
-  return S.records.map(r => {
-    const head = `#${r.n} — δικαστής ${r.judge}`;
-    const duel = r.pro
-      ? `${r.mode}v${r.mode}: ${r.pro.join(" & ")} vs ${r.con.join(" & ")} — ${
-          r.winner==="none" ? "ακυρη" : "νικησαν " + (r.winner==="pro"?r.pro:r.con).join(" & ")}`
-      : "ομοφωνια, χωρις κοντρα";
-    return [head, `"${r.opinion}"`, duel, r.notes ? `Σημειώσεις: ${r.notes}` : ""]
-      .filter(Boolean).join("\n");
-  }).join("\n\n---\n\n");
-}
+function exportText(){ return ""; }
 
 /* Το ρολόι ενημερώνει ΜΟΝΟ τα ψηφία, ώστε να μη χάνεται
    ό,τι γράφει ο δικαστής στις σημειώσεις εκείνη τη στιγμή. */
@@ -1456,11 +1514,13 @@ function syncSubmit(){
   if (!btn) return;
   const op = app.querySelector("#op");
   const nm = app.querySelector("#pname");
-  btn.disabled = !((op && op.value.trim()) && (!nm || nm.value.trim()));
+  const okOp = !op || op.value.trim();      /* χωρις πλαισιο αποψης, δεν το ζηταμε */
+  const okNm = !nm || nm.value.trim();
+  btn.disabled = !(okOp && okNm);
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-export],[data-copy],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass],[data-send],[data-sendgo]");
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass],[data-send],[data-sendgo],[data-topic],[data-topicgo],[data-who],[data-drop]");
   if (!t || t.disabled) return;
   const d = t.dataset;
 
@@ -1473,6 +1533,7 @@ app.addEventListener("click", e => {
     S.recordStart = S.records.length;
     S.judge = 0; S.mine = 0; S.againIdx = 0;
     S.nameDraft = ""; S.opDraft = ""; S.palette = false; S.sendPick = [];
+    S.topic = "ours"; S.showWho = false;
     S.draftCol = freeColor(); S.draftPat = 0;
     return go("count");
   }
@@ -1491,8 +1552,10 @@ app.addEventListener("click", e => {
     const k = +d.send; S.sendPick[k] = !S.sendPick[k]; return render();
   }
   if (d.sendgo !== undefined){
-    if (d.sendgo === "1") allOpinions().forEach((t, k) => { if (S.sendPick[k]) Inbox.add(t); });
-    S.sendPick = [];
+    const all = allOpinions();
+    if (d.sendgo === "all") all.forEach(o => Folder.add(o.t, o.who));
+    else if (d.sendgo === "1") all.forEach((o, k) => { if (S.sendPick[k]) Folder.add(o.t, o.who); });
+    S.sendPick = []; S.folder = Folder.load();
     return go("outro");
   }
 
@@ -1526,17 +1589,30 @@ app.addEventListener("click", e => {
     return render();
   }
   if (d.secs){ S.contraSecs = +d.secs; return render(); }
-  if (d.start){ S.draftCol = freeColor(); return go("intro"); }
+  if (d.start){ return go("topic"); }
+
+  /* ΘΕΜΑΤΟΛΟΓΙΑ: δικες σας αποψεις η ετοιμος φακελος */
+  if (d.topic){ S.topic = d.topic; return render(); }
+  if (d.topicgo){
+    S.opinions = []; S.nextId = 1; S.peakOps = 0;
+    if (S.topic !== "ours") loadReadyDeck(S.topic);
+    S.draftCol = freeColor();
+    return go("intro");
+  }
+  if (d.who){ S.showWho = true; return render(); }
 
   /* σύσταση */
   if (d.intro){
-    const nm = app.querySelector("#pname").value.trim();
-    const op = app.querySelector("#op").value.trim();
-    if (!nm || !op) return;
+    const nmEl = app.querySelector("#pname"), opEl = app.querySelector("#op");
+    const nm = nmEl ? nmEl.value.trim() : "";
+    const op = opEl ? opEl.value.trim() : "";
+    if (!nm || (opEl && !op)) return;
     S.players.push(nm); S.pcol.push(S.draftCol); S.ppat.push(S.draftPat);
-    addOpinion(op); S.mine = 1;
     S.nameDraft = ""; S.opDraft = "";
     S.draftCol = freeColor();
+    /* Ετοιμος φακελος: μονο ονοματα, χωρις γραψιμο. */
+    if (!opEl) return go(S.players.length >= S.playerCount ? "lastCall" : "intro");
+    addOpinion(op); S.mine = 1;
     return go("more");
   }
   if (d.addOp !== undefined){
@@ -1566,20 +1642,16 @@ app.addEventListener("click", e => {
   if (d.begin){ beginGame(); return render(); }
   if (d.extra !== undefined){ S.writeReturn = d.extra; S.extraFrom = S.screen; return go("extra"); }
 
-  /* πρακτικά */
-  if (d.records !== undefined){ if (d.records) S.back = d.records; return go("records"); }
-  if (d.export){ return go("export"); }
-  if (d.clear){
-    if (confirm("Να σβηστουν ολα τα πρακτικα;")){ S.records = []; Store.save(S.records); }
-    return render();
+  /* ο φακελος */
+  if (d.records !== undefined){
+    if (d.records) S.back = d.records;
+    S.folder = Folder.load();
+    return go("folder");
   }
-  if (d.copy){
-    const ta = document.getElementById("dump");
-    ta.focus(); ta.select(); ta.setSelectionRange(0, 999999);
-    let done = false;
-    try { done = document.execCommand("copy"); } catch(err){}
-    t.textContent = done ? "Αντιγραφηκε" : "Επιλεξε και αντιγραψε χειροκινητα";
-    return;
+  if (d.drop !== undefined){ Folder.drop(+d.drop); S.folder = Folder.load(); return render(); }
+  if (d.clear){
+    if (confirm("Να αδειασει ο φακελος;")){ Folder.clear(); S.folder = Folder.load(); }
+    return render();
   }
 
   /* ακρόαση: μέτρημα χεριών */
@@ -1632,7 +1704,11 @@ app.addEventListener("click", e => {
     fileRecord();
     if (d.arch === "1"){
       S.opinions = S.opinions.filter(o => o.id !== S.round.op.id);
-      return go(S.opinions.length ? "refill" : "theEnd");
+      if (!S.opinions.length) return go("theEnd");
+      /* Ετοιμες αποψεις: κανενας δεν γραφει αναπληρωση —
+         συνεχιζουμε με οσες εμειναν στη δικογραφια.        */
+      if (S.topic !== "ours"){ stopTimer(); nextJudge(); startRound(); return render(); }
+      return go("refill");
     }
     nextJudge(); startRound(); return render();
   }
@@ -1697,8 +1773,8 @@ app.addEventListener("input", e => {
       history.pushState({k:1}, "");
       if (S.palette)                   { S.palette = false; render(); }
       else if (S.screen === "rules")   go(S.rulesFrom);
-      else if (S.screen === "records") go(S.back);
-      else if (S.screen === "export")  go("records");
+      else if (S.screen === "folder")  go(S.back);
+      else if (S.screen === "topic")   go("count");
       else if (S.screen === "extra")   go(S.extraFrom);
       else if (S.screen === "breakfast") go("welcome");
       else if (S.screen === "msg")      go("welcome");
@@ -1721,7 +1797,10 @@ app.addEventListener("input", e => {
   }
   async function arm(){
     if (armed) return; armed = true;
-    if (touch){
+    /* Μεσα σε app (Capacitor) το fullscreen και το κλειδωμα οθονης
+       τα κανει το native — εδω θα εσκαγαν σιωπηλα. Τα ζηταμε μονο
+       οταν τρεχουμε σε browser.                                    */
+    if (touch && !window.Capacitor){
       try { await document.documentElement.requestFullscreen({navigationUI:"hide"}); } catch(e){}
       try { await screen.orientation.lock("portrait"); } catch(e){}
     }
@@ -1732,11 +1811,14 @@ app.addEventListener("input", e => {
     if (document.visibilityState === "visible" && armed) keepAwake();
   });
 
-  /* offline: δουλευει και χωρις ιντερνετ, σαν εφαρμογη */
-  if ("serviceWorker" in navigator)
+  /* offline: δουλευει και χωρις ιντερνετ, σαν εφαρμογη.
+     ΜΕΣΑ ΣΕ APP (Capacitor) ΟΧΙ: μετα απο update του APK μπορει να
+     σερβιρει την παλια cache. Στο GitHub Pages συνεχιζει κανονικα. */
+  if (!window.Capacitor && "serviceWorker" in navigator)
     addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
 })();
 
+S.folder = Folder.load();
 render();
 </script>
 </html>
