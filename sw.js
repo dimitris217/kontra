@@ -4,13 +4,14 @@
    HTML το ζηταει παντα φρεσκο (για να βλεπεις τις αλλαγες σου).
 
    ΟΤΑΝ ΑΝΕΒΑΖΕΙΣ ΝΕΑ ΕΚΔΟΣΗ: αλλαξε τον αριθμο στο VER.  */
-const VER = "kontra-v5";
+const VER = "kontra-v6";
 const CORE = [
   "./",
   "index.html",
   "kontra-grigora.html",
   "manifest.json",
   "ops.js",
+  "img/alogo.mp3",
   "img/icon-192.png",
   "img/icon-512.png"
 ];

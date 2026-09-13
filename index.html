@@ -4,6 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="ops.js"></script>
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
@@ -58,12 +61,12 @@
   --blood-dim:#6E211A;
   --brass:#FFC90E;      /* το κίτρινο σου */
 
-  /* ΕΝΕΡΓΟ: Comic Sans. Για να γυρίσεις πίσω, βάλε σε σχόλιο την
-     πρώτη γραμμή και βγάλε από σχόλιο τη δεύτερη.
-     (Στο CSS τα σχόλια είναι με αστεράκι, ΟΧΙ με //)            */
-  --display:"Comic Sans MS","Comic Sans","Chalkboard SE","Segoe Print",cursive;
-  /* --display:Georgia,"Times New Roman",serif; */
-  --body:"Comic Sans MS","Comic Sans","Chalkboard SE",system-ui,sans-serif;
+  /* Γραμματοσειρα: Comfortaa, κατεβαινει με τη σελιδα και
+     φαινεται ΙΔΙΑ σε καθε κινητο (Android, iPhone, ταμπλετα).
+     Εχει ελληνικα, ειναι στρογγυλεμενη, και ειναι η ιδια με
+     την Κοντρα στα Γρηγορα.                                */
+  --display:Comfortaa,"Trebuchet MS",system-ui,sans-serif;
+  --body:Comfortaa,"Trebuchet MS",system-ui,sans-serif;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
 
   /* το μαύρο περίγραμμα των γραμμάτων — άλλαξε το 2px για πιο χοντρό */
@@ -73,7 +76,7 @@
 /* === [1β] ΚΟΥΜΠΙΑ-ΕΙΚΟΝΕΣ & ΜΕΤΡΗΤΗΣ ==========================
    .ibtn      = κουμπί που είναι σκέτη η ζωγραφιά σου
    .art       = ζωγραφιά χωρίς κουμπί (τίτλος, ετικέτα)
-   .ibtn.small= τα στρογγυλά (info, πρακτικά)
+   .ibtn.small= τα στρογγυλά (info, ο Φάκελος)
    Οι εικόνες έχουν το ίδιο καφέ με το φόντο, οπότε χωνεύουν μόνες τους. */
 .ibtn{display:block;width:100%;padding:0;margin-top:10px;background:none;border:none;
   cursor:pointer;transition:transform .1s}
@@ -82,9 +85,20 @@
 .ibtn:active{transform:scale(.96)}
 .ibtn:disabled{opacity:.4;cursor:default}
 .art{margin:2px 0 4px}
+
+/* ΤΟ ΠΙΣΩ — στρογγυλο, χοντρο μαυρο περιγραμμα, ασπρο μεσα,
+   μαυρο βελακι. Μπαινει πανω αριστερα, σε οθονες οπου μπορει
+   να διαλεξε κανεις καταλαθος.                                  */
+.backrow{display:flex;justify-content:flex-start;margin:0 0 4px}
+.back{width:46px;height:46px;flex:none;padding:0;border-radius:50%;
+  border:4px solid #000;background:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 0 rgba(0,0,0,.5);transition:transform .1s,box-shadow .1s}
+.back:active{transform:translateY(4px);box-shadow:0 0 0 rgba(0,0,0,.5)}
+.back svg{display:block;width:26px;height:26px;pointer-events:none}
 .art.mid{width:62%;margin:6px auto 2px}   /* «Αριθμος Ατομων» μικρότερο */
 
-/* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά */
+/* η γραμμή στην κορυφή: κανόνες αριστερά, ο Φάκελος δεξιά */
 .hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px}
 .hdr .ibtn{width:54px;margin:0;flex:none}
 /* το κουμπί λήξης στη μέση της κορυφής — μικρό, μπαίνει από τον 3ο γύρο */
@@ -244,7 +258,7 @@ input.big[type=number]{-moz-appearance:textfield}
 .chip{font-family:var(--display);font-size:15px;padding:5px 12px;
   background:var(--surface);border:3px solid var(--line);border-radius:14px}
 
-/* πρακτικά */
+/* ο Φάκελος */
 .rec{border-left:2px solid var(--line);padding:0 0 4px 14px;margin-bottom:22px}
 .rec .h{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--muted);margin-bottom:6px}
@@ -558,6 +572,8 @@ const S = {
   round: null,
   phase: "setup",    // "setup" = συσταση (οι αρχικες αποψεις), "play" = παιχνιδι
   roundsDone: 0,     // ποσοι γυροι εχουν κλεισει σε αυτο το παιχνιδι
+  wins: [],          // ΟΙ ΝΙΚΕΣ ΤΟΥ ΠΑΙΧΝΙΔΙΟΥ, με τη σειρα των παιχτων
+                     // (με θεσεις, οχι με ονοματα — αλλιως μηδενιζαν)
   recordStart: 0,    // απο πoιο πρακτικο ξεκιναει αυτο το παιχνιδι
   records: Store.load(),
   timer: null,
@@ -615,6 +631,32 @@ freshOp();
 const ibtn = (file, attr, cls) =>
   `<button class="ibtn b-${file.replace(".png","")} ${cls||""}" ${attr||""}><img src="${IMG}${file}" alt=""></button>`;
 const art = (file, cls) => `<img class="art ${cls||""}" src="${IMG}${file}" alt="">`;
+/* Το μεγαλο λογοτυπο ειναι κουμπι: το πατας, χλιμιντριζει. */
+const logoArt = cls =>
+  `<button class="ibtn" data-neigh="1" style="margin:0" aria-label="Κοντρα"
+     >${art("logo-kontra.png", cls)}</button>`;
+
+/* ΤΟ ΑΛΟΓΟ — παιζει καθε φορα που πατας το λογοτυπο.
+   Κραταμε μικρη πισινα αντιγραφων, ωστε να μπορεις να το πατας
+   συνεχεια χωρις να κοβεται ο προηγουμενος ήχος.           */
+const Neigh = (() => {
+  const pool = [], N = 4;
+  let k = 0, ready = false;
+  const build = () => {
+    if (ready) return;
+    ready = true;
+    for (let i = 0; i < N; i++){
+      const a = new Audio(IMG + "alogo.mp3");
+      a.preload = "auto"; a.volume = .85;
+      pool.push(a);
+    }
+  };
+  return { play(){
+    build();
+    const a = pool[k = (k + 1) % N];
+    try { a.currentTime = 0; a.play().catch(() => {}); } catch(e){}
+  }};
+})();
 const badge = file => `<img src="${IMG}${file}" alt="">`;
 const digitImgs = n => String(n).split("")
   .map(d => `<img src="${IMG}${DIGIT[+d]}.png" alt="${d}">`).join("");
@@ -670,7 +712,7 @@ const notesField = val => `
     <textarea id="notes" placeholder="Τι ειπε ο καθενας, τι σε επεισε, τι θα θυμασαι.">${esc(val)}</textarea>
   </div>`;
 
-/* η γραμμή στην κορυφή: κανόνες αριστερά, πρακτικά δεξιά.
+/* η γραμμή στην κορυφή: κανόνες αριστερά, ο Φάκελος δεξιά.
    Στη μέση, ΜΟΝΟ από τον 3ο γύρο και μετά, το κουμπί της λήξης. */
 const header = (back, canEnd) => {
   /* Μολις κλεισουν 3 γυροι, η ληξη ειναι διαθεσιμη σε ΚΑΘΕ οθονη
@@ -684,6 +726,18 @@ const header = (back, canEnd) => {
     ${ibtn("praktika.png",`data-records="${back}"`)}
   </div>`;
 };
+
+/* ΤΟ ΒΕΛΑΚΙ ΠΙΣΩ ---------------------------------------------
+   Για οθονες οπου μπορει να πατησε κανεις λαθος επιλογη.   */
+const backBtn = to => `
+  <div class="backrow">
+    <button class="back" data-back="${to}" aria-label="Πισω">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M13.8 4.6 6.4 12l7.4 7.4M6.8 12H19.2" fill="none" stroke="#000"
+              stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>`;
 
 /* το − και το + σε SVG, μέχρι να τα ζωγραφίσεις */
 const pm = (sign, attr) => `
@@ -710,7 +764,7 @@ const V = {};
    Τα κουμπια εδω ειναι κειμενο (δεν υπαρχει ζωγραφια για ΝΑΙ/ΟΧΙ),
    αλλα κρατανε το ιδιο σχημα και την ιδια στοιχηση με τα υπολοιπα. */
 V.welcome = () => `
-  ${art("logo-kontra.png","logo")}
+  ${logoArt("logo")}
   <div class="fill"></div>
   <h1>Καλωσηρθες στην Κοντρα!</h1>
   <p class="lede">Ειναι η πρωτη φορα που παιζεις;</p>
@@ -720,7 +774,7 @@ V.welcome = () => `
 
 /* ΟΘΟΝΗ: η ερωτηση εισοδου ---------------------------------- */
 V.breakfast = () => `
-  ${art("logo-kontra.png","logo")}
+  ${logoArt("logo")}
   <div class="fill"></div>
   <p class="lede">Πρωτη φορα ε; Παντα η πιο δυσκολη... και αβολη...</p>
   <h2>Πριν παιξεις οφειλεις να μου απαντησεις σε μια ερωτηση.</h2>
@@ -733,7 +787,7 @@ V.breakfast = () => `
 
 /* ΟΘΟΝΗ: η απαντηση του παιχνιδιου -------------------------- */
 V.msg = () => `
-  ${art("logo-kontra.png","logo")}
+  ${logoArt("logo")}
   <div class="fill"></div>
   ${S.msg && S.msg.title ? `<h2>${S.msg.title}</h2>` : ""}
   ${S.msg && S.msg.body ? `<div class="card">${S.msg.body}</div>` : ""}
@@ -750,7 +804,7 @@ V.count = () => {
 
   return `
     ${header("count")}
-    ${art("logo-kontra.png")}
+    ${logoArt()}
     <p class="lede" style="text-align:center">"Δεν υπαρχει σωστη και λαθος αποψη, μονο σωστη και λαθος τεκμηριωση"</p>
 
     <div class="players">Παιχτες</div>
@@ -824,13 +878,20 @@ V.topic = () => {
     </button>`;
   return `
     ${header("topic")}
+    ${backBtn("count")}
     <p class="eyebrow">Πριν τα ονοματα</p>
     <h2>Λοιπον, πριν ξεκινησουμε,<br>τι θα κουβεντιασουμε σημερα;</h2>
     <div class="picks">
       ${card("ours", "Τα δικα μας", "δικες σας αποψεις, παραμενουν ανωνυμες.")}
       ${card("diasimoi", "Αποψεις διασημων", "μην περιμενετε να ειναι και λογια φιλοσοφων ομως.")}
       ${card("politikoi", "Αποψεις πολιτικων", "για αυτους που κατεβασαν την εφαρμογη με ορεξη.")}
-      ${has("dev") ? card("dev", "Οι αποψεις του δημιουργου", "φρεσκα απο το εργαστηρι.") : ""}
+      ${has("folder")
+        ? card("folder", "Παιξε με τον φακελο σου",
+               `οσες κρατησατε απο παλιες δικες — ${S.folder.length} μεσα.`)
+        : `<div class="pick" style="opacity:.45;flex-direction:column;align-items:stretch;gap:4px;cursor:default">
+             <span style="font-size:20px;font-weight:700">Παιξε με τον φακελο σου</span>
+             <span style="font-size:13.5px;font-weight:400;opacity:.85">αδειος ακομα — κρατα αποψεις στο τελος του παιχνιδιου.</span>
+           </div>`}
     </div>
     <div class="fill"></div>
     ${ibtn("orthioi.png",'data-topicgo="1"')}`;
@@ -847,6 +908,7 @@ V.intro = () => {
       <p class="eyebrow" style="margin:0;text-align:left;padding-top:8px">Τα χαρτια σας &middot; <b>${i} απο ${S.playerCount}</b></p>
       <button class="palbtn" data-openpal="1" aria-label="Η μαρκα σου"><img src="${IMG}colorpick.png" alt=""></button>
     </div>
+    ${backBtn("topic")}
     <p class="lede">${S.topic === "ours"
       ? "γραφεις το ονομα σου και μια αποψη σου στην οποια θα εβαζες την υπογραφη σου"
       : "γραφεις μονο το ονομα σου — οι αποψεις ειναι ηδη στη δικογραφια"}</p>
@@ -947,15 +1009,17 @@ V.finishAsk = () => `
 /* ΟΘΟΝΗ: απολογισμος ----------------------------------------
    ΜΕ ΠΟΝΤΟΥΣ: βγαινει ο πινακας. ΜΕ ΠΟΙΝΗ: κανενας ποντος στην
    οθονη — οι νικητες διαλεγουν την εσχατη ποινη και τελος.      */
+/* ΟΙ ΠΟΝΤΟΙ ΤΟΥ ΠΑΙΧΝΙΔΙΟΥ
+   Κραταμε τις νικες σε δικο τους πινακα, με τη ΘΕΣΗ του καθε
+   παιχτη. (Πριν μετρουσαμε με ονοματα — αν δυο ειχαν το ιδιο
+   ονομα, η αν ξαναπαιζαν οι ιδιοι, οι ποντοι μηδενιζαν.)  */
+function resetWins(){ S.wins = S.players.map(() => 0); }
+
 function tallyEnd(){
   const mine = S.records.slice(S.recordStart);
   const ks = S.players.map((_,k)=>k);
   const wins = {};
-  ks.forEach(k => { wins[k] = 0; });
-  mine.forEach(r => {
-    const team = r.winner === "pro" ? r.pro : r.winner === "con" ? r.con : null;
-    if (team) team.forEach(n => { const k = S.players.indexOf(n); if (k >= 0) wins[k]++; });
-  });
+  ks.forEach(k => { wins[k] = S.wins[k] || 0; });
   const top = ks.length ? Math.max.apply(null, ks.map(k => wins[k])) : 0;
   const low = ks.length ? Math.min.apply(null, ks.map(k => wins[k])) : 0;
   const champs = ks.filter(k => wins[k] === top);
@@ -1000,7 +1064,7 @@ V.theEnd = () => {
          <p class="lede">Νικητης της δικης με ${t.top} ${t.top===1?"νικη":"νικες"}.</p>`
       : `<h2 style="margin-top:24px">Τι ειπατε ρε παιδια καν;</h2>
          <p class="lede">Ισοπαλια στην κορυφη. Δεν βγαινει νικητης.</p>`}
-    <p class="mini">${S.roundsDone} γυροι &middot; ${t.mine.length} ${t.mine.length===1?"πρακτικο":"πρακτικα"}</p>
+    <p class="mini">${S.roundsDone} ${S.roundsDone===1?"γυρος":"γυροι"} &middot; ${t.mine.length} ${t.mine.length===1?"αποψη στο εδωλιο":"αποψεις στο εδωλιο"}</p>
     <div class="tally" style="margin-top:14px">${board}</div>
     <div class="fill"></div>
     ${ibtn("allhmia.png",'data-go="sendOps"')}`;
@@ -1127,9 +1191,16 @@ V.contra = () => {
       <div class="side interrupt">
         <div class="who">Διακοπη &middot; ${esc(foe)}</div>
         <div class="clock" id="opaClock" style="font-size:42px;color:#D9736A">${mmss(r.opaT)}</div>
+        <div class="who" id="exNote" style="color:var(--brass)">+${mmss(r.extra[r.cur]||0)}</div>
       </div>
+      <p class="mini">ο χρονος της διακοπης γυριζει στον ομιλητη στο τελος</p>
       ${ibtn("liji.png",'data-opa="0"')}
     ` : `
+      ${r.onExtra[r.cur]
+        ? `<p class="warn" style="color:var(--brass)">ΕΞΤΡΑ ΧΡΟΝΟΣ &middot;<br>οσο του εφαγαν οι διακοπες</p>`
+        : (r.extra[r.cur]||0) > 0
+          ? `<p class="mini" style="color:var(--brass)">μαζευτηκαν +${mmss(r.extra[r.cur])} εξτρα για το τελος</p>`
+          : ""}
       ${ibtn("opa.png",'data-opa="1"')}
       <p class="mini">δινεις τον λογο στον αλλον, μην τον αφησεις να μας ζαλισει</p>
     `}
@@ -1313,12 +1384,11 @@ const Folder = {
    Ερχονται απο το ops.js, μπαινουν ανακατεμενες στη δικογραφια και
    παιζονται ΑΝΩΝΥΜΑ. Το ονομα φυλαγεται στο who και βγαινει μονο
    αν το ζητησει το τραπεζι, μετα την κοντρα.                     */
-function devOps(){
-  try { return JSON.parse(localStorage.getItem(CFG.DEVOPS_KEY)) || []; } catch(e){ return []; }
-}
+function devOps(){ return []; }
 function readyDeck(id){
   const K = window.KONTRA_OPS || {};
-  if (id === "dev") return devOps().map(o => ({ t: o.t, who: "" }));
+  /* Ο φακελος του τραπεζιου: οσες κρατησαν απο παλιες δικες. */
+  if (id === "folder") return S.folder.map(o => ({ t: o.t, who: o.who || "" }));
   const cat = (K.quotes || []).filter(c => c.id === id)[0];
   return (cat && cat.ops ? cat.ops : []).map(o => ({ t: o.t || o, who: o.who || "" }));
 }
@@ -1362,6 +1432,7 @@ function beginGame(){
   S.phase = "play";
   S.roundsDone = 0;
   S.recordStart = S.records.length;
+  resetWins();
   S.judge = 0;
   startRound();
 }
@@ -1384,7 +1455,8 @@ function startRound(){
   op.used = (op.used || 0) + 1;
   S.showWho = false;
   S.round = { op, vote:{}, mode:1, proSel:[], conSel:[],
-              order:[], times:[], cur:0, opa:false, opaT:0, notes:"", winner:null };
+              order:[], times:[], extra:[], onExtra:[],
+              cur:0, opa:false, opaT:0, notes:"", winner:null };
   S.screen = "round";
 }
 
@@ -1403,10 +1475,10 @@ function playAgain(){
   S.phase = "setup";
   S.roundsDone = 0;
   S.recordStart = S.records.length;
+  resetWins();
   S.round = null; S.mine = 0; S.opDraft = ""; S.againIdx = 0;
   S.againLeft = S.players.length;
   nextJudge();
-  freshOp();
   /* Ετοιμος φακελος: κανενας δεν γραφει τιποτα, μοιραζεται
      καινουρια δικογραφια και ξεκιναμε κατευθειαν.              */
   if (S.topic !== "ours"){
@@ -1437,6 +1509,10 @@ function buildOrder(){
     r.order.push({ side:"con", p:r.conSel[k] });
   }
   r.times = r.order.map(() => S.contraSecs);
+  /* extra[k]   = οσα δευτερολεπτα του εφαγε η διακοπη
+     onExtra[k] = τρεχει τωρα τον εξτρα χρονο του                */
+  r.extra = r.order.map(() => 0);
+  r.onExtra = r.order.map(() => false);
   r.cur = 0;
 }
 
@@ -1448,7 +1524,7 @@ function nextSpeaker(){
   render();
 }
 
-/* καταγραφή της δίκης στα πρακτικά */
+/* καταγραφή της δίκης — τροφοδοτεί τον απολογισμό και τον Φάκελο */
 function fileRecord(){
   const r = S.round;
   S.records.push({
@@ -1464,7 +1540,9 @@ function fileRecord(){
     notes: (r.notes || "").trim()
   });
   S.roundsDone++;
-  Store.save(S.records);
+  /* Οι νικες μπαινουν ΚΑΤΕΥΘΕΙΑΝ στον πινακα, με θεσεις. */
+  const team = r.winner === "pro" ? r.proSel : r.winner === "con" ? r.conSel : null;
+  if (team) team.forEach(i => { S.wins[i] = (S.wins[i] || 0) + 1; });
 }
 
 function exportText(){ return ""; }
@@ -1473,14 +1551,31 @@ function exportText(){ return ""; }
    ό,τι γράφει ο δικαστής στις σημειώσεις εκείνη τη στιγμή. */
 function tick(){
   const r = S.round;
+  /* ΔΙΑΚΟΠΗ (ΟΠΑ): ο χρονος του ομιλητη παγωνει και οσο μιλαει
+     ο αντιπαλος μαζευεται στο extra. Μολις τελειωσει ο βασικος
+     χρονος, του επιστρεφεται ΟΛΟΣ ΜΑΖΙ, μια φορα.        */
   if (r.opa){
     r.opaT++;
+    r.extra[r.cur] = (r.extra[r.cur] || 0) + 1;
     const el = document.getElementById("opaClock");
     if (el) el.textContent = mmss(r.opaT);
+    const ex = document.getElementById("exNote");
+    if (ex) ex.textContent = "+" + mmss(r.extra[r.cur]);
     return;
   }
   r.times[r.cur]--;
-  if (r.times[r.cur] <= 0){ r.times[r.cur] = 0; return nextSpeaker(); }
+  if (r.times[r.cur] <= 0){
+    r.times[r.cur] = 0;
+    const ex = r.extra[r.cur] || 0;
+    if (ex > 0 && !r.onExtra[r.cur]){
+      r.extra[r.cur] = 0;
+      r.times[r.cur] = ex;
+      r.onExtra[r.cur] = true;
+      if (navigator.vibrate) navigator.vibrate(120);
+      return render();
+    }
+    return nextSpeaker();
+  }
   const el = document.getElementById("curClock");
   if (el) el.textContent = mmss(r.times[r.cur]);
 }
@@ -1520,9 +1615,27 @@ function syncSubmit(){
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass],[data-send],[data-sendgo],[data-topic],[data-topicgo],[data-who],[data-drop]");
+  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass],[data-send],[data-sendgo],[data-topic],[data-topicgo],[data-who],[data-drop],[data-back],[data-neigh]");
   if (!t || t.disabled) return;
   const d = t.dataset;
+
+  /* ΤΟ ΑΛΟΓΟ: το λογοτυπο χλιμιντριζει */
+  if (d.neigh){ Neigh.play(); return; }
+
+  /* ΤΟ ΒΕΛΑΚΙ ΠΙΣΩ
+     Απο τα ονοματα προς τη θεματολογια: αδειαζουμε ο,τι γραφτηκε,
+     αλλιως μενουν ονοματα απο αλλη θεματολογια.            */
+  if (d.back){
+    stopTimer();
+    if (d.back === "topic" || d.back === "count"){
+      S.players = []; S.pcol = []; S.ppat = [];
+      S.opinions = []; S.nextId = 1; S.peakOps = 0;
+      S.mine = 0; S.nameDraft = ""; S.opDraft = ""; S.palette = false;
+      S.round = null; S.phase = "setup"; S.roundsDone = 0; S.wins = [];
+      S.draftCol = freeColor(); S.draftPat = 0;
+    }
+    return go(d.back);
+  }
 
   /* ληξη: πισω στην αρχικη οθονη, καθαρο τραπεζι */
   if (d.home){
@@ -1531,6 +1644,7 @@ app.addEventListener("click", e => {
     S.opinions = []; S.nextId = 1; S.peakOps = 0;
     S.round = null; S.phase = "setup"; S.roundsDone = 0;
     S.recordStart = S.records.length;
+    S.wins = [];
     S.judge = 0; S.mine = 0; S.againIdx = 0;
     S.nameDraft = ""; S.opDraft = ""; S.palette = false; S.sendPick = [];
     S.topic = "ours"; S.showWho = false;

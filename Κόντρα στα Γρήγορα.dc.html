@@ -34,59 +34,6 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 
 <div style="height:100dvh;overflow:hidden;background:radial-gradient(130% 85% at 50% -12%,#8a2029 0%,#4d0e14 44%,#1a0407 100%);display:flex;justify-content:center;align-items:stretch">
 
-<sc-if value="{{ devOn }}" hint-placeholder-val="{{ false }}">
-<div style="position:fixed;left:14px;top:14px;width:216px;max-height:calc(100vh - 28px);overflow:auto;padding:10px;border-radius:15px;background:rgba(11,2,4,.95);border:2px solid rgba(255,199,44,.34);display:flex;flex-direction:column;gap:6px;z-index:60">
-<div style="display:flex;gap:5px">
-<button style="flex:1;padding:6px 4px;border-radius:9px;border:2px solid rgba(255,199,44,.4);background:rgba(255,199,44,.14);color:#ffc72c;font:700 10px ui-monospace,Menlo,monospace;letter-spacing:.1em;cursor:pointer" onClick="{{ devTabMail }}">ΑΠΟΨΕΙΣ {{ devCounts }}</button>
-<button style="flex:none;padding:6px 9px;border-radius:9px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:rgba(255,246,226,.75);font:700 10px ui-monospace,Menlo,monospace;cursor:pointer" onClick="{{ devTabScreens }}">ΟΘ.</button>
-</div>
-
-<sc-if value="{{ devMail }}" hint-placeholder-val="{{ true }}">
-<div style="font:700 9px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.18em;color:#ffc72c;padding:4px 2px 0">ΟΙ ΑΠΟΨΕΙΣ ΤΟΥ ΔΗΜΙΟΥΡΓΟΥ</div>
-<div style="font:400 10px/1.5 Comfortaa,sans-serif;color:rgba(255,246,226,.45);padding:2px 2px 4px">Μπαινουν σαν κατηγορια στα δυο παιχνιδια.</div>
-<textarea ref="{{ devOpRef }}" onKeyDown="{{ devOpKey }}" rows="2" placeholder="Γραψε αποψη &middot; Enter" style="width:100%;padding:7px 8px;border:2px solid #0b0203;border-radius:9px;background:linear-gradient(#fffdf5,#f1e3c9);color:#1b1008;font:400 10.5px/1.4 Comfortaa,sans-serif;outline:none;resize:none;-webkit-appearance:none"></textarea>
-<div style="display:flex;gap:5px">
-<button style="flex:1;padding:5px;border-radius:8px;border:2px solid #0b0203;background:#5fe08f;color:#0b0203;font:700 10px Comfortaa,sans-serif;cursor:pointer" onClick="{{ devOpAdd }}">Προσθεσε</button>
-<button style="flex:none;padding:5px 9px;border-radius:8px;border:2px solid rgba(255,120,110,.5);background:rgba(255,120,110,.12);color:#ff9c90;font:700 10px Comfortaa,sans-serif;cursor:pointer" onClick="{{ devOpClear }}">Ολες εξω</button>
-</div>
-<sc-if value="{{ devOpsEmpty }}" hint-placeholder-val="{{ true }}">
-<div style="font:400 10px/1.5 Comfortaa,sans-serif;color:rgba(255,246,226,.4);padding:4px 2px">Καμια ακομα.</div>
-</sc-if>
-<sc-for list="{{ devOps }}" as="m" hint-placeholder-count="0">
-<div style="display:flex;gap:5px;align-items:flex-start;padding:6px 7px;border-radius:10px;background:rgba(95,224,143,.08);border:1px solid rgba(95,224,143,.25)">
-<span style="flex:1;font:400 10px/1.4 Comfortaa,sans-serif;color:#d8f6e4;text-align:left">{{ m.text }}</span>
-<button style="flex:none;padding:2px 7px;border-radius:7px;border:1px solid rgba(255,120,110,.5);background:rgba(255,120,110,.14);color:#ff9c90;font:700 10px Comfortaa,sans-serif;cursor:pointer" onClick="{{ m.no }}">&times;</button>
-</div>
-</sc-for>
-</sc-if>
-
-<sc-if value="{{ devScreens }}" hint-placeholder-val="{{ false }}">
-<sc-for list="{{ devItems }}" as="d" hint-placeholder-count="17">
-<button style="{{ d.style }}" onClick="{{ d.on }}">{{ d.label }}</button>
-</sc-for>
-</sc-if>
-
-<button style="margin-top:5px;padding:6px 8px;border-radius:9px;border:2px solid rgba(255,199,44,.35);background:rgba(255,199,44,.1);color:#ffd75e;font:700 10.5px Comfortaa,sans-serif;cursor:pointer" onClick="{{ devLock }}">Κλειδωμα</button>
-</div>
-</sc-if>
-
-<sc-if value="{{ askPass }}" hint-placeholder-val="{{ false }}">
-<div style="position:fixed;inset:0;z-index:90;background:rgba(6,1,2,.9);display:flex;align-items:center;justify-content:center;padding:22px">
-<div style="width:100%;max-width:320px;padding:20px 18px;border-radius:22px;background:linear-gradient(#5f1118,#380a0f);border:4px solid #0b0203;text-align:center;box-shadow:inset 0 0 0 2px rgba(255,199,44,.34),0 20px 44px rgba(0,0,0,.65)">
-<div style="font:400 9px/1.6 'Press Start 2P',monospace;color:#ffc72c;letter-spacing:.05em">ΥΠΗΡΕΣΙΑ ΚΑΖΙΝΟ</div>
-<p style="margin:9px 0 13px;font:400 13.5px/1.5 Comfortaa,sans-serif;color:#f0c9b2">Κωδικος προσωπικου</p>
-<input ref="{{ passRef }}" type="password" autocomplete="off" onKeyDown="{{ passKey }}" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" style="width:100%;padding:13px 12px;border:3px solid #0b0203;border-radius:13px;background:linear-gradient(#fffdf5,#f1e3c9);color:#1b1008;font:700 17px Comfortaa,sans-serif;text-align:center;outline:none;-webkit-appearance:none;box-shadow:inset 0 3px 8px rgba(0,0,0,.2)">
-<sc-if value="{{ passBad }}" hint-placeholder-val="{{ false }}">
-<p style="margin:10px 0 0;font:400 8px/1.6 'Press Start 2P',monospace;color:#ff8b7d">ΛΑΘΟΣ ΚΩΔΙΚΟΣ</p>
-</sc-if>
-<div style="display:flex;gap:9px;margin-top:13px">
-<button style="flex:1;padding:12px 8px;border:3px solid #0b0203;border-radius:14px;font:700 15px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#7a6259,#4c3a33);box-shadow:inset 0 2px 0 rgba(255,255,255,.22),0 4px 0 #241b17" onClick="{{ passCancel }}">Ακυρο</button>
-<button style="flex:1;padding:12px 8px;border:3px solid #0b0203;border-radius:14px;font:700 15px Comfortaa,sans-serif;color:#3a1c00;cursor:pointer;background:linear-gradient(#ffe083,#e2a512);box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 4px 0 #9c6c05" onClick="{{ passOk }}">Ανοιξε</button>
-</div>
-</div>
-</div>
-</sc-if>
-
 <sc-if value="{{ paletteOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:fixed;inset:0;z-index:90;background:rgba(6,1,2,.9);display:flex;align-items:center;justify-content:center;padding:22px">
 <div style="width:100%;max-width:340px;padding:20px 18px;border-radius:22px;background:linear-gradient(#5f1118,#380a0f);border:4px solid #0b0203;text-align:center;box-shadow:inset 0 0 0 2px rgba(255,199,44,.34),0 20px 44px rgba(0,0,0,.65)">
@@ -114,7 +61,7 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <sc-if value="{{ noBulbs }}" hint-placeholder-val="{{ false }}">
 <div style="flex:1;height:13px;border-radius:7px;background-color:#2a070a;background-image:radial-gradient(circle at 6px 6px,#f6dfa0 0 2.4px,#c99418 2.4px 4.6px,rgba(0,0,0,0) 4.8px);background-size:12px 12px;background-repeat:repeat-x;box-shadow:inset 0 0 0 1px rgba(0,0,0,.5)"></div>
 </sc-if>
-<button style="flex:none;padding:3px 9px;border-radius:8px;background:linear-gradient(#1d0508,#0d0203);border:2px solid rgba(255,199,44,.4);font:400 8px/1.4 'Press Start 2P',monospace;color:#ffc72c;letter-spacing:.04em;cursor:pointer" onClick="{{ secretTap }}">No 7</button>
+<span style="flex:none;padding:3px 9px;border-radius:8px;background:linear-gradient(#1d0508,#0d0203);border:2px solid rgba(255,199,44,.4);font:400 8px/1.4 'Press Start 2P',monospace;color:#ffc72c;letter-spacing:.04em">No 7</span>
 </div>
 
 <div style="position:relative;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:linear-gradient(#5f1118,#380a0f);border:4px solid #0b0203;border-radius:24px;padding:15px 13px 16px;display:flex;flex-direction:column;text-align:center;box-shadow:inset 0 3px 0 rgba(255,255,255,.09),inset 0 -40px 90px rgba(0,0,0,.45)">
@@ -488,12 +435,21 @@ button{font-family:Comfortaa,system-ui,sans-serif}
 <div style="margin-top:12px;padding:14px;border-radius:18px;background:linear-gradient(#7a3a08,#4d2205);border:3px solid #0b0203;box-shadow:inset 0 0 0 2px rgba(255,199,44,.45),0 6px 0 rgba(0,0,0,.45);animation:pop .3s ease-out both">
 <span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ffd98a">Διακοπη</span>
 <div style="margin-top:6px;padding:8px 0 6px;border-radius:12px;background:#0d0203;box-shadow:inset 0 3px 10px rgba(0,0,0,.9);font:400 26px/1 'Press Start 2P',monospace;color:#ffb45e;text-shadow:0 0 14px rgba(255,140,40,.7)">{{ opaTime }}</div>
+<div style="margin-top:7px;font:700 11px/1.4 Comfortaa,sans-serif;color:#ffd75e">{{ exNote }} γυριζει στον ομιλητη στο τελος</div>
 </div>
 <button style="display:block;width:100%;margin-top:12px;padding:15px 16px;border:3px solid #0b0203;border-radius:16px;font:700 19px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#ff9b4a,#d1660f);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 6px 0 #7d3a05;text-shadow:0 2px 0 rgba(0,0,0,.3)" style-active="transform:translateY(6px);box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 0 0 #7d3a05" onClick="{{ opaEnd }}">Αρκετα — συνεχισε</button>
 </sc-if>
+<sc-if value="{{ onExtra }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;padding:11px 14px;border-radius:16px;background:rgba(255,199,44,.14);border:3px dashed rgba(255,215,94,.55)">
+<span style="font:700 12px/1.4 Comfortaa,sans-serif;color:#ffd75e">ΕΞΤΡΑ ΧΡΟΝΟΣ &middot; οσο του εφαγαν οι διακοπες</span>
+</div>
+</sc-if>
 <sc-if value="{{ opaOff }}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{ exWaiting }}" hint-placeholder-val="{{ false }}">
+<p style="margin:12px 0 0;font:700 11.5px/1.5 Comfortaa,sans-serif;color:#ffd75e">μαζευτηκαν {{ exNote }} εξτρα για το τελος του λογου του</p>
+</sc-if>
 <button style="display:block;width:100%;margin-top:14px;padding:20px 16px;border:3px solid #0b0203;border-radius:20px;font:700 30px Comfortaa,sans-serif;color:#fff6e2;cursor:pointer;background:linear-gradient(#ff9b4a,#d1660f);box-shadow:inset 0 3px 0 rgba(255,255,255,.45),0 8px 0 #7d3a05,0 14px 24px rgba(0,0,0,.45);text-shadow:0 3px 0 rgba(0,0,0,.35);letter-spacing:.04em" style-active="transform:translateY(8px);box-shadow:inset 0 3px 0 rgba(255,255,255,.45),0 0 0 #7d3a05" onClick="{{ opaStart }}">ΟΠΑ!</button>
-<p style="margin:10px 0 0;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.5)">ΚΟΒΕΙ Ο ΑΝΤΙΠΑΛΟΣ &middot; ΠΑΓΩΝΕΙ Ο ΧΡΟΝΟΣ</p>
+<p style="margin:10px 0 0;font:400 8px/1.7 'Press Start 2P',monospace;color:rgba(255,246,226,.5)">ΚΟΒΕΙ Ο ΑΝΤΙΠΑΛΟΣ &middot; Ο ΧΡΟΝΟΣ ΤΟΥ ΓΥΡΙΖΕΙ ΣΤΟ ΤΕΛΟΣ</p>
 </sc-if>
 <div style="flex:1;min-height:14px"></div>
 <div style="display:flex;gap:9px;margin-top:12px">
@@ -942,8 +898,7 @@ class Component extends DCLogic {
   CFG = {
     MIN_PLAYERS: 4, MAX_PLAYERS: 15, DEFAULT_CHICKENS: 2,
     TIME_OPTIONS: [45, 60, 90], DEFAULT_TIME: 60, MAX_NAME: 14,
-    STORE_KEY: "kontra.grigora.v2",
-    DEV_PASS: "makis67tselios"
+    STORE_KEY: "kontra.grigora.v2"
   };
 
   /* === ΤΑ ΧΡΩΜΑΤΑ ΤΩΝ ΜΑΡΚΩΝ =============================
@@ -1093,14 +1048,12 @@ class Component extends DCLogic {
     const K = window.KONTRA_OPS;
     return (K && K.cats && K.cats.length) ? K.cats : this.CATS;
   }
-  /* Ο φακελος του δημιουργου μπαινει σαν κατηγορια, αρκει να
-     εχει εστω μια αποψη μεσα (μπαινουν απο την κρυφη οθονη).     */
-  get ALLCATS() {
-    const mine = (this.S.devOps || []).map(o => o.t).filter(Boolean);
-    if (!mine.length) return this.BASECATS;
-    return this.BASECATS.concat([{ id: "dimiourgos", name: "Οι αποψεις του δημιουργου",
-      note: "φρεσκα απο το εργαστηρι", tone: ["#b8901c", "#5f4708", "#ffeeb8"], ops: mine }]);
-  }
+  /* ΟΙ ΑΠΟΨΕΙΣ ΤΟΥ ΔΗΜΙΟΥΡΓΟΥ — κλειδωμενη κατηγορια.
+     Φαινεται στη λιστα, δεν παιζεται ακομα.                      */
+  LOCKED = [{ id: "dimiourgos", name: "Οι αποψεις του δημιουργου",
+    note: "ερχεται συντομα, τετοιες αποψεις θελουν φιλοσοφια",
+    tone: ["#b8901c", "#5f4708", "#ffeeb8"], ops: [], locked: true }];
+  get ALLCATS() { return this.BASECATS.concat(this.LOCKED); }
   get POOL() {
     const on = this.S.cats || [], all = this.ALLCATS;
     const use = all.filter(c => on.indexOf(c.id) >= 0);
@@ -1115,10 +1068,9 @@ class Component extends DCLogic {
     screen: "home", timeSec: 60,
     players: [], nameDraft: "", pool: [],
     cats: ["parees", "kathimerina", "fagito", "othones"], // ποιες κατηγοριες παιζουν
-    devOps: [], devTab: "mail", // ο φακελος του δημιουργου
     roundNo: 0, duelNo: 0, duelTotal: 0, judge: 0, judgeSeed: 0,
     round: null, bronze: null, tie: null, lastOut: null, champion: null,
-    back: "home", devUnlocked: false, askPass: false, passBad: false,
+    back: "home",
     vegas: false,      // λειτουργια καζινο: το φιναλε παιζεται με chips
     gone: [],          // η σειρα των αποβολων
     finale: null,      // το τελευταιο τραπεζι
@@ -1142,19 +1094,12 @@ class Component extends DCLogic {
     palette: false     // ανοιχτη η παλετα χρωματων
   };
   nameRef = React.createRef();
-  passRef = React.createRef();
   betRef = React.createRef();
-  devOpRef = React.createRef();
 
-  /* Ο ΦΑΚΕΛΟΣ ΤΟΥ ΔΗΜΙΟΥΡΓΟΥ: οσες αποψεις βαλει ο developer απο
-     την κρυφη οθονη, γινονται κατηγορια και στα δυο παιχνιδια.   */
-  DEVOPS_KEY = "kontra.dimiourgos.v1";
   lsGet(k) { try { return JSON.parse(localStorage.getItem(k)) || []; } catch (e) { return []; } }
   lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-  syncMail() { this.S.devOps = this.lsGet(this.DEVOPS_KEY); }
-  componentDidMount() { this.syncMail(); this.u(); }
+  componentDidMount() { this.u(); }
   componentDidUpdate() {
-    if (this.S.askPass && this.passRef.current) return this.passRef.current.focus();
     if (this.S.screen === "bet" && this.betRef.current) return this.betRef.current.focus();
     if (this.S.screen === "intro" && this.nameRef.current) this.nameRef.current.focus();
   }
@@ -1192,9 +1137,7 @@ class Component extends DCLogic {
     S.kVoid = false; S.vVoid = false;
     S.betAllIn = false;
     S.nameDraft = ""; S.draft = this.freeColor();
-    /* Πρωτα διαλεγει το τραπεζι θεματολογια, μετα μπαινουν ονοματα.
-       Ξαναδιαβαζουμε το ποσταλι: μπορει να εγκριθηκαν καινουριες. */
-    this.syncMail();
+    /* Πρωτα διαλεγει το τραπεζι θεματολογια, μετα μπαινουν ονοματα. */
     S.screen = "cats"; this.u();
   }
 
@@ -1273,7 +1216,7 @@ class Component extends DCLogic {
   }
   newDuel() {
     this.S.round = { op: this.drawOpinion(), vote: {}, a: null, b: null,
-      order: [], times: [], cur: 0, opa: false, opaT: 0 };
+      order: [], times: [], extra: [], onExtra: [], cur: 0, opa: false, opaT: 0 };
   }
   newRound() {
     const S = this.S; S.roundNo++;
@@ -1298,6 +1241,9 @@ class Component extends DCLogic {
     const r = this.S.round;
     r.order = [{ side: "pro", p: r.a }, { side: "con", p: r.b }];
     r.times = [this.S.timeSec, this.S.timeSec];
+    /* extra[k]   = οσα δευτερολεπτα του εφαγε η διακοπη
+       onExtra[k] = τρεχει τωρα τον εξτρα χρονο του           */
+    r.extra = [0, 0]; r.onExtra = [false, false];
     r.cur = 0; r.opa = false; r.opaT = 0;
   }
   awardDuel(w, l) {
@@ -1559,13 +1505,27 @@ class Component extends DCLogic {
     S.voteResult = { who: i, gone: S.lastOut, right: right, role: role };
     S.screen = "voteResult";
   }
+  /* ΔΙΑΚΟΠΗ (ΟΠΑ): ο χρονος του ομιλητη παγωνει και οσο μιλαει ο
+     αντιπαλος μαζευεται στο extra. Μολις τελειωσει ο βασικος του
+     χρονος, του επιστρεφεται ΟΛΟΣ ΜΑΖΙ, μια φορα.               */
   tick() {
     const r = this.S.round;
     if (!r) return;
-    if (r.opa) { r.opaT++; this.u(); return; }
+    if (r.opa) {
+      r.opaT++;
+      r.extra[r.cur] = (r.extra[r.cur] || 0) + 1;
+      this.u(); return;
+    }
     r.times[r.cur]--;
     if (r.times[r.cur] <= 0) {
-      r.times[r.cur] = 0; r.cur++;
+      r.times[r.cur] = 0;
+      const ex = r.extra[r.cur] || 0;
+      if (ex > 0 && !r.onExtra[r.cur]) {
+        r.extra[r.cur] = 0; r.times[r.cur] = ex; r.onExtra[r.cur] = true;
+        if (navigator.vibrate) navigator.vibrate(110);
+        this.u(); return;
+      }
+      r.cur++;
       if (navigator.vibrate) navigator.vibrate(180);
       if (r.cur >= r.order.length) return this.go("verdict");
     }
@@ -1573,6 +1533,27 @@ class Component extends DCLogic {
   }
   /* Τα πρακτικα καταργηθηκαν — τιποτα δεν γραφεται στο ταμειο. */
   saveRecord() {}
+
+  /* ΚΑΘΑΡΟ ΤΡΑΠΕΖΙ — ΜΙΑ ΘΕΣΗ ΓΙΑ ΟΛΑ
+     Καθε φορα που ληγει παιχνιδι (με νικητη, με φυλλο, με
+     τριπλο φιναλε) γυριζουμε απο ΕΔΩ στην αρχικη. Αν μενει
+     εστω ενα πεδιο, το επομενο παιχνιδι ξεκινα βρωμικο.        */
+  hardReset() {
+    const S = this.S;
+    this.stopTimer();
+    S.screen = "home";
+    S.players = []; S.gone = []; S.pool = [];
+    S.round = null; S.bronze = null; S.tie = null; S.finale = null;
+    S.roundNo = 0; S.duelNo = 0; S.duelTotal = 0;
+    S.judge = 0; S.judgeSeed = 0;
+    S.champion = null; S.lastOut = null; S.outIntended = null;
+    S.roles = null; S.roleIdx = 0; S.roleOut = null; S.lawWin = null;
+    S.kVoid = false; S.vVoid = false; S.vysmaBullet = false;
+    S.noJudge = []; S.huntRole = null; S.voteResult = null;
+    S.bulletInfo = null; S.revealInfo = null; S.stepDone = {};
+    S.vegas = false; S.betAllIn = false;
+    S.back = "home";
+  }
   /* === DEMO ΓΙΑ ΤΟ DEV RAIL ============================= */
   seed() {
     const S = this.S;
@@ -1742,18 +1723,6 @@ class Component extends DCLogic {
   /* === RENDER VALS ====================================== */
   renderVals() {
     const S = this.S, sc = S.screen, r = S.round;
-    const devKeys = [
-      ["home", "Αρχικη"], ["rules", "Κανονες"], ["cats", "Κατηγοριες"], ["intro", "Ονοματα"],
-      ["tooFew", "Λιγοι"], ["handoff", "Παραδοση"],
-      ["role", "Φυλλο"], ["roundStart", "Δικαστης"], ["eyes", "Ματια"], ["hearing", "Μετρημα"],
-      ["select", "Επιλογη"], ["sides", "Πλευρες"], ["chicken", "Κοτα"], ["contra", "Κοντρα"], ["verdict", "Ετυμηγορια"],
-      ["roundEnd", "Ταμειο"], ["out", "Αποβολη"], ["vote", "Ψηφος"], ["voteResult", "Αποκαλυψη"],
-      ["replay", "Ισοπαλια"], ["duelIntro", "Χαλκινη"], ["finale", "Φιναλε"], ["bet", "Στοιχημα"],
-      ["reveal", "Φανερωμα"],
-      ["askVegas", "Vegas?"], ["stake", "Ποτ"], ["winner", "Νικητης"],
-      ["roleWin", "Νικη φυλλου"], ["picks", "Τα φυλλα"], ["bullet", "Ηττα φυλλου"]
-    ];
-
     const v = {
       /* ---- πλοηγηση */
       atHome: sc === "home", atRules: sc === "rules",
@@ -1771,79 +1740,6 @@ class Component extends DCLogic {
       atPicks: sc === "picks", atBullet: sc === "bullet", atReveal: sc === "reveal",
       bulbs: (this.props.bulbsOn ?? true) === true,
       noBulbs: (this.props.bulbsOn ?? true) !== true,
-      devOn: S.devUnlocked === true,
-      askPass: S.askPass === true,
-      passBad: S.passBad === true,
-      passRef: this.passRef,
-      secretTap: () => { S.askPass = true; S.passBad = false; this.u(); },
-      passCancel: () => { S.askPass = false; S.passBad = false; this.u(); },
-      passOk: () => {
-        const val = this.passRef.current ? this.passRef.current.value : "";
-        if (val.trim() === this.CFG.DEV_PASS) {
-          S.devUnlocked = true; S.askPass = false; S.passBad = false;
-        } else { S.passBad = true; }
-        this.u();
-      },
-      passKey: e => {
-        if (e.key !== "Enter") return;
-        e.preventDefault();
-        const val = this.passRef.current ? this.passRef.current.value : "";
-        if (val.trim() === this.CFG.DEV_PASS) { S.devUnlocked = true; S.askPass = false; S.passBad = false; }
-        else { S.passBad = true; }
-        this.u();
-      },
-      devLock: () => { S.devUnlocked = false; this.u(); },
-
-      /* ---- Ο ΦΑΚΕΛΟΣ ΤΟΥ ΔΗΜΙΟΥΡΓΟΥ: βαζεις και βγαζεις αποψεις */
-      devTab: S.devTab === "screens" ? "screens" : "mail",
-      devMail: S.devTab !== "screens",
-      devScreens: S.devTab === "screens",
-      devTabMail: () => { S.devTab = "mail"; this.syncMail(); this.u(); },
-      devTabScreens: () => { S.devTab = "screens"; this.u(); },
-      devOpRef: this.devOpRef,
-      devOpAdd: () => {
-        const el = this.devOpRef.current;
-        const t = el ? el.value.trim() : "";
-        if (!t) return;
-        const list = this.lsGet(this.DEVOPS_KEY);
-        if (!list.some(x => x.t === t)) list.push({ t: t, d: Date.now() });
-        this.lsSet(this.DEVOPS_KEY, list);
-        if (el) { el.value = ""; el.focus(); }
-        this.syncMail(); this.u();
-      },
-      devOpKey: e => {
-        if (e.key !== "Enter" || e.shiftKey) return;
-        e.preventDefault();
-        const el = this.devOpRef.current;
-        const t = el ? el.value.trim() : "";
-        if (!t) return;
-        const list = this.lsGet(this.DEVOPS_KEY);
-        if (!list.some(x => x.t === t)) list.push({ t: t, d: Date.now() });
-        this.lsSet(this.DEVOPS_KEY, list);
-        el.value = ""; el.focus();
-        this.syncMail(); this.u();
-      },
-      devOps: (S.devOps || []).map((o, ix) => ({
-        text: o.t,
-        no: () => {
-          const list = this.lsGet(this.DEVOPS_KEY);
-          list.splice(ix, 1); this.lsSet(this.DEVOPS_KEY, list);
-          this.syncMail();
-          S.cats = (S.cats || []).filter(c => c !== "dimiourgos" || list.length);
-          this.u();
-        }
-      })),
-      devOpsEmpty: !(S.devOps || []).length,
-      devCounts: (S.devOps || []).length,
-
-      devItems: devKeys.map(([k, label]) => ({
-        label,
-        on: () => this.jump(k),
-        style: "padding:6px 8px;border-radius:9px;border:2px solid " + (sc === k ? "#ffc72c" : "rgba(255,199,44,.2)") +
-          ";background:" + (sc === k ? "rgba(255,199,44,.22)" : "rgba(255,246,226,.05)") +
-          ";color:" + (sc === k ? "#ffe083" : "rgba(255,246,226,.7)") +
-          ";font:700 10.5px Comfortaa,sans-serif;text-align:left;cursor:pointer"
-      })),
 
       /* ---- αρχικη */
       chickens: this.nCh() === 1 ? "1 μαρκα κοτας" : this.nCh() + " μαρκες κοτας",
@@ -1890,7 +1786,18 @@ class Component extends DCLogic {
 
       /* ---- ΟΙ ΚΑΤΗΓΟΡΙΕΣ: με ποια θεματα θα παιξει το τραπεζι */
       catRows: this.ALLCATS.map(c => {
-        const on = (S.cats || []).indexOf(c.id) >= 0;
+        const on = !c.locked && (S.cats || []).indexOf(c.id) >= 0;
+        if (c.locked) return {
+          name: c.name, note: c.note, count: "", mark: "ΚΛΕΙΔΩΜΕΝΟ",
+          markStyle: "display:inline-block;padding:3px 8px;border-radius:7px;border:2px solid rgba(255,199,44,.35);"
+            + "background:rgba(255,199,44,.1);font:400 7px/1.4 'Press Start 2P',monospace;color:rgba(255,215,94,.8);letter-spacing:.04em",
+          style: "flex:1 1 46%;min-width:0;text-align:left;padding:13px 12px 14px;border-radius:16px;cursor:default;"
+            + "border:3px dashed rgba(255,199,44,.35);display:flex;flex-direction:column;gap:8px;"
+            + "background:linear-gradient(#2a0a10,#1b0508);box-shadow:0 5px 0 rgba(0,0,0,.35);opacity:.7",
+          nameStyle: "font:700 15px/1.2 Comfortaa,sans-serif;color:rgba(255,238,184,.85)",
+          noteStyle: "font:400 11px/1.35 Comfortaa,sans-serif;color:rgba(255,246,226,.5)",
+          on: () => {}
+        };
         return {
           name: c.name, note: c.note,
           count: c.ops.length + " αποψεις",
@@ -1916,7 +1823,7 @@ class Component extends DCLogic {
         return use.reduce((n, c) => n + c.ops.length, 0);
       })(),
       catsNone: (S.cats || []).length === 0,
-      catsAll: () => { S.cats = this.ALLCATS.map(c => c.id); this.u(); },
+      catsAll: () => { S.cats = this.BASECATS.map(c => c.id); this.u(); },
       catsGo: () => {
         if (!(S.cats || []).length) return;
         S.pool = this.POOL.slice();
@@ -2012,15 +1919,7 @@ class Component extends DCLogic {
       },
       tally: () => { this.closeRound(); this.resolveElimination(); this.u(); },
       afterOut: () => this.afterOut(),
-      again: () => {
-        this.stopTimer();
-        S.screen = "home"; S.players = []; S.round = null; S.bronze = null; S.tie = null;
-        S.finale = null; S.voteResult = null; S.gone = [];
-        S.roles = null; S.roleOut = null; S.vysmaBullet = false; S.roleIdx = 0; S.lawWin = null;
-    S.kVoid = false; S.vVoid = false;
-        S.betAllIn = false;
-        S.roundNo = 0; S.champion = null; S.lastOut = null; this.u();
-      }
+      again: () => { this.hardReset(); this.u(); }
     };
 
     /* ---- η παραδοση του κινητου + το κρυφο φυλλο */
@@ -2150,6 +2049,11 @@ class Component extends DCLogic {
       v.opaTime = this.mmss(r.opaT);
       v.opaStart = () => { r.opa = true; r.opaT = 0; this.u(); };
       v.opaEnd = () => { r.opa = false; this.u(); };
+      /* ο μαζεμενος εξτρα χρονος του ομιλητη */
+      v.exNote = "+" + this.mmss((r.extra && r.extra[r.cur]) || 0);
+      v.exWaiting = !r.opa && ((r.extra && r.extra[r.cur]) || 0) > 0
+        && !(r.onExtra && r.onExtra[r.cur]);
+      v.onExtra = !!(r.onExtra && r.onExtra[r.cur]);
       v.speakers = r.order.map((o, k) => {
         const on = k === r.cur && !r.opa, spent = k < r.cur;
         return {
@@ -2452,13 +2356,7 @@ class Component extends DCLogic {
       font: "700 16px Comfortaa,sans-serif" });
     v.rwRel = isVy ? "προστατευομενος του ο" : "εβγαλε εξω τον";
     v.rwBurned = false;
-    v.rwBack = () => {
-      S.screen = "home"; S.players = []; S.round = null; S.bronze = null; S.tie = null;
-      S.finale = null; S.voteResult = null; S.gone = [];
-      S.roles = null; S.roleOut = null; S.vysmaBullet = false; S.roleIdx = 0; S.lawWin = null;
-    S.kVoid = false; S.vVoid = false;
-      S.betAllIn = false; S.roundNo = 0; S.champion = null; S.lastOut = null; this.u();
-    };
+    v.rwBack = () => { this.hardReset(); this.u(); };
     /* ΝΕΟ ΠΑΙΧΝΙΔΙ ΜΕ ΤΟΥΣ ΙΔΙΟΥΣ: κρατα ονοματα και μαρκες,
        ξαναμοιραζει φυλλα, μηδενιζει τα παντα αλλα.                */
     v.rematch = () => {
@@ -2472,7 +2370,10 @@ class Component extends DCLogic {
       S.champion = null; S.lastOut = null; S.gone = []; S.voteResult = null;
       S.roleOut = null; S.vysmaBullet = false; S.betAllIn = false; S.vegas = false;
       S.lawWin = null; S.bulletInfo = null; S.revealInfo = null; S.stepDone = {};
-      S.kVoid = false; S.vVoid = false;
+      S.kVoid = false; S.vVoid = false; S.noJudge = []; S.huntRole = null;
+      S.outIntended = null; S.judge = 0; S.judgeSeed = 0; S.duelNo = 0; S.duelTotal = 0;
+      S.kVoid = false; S.vVoid = false; S.noJudge = []; S.huntRole = null;
+      S.outIntended = null;
       this.assignRoles();
       S.roleIdx = 0;
       if (!S.roles) { this.newRound(); return this.u(); }
