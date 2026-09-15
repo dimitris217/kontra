@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<script src="./ops.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;overflow:hidden;overscroll-behavior:none}
+*{scrollbar-width:none;-ms-overflow-style:none}
+::-webkit-scrollbar{width:0;height:0}
+body{background:#02051a;font-family:Comfortaa,system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+a{color:#5ce9ff;text-decoration:none}
+a:hover{color:#b6f6ff}
+button{font-family:Comfortaa,system-ui,sans-serif}
+@keyframes shine{0%{transform:translateX(0) skewX(-18deg)}55%,100%{transform:translateX(420%) skewX(-18deg)}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{0%{opacity:0;transform:scale(.84)}68%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes drift{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(18px,-22px,0) scale(1.12)}}
+@keyframes gridrun{from{background-position:0 0}to{background-position:0 44px}}
+@keyframes breathe{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes ledrun{from{background-position:0 0}to{background-position:28px 0}}
+@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(92,233,255,.45)}70%{box-shadow:0 0 0 18px rgba(92,233,255,0)}100%{box-shadow:0 0 0 0 rgba(92,233,255,0)}}
+@keyframes shakeX{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#0a1140"/><circle cx="100" cy="100" r="54" fill="#2f6bff"/><text x="100" y="120" font-family="Comfortaa,sans-serif" font-size="46" font-weight="700" text-anchor="middle" fill="#eaf3ff">ΜΠ</text></svg></template>
+
+<div style="height:100dvh;overflow:hidden;background:radial-gradient(120% 80% at 50% -10%,#16379c 0%,#0a1553 38%,#03061c 100%);display:flex;justify-content:center;align-items:stretch">
+
+<sc-if value="{{ paletteOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:90;background:rgba(2,5,22,.9);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:22px">
+<div style="width:100%;max-width:340px;padding:20px 18px;border-radius:24px;background:linear-gradient(#0f1c5c,#060b2c);text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px rgba(120,165,255,.35),0 26px 60px rgba(0,0,0,.7);animation:popIn .28s ease-out both">
+<div style="font:700 10px/1.6 Comfortaa,sans-serif;letter-spacing:.3em;color:#5ce9ff;text-transform:uppercase">Η μαρκα σου</div>
+<p style="margin:9px 0 15px;font:400 13.5px/1.5 Comfortaa,sans-serif;color:#a8c0f0">Διαλεξε χρωμα. Το ονομα σου θα το εχει παντου.</p>
+<div style="display:flex;flex-wrap:wrap;gap:11px;justify-content:center">
+<sc-for list="{{ palette }}" as="c" hint-placeholder-count="10">
+<button disabled="{{ c.off }}" style="{{ c.style }}" onClick="{{ c.on }}">{{ c.mark }}</button>
+</sc-for>
+</div>
+<div style="margin-top:16px;display:flex;justify-content:center">
+<span style="{{ draftPreview }}">{{ draftName }}</span>
+</div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:16px;padding:14px;border:0;border-radius:15px;cursor:pointer;background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;font:700 17px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(120,230,255,.4),0 10px 22px rgba(30,200,255,.35)" style-active="transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(120,230,255,.35)" onClick="{{ closePalette }}">Ετοιμο</button>
+</div>
+</div>
+</sc-if>
+
+<div style="width:100%;max-width:470px;flex:none;height:100%;display:flex;flex-direction:column;background:linear-gradient(#0a1140,#04061e);border-radius:30px;padding:calc(env(safe-area-inset-top) + 9px) 9px calc(env(safe-area-inset-bottom) + 9px);box-shadow:0 40px 80px rgba(0,0,0,.7),inset 0 0 0 1px rgba(130,175,255,.3),inset 0 2px 0 rgba(255,255,255,.14)">
+
+<div style="flex:none;display:flex;align-items:center;gap:9px;padding:0 6px 8px">
+<div style="flex:1;height:6px;border-radius:4px;background:linear-gradient(90deg,#0b1a5e,#2f6bff 45%,#5ce9ff);box-shadow:0 0 16px rgba(60,140,255,.55),inset 0 1px 0 rgba(255,255,255,.25)"></div>
+<span style="flex:none;padding:4px 10px;border-radius:8px;background:linear-gradient(#0d1a52,#060c28);font:700 9px/1.4 Orbitron,monospace;color:#5ce9ff;letter-spacing:.14em;box-shadow:0 0 0 1px rgba(92,233,255,.4)">BONUS</span>
+</div>
+
+<div style="position:relative;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:linear-gradient(#0c1650,#050a26);border-radius:26px;padding:16px 14px 18px;display:flex;flex-direction:column;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px rgba(110,155,255,.22),inset 0 -50px 100px rgba(0,0,0,.5)">
+<div style="position:absolute;inset:0;pointer-events:none;z-index:2;background-image:repeating-linear-gradient(0deg,rgba(140,190,255,.07) 0 1px,rgba(0,0,0,0) 1px 22px),repeating-linear-gradient(90deg,rgba(140,190,255,.07) 0 1px,rgba(0,0,0,0) 1px 22px);animation:gridrun 8s linear infinite"></div>
+<div style="position:absolute;top:-70px;left:-50px;width:230px;height:230px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(closest-side,rgba(47,107,255,.5),rgba(47,107,255,0));animation:drift 11s ease-in-out infinite"></div>
+<div style="position:absolute;bottom:-60px;right:-40px;width:210px;height:210px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(closest-side,rgba(92,233,255,.28),rgba(92,233,255,0));animation:drift 14s ease-in-out infinite reverse"></div>
+<div style="position:absolute;inset:0;pointer-events:none;z-index:3;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,rgba(0,0,0,0) 1px 4px);opacity:.45"></div>
+
+<sc-if value="{{ showHelp }}" hint-placeholder-val="{{ false }}">
+<button style="position:absolute;left:14px;top:14px;z-index:41;width:26px;height:26px;padding:0;border:0;border-radius:50%;background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;font:700 13px Comfortaa,sans-serif;cursor:pointer;opacity:.8;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(120,230,255,.45)" style-active="transform:translateY(2px);opacity:1" onClick="{{ goRules }}" aria-label="Οι κανονες">i</button>
+</sc-if>
+
+<sc-if value="{{ atHome }}" hint-placeholder-val="{{ true }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<button style="width:44px;height:44px;border:0;border-radius:50%;background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;font:700 19px Comfortaa,sans-serif;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(120,230,255,.45),0 8px 20px rgba(30,200,255,.3)" style-active="transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(120,230,255,.4)" onClick="{{ goRules }}">i</button>
+<div style="flex:1"></div>
+</div>
+
+<div style="position:relative;overflow:hidden;margin:10px 0 2px;padding:16px 12px 18px;border-radius:24px;background:linear-gradient(160deg,#2246d8,#0b1252);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 0 0 1px rgba(150,190,255,.4),0 18px 40px rgba(20,60,220,.4)">
+<span style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.28),rgba(255,255,255,0));animation:shine 4.4s ease-in-out infinite;pointer-events:none"></span>
+<div style="font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.34em;color:#7ef0ff;text-transform:uppercase">Ποιος το ειπε ρε παιδια</div>
+<h1 style="margin:7px 0 0;font:700 22px/1 Comfortaa,sans-serif;color:#cfe2ff;letter-spacing:.24em">ΚΟΝΤΡΑ</h1>
+<h1 style="margin:2px 0 0;font:700 44px/1 Comfortaa,sans-serif;color:#fff;letter-spacing:-.01em;text-shadow:0 0 26px rgba(120,200,255,.9),0 4px 0 rgba(6,14,60,.6)">ΜΠΟΝΟΥΣ<span style="color:#5ce9ff">!</span></h1>
+<div style="margin-top:10px;display:flex;justify-content:center;gap:7px">
+<span style="width:26px;height:5px;border-radius:3px;background:#5ce9ff;box-shadow:0 0 12px #5ce9ff;animation:breathe 1.6s ease-in-out infinite"></span>
+<span style="width:26px;height:5px;border-radius:3px;background:#5ce9ff;box-shadow:0 0 12px #5ce9ff;animation:breathe 1.6s ease-in-out .2s infinite"></span>
+<span style="width:26px;height:5px;border-radius:3px;background:#5ce9ff;box-shadow:0 0 12px #5ce9ff;animation:breathe 1.6s ease-in-out .4s infinite"></span>
+</div>
+</div>
+
+<div style="flex:none;position:relative;height:152px;margin:10px 0 2px;display:flex;align-items:flex-end;justify-content:center">
+<div style="position:absolute;bottom:4px;width:200px;height:116px;border-radius:50%;background:radial-gradient(closest-side,rgba(92,233,255,.4),rgba(92,233,255,0))"></div>
+<img src="img/km-hero.png" alt="Ο κοντρα μαν" style="position:relative;height:152px;width:auto;filter:drop-shadow(0 10px 22px rgba(0,0,0,.6)) drop-shadow(0 0 16px rgba(70,150,255,.5));animation:floaty 4.6s ease-in-out infinite">
+</div>
+
+<p style="margin:4px 0 4px;font:400 14px/1.55 Comfortaa,sans-serif;color:#a8c0f0;text-wrap:pretty">Τεσσερις φακελοι. Σαραντα αποψεις.<br>Καμια δεν ειναι δικη σας.</p>
+
+<div style="margin:18px 0 8px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.28em;color:#5ce9ff;text-transform:uppercase">Χρονος λογου</div>
+<div style="display:flex;gap:9px">
+<sc-for list="{{ timeChips }}" as="c" hint-placeholder-count="3">
+<button style="{{ c.style }}" onClick="{{ c.on }}">{{ c.label }}</button>
+</sc-for>
+</div>
+
+<div style="flex:1;min-height:16px"></div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;padding:20px 18px;border:0;border-radius:20px;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(180deg,#4d86ff,#1533d8);color:#fff;font:700 24px Comfortaa,sans-serif;letter-spacing:.02em;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -18px 28px rgba(2,6,40,.35),0 0 0 1px rgba(150,190,255,.4),0 16px 34px rgba(27,72,255,.5)" style-active="transform:translateY(4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 0 1px rgba(150,190,255,.35),0 6px 14px rgba(27,72,255,.35)" onClick="{{ start }}">
+<span style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.4),rgba(255,255,255,0));animation:shine 3.2s ease-in-out infinite;pointer-events:none"></span>
+<span style="position:relative">ΑΝΟΙΞΕ ΤΟΥΣ ΦΑΚΕΛΟΥΣ</span>
+</button>
+<a href="kontra-grigora.html" style="display:block;margin-top:12px;padding:9px;font:600 14px Comfortaa,sans-serif;color:rgba(190,212,255,.62)">&larr; Κοντρα στα Γρηγορα</a>
+</div>
+</sc-if>
+
+<sc-if value="{{ atRules }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="margin:0 0 8px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Ο κανονισμος του μπονους</p>
+<div style="margin:0 0 20px;padding:18px 16px 16px;border-radius:20px;background:linear-gradient(#10225f,#070d33);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 0 0 1px rgba(120,165,255,.3),0 14px 30px rgba(0,0,0,.45);text-align:left">
+<h3 style="margin:0 0 8px;font:700 20px Comfortaa,sans-serif;color:#7ef0ff">Κόντρα: Μπόνους!</h3>
+<p style="margin:0 0 11px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#dce8ff">Ίδια κόντρα, όμως τώρα οι απόψεις έχουν πατέρα. Διαλέγετε 4 φακέλους απ' τους 8 — δηλαδή 4 διάσημους — και παίζετε μόνο με τις δικές τους απόψεις. Κανείς δεν ξέρει ποιος είπε τι.</p>
+<h3 style="margin:16px 0 5px;font:700 17px Comfortaa,sans-serif;color:#7ef0ff">Πώς κυλάει</h3>
+<p style="margin:0 0 11px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#dce8ff">Βγαίνει δικαστής, διαβάζει την άποψη, σηκώνετε χέρια, παίζεται η κόντρα κανονικά. Ο νικητής της κόντρας παίρνει τον πόντο του. Αν βγει ομοφωνία, δεν παίζει κανείς — πάμε κατευθείαν στο μπόνους.</p>
+<h3 style="margin:16px 0 5px;font:700 17px Comfortaa,sans-serif;color:#7ef0ff">Το μπόνους</h3>
+<p style="margin:0 0 11px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#dce8ff">Μετά από κάθε άποψη — είτε υπήρξε ομοφωνία είτε παίχτηκε κόντρα — μοιράζεται ξανά το κινητό. Ο καθένας βλέπει κρυφά την άποψη και τους τέσσερις φακέλους: διαλέγει έναν, ή πατάει πάσο. Στο τέλος ανοίγουν όλα μαζί.</p>
+<h3 style="margin:16px 0 5px;font:700 17px Comfortaa,sans-serif;color:#ffd24a">Οι πόντοι</h3>
+<p style="margin:0 0 11px;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#dce8ff">Ο πρώτος σωστός δίνει <b style="color:#fff">1</b>. Βρες και δεύτερο <b style="color:#fff">2</b>, μετά <b style="color:#fff">4, 8, 16, 32</b>. Ένα λάθος και ξαναπιάνεις απ' την αρχή: <b style="color:#ff8fbe">-1, -1, -2, -4, -8, -16</b>. Το σερί θέλει <b style="color:#fff">συνεχόμενες</b> μαντεψιές: το πάσο δεν σου παίρνει πόντους, αλλά σου σβήνει το σερί και ξεκινάς πάλι από το +1.</p>
+<p style="margin:0;font:400 13.5px/1.6 Comfortaa,sans-serif;color:#dce8ff">Πρώτος στους <b style="color:#fff">{{ target }}</b> πόντους και κλείνει το μαγαζί.</p>
+<details style="margin:16px 0 0;opacity:.6">
+<summary style="cursor:pointer;list-style:none;padding:8px 0;font:400 13px Comfortaa,sans-serif;color:rgba(220,232,255,.8)">Α ναι, και το ΟΠΑ. &hellip;</summary>
+<p style="margin:8px 0 0;font:400 13px/1.6 Comfortaa,sans-serif;color:#dce8ff">Μέσα στην κόντρα, το ΟΠΑ το δίνει ο ομιλητής: αν θέλει, κόβει μόνος του τον χρόνο του και αφήνει τον αντίπαλο να απαντήσει. Ό,τι δευτερόλεπτο του φάει η διακοπή, του επιστρέφεται στο τέλος του λόγου του.</p>
+</details>
+</div>
+<div style="flex:1;min-height:14px"></div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:12px;padding:16px;border:0;border-radius:18px;cursor:pointer;background:linear-gradient(180deg,rgba(104,140,255,.24),rgba(18,34,96,.4));color:#cfe0ff;font:700 19px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px rgba(120,160,255,.32)" style-active="transform:translateY(3px)" onClick="{{ goBack }}">Πισω</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atFolders }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="flex:none;margin:0 0 8px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Το αρχειο</p>
+<h2 style="flex:none;margin:0 0 6px;font:700 27px/1.14 Comfortaa,sans-serif;color:#f2f7ff;text-shadow:0 2px 18px rgba(80,160,255,.5)">Με ποιους παιζετε;</h2>
+<p style="flex:none;margin:0 0 14px;font:400 13.5px/1.5 Comfortaa,sans-serif;color:#a8c0f0;text-wrap:pretty">Διαλεξτε <b style="color:#fff">{{ fNeed }}</b> φακελους. Μονο οι δικες τους αποψεις μπαινουν στην τραπουλα — και μονο αυτοι ειναι υποψηφιοι στο μπονους.</p>
+<div style="flex:none;display:flex;align-items:center;justify-content:center;gap:10px;margin:0 0 14px">
+<span style="font:900 30px/1 Orbitron,monospace;color:#5ce9ff;text-shadow:0 0 18px rgba(92,233,255,.7)">{{ fPicked }}</span>
+<span style="font:700 13px Comfortaa,sans-serif;color:rgba(190,212,255,.6)">/ {{ fNeed }} διαλεγμενοι</span>
+</div>
+<div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<sc-for list="{{ folderCards }}" as="f" hint-placeholder-count="8">
+<button style="{{ f.style }}" onClick="{{ f.on }}">
+<span style="{{ f.tickStyle }}">{{ f.tick }}</span>
+<span style="{{ f.discStyle }}">{{ f.initial }}</span>
+<span style="display:block;font:700 14px/1.2 Comfortaa,sans-serif;color:#f2f7ff;overflow-wrap:anywhere">{{ f.name }}</span>
+<span style="display:block;margin-top:3px;font:600 10px/1.35 Comfortaa,sans-serif;color:rgba(190,212,255,.62)">{{ f.note }}</span>
+<span style="display:block;margin-top:7px;font:700 9px/1 Orbitron,monospace;letter-spacing:.1em;color:rgba(190,212,255,.5)">{{ f.count }} ΑΠΟΨΕΙΣ</span>
+</button>
+</sc-for>
+</div>
+<div style="flex:1;min-height:16px"></div>
+<sc-if value="{{ foldersPending }}" hint-placeholder-val="{{ true }}">
+<p style="flex:none;margin:14px 0 0;font:700 10px/1.7 Orbitron,monospace;letter-spacing:.1em;color:#ff8fbe">ΘΕΛΕΙ ΑΚΡΙΒΩΣ {{ fNeed }}</p>
+</sc-if>
+<button disabled="{{ foldersPending }}" style="{{ foldersBtn }}" onClick="{{ foldersGo }}">
+<span style="position:relative">ΠΑΜΕ ΣΤΑ ΟΝΟΜΑΤΑ</span>
+</button>
+<p style="flex:none;margin:11px 0 0;font:700 9px/1.7 Orbitron,monospace;letter-spacing:.1em;color:rgba(190,212,255,.45)">{{ fOps }} ΑΠΟΨΕΙΣ ΣΤΗΝ ΤΡΑΠΟΥΛΑ</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ atIntro }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<div style="flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding-left:30px">
+<p style="margin:0 0 10px;text-align:left;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Στο τραπεζι &middot; <b style="color:#fff">{{ introCount }}</b></p>
+<button style="{{ draftChipBtn }}" onClick="{{ openPalette }}">&#9670;</button>
+</div>
+<h2 style="margin:0 0 8px;font:700 26px/1.15 Comfortaa,sans-serif;color:#f2f7ff;text-shadow:0 2px 18px rgba(80,160,255,.5)">Ποιοι καθεστε;</h2>
+<p style="margin:0 0 14px;font:400 14px/1.55 Comfortaa,sans-serif;color:#a8c0f0;text-wrap:pretty">Ενας ενας: ονομα, προσθεσε, δωσε το κινητο παραπερα.</p>
+<div style="padding:8px;border-radius:20px;background:linear-gradient(#153ab5,#0a1a63);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 0 0 1px rgba(130,175,255,.35),0 12px 26px rgba(10,30,120,.5)">
+<input ref="{{ nameRef }}" onInput="{{ onNameInput }}" onKeyDown="{{ nameKey }}" maxlength="14" autocomplete="off" placeholder="Το ονομα σου" style="width:100%;padding:15px 14px;border:0;border-radius:14px;background:linear-gradient(#fbfdff,#dfe9ff);color:#08112e;font:700 19px Comfortaa,sans-serif;text-align:center;outline:none;-webkit-appearance:none;box-shadow:inset 0 2px 8px rgba(8,17,46,.25)">
+</div>
+<button disabled="{{ nameEmpty }}" style="{{ nameBtnStyle }}" onClick="{{ addName }}">Προσθεσε στο τραπεζι</button>
+<sc-if value="{{ hasNames }}" hint-placeholder-val="{{ false }}">
+<p style="margin:20px 0 9px;font:700 9px/1.7 Orbitron,monospace;letter-spacing:.1em;color:rgba(190,212,255,.5)">ΠΑΤΑ ΕΝΑ ΟΝΟΜΑ ΓΙΑ ΝΑ ΤΟ ΣΒΗΣΕΙΣ</p>
+</sc-if>
+<div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center">
+<sc-for list="{{ namePills }}" as="p" hint-placeholder-count="2">
+<button style="{{ p.style }}" onClick="{{ p.on }}">{{ p.name }}</button>
+</sc-for>
+</div>
+<div style="flex:1;min-height:16px"></div>
+<button style="{{ endBtnStyle }}" onClick="{{ endNaming }}">Τελος — παμε παιχνιδι</button>
+<p style="margin:11px 0 0;font:700 9px/1.7 Orbitron,monospace;letter-spacing:.1em;color:rgba(190,212,255,.45)">{{ introCount }} ΣΤΟ ΤΡΑΠΕΖΙ &middot; ΘΕΛΕΙ 3+</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ atTooFew }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center;animation:rise .4s ease-out both">
+<p style="flex:none;margin:0 0 12px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Το τραπεζι δεν ανοιγει</p>
+<div style="flex:none;margin:0 auto 14px;width:210px;height:126px;display:flex;align-items:flex-end;justify-content:center">
+<img src="img/km-shrug.png" alt="" style="max-width:100%;max-height:100%;filter:drop-shadow(0 8px 18px rgba(0,0,0,.6))">
+</div>
+<h2 style="flex:none;margin:0 0 10px;font:700 28px/1.15 Comfortaa,sans-serif;color:#f2f7ff">Δεν φτανετε</h2>
+<p style="flex:none;margin:0 0 22px;font:400 14.5px/1.55 Comfortaa,sans-serif;color:#a8c0f0;text-wrap:pretty">Ειστε <b style="color:#fff">{{ introCount }}</b>. Θελει τουλαχιστον <b style="color:#fff">3</b>: δυο για την κοντρα και ενας για δικαστης.</p>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;padding:18px;border:0;border-radius:18px;cursor:pointer;background:linear-gradient(180deg,#4d86ff,#1533d8);color:#fff;font:700 20px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(150,190,255,.4),0 14px 30px rgba(27,72,255,.45)" style-active="transform:translateY(4px)" onClick="{{ backToNames }}">Μαζευω κι αλλους</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atRoundStart }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="margin:0 0 6px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Αποψη Νο <b style="color:#fff">{{ opNo }}</b></p>
+<div style="flex:none;position:relative;margin:18px auto 6px;width:132px;height:132px;display:flex;align-items:center;justify-content:center">
+<div style="position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(120,200,255,.4);animation:ringPulse 2.6s ease-out infinite"></div>
+<div style="position:absolute;inset:14px;border-radius:50%;background:linear-gradient(160deg,#2246d8,#0a1252);box-shadow:inset 0 2px 0 rgba(255,255,255,.28),0 14px 30px rgba(12,40,140,.6)"></div>
+<div style="position:absolute;inset:14px;border-radius:50%;overflow:hidden">
+<span style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.3),rgba(255,255,255,0));animation:shine 3.6s ease-in-out infinite"></span>
+</div>
+<span style="position:relative;font:900 44px/1 Orbitron,monospace;color:#fff;text-shadow:0 0 22px rgba(120,200,255,.9)">{{ opNo }}</span>
+</div>
+<p style="flex:none;margin:14px 0 0;font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.34em;color:#5ce9ff;text-transform:uppercase">Ο δικαστης</p>
+<div style="flex:none;margin:10px 0 12px;display:flex;justify-content:center">
+<span style="{{ judgeChip }}">{{ judgeName }}</span>
+</div>
+<p style="margin:0 0 16px;font:400 14px/1.55 Comfortaa,sans-serif;color:#a8c0f0">Παρε το κινητο. Εσυ μοιραζεις αυτη την αποψη.</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center">
+<sc-for list="{{ alivePills }}" as="p" hint-placeholder-count="4">
+<span style="{{ p.style }}">{{ p.name }}</span>
+</sc-for>
+</div>
+<div style="flex:1;min-height:14px"></div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:12px;padding:18px;border:0;border-radius:18px;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;font:700 21px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(120,230,255,.45),0 14px 30px rgba(30,200,255,.35)" style-active="transform:translateY(4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(120,230,255,.4)" onClick="{{ toHearing }}">
+<span style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.45),rgba(255,255,255,0));animation:shine 3.4s ease-in-out infinite;pointer-events:none"></span>
+<span style="position:relative">ΕΤΟΙΜΟΙ!</span>
+</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atHearing }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="margin:0 0 10px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Διαβασε το δυνατα &middot; <b style="color:#fff">{{ voteDone }}/{{ voteAll }}</b></p>
+<div style="position:relative;padding:26px 20px;border-radius:20px;background:linear-gradient(#f7faff,#d9e6ff);box-shadow:0 18px 36px rgba(2,8,40,.55),inset 0 0 0 1px rgba(255,255,255,.9);animation:popIn .32s ease-out both">
+<div style="position:absolute;top:10px;left:14px;width:10px;height:10px;border-radius:50%;background:#2f6bff;box-shadow:0 0 10px rgba(47,107,255,.8)"></div>
+<div style="position:absolute;bottom:10px;right:14px;width:10px;height:10px;border-radius:50%;background:#5ce9ff;box-shadow:0 0 10px rgba(92,233,255,.8)"></div>
+<p style="margin:0;font:600 18px/1.45 Comfortaa,sans-serif;color:#08112e;text-wrap:pretty">{{ opinion }}</p>
+</div>
+<p style="margin:12px 0 0;font:700 9px/1.7 Orbitron,monospace;letter-spacing:.1em;color:rgba(190,212,255,.55)">ΣΥΜΦΩΝΩ = ΔΕΞΙ ΧΕΡΙ &middot; ΔΙΑΦΩΝΩ = ΑΡΙΣΤΕΡΟ</p>
+<div style="display:flex;flex-direction:column;gap:9px;margin-top:16px">
+<sc-for list="{{ voteRows }}" as="row" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:9px;width:100%;padding:9px 10px;border-radius:16px;background:linear-gradient(rgba(104,140,255,.14),rgba(12,24,80,.3));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 0 1px rgba(120,160,255,.22)">
+<span style="{{ row.chip }}">{{ row.name }}</span>
+<span style="flex:1"></span>
+<button style="{{ row.proStyle }}" onClick="{{ row.onPro }}">ΥΠΕΡ</button>
+<button style="{{ row.conStyle }}" onClick="{{ row.onCon }}">ΚΑΤΑ</button>
+</div>
+</sc-for>
+</div>
+<div style="flex:1;min-height:14px"></div>
+<sc-if value="{{ needMore }}" hint-placeholder-val="{{ true }}">
+<p style="margin:14px 0 0;font:700 10px/1.7 Orbitron,monospace;letter-spacing:.1em;color:rgba(190,212,255,.55)">ΜΕΤΡΑ ΟΛΟΥΣ &middot; {{ voteDone }}/{{ voteAll }}</p>
+</sc-if>
+<sc-if value="{{ isUnanimous }}" hint-placeholder-val="{{ false }}">
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:12px;padding:17px;border:0;border-radius:18px;cursor:pointer;background:linear-gradient(180deg,#ffe07a,#d79b0c);color:#33210a;font:700 19px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(255,220,130,.4),0 14px 30px rgba(190,140,10,.35)" style-active="transform:translateY(4px)" onClick="{{ unanimousGo }}">Ομοφωνια — παμε μπονους</button>
+</sc-if>
+<sc-if value="{{ hasSplit }}" hint-placeholder-val="{{ false }}">
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:12px;padding:18px;border:0;border-radius:18px;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(180deg,#4d86ff,#1533d8);color:#fff;font:700 21px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(150,190,255,.4),0 14px 30px rgba(27,72,255,.45)" style-active="transform:translateY(4px)" onClick="{{ toSelect }}">
+<span style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.4),rgba(255,255,255,0));animation:shine 2.8s ease-in-out infinite;pointer-events:none"></span>
+<span style="position:relative">ΥΠΑΡΧΕΙ ΚΟΝΤΡΑ!</span>
+</button>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ atSelect }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="margin:0 0 8px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Ο δικαστης διαλεγει</p>
+<h2 style="margin:0 0 6px;font:700 26px/1.15 Comfortaa,sans-serif;color:#f2f7ff">Ποιοι δυο;</h2>
+<p style="margin:0 0 14px;font:400 14px/1.5 Comfortaa,sans-serif;color:#a8c0f0">Ενας απο καθε πλευρα. Οι υπολοιποι γινονται ενορκοι.</p>
+<div style="display:flex;align-items:center;gap:8px;margin:4px 0 8px">
+<span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.24em;color:#63ffa9;text-transform:uppercase">Υπερ</span>
+<span style="flex:1;height:2px;border-radius:2px;background:rgba(99,255,169,.3)"></span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ proRows }}" as="row" hint-placeholder-count="2">
+<button style="{{ row.style }}" onClick="{{ row.on }}">
+<span style="{{ row.chip }}">{{ row.name }}</span>
+<span style="{{ row.markStyle }}">{{ row.mark }}</span>
+</button>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin:18px 0 8px">
+<span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.24em;color:#ff8fbe;text-transform:uppercase">Κατα</span>
+<span style="flex:1;height:2px;border-radius:2px;background:rgba(255,143,190,.3)"></span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ conRows }}" as="row" hint-placeholder-count="2">
+<button style="{{ row.style }}" onClick="{{ row.on }}">
+<span style="{{ row.chip }}">{{ row.name }}</span>
+<span style="{{ row.markStyle }}">{{ row.mark }}</span>
+</button>
+</sc-for>
+</div>
+<div style="flex:1;min-height:14px"></div>
+<sc-if value="{{ selectPending }}" hint-placeholder-val="{{ true }}">
+<p style="margin:14px 0 0;font:700 10px/1.7 Orbitron,monospace;letter-spacing:.1em;color:rgba(190,212,255,.55)">ΕΝΑΝ ΑΠΟ ΚΑΘΕ ΠΛΕΥΡΑ</p>
+</sc-if>
+<button disabled="{{ selectPending }}" style="{{ selectBtn }}" onClick="{{ play }}">
+<span style="position:relative">ΠΑΜΕ ΣΤΟ ΤΡΑΠΕΖΙ</span>
+</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atContra }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .3s ease-out both">
+<p style="margin:0 0 12px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Κοντρα &middot; <b style="color:#fff">{{ contraTag }}</b></p>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ speakers }}" as="sp" hint-placeholder-count="2">
+<div style="{{ sp.style }}">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+<span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#7ef0ff">{{ sp.who }}</span>
+<span style="{{ sp.chip }}">{{ sp.name }}</span>
+</div>
+<div style="{{ sp.clockStyle }}">{{ sp.time }}</div>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ opaOn }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;padding:14px;border-radius:18px;background:linear-gradient(#7a3a08,#40200a);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 0 1px rgba(255,180,90,.45);animation:popIn .3s ease-out both">
+<span style="font:700 10px Comfortaa,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#ffd98a">Διακοπη</span>
+<div style="margin-top:7px;padding:9px 0 7px;border-radius:12px;background:#0b0a1f;box-shadow:inset 0 3px 12px rgba(0,0,0,.8);font:700 28px/1 Orbitron,monospace;color:#ffb45e;text-shadow:0 0 16px rgba(255,140,40,.8)">{{ opaTime }}</div>
+<div style="margin-top:8px;font:700 11px/1.4 Comfortaa,sans-serif;color:#ffd75e">{{ exNote }} γυριζει στον ομιλητη στο τελος</div>
+</div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:12px;padding:16px;border:0;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,#ffa55a,#cf6407);color:#2b1300;font:700 19px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(255,190,120,.4),0 12px 26px rgba(190,90,10,.35)" style-active="transform:translateY(4px)" onClick="{{ opaEnd }}">Αρκετα — συνεχισε</button>
+</sc-if>
+<sc-if value="{{ onExtra }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:12px;padding:11px 14px;border-radius:16px;background:rgba(255,210,74,.14);box-shadow:0 0 0 1px rgba(255,210,74,.45)">
+<span style="font:700 12px/1.4 Comfortaa,sans-serif;color:#ffd24a">ΕΞΤΡΑ ΧΡΟΝΟΣ &middot; οσο του εφαγαν οι διακοπες</span>
+</div>
+</sc-if>
+<sc-if value="{{ opaOff }}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{ exWaiting }}" hint-placeholder-val="{{ false }}">
+<p style="margin:12px 0 0;font:700 11.5px/1.5 Comfortaa,sans-serif;color:#ffd24a">μαζευτηκαν {{ exNote }} εξτρα για το τελος του λογου του</p>
+</sc-if>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;padding:22px 16px;border:0;border-radius:20px;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(180deg,#ffa55a,#cf6407);color:#2b1300;font:700 32px Comfortaa,sans-serif;letter-spacing:.04em;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -18px 28px rgba(60,20,0,.3),0 0 0 1px rgba(255,190,120,.45),0 16px 34px rgba(190,90,10,.4)" style-active="transform:translateY(5px);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 0 1px rgba(255,190,120,.4)" onClick="{{ opaStart }}">
+<span style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.5),rgba(255,255,255,0));animation:shine 2.4s ease-in-out infinite;pointer-events:none"></span>
+<span style="position:relative">ΟΠΑ!</span>
+</button>
+<p style="margin:10px 0 0;font:700 9px/1.7 Orbitron,monospace;letter-spacing:.08em;color:rgba(190,212,255,.5)">ΤΟ ΔΙΝΕΙ Ο ΟΜΙΛΗΤΗΣ &middot; Ο ΧΡΟΝΟΣ ΤΟΥ ΓΥΡΙΖΕΙ ΣΤΟ ΤΕΛΟΣ</p>
+</sc-if>
+<div style="flex:1;min-height:14px"></div>
+<div style="display:flex;gap:9px;margin-top:12px">
+<button style="flex:1;padding:15px 10px;border:0;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,rgba(104,140,255,.24),rgba(18,34,96,.4));color:#cfe0ff;font:700 16px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px rgba(120,160,255,.32)" style-active="transform:translateY(3px)" onClick="{{ nextSpeaker }}">Επομενος</button>
+<button style="flex:1;padding:15px 10px;border:0;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,#4d86ff,#1533d8);color:#fff;font:700 16px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 0 1px rgba(150,190,255,.4),0 10px 22px rgba(27,72,255,.4)" style-active="transform:translateY(3px)" onClick="{{ endContra }}">Τελος</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ atVerdict }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="margin:0 0 8px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">{{ juryText }}</p>
+<h2 style="margin:0 0 14px;font:700 27px/1.15 Comfortaa,sans-serif;color:#f2f7ff">Ποιος κερδισε;</h2>
+<div style="position:relative;padding:20px 18px;border-radius:20px;background:linear-gradient(#f7faff,#d9e6ff);box-shadow:0 16px 32px rgba(2,8,40,.5),inset 0 0 0 1px rgba(255,255,255,.9)">
+<p style="margin:0;font:600 16px/1.45 Comfortaa,sans-serif;color:#08112e;text-wrap:pretty">{{ opinion }}</p>
+</div>
+<div style="margin-top:18px;display:flex;flex-direction:column;gap:12px">
+<button style="{{ aBtn }}" style-active="transform:translateY(4px)" onClick="{{ winA }}">{{ aName }}</button>
+<button style="{{ bBtn }}" style-active="transform:translateY(4px)" onClick="{{ winB }}">{{ bName }}</button>
+</div>
+<div style="flex:1;min-height:14px"></div>
+<p style="margin:14px 0 0;font:700 9px/1.8 Orbitron,monospace;letter-spacing:.08em;color:rgba(190,212,255,.5)">ΚΑΠΟΙΟΣ ΠΡΕΠΕΙ ΝΑ ΚΕΡΔΙΣΕΙ<br>ΙΣΟΠΑΛΙΑ ΔΕΝ ΥΠΑΡΧΕΙ</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ atOffer }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="margin:0 0 8px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">{{ offerEyebrow }}</p>
+<h2 style="margin:0 0 6px;font:700 34px/1.05 Comfortaa,sans-serif;color:#fff;text-shadow:0 0 26px rgba(120,200,255,.85)">ΜΠΟΝΟΥΣ<span style="color:#5ce9ff">?</span></h2>
+<p style="margin:0 0 16px;font:400 14px/1.55 Comfortaa,sans-serif;color:#a8c0f0;text-wrap:pretty">Ποιος απο τους τεσσερις το ειπε; Περναει το κινητο χερι-χερι: ο καθενας διαλεγει κρυφα φακελο η παταει πασο.</p>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ stakeRows }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:16px;background:linear-gradient(rgba(104,140,255,.14),rgba(12,24,80,.3));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 0 1px rgba(120,160,255,.22)">
+<span style="{{ s.chip }}">{{ s.name }}</span>
+<span style="flex:1"></span>
+<span style="font:700 15px/1 Orbitron,monospace;color:#63ffa9">{{ s.plus }}</span>
+<span style="font:700 12px/1 Orbitron,monospace;color:rgba(190,212,255,.4)">/</span>
+<span style="font:700 15px/1 Orbitron,monospace;color:#ff8fbe">{{ s.minus }}</span>
+</div>
+</sc-for>
+</div>
+<div style="flex:1;min-height:16px"></div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;padding:20px 16px;border:0;border-radius:20px;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;font:700 22px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -18px 26px rgba(0,40,60,.25),0 0 0 1px rgba(120,230,255,.5),0 16px 34px rgba(30,200,255,.4)" style-active="transform:translateY(4px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(120,230,255,.45)" onClick="{{ startBonus }}">
+<span style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.5),rgba(255,255,255,0));animation:shine 2.6s ease-in-out infinite;pointer-events:none"></span>
+<span style="position:relative">ΜΟΙΡΑΣΕ ΤΟ ΚΙΝΗΤΟ</span>
+</button>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:10px;padding:15px 16px;border:0;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,rgba(104,140,255,.24),rgba(18,34,96,.4));color:#cfe0ff;font:700 17px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px rgba(120,160,255,.32)" style-active="transform:translateY(3px)" onClick="{{ skipBonus }}">Πασο ολοι — επομενη αποψη</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atGuess }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .35s ease-out both">
+<p style="flex:none;margin:0 0 10px;font:700 9px/1.6 Orbitron,monospace;letter-spacing:.14em;color:rgba(92,233,255,.85)">ΜΠΟΝΟΥΣ {{ bNo }} / {{ bTotal }} &middot; ΜΟΝΟ ΓΙΑ ΣΕΝΑ</p>
+<div style="flex:none;display:flex;justify-content:center;margin:0 0 13px">
+<span style="{{ bigChip }}">{{ bpName }}</span>
+</div>
+<div style="position:relative;padding:18px 16px;border-radius:20px;background:linear-gradient(#f7faff,#d9e6ff);box-shadow:0 16px 32px rgba(2,8,40,.5),inset 0 0 0 1px rgba(255,255,255,.9)">
+<p style="margin:0;font:600 16px/1.45 Comfortaa,sans-serif;color:#08112e;text-wrap:pretty">{{ opinion }}</p>
+</div>
+<p style="flex:none;margin:15px 0 4px;font:700 21px/1.2 Comfortaa,sans-serif;color:#f2f7ff">Ποιος το ειπε;</p>
+<p style="flex:none;margin:0 0 13px;font:400 12.5px/1.5 Comfortaa,sans-serif;color:#a8c0f0">{{ bStreakNote }}</p>
+<div style="flex:none;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<sc-for list="{{ guessCards }}" as="g" hint-placeholder-count="4">
+<button style="{{ g.style }}" onClick="{{ g.on }}">
+<span style="{{ g.discStyle }}">{{ g.initial }}</span>
+<span style="display:block;font:700 14px/1.2 Comfortaa,sans-serif;color:#f2f7ff;overflow-wrap:anywhere">{{ g.name }}</span>
+<span style="display:block;margin-top:3px;font:600 10px/1.35 Comfortaa,sans-serif;color:rgba(190,212,255,.62)">{{ g.note }}</span>
+</button>
+</sc-for>
+</div>
+<div style="flex:1;min-height:14px"></div>
+<button disabled="{{ guessEmpty }}" style="{{ lockBtn }}" onClick="{{ lockGuess }}">
+<span style="position:relative">ΚΛΕΙΔΩΣΕ &middot; {{ bPlus }} / {{ bMinus }}</span>
+</button>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:10px;padding:15px 16px;border:0;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,rgba(104,140,255,.24),rgba(18,34,96,.4));color:#cfe0ff;font:700 18px Comfortaa,sans-serif;letter-spacing:.04em;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1px rgba(120,160,255,.32)" style-active="transform:translateY(3px)" onClick="{{ bSkip }}">ΠΑΣΟ</button>
+<p style="flex:none;margin:11px 0 0;font:700 9px/1.7 Orbitron,monospace;letter-spacing:.08em;color:rgba(190,212,255,.45)">ΤΟ ΠΑΣΟ ΣΒΗΝΕΙ ΤΟ ΣΕΡΙ ΣΟΥ</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ atReveal }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="margin:0 0 10px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Ανοιγει ο φακελος</p>
+<div style="{{ revealCard }}">
+<span style="{{ revealDisc }}">{{ whoInitial }}</span>
+<div style="font:700 9px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:rgba(255,255,255,.65);text-transform:uppercase">Το ειπε</div>
+<h2 style="margin:6px 0 0;font:700 25px/1.14 Comfortaa,sans-serif;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.45)">{{ whoName }}</h2>
+<p style="margin:10px 0 0;font:400 13px/1.5 Comfortaa,sans-serif;color:rgba(255,255,255,.8)">{{ opinion }}</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
+<sc-for list="{{ revealRows }}" as="r" hint-placeholder-count="4">
+<div style="{{ r.rowStyle }}">
+<span style="{{ r.chip }}">{{ r.name }}</span>
+<span style="flex:1;text-align:left;font:600 11.5px/1.3 Comfortaa,sans-serif;color:rgba(220,232,255,.75);overflow-wrap:anywhere">{{ r.guess }}</span>
+<span style="{{ r.deltaStyle }}">{{ r.delta }}</span>
+</div>
+</sc-for>
+</div>
+<div style="flex:1;min-height:16px"></div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;padding:18px;border:0;border-radius:18px;cursor:pointer;background:linear-gradient(180deg,#4d86ff,#1533d8);color:#fff;font:700 20px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(150,190,255,.4),0 14px 30px rgba(27,72,255,.45)" style-active="transform:translateY(4px)" onClick="{{ toBoard }}">Ο πινακας</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atBoard }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .4s ease-out both">
+<p style="margin:0 0 8px;padding-left:30px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.26em;color:#5ce9ff;text-transform:uppercase">Ο πινακας &middot; στους {{ target }}</p>
+<h2 style="margin:0 0 16px;font:700 26px/1.15 Comfortaa,sans-serif;color:#f2f7ff">Πως παμε</h2>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ boardRows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:7px;width:100%;padding:12px;border-radius:16px;background:linear-gradient(rgba(104,140,255,.14),rgba(12,24,80,.3));box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 0 1px rgba(120,160,255,.22)">
+<div style="display:flex;align-items:center;gap:10px">
+<span style="{{ r.chip }}">{{ r.name }}</span>
+<span style="flex:1"></span>
+<span style="font:600 10px/1 Orbitron,monospace;letter-spacing:.08em;color:rgba(190,212,255,.55);white-space:nowrap">{{ r.note }}</span>
+<span style="font:900 22px/1 Orbitron,monospace;color:#fff">{{ r.pts }}</span>
+</div>
+<div style="height:9px;border-radius:5px;background:rgba(3,8,32,.7);box-shadow:inset 0 1px 4px rgba(0,0,0,.7);overflow:hidden">
+<div style="{{ r.barStyle }}"></div>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="flex:1;min-height:16px"></div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;padding:19px;border:0;border-radius:20px;cursor:pointer;position:relative;overflow:hidden;background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;font:700 21px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 0 0 1px rgba(120,230,255,.5),0 16px 34px rgba(30,200,255,.35)" style-active="transform:translateY(4px)" onClick="{{ nextOp }}">
+<span style="position:absolute;top:0;left:-40%;width:40%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.45),rgba(255,255,255,0));animation:shine 3s ease-in-out infinite;pointer-events:none"></span>
+<span style="position:relative">ΕΠΟΜΕΝΗ ΑΠΟΨΗ</span>
+</button>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:10px;padding:13px 16px;border:0;border-radius:16px;cursor:pointer;background:linear-gradient(180deg,rgba(104,140,255,.2),rgba(18,34,96,.34));color:rgba(207,224,255,.75);font:700 14px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 0 0 1px rgba(120,160,255,.26)" style-active="transform:translateY(3px)" onClick="{{ quit }}">Τελος παιχνιδιου</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atWinner }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center;animation:rise .4s ease-out both">
+<div style="position:absolute;top:8%;left:50%;width:280px;height:280px;margin-left:-140px;border-radius:50%;background:conic-gradient(from 0deg,rgba(92,233,255,.28),rgba(47,107,255,0) 40%,rgba(92,233,255,.28) 70%,rgba(47,107,255,0));animation:spinSlow 9s linear infinite;pointer-events:none"></div>
+<p style="position:relative;flex:none;margin:0 0 10px;font:700 10px/1.4 Comfortaa,sans-serif;letter-spacing:.3em;color:#5ce9ff;text-transform:uppercase">Εφτασε στους {{ target }}</p>
+<h1 style="position:relative;flex:none;margin:0 0 18px;font:700 40px/1.05 Comfortaa,sans-serif;color:#fff;text-shadow:0 0 30px rgba(120,200,255,.9)">ΝΙΚΗ!</h1>
+<div style="position:relative;flex:none;margin:0 0 16px;display:flex;justify-content:center;animation:popIn .5s cubic-bezier(.2,1.5,.4,1) both">
+<span style="{{ champChip }}">{{ champName }}</span>
+</div>
+<p style="position:relative;flex:none;margin:0 0 26px;font:400 14.5px/1.55 Comfortaa,sans-serif;color:#a8c0f0">{{ champNote }}</p>
+<button style="position:relative;flex:none;display:flex;align-items:center;justify-content:center;width:100%;padding:19px;border:0;border-radius:20px;cursor:pointer;background:linear-gradient(180deg,#4d86ff,#1533d8);color:#fff;font:700 21px Comfortaa,sans-serif;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(150,190,255,.4),0 16px 34px rgba(27,72,255,.45)" style-active="transform:translateY(4px)" onClick="{{ again }}">Νεο παιχνιδι</button>
+<a href="kontra-grigora.html" style="position:relative;display:block;margin-top:12px;padding:9px;font:600 14px Comfortaa,sans-serif;color:rgba(190,212,255,.62)">&larr; Κοντρα στα Γρηγορα</a>
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:470,&quot;height&quot;:900},&quot;target&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:92,&quot;min&quot;:20,&quot;max&quot;:200,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Παιχνιδι&quot;},&quot;picks&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:2,&quot;max&quot;:8,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Παιχνιδι&quot;},&quot;passKeepsStreak&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Παιχνιδι&quot;}}">
+class Component extends DCLogic {
+  /* === ΡΥΘΜΙΣΕΙΣ ======================================== */
+  CFG = { MIN: 3, MAX: 12, TIME_OPTIONS: [90, 140, 180], DEFAULT_TIME: 140,
+    MAX_NAME: 14, DEFAULT_TARGET: 92, DEFAULT_PICKS: 4 };
+  /* Η κλιμακα του μπονους: 1η σωστη 1, 2η 2, μετα 4, 8, 16, 32.
+     Το λαθος παει -1, -1, -2, -4, -8, -16 και μενει εκει.        */
+  WINS = [1, 2, 4, 8, 16, 32];
+  LOSSES = [1, 1, 2, 4, 8, 16];
+
+  COLORS = [
+    { name: "Ηλεκτρικ", fill: "#2f6bff", ink: "#ffffff" },
+    { name: "Κυανο", fill: "#0fb6dd", ink: "#04222e" },
+    { name: "Μεντα", fill: "#18c98b", ink: "#02291c" },
+    { name: "Φουξια", fill: "#e33c95", ink: "#ffffff" },
+    { name: "Μωβ", fill: "#7b49f0", ink: "#ffffff" },
+    { name: "Πορτοκαλι", fill: "#f07d1a", ink: "#2b1300" },
+    { name: "Κιτρινο", fill: "#e8b60c", ink: "#2e2100" },
+    { name: "Κοκκινο", fill: "#e3453c", ink: "#ffffff" },
+    { name: "Λαχανι", fill: "#8fce1f", ink: "#1d2a02" },
+    { name: "Ασημι", fill: "#9fb0c9", ink: "#101a2b" }
+  ];
+
+  /* Οι φακελοι ερχονται απο το ops.js (window.KONTRA_OPS.stars).
+     Προσθεσε φακελο εκει και εμφανιζεται μονος του εδω.          */
+  get FOLDERS() {
+    const K = window.KONTRA_OPS;
+    return (K && K.stars && K.stars.length) ? K.stars : [];
+  }
+
+  S = {
+    screen: "home", back: "home", timeSec: 140,
+    players: [], nameDraft: "", draftColor: 0, palette: false,
+    picks: [], pool: [], op: null, opNo: 0,
+    judge: 0, seed: -1, round: null, bonus: null, champion: null
+  };
+  nameRef = React.createRef();
+
+  componentDidMount() { this.u(); }
+  componentDidUpdate() {
+    if (this.S.screen === "intro" && this.nameRef.current) this.nameRef.current.focus();
+  }
+  componentWillUnmount() { this.stopTimer(); }
+
+  /* === ΒΟΗΘΗΤΙΚΑ ======================================== */
+  u() { this.forceUpdate(); }
+  tgt() { return this.props.target ?? this.CFG.DEFAULT_TARGET; }
+  need() { return this.props.picks ?? this.CFG.DEFAULT_PICKS; }
+  /* Το σερι θελει ΣΥΝΕΧΟΜΕΝΕΣ μαντεψιες: το πασο το σβηνει. */
+  passKeeps() { return this.props.passKeepsStreak ?? false; }
+  P(i) { return this.S.players[i] || { name: "", pts: 0, streak: 0 }; }
+  nm(i) { return (this.S.players[i] || {}).name || ""; }
+  all() { return this.S.players.map((p, i) => i); }
+  mmss(t) { return Math.floor(t / 60) + ":" + String(Math.floor(t % 60)).padStart(2, "0"); }
+  go(s) { this.stopTimer(); if (s === "rules") this.S.back = this.S.screen; this.S.screen = s; this.u(); }
+  stopTimer() { if (this.iv) { clearInterval(this.iv); this.iv = null; } }
+  runTimer() { this.stopTimer(); this.iv = setInterval(() => this.tick(), 1000); }
+  /* το αλογο — ιδιο δειγμα με την κλασσικη Κοντρα */
+  neigh() {
+    try {
+      if (!this._sfx) {
+        this._sfx = []; this._si = 0;
+        for (let i = 0; i < 3; i++) {
+          const a = new Audio("img/alogo.mp3");
+          a.preload = "auto"; a.volume = .85; this._sfx.push(a);
+        }
+      }
+      this._si = (this._si + 1) % this._sfx.length;
+      const a = this._sfx[this._si];
+      a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {});
+    } catch (e) {}
+  }
+
+  /* === ΦΑΚΕΛΟΙ ΚΑΙ ΤΡΑΠΟΥΛΑ ============================= */
+  F(id) { return this.FOLDERS.filter(f => f.id === id)[0] || null; }
+  chosen() { return this.S.picks.map(id => this.F(id)).filter(f => !!f); }
+  buildPool() {
+    const out = [];
+    this.chosen().forEach(f => (f.ops || []).forEach(t => out.push({ t: t, who: f.id })));
+    return out;
+  }
+  drawOp() {
+    const S = this.S;
+    if (!S.pool.length) S.pool = this.buildPool();
+    if (!S.pool.length) return null;
+    return S.pool.splice(Math.floor(Math.random() * S.pool.length), 1)[0];
+  }
+  toggleFolder(id) {
+    const S = this.S, at = S.picks.indexOf(id);
+    if (at >= 0) S.picks.splice(at, 1);
+    else if (S.picks.length < this.need()) S.picks.push(id);
+    this.u();
+  }
+
+  /* === ΟΝΟΜΑΤΑ ========================================== */
+  freeColor() {
+    const used = this.S.players.map(p => p.color);
+    const free = this.COLORS.map((_, i) => i).filter(i => used.indexOf(i) < 0);
+    const pool = free.length ? free : this.COLORS.map((_, i) => i);
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  addPlayer() {
+    const S = this.S, v = S.nameDraft.trim();
+    if (!v || S.players.length >= this.CFG.MAX) return;
+    S.players.push({ name: v.slice(0, this.CFG.MAX_NAME), color: S.draftColor,
+      pts: 0, streak: 0, wins: 0 });
+    S.nameDraft = ""; S.draftColor = this.freeColor();
+    if (this.nameRef.current) this.nameRef.current.value = "";
+    this.u();
+  }
+  dropPlayer(i) { this.S.players.splice(i, 1); this.u(); }
+  endNaming() {
+    const S = this.S;
+    if (S.nameDraft.trim()) this.addPlayer();
+    if (S.players.length < this.CFG.MIN) return this.go("tooFew");
+    S.pool = this.buildPool(); S.opNo = 0; S.seed = -1;
+    this.neigh();
+    this.newOpinion();
+  }
+
+  /* === Ο ΓΥΡΟΣ ========================================== */
+  newOpinion() {
+    const S = this.S;
+    S.opNo++;
+    S.seed = (S.seed + 1) % S.players.length;
+    S.judge = S.seed;
+    S.op = this.drawOp();
+    S.round = { vote: {}, a: null, b: null, order: [], times: [],
+      extra: [], onExtra: [], cur: 0, opa: false, opaT: 0, winner: null, played: false };
+    S.bonus = null;
+    this.go("roundStart");
+  }
+  sideOf(s) {
+    const S = this.S;
+    if (!S.round) return [];
+    return this.all().filter(i => i !== S.judge && S.round.vote[i] === s);
+  }
+  buildOrder() {
+    const r = this.S.round;
+    r.order = [{ side: "pro", p: r.a }, { side: "con", p: r.b }];
+    r.times = [this.S.timeSec, this.S.timeSec];
+    r.extra = [0, 0]; r.onExtra = [false, false];
+    r.cur = 0; r.opa = false; r.opaT = 0;
+  }
+  tick() {
+    const r = this.S.round;
+    if (!r) return;
+    if (r.opa) {
+      r.opaT++;
+      r.extra[r.cur] = (r.extra[r.cur] || 0) + 1;
+      this.u(); return;
+    }
+    r.times[r.cur]--;
+    if (r.times[r.cur] <= 0) {
+      r.times[r.cur] = 0;
+      const ex = r.extra[r.cur] || 0;
+      if (ex > 0 && !r.onExtra[r.cur]) {
+        r.extra[r.cur] = 0; r.times[r.cur] = ex; r.onExtra[r.cur] = true;
+        if (navigator.vibrate) navigator.vibrate(110);
+        this.u(); return;
+      }
+      r.cur++;
+      if (navigator.vibrate) navigator.vibrate(180);
+      if (r.cur >= r.order.length) return this.go("verdict");
+    }
+    this.u();
+  }
+  /* Ο νικητης της κοντρας παιρνει τον ποντο του και παμε μπονους. */
+  awardDuel(w) {
+    const p = this.P(w);
+    p.pts += 1; p.wins = (p.wins || 0) + 1;
+    this.S.round.winner = w; this.S.round.played = true;
+    this.go("offer");
+  }
+
+  /* === ΤΟ ΜΠΟΝΟΥΣ ======================================= */
+  stakePlus(i) {
+    const st = this.P(i).streak || 0;
+    const n = st > 0 ? st + 1 : 1;
+    return this.WINS[Math.min(n, this.WINS.length) - 1];
+  }
+  stakeMinus(i) {
+    const st = this.P(i).streak || 0;
+    const n = st < 0 ? -st + 1 : 1;
+    return this.LOSSES[Math.min(n, this.LOSSES.length) - 1];
+  }
+  startBonus() {
+    const S = this.S, n = S.players.length;
+    /* σειρα: ξεκινα ο δικαστης που κραταει το κινητο, μετα δεξια */
+    const order = [];
+    for (let k = 0; k < n; k++) order.push((S.judge + k) % n);
+    S.bonus = { order: order, i: 0, picks: {}, guess: null, res: null };
+    this.neigh();
+    this.go("guess");
+  }
+  bCur() {
+    const b = this.S.bonus;
+    return b ? b.order[b.i] : null;
+  }
+  bNext() {
+    const S = this.S, b = S.bonus;
+    b.i++; b.guess = null;
+    if (b.i >= b.order.length) return this.resolveBonus();
+    this.go("guess");
+  }
+  bSkip() {
+    const b = this.S.bonus;
+    b.picks[this.bCur()] = { play: false, guess: null };
+    this.bNext();
+  }
+  bLock() {
+    const b = this.S.bonus;
+    if (b.guess == null) return;
+    b.picks[this.bCur()] = { play: true, guess: b.guess };
+    this.bNext();
+  }
+  resolveBonus() {
+    const S = this.S, b = S.bonus, res = [];
+    const truth = S.op ? S.op.who : null;
+    this.all().forEach(i => {
+      const pick = b.picks[i] || { play: false, guess: null };
+      const p = this.P(i);
+      if (!pick.play) {
+        if (!this.passKeeps()) p.streak = 0;
+        res.push({ i: i, play: false, ok: false, delta: 0, guess: null });
+        return;
+      }
+      const ok = pick.guess === truth;
+      let delta;
+      if (ok) {
+        p.streak = p.streak > 0 ? p.streak + 1 : 1;
+        delta = this.WINS[Math.min(p.streak, this.WINS.length) - 1];
+      } else {
+        p.streak = p.streak < 0 ? p.streak - 1 : -1;
+        delta = -this.LOSSES[Math.min(-p.streak, this.LOSSES.length) - 1];
+      }
+      p.pts += delta;
+      res.push({ i: i, play: true, ok: ok, delta: delta, guess: pick.guess });
+    });
+    b.res = res;
+    this.neigh();
+    this.go("reveal");
+  }
+  checkChampion() {
+    const S = this.S, t = this.tgt();
+    let best = null;
+    this.all().forEach(i => {
+      if (this.P(i).pts >= t && (best == null || this.P(i).pts > this.P(best).pts)) best = i;
+    });
+    if (best == null) return false;
+    S.champion = best;
+    this.go("winner");
+    return true;
+  }
+  nextOp() { if (!this.checkChampion()) this.newOpinion(); }
+
+  hardReset() {
+    const S = this.S;
+    this.stopTimer();
+    S.screen = "home"; S.back = "home";
+    S.players = []; S.nameDraft = ""; S.palette = false;
+    S.picks = []; S.pool = []; S.op = null; S.opNo = 0;
+    S.judge = 0; S.seed = -1; S.round = null; S.bonus = null; S.champion = null;
+    this.u();
+  }
+
+  /* === ΣΤΥΛ ============================================= */
+  COL(ci) { const c = this.COLORS[(ci | 0) % this.COLORS.length]; return c || this.COLORS[0]; }
+  colOf(i) { const p = this.S.players[i]; return p && p.color != null ? p.color : 0; }
+  SWATCH(ci, o) {
+    o = o || {};
+    const c = this.COL(ci), sh = ["0 0 0 1px rgba(255,255,255,.35)"];
+    if (o.lift) sh.push("0 " + o.lift + "px " + (o.lift * 2 + 6) + "px rgba(2,6,30,.55)");
+    sh.push("0 0 22px " + c.fill + "55");
+    return (o.block ? "display:flex;width:100%;align-self:stretch;"
+        : "display:inline-flex;align-self:center;flex:0 0 auto;max-width:100%;") +
+      "box-sizing:border-box;align-items:center;justify-content:center;gap:8px;" +
+      "padding:" + (o.pad || "6px 14px") + ";border-radius:" + (o.radius || "999px") + ";" +
+      "background:" + c.fill + ";color:" + c.ink + ";border:0;" +
+      "font:" + (o.font || "700 14px Comfortaa,sans-serif") + ";" +
+      "box-shadow:" + sh.join(",") + ";min-width:0;text-align:center;" +
+      "overflow-wrap:anywhere;word-break:break-word;line-height:1.15;" +
+      (o.dim ? "opacity:.42;" : "") + (o.extra || "");
+  }
+  CHIP(i, o) { return this.SWATCH(this.colOf(i), o); }
+  OPT(on) {
+    const base = "flex:1;padding:14px 8px;border:0;border-radius:16px;cursor:pointer;font:700 17px Orbitron,monospace;";
+    if (!on) return base + "background:linear-gradient(180deg,rgba(104,140,255,.18),rgba(14,28,86,.36));color:rgba(190,212,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 0 0 1px rgba(120,160,255,.26)";
+    return base + "background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(120,230,255,.5),0 10px 24px rgba(30,200,255,.4)";
+  }
+  BIG(tone, dis) {
+    const base = "display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;padding:19px 16px;border:0;border-radius:20px;cursor:pointer;position:relative;overflow:hidden;font:700 21px Comfortaa,sans-serif;";
+    if (dis) return base + "background:linear-gradient(180deg,rgba(80,110,200,.16),rgba(12,22,70,.3));color:rgba(190,212,255,.35);box-shadow:0 0 0 1px rgba(120,160,255,.18);cursor:default";
+    if (tone === "cyan") return base + "background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 0 0 1px rgba(120,230,255,.5),0 16px 34px rgba(30,200,255,.38)";
+    if (tone === "green") return base + "background:linear-gradient(180deg,#63ffa9,#08a259);color:#032a17;box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 0 0 1px rgba(120,255,190,.45),0 16px 34px rgba(10,160,90,.35)";
+    return base + "background:linear-gradient(180deg,#4d86ff,#1533d8);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -18px 28px rgba(2,6,40,.35),0 0 0 1px rgba(150,190,255,.4),0 16px 34px rgba(27,72,255,.45)";
+  }
+  ROW(kind) {
+    const base = "display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 14px;border:0;border-radius:16px;font:700 17px Comfortaa,sans-serif;cursor:pointer;text-align:left;";
+    if (kind === "pro") return base + "background:linear-gradient(180deg,#22c281,#0a7a4c);color:#fff";
+    if (kind === "con") return base + "background:linear-gradient(180deg,#e8559b,#b01268);color:#fff";
+    return base + "background:linear-gradient(rgba(104,140,255,.14),rgba(12,24,80,.3));color:#dce8ff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 0 0 1px rgba(120,160,255,.22)";
+  }
+  MARK(on) {
+    const base = "flex:none;padding:5px 10px;border-radius:9px;font:700 10px Orbitron,monospace;letter-spacing:.08em;";
+    return base + (on ? "background:rgba(255,255,255,.22);color:#fff" : "background:rgba(3,8,32,.45);color:rgba(190,212,255,.55)");
+  }
+  /* καρτα φακελου: επιλογη στην αρχη, μαντεψια στο μπονους */
+  FCARD(tone, on) {
+    const c = tone || ["#2f6bff", "#0c1c63", "#dbe7ff"];
+    return "position:relative;display:block;width:100%;padding:14px 12px 13px;border:0;border-radius:18px;cursor:pointer;text-align:center;" +
+      "background:linear-gradient(170deg," + (on ? c[0] + "44," + c[1] : "rgba(104,140,255,.12),rgba(10,20,72,.42)") + ");" +
+      "box-shadow:inset 0 1px 0 rgba(255,255,255," + (on ? ".3" : ".12") + ")," +
+      "0 0 0 " + (on ? "2px " + c[0] : "1px rgba(120,160,255,.24)") +
+      (on ? ",0 14px 30px " + c[0] + "55" : "") + ";" +
+      (on ? "" : "opacity:.82;");
+  }
+  DISC(tone, big) {
+    const c = tone || ["#2f6bff", "#0c1c63", "#dbe7ff"];
+    const d = big ? 62 : 42;
+    return "display:flex;align-items:center;justify-content:center;margin:0 auto " + (big ? "12px" : "8px") + ";" +
+      "width:" + d + "px;height:" + d + "px;border-radius:50%;background:" + c[0] + ";color:" + c[2] + ";" +
+      "font:700 " + (big ? "26px" : "18px") + " Comfortaa,sans-serif;" +
+      "box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 0 1px rgba(255,255,255,.3),0 0 24px " + c[0] + "88";
+  }
+
+  renderVals() {
+    const S = this.S, sc = S.screen, r = S.round, v = {};
+    const F = this.FOLDERS;
+
+    v.atHome = sc === "home"; v.atRules = sc === "rules";
+    v.atFolders = sc === "folders"; v.atIntro = sc === "intro";
+    v.atTooFew = sc === "tooFew"; v.atRoundStart = sc === "roundStart";
+    v.atHearing = sc === "hearing"; v.atSelect = sc === "select";
+    v.atContra = sc === "contra"; v.atVerdict = sc === "verdict";
+    v.atOffer = sc === "offer"; v.atGuess = sc === "guess";
+    v.atReveal = sc === "reveal"; v.atBoard = sc === "board";
+    v.atWinner = sc === "winner";
+    v.showHelp = sc !== "home" && sc !== "rules";
+    v.goRules = () => this.go("rules");
+    v.goBack = () => this.go(S.back || "home");
+    v.target = this.tgt();
+    v.opinion = S.op ? S.op.t : "";
+
+    /* ---- αρχικη */
+    v.timeChips = this.CFG.TIME_OPTIONS.map(t => ({
+      label: t + "''", style: this.OPT(S.timeSec === t),
+      on: () => { S.timeSec = t; this.u(); }
+    }));
+    v.start = () => { this.neigh(); S.picks = []; this.go("folders"); };
+
+    /* ---- φακελοι */
+    v.fNeed = this.need();
+    v.fPicked = S.picks.length;
+    v.foldersPending = S.picks.length !== this.need();
+    v.foldersBtn = this.BIG("cyan", S.picks.length !== this.need());
+    v.fOps = this.buildPool().length;
+    v.folderCards = F.map(f => {
+      const on = S.picks.indexOf(f.id) >= 0;
+      return {
+        name: f.name, note: f.note || "", count: (f.ops || []).length,
+        initial: (f.name || "?").trim().charAt(0),
+        style: this.FCARD(f.tone, on),
+        discStyle: this.DISC(f.tone, false),
+        tick: on ? "\u2713" : "+",
+        tickStyle: "position:absolute;top:9px;right:9px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 12px Comfortaa,sans-serif;" +
+          (on ? "background:#fff;color:#0a1140;box-shadow:0 0 14px rgba(255,255,255,.7)"
+              : "background:rgba(3,8,32,.5);color:rgba(190,212,255,.6)"),
+        on: () => this.toggleFolder(f.id)
+      };
+    });
+    v.foldersGo = () => {
+      if (S.picks.length !== this.need()) return;
+      S.players = []; S.nameDraft = ""; S.draftColor = this.freeColor();
+      S.pool = this.buildPool();
+      this.neigh();
+      this.go("intro");
+    };
+
+    /* ---- ονοματα */
+    v.introCount = S.players.length;
+    v.hasNames = S.players.length > 0;
+    v.nameEmpty = !S.nameDraft.trim();
+    v.nameRef = this.nameRef;
+    v.onNameInput = e => {
+      S.nameDraft = e.target.value.slice(0, this.CFG.MAX_NAME);
+      this.u();
+    };
+    v.nameKey = e => { if (e.key === "Enter") this.addPlayer(); };
+    v.addName = () => this.addPlayer();
+    v.nameBtnStyle = "display:flex;align-items:center;justify-content:center;width:100%;margin-top:11px;padding:14px;border:0;border-radius:16px;font:700 17px Comfortaa,sans-serif;cursor:pointer;" +
+      (S.nameDraft.trim()
+        ? "background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 0 0 1px rgba(120,230,255,.5),0 12px 26px rgba(30,200,255,.35)"
+        : "background:linear-gradient(180deg,rgba(80,110,200,.16),rgba(12,22,70,.3));color:rgba(190,212,255,.4);box-shadow:0 0 0 1px rgba(120,160,255,.2);cursor:default");
+    v.namePills = S.players.map((p, i) => ({
+      name: p.name,
+      style: this.CHIP(i, { lift: 3, pad: "9px 16px", font: "700 16px Comfortaa,sans-serif",
+        extra: "cursor:pointer;" }),
+      on: () => this.dropPlayer(i)
+    }));
+    v.endBtnStyle = this.BIG("blue", S.players.length < this.CFG.MIN && !S.nameDraft.trim());
+    v.endNaming = () => this.endNaming();
+    v.backToNames = () => this.go("intro");
+    /* παλετα */
+    v.paletteOpen = S.palette === true;
+    v.openPalette = () => { S.palette = true; this.u(); };
+    v.closePalette = () => { S.palette = false; this.u(); };
+    v.draftName = S.nameDraft.trim() || "Το ονομα σου";
+    v.draftPreview = this.SWATCH(S.draftColor, { pad: "9px 18px", lift: 3,
+      font: "700 17px Comfortaa,sans-serif" });
+    v.draftChipBtn = this.SWATCH(S.draftColor, { pad: "0", radius: "50%",
+      font: "700 15px Comfortaa,sans-serif",
+      extra: "width:34px;height:34px;flex:none;cursor:pointer;" });
+    const used = S.players.map(p => p.color);
+    v.palette = this.COLORS.map((c, i) => ({
+      mark: used.indexOf(i) >= 0 ? "\u2715" : "",
+      off: used.indexOf(i) >= 0,
+      style: this.SWATCH(i, { pad: "0", radius: "50%", lift: 3,
+        font: "700 14px Comfortaa,sans-serif",
+        extra: "width:44px;height:44px;flex:none;cursor:pointer;" +
+          (used.indexOf(i) >= 0 ? "opacity:.3;" : "") }),
+      on: () => { if (used.indexOf(i) < 0) { S.draftColor = i; this.u(); } }
+    }));
+
+    /* ---- ο γυρος */
+    v.opNo = S.opNo;
+    v.judgeName = this.nm(S.judge);
+    v.judgeChip = this.CHIP(S.judge, { lift: 4, pad: "11px 22px",
+      font: "700 23px Comfortaa,sans-serif" });
+    v.alivePills = this.all().map(i => ({
+      name: this.nm(i),
+      style: this.CHIP(i, { pad: "5px 12px", font: "700 12px Comfortaa,sans-serif",
+        dim: i === S.judge })
+    }));
+    v.toHearing = () => this.go("hearing");
+
+    /* ---- ακροαση */
+    if (r) {
+      const voters = this.all().filter(i => i !== S.judge);
+      const done = voters.filter(i => r.vote[i] === "pro" || r.vote[i] === "con");
+      v.voteAll = voters.length; v.voteDone = done.length;
+      v.needMore = done.length < voters.length;
+      const pro = this.sideOf("pro"), con = this.sideOf("con");
+      v.isUnanimous = done.length === voters.length && (pro.length === 0 || con.length === 0);
+      v.hasSplit = pro.length > 0 && con.length > 0;
+      v.voteRows = voters.map(i => ({
+        name: this.nm(i),
+        chip: this.CHIP(i, { pad: "7px 14px", font: "700 15px Comfortaa,sans-serif" }),
+        proStyle: "flex:none;padding:10px 13px;border:0;border-radius:12px;cursor:pointer;font:700 11px Orbitron,monospace;letter-spacing:.06em;" +
+          (r.vote[i] === "pro"
+            ? "background:linear-gradient(180deg,#63ffa9,#08a259);color:#032a17;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 18px rgba(20,220,130,.5)"
+            : "background:rgba(3,8,32,.42);color:rgba(190,212,255,.55);box-shadow:0 0 0 1px rgba(120,160,255,.24)"),
+        conStyle: "flex:none;padding:10px 13px;border:0;border-radius:12px;cursor:pointer;font:700 11px Orbitron,monospace;letter-spacing:.06em;" +
+          (r.vote[i] === "con"
+            ? "background:linear-gradient(180deg,#ff8fbe,#c4127a);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 0 18px rgba(230,60,140,.5)"
+            : "background:rgba(3,8,32,.42);color:rgba(190,212,255,.55);box-shadow:0 0 0 1px rgba(120,160,255,.24)"),
+        onPro: () => { r.vote[i] = r.vote[i] === "pro" ? null : "pro"; this.u(); },
+        onCon: () => { r.vote[i] = r.vote[i] === "con" ? null : "con"; this.u(); }
+      }));
+      v.unanimousGo = () => { r.played = false; this.go("offer"); };
+      v.toSelect = () => { this.neigh(); r.a = null; r.b = null; this.go("select"); };
+
+      /* ---- διαλογη μονομαχων */
+      v.proRows = this.sideOf("pro").map(i => ({
+        name: this.nm(i),
+        chip: this.CHIP(i, { pad: "7px 14px", font: "700 15px Comfortaa,sans-serif" }),
+        style: this.ROW(r.a === i ? "pro" : "off"),
+        mark: r.a === i ? "ΜΕΣΑ" : "ΥΠΕΡ",
+        markStyle: this.MARK(r.a === i),
+        on: () => { r.a = r.a === i ? null : i; this.u(); }
+      }));
+      v.conRows = this.sideOf("con").map(i => ({
+        name: this.nm(i),
+        chip: this.CHIP(i, { pad: "7px 14px", font: "700 15px Comfortaa,sans-serif" }),
+        style: this.ROW(r.b === i ? "con" : "off"),
+        mark: r.b === i ? "ΜΕΣΑ" : "ΚΑΤΑ",
+        markStyle: this.MARK(r.b === i),
+        on: () => { r.b = r.b === i ? null : i; this.u(); }
+      }));
+      v.selectPending = !(r.a != null && r.b != null);
+      v.selectBtn = this.BIG("green", !(r.a != null && r.b != null));
+      v.play = () => {
+        if (r.a == null || r.b == null) return;
+        this.buildOrder(); this.neigh();
+        S.screen = "contra"; this.runTimer(); this.u();
+      };
+
+      /* ---- κοντρα */
+      const cur = r.order[r.cur];
+      v.contraTag = r.opa ? "ΟΠΑ" : cur ? (cur.side === "pro" ? "ΥΠΕΡ" : "ΚΑΤΑ") : "—";
+      v.opaOn = r.opa === true; v.opaOff = r.opa !== true;
+      v.opaTime = this.mmss(r.opaT);
+      v.opaStart = () => { r.opa = true; r.opaT = 0; this.u(); };
+      v.opaEnd = () => { r.opa = false; this.u(); };
+      v.exNote = "+" + this.mmss((r.extra && r.extra[r.cur]) || 0);
+      v.exWaiting = !r.opa && ((r.extra && r.extra[r.cur]) || 0) > 0 && !(r.onExtra && r.onExtra[r.cur]);
+      v.onExtra = !!(r.onExtra && r.onExtra[r.cur]);
+      v.speakers = (r.order || []).map((o, k) => {
+        const on = k === r.cur && !r.opa, spent = k < r.cur;
+        return {
+          who: o.side === "pro" ? "Υπερ" : "Κατα",
+          name: this.nm(o.p),
+          chip: this.CHIP(o.p, { lift: 3, pad: "6px 14px",
+            font: "700 " + (on ? "17px" : "14px") + " Comfortaa,sans-serif" }),
+          time: this.mmss(r.times[k]),
+          style: "padding:15px;border-radius:18px;text-align:left;" +
+            (on
+              ? "background:linear-gradient(180deg," + (o.side === "pro" ? "#12864d,#073d24" : "#a32069,#4d0c32") + ");box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 0 0 2px rgba(92,233,255,.6),0 14px 30px rgba(0,0,0,.5)"
+              : "background:linear-gradient(rgba(104,140,255,.1),rgba(10,20,72,.4));box-shadow:0 0 0 1px rgba(120,160,255,.2);" + (spent ? "opacity:.42" : "")),
+          clockStyle: "margin-top:9px;padding:" + (on ? "12px 0 10px" : "7px 0 6px") + ";border-radius:14px;background:#070b26;box-shadow:inset 0 3px 12px rgba(0,0,0,.8);text-align:center;font:700 " +
+            (on ? "38px" : "17px") + "/1 Orbitron,monospace;color:" +
+            (on ? "#5ce9ff;text-shadow:0 0 20px rgba(92,233,255,.85)" : "rgba(190,212,255,.45)")
+        };
+      });
+      v.nextSpeaker = () => {
+        r.cur++;
+        if (r.cur >= r.order.length) return this.go("verdict");
+        this.u();
+      };
+      v.endContra = () => this.go("verdict");
+
+      /* ---- ετυμηγορια */
+      const a = r.a != null ? r.a : 0, b = r.b != null ? r.b : (this.all()[1] || 0);
+      v.juryText = "Το τραπεζι αποφασιζει";
+      v.aName = this.nm(a); v.bName = this.nm(b);
+      v.aBtn = this.CHIP(a, { block: true, pad: "19px 14px", radius: "20px", lift: 5,
+        font: "700 24px Comfortaa,sans-serif", extra: "cursor:pointer;" });
+      v.bBtn = this.CHIP(b, { block: true, pad: "19px 14px", radius: "20px", lift: 5,
+        font: "700 24px Comfortaa,sans-serif", extra: "cursor:pointer;" });
+      v.winA = () => { this.neigh(); this.awardDuel(a); };
+      v.winB = () => { this.neigh(); this.awardDuel(b); };
+      v.offerEyebrow = r.played
+        ? "Ο ποντος πηγε στον " + this.nm(r.winner)
+        : "Ομοφωνια — κανενας ποντος";
+    }
+
+    /* ---- προσφορα μπονους */
+    v.stakeRows = this.all().map(i => ({
+      name: this.nm(i),
+      chip: this.CHIP(i, { pad: "6px 13px", font: "700 14px Comfortaa,sans-serif" }),
+      plus: "+" + this.stakePlus(i),
+      minus: "-" + this.stakeMinus(i)
+    }));
+    v.startBonus = () => this.startBonus();
+    v.skipBonus = () => this.nextOp();
+
+    /* ---- το κινητο γυρναει */
+    const b = S.bonus, ci = this.bCur();
+    v.bNo = b ? b.i + 1 : 1;
+    v.bTotal = b ? b.order.length : S.players.length;
+    v.bpName = ci != null ? this.nm(ci) : "";
+    v.bpChip = this.CHIP(ci, { lift: 4, pad: "10px 20px",
+      font: "700 21px Comfortaa,sans-serif" });
+    v.bigChip = this.CHIP(ci, { lift: 5, pad: "13px 26px", radius: "20px",
+      font: "700 27px Comfortaa,sans-serif" });
+    v.bPlus = ci != null ? "+" + this.stakePlus(ci) : "";
+    v.bMinus = ci != null ? "-" + this.stakeMinus(ci) : "";
+    const st = ci != null ? (this.P(ci).streak || 0) : 0;
+    v.bStreakNote = st > 0
+      ? st + " σωστες συνεχομενες. Η επομενη σωστη δινει +" + this.stakePlus(ci) + " — το πασο σβηνει το σερι."
+      : st < 0
+        ? (-st) + " λαθος συνεχομενα. Μια σωστη και ξαναρχιζεις απο το +1."
+        : "Καθαρη σειρα. Η πρωτη σωστη δινει +1.";
+    v.bSkip = () => this.bSkip();
+
+    /* ---- μαντεψια */
+    v.guessEmpty = !(b && b.guess);
+    v.lockBtn = this.BIG("green", !(b && b.guess));
+    v.guessCards = this.chosen().map(f => {
+      const on = !!(b && b.guess === f.id);
+      return {
+        name: f.name, note: f.note || "",
+        initial: (f.name || "?").trim().charAt(0),
+        style: this.FCARD(f.tone, on),
+        discStyle: this.DISC(f.tone, false),
+        on: () => { if (b) { b.guess = b.guess === f.id ? null : f.id; this.u(); } }
+      };
+    });
+    v.lockGuess = () => this.bLock();
+
+    /* ---- αποκαλυψη */
+    const who = S.op ? this.F(S.op.who) : null;
+    const tone = who && who.tone ? who.tone : ["#2f6bff", "#0c1c63", "#dbe7ff"];
+    v.whoName = who ? who.name : "";
+    v.whoInitial = who ? (who.name || "?").trim().charAt(0) : "";
+    v.revealDisc = this.DISC(tone, true);
+    v.revealCard = "position:relative;padding:22px 18px;border-radius:22px;text-align:center;" +
+      "background:linear-gradient(170deg," + tone[0] + "cc," + tone[1] + ");" +
+      "box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 0 0 1px rgba(255,255,255,.28),0 20px 40px rgba(0,0,0,.55);" +
+      "animation:popIn .45s cubic-bezier(.2,1.4,.4,1) both";
+    v.revealRows = (b && b.res ? b.res : []).map(x => {
+      const f = x.guess ? this.F(x.guess) : null;
+      return {
+        name: this.nm(x.i),
+        chip: this.CHIP(x.i, { pad: "6px 13px", font: "700 14px Comfortaa,sans-serif" }),
+        guess: x.play ? (f ? f.name : "—") : "πασο",
+        delta: x.play ? (x.delta > 0 ? "+" + x.delta : "" + x.delta) : "0",
+        rowStyle: "display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border-radius:16px;" +
+          (x.play
+            ? (x.ok
+              ? "background:linear-gradient(rgba(20,220,130,.22),rgba(6,60,40,.34));box-shadow:0 0 0 1px rgba(99,255,169,.45)"
+              : "background:linear-gradient(rgba(230,60,140,.2),rgba(70,8,40,.34));box-shadow:0 0 0 1px rgba(255,143,190,.4)")
+            : "background:linear-gradient(rgba(104,140,255,.1),rgba(10,20,72,.34));box-shadow:0 0 0 1px rgba(120,160,255,.2)"),
+        deltaStyle: "flex:none;font:900 19px/1 Orbitron,monospace;color:" +
+          (x.play ? (x.ok ? "#63ffa9" : "#ff8fbe") : "rgba(190,212,255,.45)")
+      };
+    });
+    v.toBoard = () => this.go("board");
+
+    /* ---- πινακας */
+    const t = this.tgt();
+    v.boardRows = this.all()
+      .slice()
+      .sort((x, y) => this.P(y).pts - this.P(x).pts)
+      .map(i => {
+        const p = this.P(i), pct = Math.max(0, Math.min(100, Math.round(p.pts / t * 100)));
+        const c = this.COL(this.colOf(i));
+        return {
+          name: p.name,
+          chip: this.CHIP(i, { pad: "6px 13px", font: "700 14px Comfortaa,sans-serif" }),
+          pts: p.pts,
+          note: (p.streak || 0) > 0 ? "ΣΕΡΙ " + p.streak
+            : (p.streak || 0) < 0 ? "ΚΡΥΟΣ " + (-p.streak) : "—",
+          barStyle: "height:100%;width:" + pct + "%;border-radius:5px;background:linear-gradient(90deg," +
+            c.fill + "," + c.fill + ");box-shadow:0 0 14px " + c.fill + "aa;transition:width .5s ease"
+        };
+      });
+    v.nextOp = () => { this.neigh(); this.nextOp(); };
+    v.quit = () => this.hardReset();
+
+    /* ---- νικητης */
+    v.champName = S.champion == null ? "" : this.nm(S.champion);
+    v.champChip = this.CHIP(S.champion, { pad: "16px 30px", radius: "26px", lift: 7,
+      font: "700 34px Comfortaa,sans-serif" });
+    v.champNote = S.champion == null ? ""
+      : "Μαζεψε " + this.P(S.champion).pts + " ποντους και εκλεισε το αρχειο.";
+    v.again = () => this.hardReset();
+
+    return v;
+  }
+}
+</script>
+</body>
+</html>
