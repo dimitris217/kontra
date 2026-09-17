@@ -144,7 +144,10 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 <p style="margin:0;font:400 14.5px/1.65 'Anek Greek',sans-serif;color:#dce8ff;text-wrap:pretty">Οι απόψεις σε αυτό το παιχνίδι είναι όλες από άτομα διάσημα. Από όλες τις γωνιές της γης. Στο τέλος κάθε γύρου έχετε την επιλογή να μάντεψε ποιος είπε την άποψη. Αν το βρείτε σωστά, παίρνεται 1 πόντο. Αυτό αυξάνεται εκθετικά.</p>
 
 <h3 style="margin:22px 0 7px;font:700 20px/1.25 'Anek Greek',sans-serif;color:#7ef0ff">Τι εννοείς κούκλε?</h3>
-<p style="margin:0;font:400 14.5px/1.65 'Anek Greek',sans-serif;color:#dce8ff;text-wrap:pretty">Αν βρεις ένα σωστά, παίρνεις 1 πόντο. Αν βρεις 2 σωστά, 2 πόντους. 3? 4 πόντους. 4 σερι? 8 ποντους. Προφανώς, όσο αυξάνονται οι πόντοι που μπορείς να πάρεις, αυξάνονται και οι πόντοι και μπορείς να χάσεις.</p>
+<p style="margin:0;font:400 14.5px/1.65 'Anek Greek',sans-serif;color:#dce8ff;text-wrap:pretty">Αν βρεις ένα σωστά, παίρνεις 1 πόντο. Αν βρεις 2 σωστά, 2 πόντους. 3? 4 πόντους. 4 σερι? 8 ποντους. Προφανώς, όσο αυξάνονται οι πόντοι που μπορείς να πάρεις, αυξάνονται και οι πόντοι και μπορείς να χάσεις: η ζημιά είναι πάντα το μισό απ' ό,τι κυνηγάς. Κυνηγάς +4, χάνεις -2. Κυνηγάς +8, χάνεις -4. Ένα λάθος και ξαναπιάνεις απ' την αρχή, οπότε οι συνεχόμενες λάθος είναι πάντα -1.</p>
+
+<h3 style="margin:22px 0 7px;font:700 20px/1.25 'Anek Greek',sans-serif;color:#ffd24a">ΜΠΟΝΟΥΣ X2!!!</h3>
+<p style="margin:0;font:400 14.5px/1.65 'Anek Greek',sans-serif;color:#dce8ff;text-wrap:pretty">Αν κέρδισες την κόντρα σε μια άποψη, παίζεις το μπόνους στα διπλά. Ό,τι θα έπαιρνες, το παίρνεις δύο φορές. Το πλην μένει ίδιο.</p>
 
 <h3 style="margin:22px 0 7px;font:700 20px/1.25 'Anek Greek',sans-serif;color:#ff9ec5">Προσοχή!</h3>
 <p style="margin:0;font:400 14.5px/1.65 'Anek Greek',sans-serif;color:#dce8ff;text-wrap:pretty">Οι μαντέψιες πρέπει να είναι συνεχόμενες. Αν δεν είσαι σίγουρος και δεν παίξεις μπόνους, το σερί σου χάνεται, αλλά δεν χάνεις πόντους. Μόνο το σερί σου.</p>
@@ -420,6 +423,7 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 <sc-for list="{{ stakeRows }}" as="s" hint-placeholder-count="4">
 <div style="{{ s.rowStyle }}">
 <span style="{{ s.chip }}">{{ s.name }}</span>
+<span style="{{ s.x2Style }}">{{ s.x2 }}</span>
 <span style="flex:1"></span>
 <span style="font:700 16px/1 'Fira Mono',monospace;color:#63ffa9">{{ s.plus }}</span>
 <span style="font:500 12px/1 'Fira Mono',monospace;color:rgba(190,212,255,.4)">/</span>
@@ -439,8 +443,11 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 <sc-if value="{{ atGuess }}" hint-placeholder-val="{{ false }}">
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:sweepIn .3s ease-out both">
 <p style="flex:none;margin:0 0 10px;padding-left:30px;font:600 9px/1.4 'Fira Mono',monospace;letter-spacing:.14em;color:#5ce9ff">ΜΠΟΝΟΥΣ {{ bNo }} / {{ bTotal }} &middot; ΜΟΝΟ ΓΙΑ ΣΕΝΑ</p>
-<div style="flex:none;display:flex;justify-content:center;margin:0 0 13px">
+<div style="flex:none;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:9px;margin:0 0 13px">
 <span style="{{ bigChip }}">{{ bpName }}</span>
+<sc-if value="{{ bX2 }}" hint-placeholder-val="{{ false }}">
+<span style="flex:none;padding:8px 13px;border-radius:11px;background:linear-gradient(180deg,#ffe07a,#d79b0c);color:#33210a;font:700 17px 'Anek Greek',sans-serif;box-shadow:inset 0 2px 0 rgba(255,255,255,.55),0 0 0 1.5px rgba(255,220,130,.6),0 0 22px rgba(232,182,12,.5);animation:popIn .34s cubic-bezier(.2,1.5,.4,1) both">X2!!!</span>
+</sc-if>
 </div>
 <div style="position:relative;padding:18px 16px;border-radius:18px;background:linear-gradient(#f7faff,#d9e6ff);box-shadow:0 16px 32px rgba(2,8,40,.5),inset 0 0 0 1.5px rgba(255,255,255,.9)">
 <div style="position:absolute;top:10px;left:14px;width:9px;height:9px;border-radius:3px;background:#2f6bff;box-shadow:0 0 10px rgba(47,107,255,.8)"></div>
@@ -480,6 +487,7 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 <sc-for list="{{ revealRows }}" as="r" hint-placeholder-count="4">
 <div style="{{ r.rowStyle }}">
 <span style="{{ r.chip }}">{{ r.name }}</span>
+<span style="{{ r.x2Style }}">{{ r.x2 }}</span>
 <span style="flex:1;text-align:left;font:500 12px/1.3 'Anek Greek',sans-serif;color:rgba(220,232,255,.8);overflow-wrap:anywhere">{{ r.guess }}</span>
 <span style="{{ r.deltaStyle }}">{{ r.delta }}</span>
 </div>
@@ -542,9 +550,11 @@ class Component extends DCLogic {
   CFG = { MIN: 3, MAX: 12, TIME_OPTIONS: [90, 140, 180], DEFAULT_TIME: 140,
     MAX_NAME: 14, DEFAULT_TARGET: 92, DEFAULT_PICKS: 4 };
   /* Η κλιμακα του μπονους: 1η σωστη 1, 2η 2, μετα 4, 8, 16, 32.
-     Το λαθος παει -1, -1, -2, -4, -8, -16 και μενει εκει.        */
+     Η ΖΗΜΙΑ ΕΙΝΑΙ ΤΟ ΜΙΣΟ ΤΟΥ ΚΕΡΔΟΥΣ ΠΟΥ ΚΥΝΗΓΑΣ: οσο ανεβαινει
+     το κερδος, ανεβαινει και το ρισκο. +1 -> -1, +2 -> -1,
+     +4 -> -2, +8 -> -4, +16 -> -8, +32 -> -16. Μετα απο λαθος
+     το σερι σβηνει, αρα οι συνεχομενες λαθος παντα -1.           */
   WINS = [1, 2, 4, 8, 16, 32];
-  LOSSES = [1, 1, 2, 4, 8, 16];
 
   COLORS = [
     { name: "Ηλεκτρικ", fill: "#2f6bff", ink: "#ffffff" },
@@ -701,16 +711,19 @@ class Component extends DCLogic {
   }
 
   /* === ΤΟ ΜΠΟΝΟΥΣ ======================================= */
-  stakePlus(i) {
+  /* ΜΠΟΝΟΥΣ X2: οποιος κερδισε την κοντρα αυτης της αποψης
+     κυνηγαει τα διπλα. Το πλην ΔΕΝ διπλασιαζεται.               */
+  isX2(i) {
+    const r = this.S.round;
+    return !!(r && r.played && r.winner === i);
+  }
+  baseStake(i) {
     const st = this.P(i).streak || 0;
     const n = st > 0 ? st + 1 : 1;
     return this.WINS[Math.min(n, this.WINS.length) - 1];
   }
-  stakeMinus(i) {
-    const st = this.P(i).streak || 0;
-    const n = st < 0 ? -st + 1 : 1;
-    return this.LOSSES[Math.min(n, this.LOSSES.length) - 1];
-  }
+  stakePlus(i) { return this.baseStake(i) * (this.isX2(i) ? 2 : 1); }
+  stakeMinus(i) { return Math.max(1, Math.floor(this.baseStake(i) / 2)); }
   startBonus() {
     const S = this.S, n = S.players.length;
     /* σειρα: ξεκινα ο δικαστης που κραταει το κινητο, μετα δεξια */
@@ -752,16 +765,17 @@ class Component extends DCLogic {
         return;
       }
       const ok = pick.guess === truth;
+      const x2 = this.isX2(i);
       let delta;
       if (ok) {
-        p.streak = p.streak > 0 ? p.streak + 1 : 1;
-        delta = this.WINS[Math.min(p.streak, this.WINS.length) - 1];
+        delta = this.stakePlus(i);
+        p.streak = (p.streak > 0 ? p.streak : 0) + 1;
       } else {
-        p.streak = p.streak < 0 ? p.streak - 1 : -1;
-        delta = -this.LOSSES[Math.min(-p.streak, this.LOSSES.length) - 1];
+        delta = -this.stakeMinus(i);
+        p.streak = 0;   /* σβηνει το σερι: η επομενη λαθος παλι -1 */
       }
       p.pts += delta;
-      res.push({ i: i, play: true, ok: ok, delta: delta, guess: pick.guess });
+      res.push({ i: i, play: true, ok: ok, delta: delta, guess: pick.guess, x2: x2 });
     });
     b.res = res;
     this.go("reveal");
@@ -1034,7 +1048,17 @@ class Component extends DCLogic {
         onCon: () => { r.vote[i] = r.vote[i] === "con" ? null : "con"; this.u(); }
       }));
       v.unanimousGo = () => { r.played = false; this.go("offer"); };
-      v.toSelect = () => { r.a = null; r.b = null; this.go("select"); };
+      /* ΜΕ ΤΡΕΙΣ ΠΑΙΧΤΕΣ δεν υπαρχει τιποτα να διαλεξει ο δικαστης:
+         ενας υπερ, ενας κατα. Παμε κατευθειαν στο τραπεζι.        */
+      v.toSelect = () => {
+        if (pro.length === 1 && con.length === 1) {
+          r.a = pro[0]; r.b = con[0];
+          this.buildOrder();
+          S.screen = "contra"; this.runTimer(); this.u();
+          return;
+        }
+        r.a = null; r.b = null; this.go("select");
+      };
 
       /* ---- διαλογη μονομαχων */
       v.proRows = this.sideOf("pro").map((i, k) => ({
@@ -1110,7 +1134,7 @@ class Component extends DCLogic {
       v.winA = () => this.awardDuel(a);
       v.winB = () => this.awardDuel(b2);
       v.offerEyebrow = r.played
-        ? "Ο ποντος πηγε στον " + this.nm(r.winner)
+        ? "Ο ποντος πηγε στον " + this.nm(r.winner) + " — παιζει στα διπλα"
         : "Ομοφωνια — κανενας ποντος";
     }
 
@@ -1119,6 +1143,12 @@ class Component extends DCLogic {
       name: this.nm(i),
       rowStyle: this.LROW(k),
       chip: this.CHIP(i, { pad: "6px 13px", radius: "9px", font: "700 14px 'Anek Greek',sans-serif" }),
+      x2: this.isX2(i) ? "X2" : "",
+      x2Style: this.isX2(i)
+        ? "flex:none;padding:4px 8px;border-radius:7px;background:#e8b60c;color:#2e2100;" +
+          "font:700 10px 'Fira Mono',monospace;letter-spacing:.06em;" +
+          "box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 12px rgba(232,182,12,.55)"
+        : "display:none",
       plus: "+" + this.stakePlus(i),
       minus: "-" + this.stakeMinus(i)
     }));
@@ -1135,11 +1165,13 @@ class Component extends DCLogic {
     v.bPlus = ci != null ? "+" + this.stakePlus(ci) : "";
     v.bMinus = ci != null ? "-" + this.stakeMinus(ci) : "";
     const st = ci != null ? (this.P(ci).streak || 0) : 0;
-    v.bStreakNote = st > 0
-      ? st + " σωστες συνεχομενες. Η επομενη σωστη δινει +" + this.stakePlus(ci) + " — το πασο σβηνει το σερι."
-      : st < 0
-        ? (-st) + " λαθος συνεχομενα. Μια σωστη και ξαναρχιζεις απο το +1."
-        : "Καθαρη σειρα. Η πρωτη σωστη δινει +1.";
+    const x2 = ci != null && this.isX2(ci);
+    v.bX2 = x2;
+    v.bStreakNote = (x2 ? "ΜΠΟΝΟΥΣ X2!!! Κερδισες την κοντρα — τα διπλα. " : "") +
+      (st > 0
+        ? st + " σωστες συνεχομενες. Η επομενη σωστη δινει +" + this.stakePlus(ci) +
+          ", το λαθος -" + this.stakeMinus(ci) + "."
+        : "Καθαρη σειρα. Η πρωτη σωστη δινει +" + this.stakePlus(ci) + ".");
     v.bSkip = () => this.bSkip();
 
     /* ---- μαντεψια */
@@ -1174,6 +1206,12 @@ class Component extends DCLogic {
         name: this.nm(x.i),
         chip: this.CHIP(x.i, { pad: "6px 13px", radius: "9px", font: "700 14px 'Anek Greek',sans-serif" }),
         guess: x.play ? (f ? f.name : "—") : "πασο",
+        x2: x.x2 ? "X2" : "",
+        x2Style: x.x2
+          ? "flex:none;padding:4px 8px;border-radius:7px;background:#e8b60c;color:#2e2100;" +
+            "font:700 10px 'Fira Mono',monospace;letter-spacing:.06em;" +
+            "box-shadow:inset 0 1px 0 rgba(255,255,255,.4)"
+          : "display:none",
         delta: x.play ? (x.delta > 0 ? "+" + x.delta : "" + x.delta) : "0",
         rowStyle: "display:flex;align-items:center;gap:10px;width:100%;padding:11px 12px;border-radius:14px;" +
           this.IN(k, 70) +
