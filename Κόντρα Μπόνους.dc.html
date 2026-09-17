@@ -61,19 +61,15 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 
 <div style="width:100%;max-width:470px;flex:none;height:100%;display:flex;flex-direction:column;background:linear-gradient(#0a1140,#04061e);border-radius:30px;padding:calc(env(safe-area-inset-top) + 9px) 9px calc(env(safe-area-inset-bottom) + 9px);box-shadow:0 40px 80px rgba(0,0,0,.7),inset 0 0 0 1px rgba(130,175,255,.3),inset 0 2px 0 rgba(255,255,255,.14)">
 
-<div style="flex:none;display:flex;align-items:center;gap:9px;padding:0 6px 8px">
-<div style="flex:1;height:6px;border-radius:4px;background:linear-gradient(90deg,#0b1a5e,#2f6bff 45%,#5ce9ff);box-shadow:0 0 16px rgba(60,140,255,.55),inset 0 1px 0 rgba(255,255,255,.25)"></div>
-<span style="flex:none;padding:4px 10px;border-radius:7px;background:linear-gradient(#0d1a52,#060c28);font:700 9px/1.4 'Fira Mono',monospace;color:#5ce9ff;letter-spacing:.14em;box-shadow:0 0 0 1px rgba(92,233,255,.4)">BONUS</span>
-</div>
-
 <div style="position:relative;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:linear-gradient(#0c1650,#050a26);border-radius:26px;padding:16px 14px 18px;display:flex;flex-direction:column;text-align:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px rgba(110,155,255,.22),inset 0 -50px 100px rgba(0,0,0,.5)">
 <div style="position:absolute;inset:0;pointer-events:none;z-index:2;background-image:repeating-linear-gradient(0deg,rgba(140,190,255,.07) 0 1px,rgba(0,0,0,0) 1px 22px),repeating-linear-gradient(90deg,rgba(140,190,255,.07) 0 1px,rgba(0,0,0,0) 1px 22px);animation:gridrun 8s linear infinite"></div>
 <div style="position:absolute;top:-70px;left:-50px;width:230px;height:230px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(closest-side,rgba(47,107,255,.5),rgba(47,107,255,0));animation:drift 11s ease-in-out infinite"></div>
 <div style="position:absolute;bottom:-60px;right:-40px;width:210px;height:210px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(closest-side,rgba(92,233,255,.28),rgba(92,233,255,0));animation:drift 14s ease-in-out infinite reverse"></div>
 <div style="position:absolute;inset:0;pointer-events:none;z-index:3;background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,rgba(0,0,0,0) 1px 4px);opacity:.45"></div>
 
-<sc-if value="{{ showHelp }}" hint-placeholder-val="{{ false }}">
-<button style="position:absolute;left:14px;top:14px;z-index:41;width:26px;height:26px;padding:0;border:0;border-radius:8px;background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;font:700 13px 'Fira Mono',monospace;cursor:pointer;opacity:.85;box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 0 0 1.5px rgba(120,230,255,.45)" style-active="transform:translateY(2px);opacity:1" onClick="{{ goRules }}" aria-label="Οι κανονες">i</button>
+<sc-if value="{{ showHelp }}" hint-placeholder-val="{{ true }}">
+<button style="position:absolute;left:13px;top:13px;z-index:41;padding:7px 11px;border:0;border-radius:9px;background:linear-gradient(180deg,#5ef7ff,#0f9fd6);color:#04243a;font:700 9.5px 'Fira Mono',monospace;letter-spacing:.14em;cursor:pointer;box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 0 0 1.5px rgba(120,230,255,.5),0 6px 14px rgba(20,140,200,.35)" style-active="transform:translateY(2px)" onClick="{{ goRules }}">ΚΑΝΟΝΕΣ</button>
+<button style="position:absolute;right:13px;top:13px;z-index:41;width:28px;height:28px;padding:0;border:0;border-radius:9px;background:rgba(9,18,62,.85);color:#ffd24a;font:700 15px 'Fira Mono',monospace;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 1.5px rgba(255,210,74,.55)" style-active="transform:translateY(2px)" onClick="{{ goDisclaimer }}" aria-label="Διαβασε αυτο">!</button>
 </sc-if>
 
 <sc-if value="{{ atHome }}" hint-placeholder-val="{{ true }}">
@@ -90,9 +86,9 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 </div>
 </div>
 
-<div style="flex:none;position:relative;height:152px;margin:10px 0 2px;display:flex;align-items:flex-end;justify-content:center">
-<div style="position:absolute;bottom:4px;width:200px;height:116px;border-radius:50%;background:radial-gradient(closest-side,rgba(92,233,255,.4),rgba(92,233,255,0))"></div>
-<img src="img/km-hero.png" alt="Ο κοντρα μαν" style="position:relative;height:152px;width:auto;filter:drop-shadow(0 10px 22px rgba(0,0,0,.6)) drop-shadow(0 0 16px rgba(70,150,255,.5));animation:floaty 4.6s ease-in-out infinite">
+<div style="flex:none;position:relative;height:196px;margin:12px 0 2px;display:flex;align-items:flex-end;justify-content:center">
+<div style="position:absolute;bottom:10px;width:216px;height:130px;border-radius:50%;background:radial-gradient(closest-side,rgba(92,233,255,.42),rgba(92,233,255,0))"></div>
+<img src="img/km-bonus-hero.png" alt="Ο κοντρα μαν" style="position:relative;height:196px;width:auto;filter:drop-shadow(0 12px 24px rgba(0,0,0,.65)) drop-shadow(0 0 18px rgba(70,150,255,.45));animation:floaty 4.6s ease-in-out infinite">
 </div>
 
 <p style="margin:4px 0 4px;font:400 15px/1.55 'Anek Greek',sans-serif;color:#a8c0f0;text-wrap:pretty;animation:rise .5s ease-out .06s both">Τεσσερις φακελοι. Σαραντα αποψεις.<br><b style="font-weight:700;color:#dbe9ff">Καμια δεν ειναι δικη σας.</b></p>
@@ -111,10 +107,7 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 <span style="position:absolute;right:10px;bottom:10px;width:7px;height:7px;border-right:2px solid rgba(160,240,255,.85);border-bottom:2px solid rgba(160,240,255,.85)"></span>
 <span style="position:relative">ΑΝΟΙΞΕ ΤΟΥΣ ΦΑΚΕΛΟΥΣ</span>
 </button>
-<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:13px">
-<a href="kontra-grigora.html" style="font:500 13.5px 'Anek Greek',sans-serif;color:rgba(190,212,255,.62)">&larr; Κοντρα στα Γρηγορα</a>
-<button style="padding:8px 13px;border:0;border-radius:9px;background:rgba(104,140,255,.18);color:#bcd4ff;font:700 11px 'Fira Mono',monospace;letter-spacing:.1em;cursor:pointer;box-shadow:0 0 0 1.5px rgba(120,190,255,.4)" style-active="transform:translateY(2px)" onClick="{{ goRules }}">ΚΑΝΟΝΕΣ</button>
-</div>
+<a href="kontra-grigora.html" style="display:block;margin-top:13px;padding:9px;text-align:center;font:500 13.5px 'Anek Greek',sans-serif;color:rgba(190,212,255,.62)">&larr; Κοντρα στα Γρηγορα</a>
 </div>
 </sc-if>
 
@@ -143,6 +136,21 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 </div>
 <div style="flex:1;min-height:16px"></div>
 <button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;padding:16px;border:0;border-radius:14px;cursor:pointer;background:linear-gradient(180deg,rgba(104,140,255,.26),rgba(18,34,96,.44));color:#cfe0ff;font:700 19px 'Anek Greek',sans-serif;box-shadow:inset 0 2px 0 rgba(255,255,255,.2),0 0 0 1.5px rgba(120,160,255,.35)" style-active="transform:translateY(3px)" onClick="{{ goBack }}">Πισω</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ atDisclaimer }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .35s ease-out both">
+<p style="flex:none;margin:34px 0 10px;font:600 10px/1.4 'Fira Mono',monospace;letter-spacing:.24em;color:#ffd24a;text-transform:uppercase">Μικρη ομολογια</p>
+<div style="flex:none;margin:0 auto 6px;display:flex;justify-content:center">
+<img src="img/km-bonus-think.png" alt="" style="height:150px;width:auto;filter:drop-shadow(0 10px 20px rgba(0,0,0,.6))">
+</div>
+<div style="padding:18px 16px;border-radius:18px;background:linear-gradient(#10225f,#070d33);box-shadow:inset 0 2px 0 rgba(255,255,255,.14),inset 0 0 0 1.5px rgba(255,210,74,.3),0 14px 30px rgba(0,0,0,.45);text-align:left">
+<p style="margin:0;font:400 14.5px/1.65 'Anek Greek',sans-serif;color:#dce8ff;text-wrap:pretty">Οι απόψεις που θα δείτε σε αυτό το παιχνίδι έχουν πειραχθεί λίγο, δεν θα σας πω ψέματα. Είναι πολύ δύσκολο να βρεις απόψεις μίας με δύο προτάσεων.</p>
+<p style="margin:14px 0 0;font:400 14.5px/1.65 'Anek Greek',sans-serif;color:#dce8ff;text-wrap:pretty">Πολλές απόψεις επίσης τις έχω μαζέψει με τη βοήθεια του AI. Οπότε σε περίπτωση που βρείτε μια άποψη που δεν ανήκει στο όνομα που έχω βάλει, σας παρακαλώ να με ενημερώσετε για να την αλλάξω άμεσα.</p>
+</div>
+<div style="flex:1;min-height:16px"></div>
+<button style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:14px;padding:16px;border:0;border-radius:14px;cursor:pointer;background:linear-gradient(180deg,rgba(104,140,255,.26),rgba(18,34,96,.44));color:#cfe0ff;font:700 19px 'Anek Greek',sans-serif;box-shadow:inset 0 2px 0 rgba(255,255,255,.2),0 0 0 1.5px rgba(120,160,255,.35)" style-active="transform:translateY(3px)" onClick="{{ goBack }}">Το διαβασα</button>
 </div>
 </sc-if>
 
@@ -207,7 +215,7 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;justify-content:center;animation:rise .35s ease-out both">
 <p style="flex:none;margin:0 0 12px;font:600 10px/1.4 'Fira Mono',monospace;letter-spacing:.24em;color:#5ce9ff;text-transform:uppercase">Το τραπεζι δεν ανοιγει</p>
 <div style="flex:none;margin:0 auto 14px;width:210px;height:126px;display:flex;align-items:flex-end;justify-content:center">
-<img src="img/km-shrug.png" alt="" style="max-width:100%;max-height:100%;filter:drop-shadow(0 8px 18px rgba(0,0,0,.6));animation:wobble 3.4s ease-in-out infinite">
+<img src="img/km-bonus-think.png" alt="" style="max-width:100%;max-height:100%;filter:drop-shadow(0 8px 18px rgba(0,0,0,.6));animation:wobble 3.4s ease-in-out infinite">
 </div>
 <h2 style="flex:none;margin:0 0 10px;font:700 30px/1.12 'Anek Greek',sans-serif;color:#f2f7ff">Δεν φτανετε</h2>
 <p style="flex:none;margin:0 0 22px;font:400 15px/1.55 'Anek Greek',sans-serif;color:#a8c0f0;text-wrap:pretty">Ειστε <b style="color:#fff">{{ introCount }}</b>. Θελει τουλαχιστον <b style="color:#fff">3</b>: δυο για την κοντρα και ενας για δικαστης.</p>
@@ -383,7 +391,10 @@ button{font-family:"Anek Greek",system-ui,sans-serif}
 <div style="position:relative;z-index:6;flex:none;min-height:100%;display:flex;flex-direction:column;animation:rise .35s ease-out both">
 <p style="margin:0 0 8px;padding-left:30px;font:600 10px/1.4 'Fira Mono',monospace;letter-spacing:.24em;color:#5ce9ff;text-transform:uppercase">{{ offerEyebrow }}</p>
 <h2 style="margin:0 0 6px;font:800 38px/1 'Anek Greek',sans-serif;color:#fff;text-shadow:0 0 26px rgba(120,200,255,.85)">ΜΠΟΝΟΥΣ<span style="color:#5ce9ff">?</span></h2>
-<p style="margin:0 0 16px;font:400 14.5px/1.55 'Anek Greek',sans-serif;color:#a8c0f0;text-wrap:pretty">Ποιος απο τους τεσσερις το ειπε; Περναει το κινητο χερι-χερι: ο καθενας διαλεγει κρυφα φακελο η παταει πασο.</p>
+<p style="margin:0 0 10px;font:400 14.5px/1.55 'Anek Greek',sans-serif;color:#a8c0f0;text-wrap:pretty">Ποιος απο τους τεσσερις το ειπε; Περναει το κινητο χερι-χερι: ο καθενας διαλεγει κρυφα φακελο η παταει πασο.</p>
+<div style="flex:none;margin:0 auto 8px;display:flex;justify-content:center">
+<img src="img/km-bonus-think.png" alt="" style="height:118px;width:auto;filter:drop-shadow(0 10px 20px rgba(0,0,0,.55));animation:floaty 4.2s ease-in-out infinite">
+</div>
 <div style="display:flex;flex-direction:column;gap:8px">
 <sc-for list="{{ stakeRows }}" as="s" hint-placeholder-count="4">
 <div style="{{ s.rowStyle }}">
@@ -558,7 +569,11 @@ class Component extends DCLogic {
   nm(i) { return (this.S.players[i] || {}).name || ""; }
   all() { return this.S.players.map((p, i) => i); }
   mmss(t) { return Math.floor(t / 60) + ":" + String(Math.floor(t % 60)).padStart(2, "0"); }
-  go(s) { this.stopTimer(); if (s === "rules") this.S.back = this.S.screen; this.S.screen = s; this.u(); }
+  go(s) {
+    this.stopTimer();
+    if (s === "rules" || s === "disclaimer") this.S.back = this.S.screen;
+    this.S.screen = s; this.u();
+  }
   stopTimer() { if (this.iv) { clearInterval(this.iv); this.iv = null; } }
   runTimer() { this.stopTimer(); this.iv = setInterval(() => this.tick(), 1000); }
 
@@ -847,8 +862,10 @@ class Component extends DCLogic {
     v.atOffer = sc === "offer"; v.atGuess = sc === "guess";
     v.atReveal = sc === "reveal"; v.atBoard = sc === "board";
     v.atWinner = sc === "winner";
-    v.showHelp = sc !== "home" && sc !== "rules";
+    v.atDisclaimer = sc === "disclaimer";
+    v.showHelp = sc !== "rules" && sc !== "disclaimer";
     v.goRules = () => this.go("rules");
+    v.goDisclaimer = () => this.go("disclaimer");
     v.goBack = () => this.go(S.back || "home");
     v.target = this.tgt();
     v.opinion = S.op ? S.op.t : "";
