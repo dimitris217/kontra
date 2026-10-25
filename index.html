@@ -4,9 +4,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="manifest" href="manifest.json">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Comfortaa — τοπικα, παιζει και χωρις ιντερνετ */
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/comfortaa-400-0.woff2) format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/comfortaa-400-1.woff2) format("woff2");unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/comfortaa-400-2.woff2) format("woff2");unicode-range:U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/comfortaa-400-3.woff2) format("woff2");unicode-range:U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/comfortaa-400-4.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/comfortaa-400-5.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/comfortaa-700-6.woff2) format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/comfortaa-700-7.woff2) format("woff2");unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/comfortaa-700-8.woff2) format("woff2");unicode-range:U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/comfortaa-700-9.woff2) format("woff2");unicode-range:U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/comfortaa-700-10.woff2) format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Comfortaa";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/comfortaa-700-11.woff2) format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+</style>
 <script src="ops.js"></script>
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
@@ -52,8 +64,8 @@
 /* === [1] ΧΡΩΜΑΤΑ & ΓΡΑΜΜΑΤΟΣΕΙΡΕΣ ============================== */
 :root{
   --ink:#2E1C0E;        /* φόντο */
-  --surface:#732803;    /* κάρτες, πεδία = το μέσα των σχεδίων */
-  --surface-2:#732803;  /* κουμπιά κειμένου */
+  --surface:#3F4A52;    /* κάρτες, πεδία = το μέσα των σχεδίων */
+  --surface-2:#3F4A52;  /* κουμπιά κειμένου */
   --line:#000000;       /* περιγράμματα, όπως στις ζωγραφιές */
   --bone:#FFF3E4;       /* κείμενο */
   --muted:#C9A98F;      /* δευτερεύον κείμενο */
@@ -126,9 +138,8 @@
    κρατάει πάντα την ίδια απόσταση από το περίγραμμα, ό,τι
    μέγεθος οθόνης κι αν έχει. ΑΠΟΣΤΑΣΗ = τα px του padding.   */
 .field{margin:12px 0 8px;
-  background:url(img/textbox_name.png) no-repeat center/100% 100%;
   padding:30px 44px;min-height:104px;display:flex;align-items:center}
-.field.op{background-image:url(img/textbox_opinion.png);
+.field.op{
   padding:56px 60px;min-height:240px;align-items:flex-start}
 .field input,.field textarea{width:100%;background:none;border:none;outline:none;
   color:#161616;font-family:var(--display);font-weight:400;text-shadow:none;
@@ -350,7 +361,7 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 /* το λογοτυπο στις οθονες καλωσορισματος — μικρο, πανω πανω */
 .art.logo{width:52%;margin:0 auto 2px}
 
-/* κοκκινη προειδοποιηση στην εδρα: ποσες αποψεις εμειναν */
+/* κοκκινη προειδοποιηση στην εδρα: ποσες υποθεσεις εμειναν */
 .warn{font-family:var(--display);font-weight:700;font-size:19px;line-height:1.3;
   color:var(--blood);margin:14px 0 0;
   text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000}
@@ -372,7 +383,7 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 .swatches{display:flex;flex-wrap:wrap;gap:11px;justify-content:center}
 .pcell{padding:0;border:none;background:none}
 .pcell:disabled{cursor:default}
-/* λιστα επιλογης αποψεων: ταπ = τσεκ */
+/* λιστα επιλογης υποθεσεων: ταπ = τσεκ */
 .picks{display:flex;flex-direction:column;gap:9px;margin-top:6px}
 .pick{display:flex;align-items:flex-start;gap:11px;width:100%;padding:13px 14px;
   border:3px solid #000;border-radius:16px;background:rgba(0,0,0,.32);
@@ -385,7 +396,7 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 .pick.on .tick{background:var(--brass)}
 .pick:active{transform:scale(.98)}
 
-/* το Υ.Σ κατω απο το πλαισιο της αποψης — μικρα, αριστερα */
+/* το Υ.Σ κατω απο το πλαισιο της υποθεσης — μικρα, αριστερα */
 .ps{font-size:12.5px;line-height:1.4;color:var(--muted);text-align:left;
   margin:8px 4px 0;font-weight:400}
 
@@ -428,6 +439,63 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 .rules details.tucked summary::-webkit-details-marker{display:none}
 .rules details.tucked summary::after{content:" \2026"}
 
+/* === ΡΥΘΜΙΣΕΙΣ ============================================== */
+.setbtn{display:flex;align-items:center;justify-content:center;gap:9px;margin:18px auto 0;
+  padding:10px 20px;border:3px solid #000;border-radius:14px;background:rgba(0,0,0,.36);
+  color:var(--bone);font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;box-shadow:0 4px 0 rgba(0,0,0,.5)}
+.setbtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.5)}
+.setsum{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);
+  text-align:center;margin:9px 0 0}
+.srow{display:flex;gap:8px;margin:6px 0 4px}
+.srow.col{flex-direction:column}
+.sopt{flex:1;padding:11px 8px;border:3px solid #000;border-radius:13px;background:rgba(0,0,0,.4);
+  color:var(--muted);font-family:var(--display);font-size:17px;font-weight:700;transition:transform .1s}
+.sopt.on{background:var(--brass);color:#3a1c00;box-shadow:inset 0 2px 0 rgba(255,255,255,.4),0 3px 0 rgba(0,0,0,.5)}
+.sopt:active{transform:scale(.96)}
+.stip{margin:8px 0 0;padding:9px 12px;border:3px dashed rgba(255,201,14,.6);border-radius:12px;
+  color:var(--bone);font-size:13.5px;line-height:1.5}
+.sgame{display:block;padding:12px 14px;border:3px solid #000;border-radius:13px;
+  background:rgba(0,0,0,.42);color:var(--bone);font-family:var(--display);font-size:17px;
+  font-weight:700;text-decoration:none}
+.sgame:active{transform:scale(.98)}
+
+/* === ΤΟ ΔΙΚΑΣΤΗΡΙΟ ========================================== */
+.dark .hush{font-family:var(--display);font-weight:700;font-size:33px;line-height:1.1;
+  color:var(--brass);margin:0 0 6px;
+  text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000}
+.dark .hushsub{font-family:var(--mono);font-size:12px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 38px}
+.cue{font-size:16px;line-height:1.5;color:var(--bone);margin:16px 2px 0;text-align:center}
+.cue .neg{color:#ff6b5e}
+.cue .pos{color:#6be08c}
+.remind{margin:14px 0 0;padding:11px 13px;border:3px dashed rgba(255,201,14,.5);border-radius:14px;
+  background:rgba(0,0,0,.3);font-size:13px;line-height:1.55;color:var(--muted);text-align:left}
+.remind b{color:var(--brass)}
+.ibtn.small{width:56%;margin:4px auto 0}
+/* μεσαιο: οθονες του δικαστηριου, για να χωρανε ολα χωρις σκρολ */
+.ibtn.mid{width:66%;margin:6px auto 0}
+.btn.tmpl.mid{width:72%;margin:6px auto 0;min-height:72px;padding:16px 40px}
+.roles{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0 4px}
+.role{padding:5px;border:3px dashed transparent;border-radius:24px;transition:transform .12s}
+.role.on{border-color:var(--brass);background:rgba(255,201,14,.16);transform:scale(1.07)}
+.role:active{transform:scale(.95)}
+.vsrow{display:flex;align-items:center;justify-content:center;gap:10px;margin:18px 0 0}
+.vslbl,.slbl{font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted)}
+.ask{font-size:19px;text-align:center;margin:16px 0 4px}
+.quip{text-align:center;font-size:19px;color:var(--brass);margin:2px 0 16px}
+.bench{display:flex;flex-direction:column;gap:16px;align-items:center;padding:18px 10px;
+  border:4px solid #000;border-radius:20px;background:rgba(0,0,0,.3)}
+.seat{display:flex;flex-direction:column;align-items:center;gap:7px}
+.duo{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.vs{font-family:var(--display);font-weight:700;font-size:26px;color:var(--blood);
+  text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,2px 2px 0 #000}
+.endlink{display:block;margin:12px auto 0;padding:9px 18px;border:3px solid #000;border-radius:12px;
+  background:rgba(0,0,0,.34);color:var(--muted);font-family:var(--mono);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase}
+.endlink:active{transform:translateY(2px)}
+
 /* η πορτα για την Κοντρα στα Γρηγορα — σκετη ζωγραφια */
 .kdoor{width:23%;margin:6px auto 0;opacity:.62;transition:opacity .2s,transform .1s}
 .kdoor:active{opacity:1;transform:scale(1.08)}
@@ -443,6 +511,168 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 .how .imgbtn{flex:1;min-height:76px}
 .sheet .imgbtn{width:100%;min-height:58px;font-size:16px}
 .sheet .row .imgbtn{flex:1}
+
+/* === ΚΟΥΜΠΙΑ ΠΟΥ ΚΑΘΟΝΤΑΙ ΩΡΑΙΑ ==============================
+   Οι ζωγραφιες-κουμπια δεν απλωνονται πια απο ακρη σε ακρη: ολες
+   εχουν το ιδιο υψος και πιανουν μονο οσο ειναι η ζωγραφια τους.
+   ΥΨΟΣ: αλλαξε τα px εδω και αλλαζουν παντου.                    */
+.ibtn{display:flex;align-items:center;justify-content:center;
+  width:-webkit-fit-content;width:fit-content;max-width:100%;margin:10px auto 0}
+.ibtn img{display:block;height:74px;width:auto;max-width:100%}
+.ibtn img.art{height:auto;width:100%}
+.ibtn.logo-btn{width:100%}
+.ibtn.big img{height:96px}
+.ibtn.mid{width:-webkit-fit-content;width:fit-content;margin:8px auto 0}
+.ibtn.mid img{height:64px}
+.ibtn.small{width:-webkit-fit-content;width:fit-content;margin:6px auto 0}
+.ibtn.small img{height:48px}
+.hdr .ibtn{width:auto;margin:0}
+.hdr .ibtn img{height:52px}
+.hdr .ibtn.endbtn img{height:44px}
+.hdr .hdr-sp{width:52px;flex:none}
+.dark .ibtn{margin:0 auto}
+.duo-btns{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+.duo-btns .ibtn{margin:0}
+.btn.tmpl{width:auto;min-width:200px;max-width:290px;margin-left:auto;margin-right:auto;
+  min-height:68px;padding:16px 44px;font-size:20px}
+.btn.tmpl.mid{width:auto;min-height:64px;padding:15px 40px}
+
+/* === ΤΑ ΠΛΑΙΣΙΑ ΚΕΙΜΕΝΟΥ =====================================
+   Λεπτο μαυρο περιγραμμα, στρογγυλες ακρες, ασπρο μεσα.          */
+.field{background:#fff;border:2.5px solid #000;border-radius:16px;
+  padding:13px 16px;min-height:0;margin:12px 0 8px;
+  box-shadow:0 4px 0 rgba(0,0,0,.42);transition:box-shadow .15s}
+.field.op{padding:14px 16px;min-height:0;align-items:flex-start}
+.field textarea{min-height:104px}
+.field:focus-within{box-shadow:0 0 0 3px var(--brass),0 4px 0 rgba(0,0,0,.42)}
+/* ΤΑ ΓΡΑΜΜΑΤΑ ΟΛΟΚΛΗΡΑ: το πεδιο κοβει οτι βγαινει απο το δικο του
+   κουτι, οποτε του δινουμε χωρο γυρω γυρω και ψηλη γραμμη.          */
+.field{padding:8px 12px;align-items:center}
+.field input,.field textarea{box-sizing:border-box;padding:9px 8px;line-height:1.65;
+  overflow:visible;text-overflow:clip}
+.field input{height:auto;min-height:54px}
+.field textarea{min-height:110px;overflow-y:hidden}
+.sset,.sset h3,.sset p,.turf .rules.sset h3{text-align:center}
+.sset .srow{justify-content:center}
+.sset .stip,.sset .sgame{text-align:center}
+.rcard.k.on{border-color:#ff5a6e;background:rgba(200,20,50,.3)}
+.rcard.k.on .rmark{background:#e0263f;color:#fff}
+.rcard.v.on{border-color:#4f9dff;background:rgba(30,100,230,.3)}
+.rcard.v.on .rmark{background:#2f7bff;color:#fff}
+.btn.tmpl.paused{background:var(--brass);color:#3a1c00;text-shadow:none}
+
+/* === ΖΩΕΣ & ΝΙΚΕΣ ============================================ */
+.hp{display:inline-flex;gap:2px;align-items:center}
+.slot{position:relative;display:block;width:25px;height:21px;flex:none}
+.slot img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain}
+.hp.big .slot{width:42px;height:35px}
+.slot img.fly{animation:hfly .9s ease-in .35s both}
+.slot img.land{animation:wland .55s cubic-bezier(.2,1.6,.4,1) .35s both}
+@keyframes hfly{0%{transform:none;opacity:1}35%{transform:scale(1.4) rotate(-10deg);opacity:1}
+  100%{transform:translateY(-30px) scale(.3) rotate(25deg);opacity:0}}
+@keyframes wland{0%{transform:scale(2.8) rotate(-20deg);opacity:0}100%{transform:none;opacity:1}}
+.howpts{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  margin:12px 0 0;font-size:13px;font-weight:700;color:var(--bone)}
+.hpline{display:flex;justify-content:center;margin-top:14px}
+
+/* το τραπεζι: ολοι, με ζωες και νικες */
+.tbl{display:flex;flex-direction:column;gap:7px;margin-top:16px}
+.tbl .slbl{text-align:center;margin:0 0 2px}
+.trow{display:flex;align-items:center;gap:8px;padding:8px 10px;border:3px solid #000;
+  border-radius:14px;background:rgba(0,0,0,.3);animation:rowin .3s ease-out both}
+.trow:nth-child(3){animation-delay:.04s}.trow:nth-child(4){animation-delay:.08s}
+.trow:nth-child(5){animation-delay:.12s}.trow:nth-child(6){animation-delay:.16s}
+.trow .nm{flex:1;min-width:0;text-align:left}
+.trow .stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.trow.out .nm{opacity:.55}
+.trow .gone{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.trow .gone img{height:24px;width:auto}
+@keyframes rowin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.peek{flex:none;padding:6px 10px;border:2.5px solid #000;border-radius:10px;background:#fff;
+  color:#161616;font-size:12px;font-weight:700;text-shadow:none;box-shadow:0 3px 0 rgba(0,0,0,.45)}
+.peek:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.45)}
+
+/* η ετυμηγορια */
+.vgrid{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.vpick{flex:1 1 140px;max-width:230px;display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:14px 10px;border:3px solid #000;border-radius:18px;background:rgba(0,0,0,.3);
+  transition:transform .14s,background .14s}
+.vpick.on{border-color:var(--brass);background:rgba(255,201,14,.16);transform:scale(1.04)}
+.vpick:active{transform:scale(.97)}
+.vhp{display:flex;flex-direction:column;align-items:center;gap:4px}
+
+/* ο ποντος */
+.score{display:flex;flex-direction:column;gap:16px;margin:22px 0 0}
+.srow2{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.delta{font-size:28px;font-weight:700;text-shadow:var(--stroke)}
+.delta.up{color:var(--brass)}
+.delta.down{color:#ff6b5e}
+
+/* η υποθεση που καηκε */
+.card.burn{font-size:16px;text-decoration:line-through;text-decoration-thickness:2px;
+  animation:char 1s ease-out .25s both}
+@keyframes char{to{opacity:.5;transform:rotate(-1.5deg) scale(.97)}}
+.burnlbl{margin:16px 0 6px}
+
+/* η εξοδος */
+.bigicon{display:block;width:44%;max-width:170px;height:auto;margin:6px auto 4px;
+  animation:slam .5s cubic-bezier(.2,1.5,.4,1) both}
+.votebtn{display:flex;flex-direction:column;align-items:center;gap:2px;margin:12px auto 0;
+  padding:10px 20px;border:3px solid #000;border-radius:14px;background:rgba(255,201,14,.14);
+  color:var(--brass);font-weight:700;font-size:16px;box-shadow:0 4px 0 rgba(0,0,0,.5)}
+.votebtn small{font-size:11px;color:var(--muted);font-weight:400}
+.votebtn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.5)}
+
+/* κρυφοι ρολοι */
+.rcards{display:flex;gap:10px;margin-top:6px}
+.rcard{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;padding:14px 10px;
+  border:3px solid #000;border-radius:16px;background:rgba(0,0,0,.32);color:var(--muted);
+  transition:transform .12s,background .12s}
+.rcard .rmark{font-size:10px;letter-spacing:.18em;padding:3px 9px;border:2px solid #000;
+  border-radius:8px;background:rgba(255,255,255,.12)}
+.rcard .rname{font-size:18px;font-weight:700;color:var(--bone)}
+.rcard .rnote{font-size:12px}
+.rcard.on{border-color:var(--brass);background:rgba(255,201,14,.15)}
+.rcard.on .rmark{background:var(--brass);color:#3a1c00}
+.rcard:active{transform:scale(.97)}
+.rolecard{position:relative;margin:16px 0 0;padding:28px 16px 20px;border:4px solid #000;
+  border-radius:20px;display:flex;flex-direction:column;align-items:center;gap:10px;
+  box-shadow:0 6px 0 rgba(0,0,0,.45);animation:slam .45s cubic-bezier(.2,1.5,.4,1) both}
+.rolecard h2{margin:0;font-size:30px}
+.rolecard p{margin:0;font-size:15px}
+.rolecard .rc-tag{position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:3px 12px;
+  background:var(--brass);color:#3a1c00;border:3px solid #000;border-radius:9px;font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;font-weight:700;white-space:nowrap;text-shadow:none}
+.rolecard.k{background:linear-gradient(#b3122e,#4f0612)}
+.rolecard.k .rc-tag{background:#e0263f;color:#fff}
+.rolecard.v{background:linear-gradient(#1f5fd6,#0a2258)}
+.rolecard.v .rc-tag{background:#2f7bff;color:#fff}
+.rolecard.n{background:rgba(0,0,0,.35)}
+.pickhead{display:flex;align-items:center;gap:10px;margin:0 0 12px;flex-wrap:wrap}
+
+/* το τελος */
+.flowers{margin:16px 0 0;padding:12px 14px;border:3px dashed rgba(255,201,14,.7);border-radius:16px;
+  background:rgba(255,201,14,.1);font-size:16px;line-height:1.5;color:var(--bone)}
+.flowers b{color:var(--brass)}
+.reveal{margin:16px 0 0;display:flex;flex-direction:column;gap:8px;align-items:center}
+.reveal .rv{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;font-size:14px}
+@media (prefers-reduced-motion:reduce){
+  .slot img.fly,.slot img.land,.trow,.card.burn,.bigicon,.rolecard{animation:none}
+}
+/* ο φακελος: στρογγυλο κουμπι πανω δεξια */
+.fbtn{width:52px;height:52px;flex:none;padding:0;border-radius:50%;border:4px solid #000;background:#fff;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 rgba(0,0,0,.5);transition:transform .1s,box-shadow .1s}
+.fbtn:active{transform:translateY(4px);box-shadow:0 0 0 rgba(0,0,0,.5)}
+.fbtn svg{width:28px;height:28px;display:block;pointer-events:none}
+.frow{display:flex;align-items:center;gap:10px;padding:11px 12px;border:3px solid #000;border-radius:14px;
+  background:rgba(0,0,0,.32);text-align:left;font-size:15px;line-height:1.4;color:var(--bone)}
+.frow .tx{flex:1;min-width:0;overflow-wrap:anywhere}
+.penbox{display:flex;flex-direction:column;align-items:center;gap:6px;margin:16px auto 0;padding:12px 18px;
+  border:3px solid #000;border-radius:14px;background:var(--brass);color:#2E1C0E;max-width:300px;
+  box-shadow:0 5px 0 rgba(0,0,0,.45);animation:slam .45s cubic-bezier(.2,1.5,.4,1) .2s both}
+.penbox .slbl{color:#5a3a00}
+.penbox b{font-size:20px;text-shadow:none}
+
 </style>
 
 <div id="app"></div>
@@ -453,7 +683,7 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 /* === [8] ΡΥΘΜΙΣΕΙΣ ΠΑΙΧΝΙΔΙΟΥ ==============================
    Άλλαξε αυτά για ισορροπία και όρια, χωρίς να ψάξεις αλλού.  */
 const CFG = {
-  MIN_PLAYERS: 3,
+  MIN_PLAYERS: 4,                 // κατω απο 4 δεν στηνεται δικαστηριο
   MAX_PLAYERS: 15,
   DEFAULT_PLAYERS: 5,
   DEFAULT_PENALTY: "ποινη",
@@ -464,14 +694,20 @@ const CFG = {
   UNLOCK_3V3: 7,                   // από πόσους παίκτες ξεκλειδώνει το 3v3
   MAX_NAME: 14,
   MAX_OPINION: 240,
-  AGAIN_EACH: 1,                   // ποσες αποψεις γραφει ο καθενας στο νεο παιχνιδι
-  MIN_ROUNDS_TO_END: 3,            // απο ποσους γυρους και μετα ο δικαστης μπορει να ληξει
-  LOW_DECK: 3,                     // απο ποσες αποψεις και κατω βγαινει η κοκκινη προειδοποιηση
+  AGAIN_EACH: 1,                   // ποσες υποθεσεις γραφει ο καθενας στο νεο παιχνιδι
+  MIN_ROUNDS_TO_END: 3,
+  LIVES: 3,                        // ζωες καθε παιχτη (ποντοι & ζωες)
+  WINS: 3,                         // νικες για να κερδισεις
+  PICK_OFFER: 10,                  // ετοιμες: ποσες βλεπει ο καθενας
+  PICK_KEEP: 6,                    // ετοιμες: ποσες κραταει
+  AUTO_FILL: 6,                    // ποσες μπαινουν μονες τους οταν αδειασει η δικογραφια            // απο ποσους γυρους και μετα ο δικαστης μπορει να ληξει
+  LOW_DECK: 3,                     // απο ποσες υποθεσεις και κατω βγαινει η κοκκινη προειδοποιηση
   STORE_KEY: "kontra.praktika.v1",
   SEEN_KEY: "kontra.seen.v1",      // αν εχει ξαναμπει ο χρηστης (καλωσορισμα μια φορα)
-  FOLDER_KEY: "kontra.folder.v1",     // Ο ΦΑΚΕΛΟΣ: οι αποψεις που κρατησε το τραπεζι
+  SETTINGS_KEY: "kontra.settings.klassiki.v2", // οι ρυθμισεις της κλασσικης
+  FOLDER_KEY: "kontra.folder.v1",     // Ο ΦΑΚΕΛΟΣ: οι υποθεσεις που κρατησε το τραπεζι
   DEVOPS_KEY: "kontra.dimiourgos.v1", // ο φακελος του δημιουργου
-  READY_DECK: 16                      // ποσες ετοιμες αποψεις μπαινουν στη δικογραφια
+  READY_DECK: 16                      // ποσες ετοιμες υποθεσεις μπαινουν στη δικογραφια
 };
 
 /* ΜΑΡΚΕΣ: το ιδιο χρωματολογιο με την Κοντρα στα Γρηγορα.
@@ -495,7 +731,7 @@ const PATS = [
   { name:"Καρο",  css:f => "repeating-conic-gradient(rgba(255,255,255,.16) 0 25%,rgba(255,255,255,0) 0 50%) 0 0/26px 26px," + f },
   { name:"Ριγες", css:f => "repeating-linear-gradient(135deg,rgba(255,255,255,.18) 0 13px,rgba(255,255,255,0) 13px 30px)," + f }
 ];
-/* παραδειγματα για το πλαισιο της αποψης — αλλαζει καθε φορα */
+/* παραδειγματα για το πλαισιο της υποθεσης — αλλαζει καθε φορα */
 const OP_EG = [
   "ο σκυλος είναι καλυτερος απτην γατα",
   "η πιτσα με ανανα ειναι εγκλημα",
@@ -544,6 +780,21 @@ const Seen = {
   set(){ try { localStorage.setItem(CFG.SEEN_KEY, "1"); } catch(e){} }
 };
 
+/* ΟΙ ΡΥΘΜΙΣΕΙΣ: ΟΠΑ, γυροι λογου, χρονος, τυχαιοι ρολοι.
+   Μενουν στη συσκευη για την επομενη φορα.                    */
+const Settings = {
+  def: { mode: "dipl", opa: true, rounds: 1, secs: 120 },
+  load(){
+    let v;
+    try { v = Object.assign({}, this.def, JSON.parse(localStorage.getItem(CFG.SETTINGS_KEY)) || {}); }
+    catch(e){ v = Object.assign({}, this.def); }
+    if (v.mode !== "dipl" && v.mode !== "polites") v.mode = "dipl";
+    if (CFG.TIME_OPTIONS.indexOf(v.secs) < 0) v.secs = CFG.DEFAULT_TIME;
+    return v;
+  },
+  save(v){ try { localStorage.setItem(CFG.SETTINGS_KEY, JSON.stringify(v)); } catch(e){} }
+};
+
 /* === [10] ΚΑΤΑΣΤΑΣΗ ΠΑΙΧΝΙΔΙΟΥ ============================= */
 const S = {
   screen: Seen.get() ? "count" : "welcome",
@@ -557,23 +808,24 @@ const S = {
   palette: false,    // ανοιχτη η παλετα
   nameDraft: "",     // ο,τι εχει γραφτει, για να μη χανεται σε render
   opDraft: "",
-  opPh: "",          // το τυχαιο παραδειγμα του πλαισιου αποψης
+  opPh: "",          // το τυχαιο παραδειγμα του πλαισιου υποθεσης
   scoring: CFG.DEFAULT_SCORING,
   penalty: CFG.DEFAULT_PENALTY,
-  sendPick: [],      // ποιες αποψεις τσεκαρε το τραπεζι για τον φακελο
-  topic: "ours",     // "ours" = δικες σας αποψεις, αλλιως ετοιμος φακελος
-  folder: [],        // Ο ΦΑΚΕΛΟΣ — οσες αποψεις κρατησατε απο παλιες δικες
+  sendPick: [],      // ποιες υποθεσεις τσεκαρε το τραπεζι για τον φακελο
+  topic: "ours",     // "ours" = δικες σας υποθεσεις, αλλιως ετοιμος φακελος
+  folder: [],        // Ο ΦΑΚΕΛΟΣ — οσες υποθεσεις κρατησατε απο παλιες δικες
   showWho: false,    // φανερωθηκε ποιος το ειπε σε αυτον τον γυρο
   contraSecs: CFG.DEFAULT_TIME,
+  set: Settings.load(),   // ΟΠΑ, γυροι λογου, χρονος, τυχαιοι ρολοι
 
   opinions: [],      // [{id, text}] — ΧΩΡΙΣ σύνδεση με παίκτη
   nextId: 1,
-  peakOps: 0,        // ποσες αποψεις ειχε το πολυ ο φακελος (για την προειδοποιηση)
+  peakOps: 0,        // ποσες υποθεσεις ειχε το πολυ ο φακελος (για την προειδοποιηση)
   mine: 0,           // πόσες έγραψε ο τωρινός παίκτης στη σύσταση
 
   judge: -1,
   round: null,
-  phase: "setup",    // "setup" = συσταση (οι αρχικες αποψεις), "play" = παιχνιδι
+  phase: "setup",    // "setup" = συσταση (οι αρχικες υποθεσεις), "play" = παιχνιδι
   roundsDone: 0,     // ποσοι γυροι εχουν κλεισει σε αυτο το παιχνιδι
   wins: [],          // ΟΙ ΝΙΚΕΣ ΤΟΥ ΠΑΙΧΝΙΔΙΟΥ, με τη σειρα των παιχτων
                      // (με θεσεις, οχι με ονοματα — αλλιως μηδενιζαν)
@@ -581,7 +833,7 @@ const S = {
   records: Store.load(),
   timer: null,
   writeReturn: "lastCall",
-  againIdx: 0,       // ποσες αποψεις γραφτηκαν στο "ξανα"
+  againIdx: 0,       // ποσες υποθεσεις γραφτηκαν στο "ξανα"
   againLeft: 0,      // ποσοι παιχτες μενουν να γραψουν
   back: "count",
   rulesFrom: "count",   // σε ποια οθονη γυρναει το ΑΚΥΡΟ των κανονων
@@ -636,7 +888,7 @@ const ibtn = (file, attr, cls) =>
 const art = (file, cls) => `<img class="art ${cls||""}" src="${IMG}${file}" alt="">`;
 /* Το μεγαλο λογοτυπο ειναι κουμπι: το πατας, χλιμιντριζει. */
 const logoArt = cls =>
-  `<button class="ibtn" data-neigh="1" style="margin:0" aria-label="Κοντρα"
+  `<button class="ibtn logo-btn" data-neigh="1" style="margin:0" aria-label="Κοντρα"
      >${art("logo-kontra.png", cls)}</button>`;
 
 /* ΤΟ ΑΛΟΓΟ — παιζει καθε φορα που πατας το λογοτυπο.
@@ -762,10 +1014,153 @@ const pm = (sign, attr) => `
 /* === [11] ΟΘΟΝΕΣ =========================================== */
 const V = {};
 
-/* ΟΘΟΝΗ: καλωσορισμα — παιζει ΜΟΝΟ την πρωτη φορα ------------
-   Ιδιο φοντο, ιδια κορνιζα, το λογοτυπο μικρο στην κορυφη.
-   Τα κουμπια εδω ειναι κειμενο (δεν υπαρχει ζωγραφια για ΝΑΙ/ΟΧΙ),
-   αλλα κρατανε το ιδιο σχημα και την ιδια στοιχηση με τα υπολοιπα. */
+/* === ΖΩΕΣ, ΝΙΚΕΣ, ΚΡΥΦΟΙ ΡΟΛΟΙ ==============================
+   Με ποντους & ζωες: καθε παιχτης εχει 3 ζωες και κυνηγαει πρωτος
+   τις 3 νικες. Ο νικητης της κοντρας παιρνει νικη, ο χαμενος
+   χανει ζωη. Χωρις ζωες = εκτος, μενει ενορκος.                 */
+/* Ο ΦΑΚΕΛΟΣ — οσες υποθεσεις κρατησε το τραπεζι απο παλιες δικες.
+   Μενει στη συσκευη. Παιζεται απο το «Πριν τα ονοματα».          */
+const Folder = {
+  load(){ try { return (JSON.parse(localStorage.getItem(CFG.FOLDER_KEY)) || []).filter(o => o && o.t && !o.who); } catch(e){ return []; } },
+  save(v){ try { localStorage.setItem(CFG.FOLDER_KEY, JSON.stringify(v)); } catch(e){} },
+  add(t){
+    const s = (t || "").trim(); if (!s) return;
+    const l = this.load();
+    if (l.some(o => o.t === s)) return;
+    l.push({ t: s, d: Date.now() }); this.save(l);
+  },
+  drop(i){ const l = this.load(); l.splice(i, 1); this.save(l); },
+  clear(){ this.save([]); }
+};
+function loadFolderDeck(){
+  S.opinions = []; S.nextId = 1;
+  shuffle(Folder.load().map(o => o.t)).forEach(t => S.opinions.push({ id: S.nextId++, text: t, wave: 0, used: 0 }));
+  S.peakOps = S.opinions.length;
+}
+/* οι υποθεσεις αυτης της παρτιδας: οσες παιχτηκαν + οσες εμειναν */
+function allOpinions(){
+  const seen = {}, out = [];
+  const push = t => { if (t && !seen[t]){ seen[t] = 1; out.push(t); } };
+  (S.played || []).forEach(push);
+  S.opinions.forEach(o => push(o.text));
+  return out;
+}
+
+Object.assign(S, {
+  folder: Folder.load(), played: [], clearArm: false,
+  topic: "ours",            // "ours" = δικες σας, "ready" = απο τη βαση (6 απο 10)
+  kOn: false, vOn: false,   // ποιοι κρυφοι ρολοι μπαινουν στην τραπουλα
+  life: [], out: [],        // ζωες και αποβολες, με θεσεις
+  roles: null,              // { k, kT, v, vT }: Κομπλεξ + στοχος, Βυσμα + ο δικος του
+  kVoid: false, vVoid: false,         // το φυλλο εχασε (σηκωθηκε η πιαστηκε)
+  kRevealed: false, vRevealed: false, // το φυλλο φανερωθηκε σε ολους
+  roleIdx: 0, handShow: false,        // το μοιρασμα των φυλλων
+  peek: null, peekShow: false,        // «δειξε ρολο» μεσα στο παιχνιδι
+  db: null,                           // η βαση, ανακατεμενη, χωρις επαναληψεις
+  offer: [], offerPick: [], pickFor: 0,
+  outQueue: [], votedThisTurn: false,
+  vote: null, voteResult: null,
+  endInfo: null, autoNote: false, again: false, startJudge: 0
+});
+
+const alive = () => S.players.map((_, i) => i).filter(i => !S.out[i]);
+const pointsMode = () => S.scoring === "points";
+const rolesOn = () => S.kOn || S.vOn;
+const debaters = () => alive().filter(i => i !== S.judge);
+const roleOf = i => !S.roles ? "law" : i === S.roles.k ? "komplex" : i === S.roles.v ? "vysma" : "law";
+function shuffle(a){
+  for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)), t = a[i]; a[i] = a[j]; a[j] = t; }
+  return a;
+}
+
+/* === Η ΒΑΣΗ — οι ετοιμες υποθεσεις του ops.js ==============
+   Μοιραζει χωρις επαναληψη. Οταν αδειασει, ξανανακατευεται.   */
+function dbAll(){
+  const K = window.KONTRA_OPS || {}, out = [];
+  (K.cats || []).forEach(c => (c.ops || []).forEach(o => {
+    const t = typeof o === "string" ? o : (o && o.t);
+    if (t && String(t).trim()) out.push(String(t).trim());
+  }));
+  return out;
+}
+function dbDraw(n){
+  const got = [];
+  for (let pass = 0; pass < 2 && got.length < n; pass++){
+    if (!S.db || !S.db.length){
+      const busy = {};
+      S.opinions.forEach(o => { busy[o.text] = 1; });
+      got.forEach(t => { busy[t] = 1; });
+      S.db = shuffle(dbAll().filter(t => !busy[t]));
+    }
+    while (got.length < n && S.db.length) got.push(S.db.pop());
+  }
+  return got;
+}
+/* ΠΟΤΕ ΔΕΝ ΤΕΛΕΙΩΝΕΙ: αν αδειασει η δικογραφια, μπαινουν μονες
+   τους υποθεσεις απο τη βαση και συνεχιζουμε.                    */
+function ensureDeck(){
+  if (S.opinions.length || S.topic === "folder") return;
+  dbDraw(CFG.AUTO_FILL).forEach(t => S.opinions.push({ id: S.nextId++, text: t, wave: 2, used: 0 }));
+  S.autoNote = true;
+}
+/* 6 απο 10: ο καθενας παιρνει 10 τυχαιες και κραταει τις 6 */
+function prepOffer(){ S.offer = dbDraw(CFG.PICK_OFFER); S.offerPick = S.offer.map(() => false); }
+function commitPick(){
+  S.offer.forEach((t, k) => {
+    if (S.offerPick[k]) S.opinions.push({ id: S.nextId++, text: t, wave: 0, used: 0 });
+    else (S.db || (S.db = [])).unshift(t);   /* γυριζει στη βαση, στον πατο */
+  });
+  S.offer = []; S.offerPick = [];
+}
+
+/* === ΖΩΕΣ & ΝΙΚΕΣ ΣΕ ΖΩΓΡΑΦΙΕΣ =============================== */
+const slot = (under, over, cls) =>
+  `<span class="slot"><img src="${IMG}${under}.png" alt="">${over ? `<img class="${cls}" src="${IMG}${over}.png" alt="">` : ""}</span>`;
+function heartsHTML(lifeNow, lostAt){
+  let h = "";
+  const n = Math.max(CFG.LIVES, lifeNow);
+  for (let k = 0; k < n; k++){
+    if (k < lifeNow) h += slot("heart_full");
+    else if (k === lostAt) h += slot("heart_empty", "heart_full", "fly");
+    else h += slot("heart_empty");
+  }
+  return h;
+}
+function winsHTML(winsNow, wonAt){
+  let w = "";
+  for (let k = 0; k < CFG.WINS; k++){
+    if (k === wonAt) w += slot("win_empty", "win_full", "land");
+    else w += slot(k < winsNow ? "win_full" : "win_empty");
+  }
+  return w;
+}
+function hpRow(i){
+  const L = Math.max(0, S.life[i] || 0), W = Math.min(CFG.WINS, S.wins[i] || 0);
+  return `<span class="hp" aria-label="${L} ζωες">${heartsHTML(L, -1)}</span>${pointsMode() ? `<span class="hp" aria-label="${W} νικες">${winsHTML(W, -1)}</span>` : ""}`;
+}
+/* ΤΟ ΤΡΑΠΕΖΙ: ολοι, με ζωες και νικες — και «δειξε ρολο» αν παιζουν ρολοι */
+function tableHTML(withPeek){
+  const rows = S.players.map((_, i) => `
+    <div class="trow ${S.out[i] ? "out" : ""}">
+      <span class="nm">${chip(i, { lift:2, size:"14px" })}</span>
+      ${S.out[i]
+        ? `<span class="gone"><img src="${IMG}loss.png" alt="">ενορκος</span>`
+        : `<span class="stats">${hpRow(i)}</span>`}
+      ${withPeek && S.roles ? `<button class="peek" data-peek="${i}">δειξε ρολο</button>` : ""}
+    </div>`).join("");
+  return `<div class="tbl"><p class="slbl">Το τραπεζι</p>${rows}</div>`;
+}
+function finalTable(){
+  const ks = S.players.map((_, i) => i).sort((a, b) =>
+    ((S.wins[b] || 0) - (S.wins[a] || 0)) || ((S.life[b] || 0) - (S.life[a] || 0)));
+  return `<div class="tbl">${ks.map(i => `
+    <div class="trow ${S.out[i] ? "out" : ""}">
+      <span class="nm">${chip(i, { lift:2, size:"14px" })}</span>
+      <span class="stats">${hpRow(i)}</span>
+    </div>`).join("")}</div>`;
+}
+
+/* ΟΘΟΝΗ: καλωσορισμα — παιζει ΜΟΝΟ την πρωτη φορα ------------ */
 V.welcome = () => `
   ${logoArt("logo")}
   <div class="fill"></div>
@@ -798,69 +1193,104 @@ V.msg = () => `
   <div class="fill"></div>
   <button class="btn tmpl" data-seen="1">Στο τραπεζι</button>`;
 
-/* ΟΘΟΝΗ: ρυθμίσεις εκκίνησης -------------------------------- */
-V.count = () => {
-  const times = CFG.TIME_OPTIONS.map(s =>
-    TIME_IMG[s] ? ibtn(TIME_IMG[s], `data-secs="${s}"`, S.contraSecs===s ? "" : "dim")
-    : `<button class="btn ghost ${S.contraSecs===s?"brass":""}" data-secs="${s}">${s/60} λεπτα</button>`
-  ).join("");
+const MODE_NAME = { dipl: "Διπλωματικη", polites: "Των πολιτων" };
 
+/* ΟΘΟΝΗ: η αρχικη --------------------------------------------- */
+V.count = () => {
+  const st = S.set;
   return `
     ${header("count")}
     ${logoArt()}
-    <p class="lede" style="text-align:center">"Δεν υπαρχει σωστη και λαθος αποψη, μονο σωστη και λαθος τεκμηριωση"</p>
-
-    <div class="players">Παιχτες</div>
-    <div class="counter">
-      ${pm("-", `data-step="-1" ${S.playerCount<=CFG.MIN_PLAYERS?"disabled":""}`)}
-      <div class="digits">${digitImgs(S.playerCount)}</div>
-      ${pm("+", `data-step="1" ${S.playerCount>=CFG.MAX_PLAYERS?"disabled":""}`)}
-    </div>
+    <p class="lede" style="text-align:center">"Δεν υπαρχει σωστη και λαθος υποθεση, μονο σωστη και λαθος τεκμηριωση"</p>
 
     <label>Πως το παιζετε</label>
     <div class="how">
-      <button class="imgbtn ${S.scoring==="points"?"":"off"}" data-scoring="points">Με ποντους</button>
+      <button class="imgbtn ${S.scoring==="points"?"":"off"}" data-scoring="points">Ποντοι &amp; ζωες</button>
       <button class="imgbtn ${S.scoring==="penalty"?"":"off"}" data-scoring="penalty">Με ποινη</button>
     </div>
-    ${S.scoring === "penalty" ? `<label>Τι πληρωνει ο χαμενος</label>${penaltyField()}` : ""}
+    ${S.scoring === "penalty"
+      ? `<label>Τι πληρωνει ο χαμενος</label>${penaltyField()}<div class="howpts"><span class="hp">${heartsHTML(CFG.LIVES, -1)}</span><span>${CFG.LIVES} ζωες &middot; μεχρι να μεινει ενας</span></div>`
+      : `<div class="howpts">
+           <span class="hp">${heartsHTML(CFG.LIVES, -1)}</span>
+           <span>${CFG.LIVES} ζωες &middot; πρωτος στις ${CFG.WINS} νικες</span>
+           <span class="hp">${winsHTML(0, -1)}</span>
+         </div>`}
 
-    <label>Χρονος λογου</label>
-    <div class="row">${times}</div>
+    <button class="setbtn" data-settings="1">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5A3.5 3.5 0 1 1 13 8.5a3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg>
+      Ρυθμισεις
+    </button>
+    <p class="setsum">${MODE_NAME[st.mode] || MODE_NAME.dipl} &middot; ${st.secs/60}' λογος &middot; ${st.rounds} ${st.rounds===1?"γυρος":"γυροι"} &middot; ΟΠΑ ${st.opa?"ναι":"οχι"}</p>
 
     <div class="fill"></div>
-    ${ibtn("skotwtheite.png",'data-start="1"')}`;
+    ${ibtn("skotwtheite.png",'data-start="1"',"big")}`;
 };
 
-/* ΟΘΟΝΗ: κανόνες --------------------------------------------
-   >>> ΕΔΩ ΜΠΑΙΝΟΥΝ ΟΙ ΚΑΝΟΝΕΣ ΑΠΟ ΤΟ PDF <<<
-   Αντικατέστησε ΜΟΝΟ ό,τι είναι μέσα στο <div class="rules">.
-   Χρησιμοποίησε <h3> για επικεφαλίδες, <p> για παραγράφους,
-   <b> για έμφαση. Τα υπόλοιπα (κουμπί, τίτλος) μείνε ως έχουν. */
+/* ΟΘΟΝΗ: ρυθμισεις — στη μορφη του κανονισμου -------------- */
+V.settings = () => {
+  const st = S.set;
+  const opt = (key, val, label) =>
+    `<button class="sopt ${st[key]===val?"on":""}" data-set="${key}:${val}">${label}</button>`;
+  const times = CFG.TIME_OPTIONS.map(s => opt("secs", s, (s/60) + " λεπτα")).join("");
+  return `
+  <div class="turf">
+  <div class="rail"></div>
+    <h2 style="text-align:center">Πως το θελετε</h2>
+  <div class="rules sset">
+
+    <h3 style="margin-top:6px">Η δικη</h3>
+    <div class="srow">${opt("mode", "dipl", "Διπλωματικη")}${opt("mode", "polites", "Των πολιτων")}</div>
+    <p class="stip">${st.mode === "polites"
+      ? "<b>Κοντρα των πολιτων.</b> Μια ισως πιο ενδιαφερουσα προσεγγιση, οπου οι ρολοι αποφασιζονται απο τους παιχτες. Προτεινεται εαν παιζετε με δικες σας υποθεσεις."
+      : "<b>Κοντρα διπλωματικη.</b> Οι ρολοι του καθε γυρου διαλεγονται στην τυχη, με την επιλογη εναλλαγης υποθεσης ή πλευρων."}</p>
+
+    <h3>Το ΟΠΑ!</h3>
+    <div class="srow">${opt("opa", true, "Με ΟΠΑ")}${opt("opa", false, "Χωρις ΟΠΑ")}</div>
+    ${st.opa ? "" : `<p class="stip">Φιλικη συμβουλη: χωρις ΟΠΑ, βαλτε 2 γυρους λογου. Αλλιως καποιος θα μεινει με την απαντηση στο στομα.</p>`}
+
+    <h3>Γυροι λογου</h3>
+    <p>Ποσες φορες μιλαει η καθε πλευρα.</p>
+    <div class="srow">${[1,2,3].map(n => opt("rounds", n, n)).join("")}</div>
+
+    <h3>Χρονος λογου</h3>
+    <div class="srow">${times}</div>
+
+    <h3>Αλλο παιχνιδι</h3>
+    <div class="srow col">
+      <a class="sgame" href="kontra-bonus.html">Κοντρα: Μπονους! &rarr;</a>
+    </div>
+
+  </div>
+  <div class="finish"></div>
+  </div>
+  <div class="fill"></div>
+  ${ibtn("akyro.png",'data-go="count"')}`;
+};
+
+/* ΟΘΟΝΗ: κανόνες — αυτά και ΜΟΝΟ αυτά ----------------------- */
 V.rules = () => `
   <div class="turf">
   <div class="rail"></div>
-  <p class="eyebrow">Ο κανονισμος</p>
-  <h2>Πως παιζεται</h2>
+    <h2>Πως παιζεται</h2>
   <div class="rules">
 
-    <h3 style="margin-top:6px">(Κλασική) κόντρα</h3>
-    <p>Γράφουν όλοι τα ονόματά τους και όσες απόψεις γουστάρει. Αυτές θα μείνουν ανώνυμες για πάντα.</p>
-    <p>Ένας παίχτης καλείται ως ο δικαστής του γύρου (ή αλλιώς μπορείτε να τον φωνάζετε και δικαστή της συμφοράς). Οι υπόλοιποι κλείνουν τα μάτια τους και ο δικαστής της συμφοράς διαβάζει μια άποψη δυνατά.</p>
-    <p>Όλοι οι άλλοι σηκώνουν δεξί αν συμφωνούν, αριστερό αν διαφωνούν. Ο δικαστής μετράει και αν υπάρχει τουλάχιστον ένα δεξί και ένα αριστερό, υπάρχει κόντρα. Οι υπόλοιποι; Ένορκοι.</p>
-    <p>Με 2 λεπτά ο καθένας, προσπαθούν να πείσουν τους υπόλοιπους ότι έχουν δίκιο. Ο δικαστής στο τέλος αποφασίζει (χωρίς να βγάζει κόμπλεξ σε κανέναν αν γίνεται) ποιος είχε τα καλύτερα επιχειρήματα.</p>
+    <h3 style="margin-top:6px">Καλώς ήρθατε, λεβέντες και λεβέντισσες, στην Κόντρα!</h3>
+    <p>Το μεγάλο παιχνίδι επιχειρηματολογίας, τώρα στο κινητό σας, εντελώς δωρεάν! Θα πληρώσετε αργότερα με την ψυχή σας!! (Αστείο, Google Play, μη μου ρίξετε την εφαρμογή, σας παρακαλώ.)</p>
+    <p>Λοιπόν, το παιχνίδι είναι απλό. Σε κάθε γύρο θα υπάρχει ένας δικαστής, ένας εισαγγελέας, η υπεράσπιση και οι ένορκοι.</p>
+    <p>Στην αρχή ενός γύρου εμφανίζεται μια υπόθεση πάνω πάνω, την οποία διαβάζει φωναχτά ο δικαστής (αν γίνεται, παρακαλώ θερμά να υπάρχει ησυχία στο τραπέζι).</p>
+    <p>Ο ρόλος της υπεράσπισης; Να υπερασπιστεί την υπόθεση. Ο ρόλος του εισαγγελέα; Να πείσει τον δικαστή και τους ενόρκους ότι η υπόθεση είναι λάθος!</p>
+    <p>Ο ρόλος του δικαστή και των ενόρκων είναι κυρίως να ακούνε. Το ποιος θα αποφασίσει εν τέλει ποιος θα πάρει τον πόντο, το αφήνω πάνω σας· δεν με νοιάζει κιόλας!</p>
+    <p>Προσοχή όμως! Ο κάθε παίχτης παίζει ατομικά, δηλαδή προσπαθεί να φτάσει πρώτος στις 3 νίκες! Έχει όμως και μόνο 3 ζωές: 3 κόντρες που μπορεί να χάσει.</p>
 
-    <div class="para">
-      <div class="para-tag">Παρένθεση</div>
-      <h3 style="margin:0 0 6px">Το ΟΠΑ!</h3>
-      <p>Κατά την διάρκεια ενός λόγου, όλοι οι άλλοι το βουλώνουν. Μόνο ο αντίπαλος του ομιλητή έχει το δικαίωμα να τον διακόψει, μόνο εάν πει την λέξη ΟΠΑ! Ο ομιλητής, αν κρίνει ότι είναι δικαιολογημένη διακοπή, τον αφήνει να μιλήσει για 10 δευτερόλεπτα το πολύ. Μόλις τον κόψει, ο άλλος το βουλώνει. Πάλι.</p>
-    </div>
+    <h3>Το ΟΠΑ!</h3>
+    <p>Με το ΟΠΑ! ενεργοποιημένο, η πλευρά που ακούει μπορεί να διακόψει τον ομιλητή, λέγοντας τη λέξη «ΟΠΑ!». Εάν ο ομιλητής θέλει να ακούσει τι έχει να πει, του το επιτρέπει· αλλιώς τον απορρίπτει. Ο χρόνος που μιλάει η πλευρά που ακούει δεν χάνεται: προστίθεται στο τέλος του χρόνου του ομιλητή.</p>
 
-    <p>Ο ηττημένος έχει το δικαίωμα να ρωτήσει για μια εξήγηση, αλλά αν οι άλλοι το παίζουν σπουδαίοι μπορούν και να μην πουν τίποτα.</p>
-    <p>Στην λήξη της κόντρας, ή σε περίπτωση ομοφωνίας στην άποψη, ο δικαστής διαλέγει αν θέλει να κρατήσει την άποψη (σε περίπτωση που πιστεύει ότι δεν έχει λήξει το θέμα) ή να την κάψει και να μην ξανασυζητηθεί ποτέ.</p>
-    <p>Στο τέλος του γύρου δίνει το κινητό σε άλλον και ο κύκλος επαναλαμβάνεται. Μέχρι να τελειώσουν οι απόψεις ή, αν κάποιος ρίξει ένα σκαμπό στον δικαστή.</p>
+    <h3>Προσοχή! Κυκλοφορούν και 2 κρυφοί ρόλοι!</h3>
+    <p>Αν θέλετε, δηλαδή· δεν σας υποχρεώνει κανείς.</p>
+    <p><b>Το Κόμπλεξ:</b> Σε έναν τυχαίο παίχτη θα δοθεί ένα όνομα. Στόχος αυτού του παίχτη είναι να βγάλει το όνομα από το παιχνίδι. Εάν τον βγάλει, κερδίζει κατευθείαν.</p>
+    <p><b>Το Βύσμα:</b> Στο βύσμα δίνεται ένα όνομα, το οποίο, εάν κερδίσει, κερδίζει εκείνος! Σκεφτείτε το απλά: ο Γιάννης είναι το βύσμα και του δίνεται ο Γιώργος. Εάν κερδίσει ο Γιώργος, στο τέλος φανερώνεται ότι μπήκε και βύσμα και, εν τέλει, νικάει ο Γιάννης. Ο Γιώργος μετά φασώνει τον Γιάννη.</p>
 
-    <p class="mini" style="margin-top:26px">Τι; δεν σου άρεσε; καλά λοιπόν,<br>ας δοκιμάσουμε κάτι πιο στα γρήγορα.</p>
-    <button class="ibtn kdoor" data-seven="1" aria-label="Κοντρα στα Γρηγορα"><img src="${IMG}km-hero.png" alt=""></button>
+    <p>Αυτά από μένα. Α, και υπάρχει και το μπόνους. Μπείτε, δείτε το· δεν το εξηγώ εδώ.</p>
 
   </div>
   <div class="finish"></div>
@@ -868,72 +1298,106 @@ V.rules = () => `
   <div class="fill"></div>
   ${ibtn("akyro.png",`data-go="${S.rulesFrom}"`)}`;
 
-/* ΟΘΟΝΗ: θεματολογια — με τι αποψεις παιζετε --------------
-   Βγαινει μετα το ΣΚΟΤΩΘΕΙΤΕ, πριν μπουν ονοματα. Οι δυο
-   ετοιμοι φακελοι παιζονται ΑΝΩΝΥΜΑ — ποιος το ειπε φανερωνεται
-   μονο μετα την κοντρα, και μονο αν το ζητησει το τραπεζι.      */
+/* ΟΘΟΝΗ: πριν τα ονοματα — υποθεσεις και ρολοι, σε μια οθονη --- */
 V.topic = () => {
-  const has = id => readyDeck(id).length > 0;
   const card = (id, name, note) => `
     <button class="pick ${S.topic === id ? "on" : ""}" data-topic="${id}" style="flex-direction:column;align-items:stretch;gap:4px">
       <span style="font-size:20px;font-weight:700">${name}</span>
       <span style="font-size:13.5px;font-weight:400;opacity:.85">${note}</span>
     </button>`;
+  const rcard = (key, name, note) => `
+    <button class="rcard ${S[key] ? "on" : ""}" data-rtog="${key}">
+      <span class="rmark">${S[key] ? "ΜΕΣΑ" : "ΕΞΩ"}</span>
+      <span class="rname">${name}</span>
+      <span class="rnote">${note}</span>
+    </button>`;
   return `
     ${header("topic")}
     ${backBtn("count")}
-    <p class="eyebrow">Πριν τα ονοματα</p>
     <h2>Λοιπον, πριν ξεκινησουμε,<br>τι θα κουβεντιασουμε σημερα;</h2>
+    <label>Οι υποθεσεις</label>
     <div class="picks">
-      ${card("ours", "Τα δικα μας", "δικες σας αποψεις, παραμενουν ανωνυμες.")}
-      ${card("politikoi", "Αποψεις πολιτικων", "για αυτους που κατεβασαν την εφαρμογη με ορεξη.")}
-      ${has("folder")
-        ? card("folder", "Παιξε με τον φακελο σου",
-               `οσες κρατησατε απο παλιες δικες — ${S.folder.length} μεσα.`)
-        : `<div class="pick" style="opacity:.45;flex-direction:column;align-items:stretch;gap:4px;cursor:default">
-             <span style="font-size:20px;font-weight:700">Παιξε με τον φακελο σου</span>
-             <span style="font-size:13.5px;font-weight:400;opacity:.85">αδειος ακομα — κρατα αποψεις στο τελος του παιχνιδιου.</span>
-           </div>`}
+      ${card("ours", "Τα δικα μας", "δικες σας υποθεσεις, παραμενουν ανωνυμες.")}
+      ${card("ready", "Ετοιμες", "ο καθενας διαλεγει " + CFG.PICK_KEEP + " απο " + CFG.PICK_OFFER + " τυχαιες απο τη βαση.")}
+      ${S.folder.length >= 3
+        ? card("folder", "Ο φακελος σας", "οσες κρατησατε απο παλιες δικες — " + S.folder.length + " μεσα. τελειωνουν; τελειωνει και η δικη.")
+        : `<div class="pick" style="opacity:.45;flex-direction:column;align-items:stretch;gap:4px;cursor:default"><span style="font-size:20px;font-weight:700">Ο φακελος σας</span><span style="font-size:13.5px;font-weight:400;opacity:.85">${S.folder.length ? "θελει τουλαχιστον 3 υποθεσεις — εχει " + S.folder.length + "." : "αδειος ακομα — κρατα υποθεσεις στο τελος του παιχνιδιου."}</span></div>`}
     </div>
     <div class="fill"></div>
     ${ibtn("orthioi.png",'data-topicgo="1"')}`;
 };
 
-/* ΟΘΟΝΗ: σύσταση — όνομα + πρώτη άποψη ---------------------- */
+/* ΟΘΟΝΗ: σύσταση — όνομα (+ πρώτη υπόθεση με τα δικα μας) ------ */
 V.intro = () => {
-  const i = S.players.length + 1;
+  const i = S.players.length + 1, ready = S.topic === "ready", fold = S.topic === "folder";
   const roster = S.players.length
     ? `<div class="roster" style="justify-content:center">${S.players.map((p,k)=>chipName(k,p,{lift:3})).join("")}</div>`
     : "";
   return `
     <div class="hdr">
-      <p class="eyebrow" style="margin:0;text-align:left;padding-top:8px">Τα χαρτια σας &middot; <b>${i} απο ${S.playerCount}</b></p>
+      <p class="eyebrow" style="margin:0;text-align:left;padding-top:8px">Τα χαρτια σας &middot; <b>παιχτης Νο ${i}</b></p>
       <button class="palbtn" data-openpal="1" aria-label="Η μαρκα σου"><img src="${IMG}colorpick.png" alt=""></button>
     </div>
     ${backBtn("topic")}
-    <p class="lede">${S.topic === "ours"
-      ? "γραφεις το ονομα σου και μια αποψη σου στην οποια θα εβαζες την υπογραφη σου"
-      : "γραφεις μονο το ονομα σου — οι αποψεις ειναι ηδη στη δικογραφια"}</p>
-
+    <p class="lede">${fold ? "γραφεις μονο το ονομα σου — οι υποθεσεις ειναι ηδη στον φακελο" : ready
+      ? "γραφεις το ονομα σου και μετα διαλεγεις " + CFG.PICK_KEEP + " υποθεσεις απο " + CFG.PICK_OFFER
+      : "γραφεις το ονομα σου και μια υποθεση σου στην οποια θα εβαζες την υπογραφη σου"}</p>
     ${nameField()}
-    ${S.topic === "ours" ? opField() + `<p class="ps">Υ.Σ αν παιζεις με ατομα που θίγονται ευκολα, παιξε λιγο με τα νευρα τους</p>` : ""}
-
+    ${ready || fold ? "" : opField() + `<p class="ps">Υ.Σ αν παιζεις με ατομα που θίγονται ευκολα, παιξε λιγο με τα νευρα τους</p>`}
     <div class="fill"></div>
     ${ibtn("dinworko.png",'data-intro="1" disabled')}
+    ${fold ? (S.players.length >= CFG.MIN_PLAYERS ? ibtn("orthioi.png",'data-go="lastCall"') : `<p class="mini">${S.players.length} στο τραπεζι &middot; θελει τουλαχιστον ${CFG.MIN_PLAYERS}</p>`) : ""}
     ${roster}`;
 };
 
-/* ΟΘΟΝΗ: ίδιος παίκτης, κι άλλη άποψη ----------------------- */
+/* ΟΘΟΝΗ: 6 απο 10 ---------------------------------------------- */
+V.pick6 = () => {
+  const n = S.offerPick.filter(Boolean).length, need = CFG.PICK_KEEP;
+  const enough = S.players.length >= CFG.MIN_PLAYERS;
+  const rows = S.offer.map((t, k) => `
+    <button class="pick ${S.offerPick[k] ? "on" : ""}" data-op6="${k}">
+      <span class="tick">${S.offerPick[k] ? "&#10003;" : ""}</span>
+      <span class="tx">${esc(t)}</span>
+    </button>`).join("");
+  let foot;
+  if (n < need) foot = `<p class="mini">διαλεξε ακομα ${need - n}</p>`;
+  else if (S.again) foot = ibtn("dinworko.png",'data-pick6go="again"');
+  else foot = `<div class="duo-btns">${ibtn("epomenos.png",'data-pick6go="next"')}${enough ? ibtn("orthioi.png",'data-pick6go="begin"') : ""}</div>
+    ${enough ? "" : `<p class="mini">${S.players.length} στο τραπεζι &middot; θελει τουλαχιστον ${CFG.MIN_PLAYERS}</p>`}`;
+  return `
+    <div class="pickhead">${chip(S.pickFor, { lift:3, size:"16px" })}<span class="eyebrow" style="margin:0">διαλεγεις &middot; <b>${n} / ${need}</b></span></div>
+    <h2>Διαλεξε ${need} απο τις υποθεσεις του φακελου</h2>
+    <div class="picks">${rows}</div>
+    <div class="fill"></div>
+    ${foot}
+    <button class="endlink" data-op6rand="1">Στην τυχη</button>`;
+};
+
+/* Αλλο ενα με ετοιμες: το κινητο αλλαζει χερια, 6 απο 10 ξανα */
+V.passPick = () => `
+  <p class="eyebrow">Νεα δικογραφια &middot; <b>${S.pickFor + 1} απο ${S.players.length}</b></p>
+  <div class="fill"></div>
+  <p class="lede" style="margin:0 0 14px">Δωσε το κινητο στον</p>
+  <div>${chip(S.pickFor, { pad:"14px 30px", radius:"26px", dash:6, lift:7, size:"34px" })}</div>
+  <p class="lede" style="margin-top:16px">καινουρια χαρτια: κρατας ${CFG.PICK_KEEP} απο ${CFG.PICK_OFFER}</p>
+  <div class="fill"></div>
+  ${ibtn("epomenos.png",'data-passgo="1"')}`;
+
+/* ΟΘΟΝΗ: ίδιος παίκτης, κι άλλη υπόθεση ----------------------- */
 V.more = () => {
   const me = S.players[S.players.length - 1];
-  const last = S.players.length >= S.playerCount;
+  const ready = S.players.length >= CFG.MIN_PLAYERS;
   return `
-    <p class="eyebrow">${esc(me)} &middot; <b>${S.mine} ${S.mine===1?"αποψη":"αποψεις"}</b></p>
+    <p class="eyebrow">${esc(me)} &middot; <b>${S.mine} ${S.mine===1?"υποθεση":"υποθεσεις"}</b></p>
     <h2>Θες κι αλλη;</h2>
     ${opField()}
-    ${ibtn("dinworko.png",'data-add-op="1" disabled')}
+    ${ibtn("dinworko.png",'data-add-op="1" disabled',"mid")}
     <div class="fill"></div>
-    ${ibtn(last ? "liji.png" : "epomenos.png", 'data-pass="1"')}`;
+    <div class="duo-btns">
+      ${ibtn("epomenos.png", 'data-pass="1"')}
+      ${ready ? ibtn("orthioi.png",'data-go="lastCall"') : ""}
+    </div>
+    ${ready ? "" : `<p class="mini">${S.players.length} στο τραπεζι &middot; θελει τουλαχιστον ${CFG.MIN_PLAYERS}</p>`}`;
 };
 
 /* ΟΘΟΝΗ: όλοι συστήθηκαν ------------------------------------ */
@@ -947,40 +1411,129 @@ V.lastCall = () => `
   <div class="roster" style="justify-content:center">${S.players.map((p,k)=>chipName(k,p,{lift:3})).join("")}</div>
   <div class="fill"></div>
   ${ibtn("orthioi.png",'data-begin="1"')}
-  ${S.topic === "ours" ? ibtn("allhmia.png",'data-extra="lastCall"') : ""}`;
+  ${S.topic === "ours" ? ibtn("allhmia.png",'data-extra="lastCall"',"small") : ""}`;
 
-/* ΟΘΟΝΗ: ΝΕΟ ΠΑΙΧΝΙΔΙ — ο καθενας βαζει μια καινουρια αποψη.
-   Ιδια λογικη με τη συσταση: wave 0, ιδια σειρα, ιδια
-   προειδοποιηση οταν ο φακελος λιγοστευει.                     */
-V.reIntro = () => {
-  const done = S.againIdx % CFG.AGAIN_EACH;
+/* ΟΘΟΝΗ: κρυφοι ρολοι — αφου γραφτουν/διαλεχτουν οι υποθεσεις.
+   Στους 4 χωραει ενας, στους 5+ και οι δυο. */
+V.rolesSet = () => {
+  const n = S.players.length, one = n < 5;
+  const rc = (key, cls, name, note) => `
+    <button class="rcard ${cls} ${S[key] ? "on" : ""}" data-rtog="${key}">
+      <span class="rmark">${S[key] ? "ΜΕΣΑ" : "ΕΞΩ"}</span>
+      <span class="rname">${name}</span>
+      <span class="rnote">${note}</span>
+    </button>`;
   return `
-    <p class="eyebrow">Νεα δικογραφια &middot; <b>${S.againIdx + 1} απο ${S.players.length}</b></p>
-    <h2 style="margin-top:6px">Σειρα σου</h2>
-    <p class="lede">${CFG.AGAIN_EACH === 1 ? "μια καινουρια αποψη" : "γραψε " + CFG.AGAIN_EACH + " καινουριες αποψεις"}, μετα δινεις το κινητο. κανενα ονομα — κανεις δεν ξερει ποιος εγραψε τι.</p>
-    ${opField()}
     <div class="fill"></div>
-    ${ibtn("dinworko.png",'data-reop="1" disabled')}
-    <p class="mini">${S.opinions.length} ${S.opinions.length === 1 ? "αποψη" : "αποψεις"} στον φακελο</p>`;
+    <h2>Παιζετε με κρυφους ρολους;</h2>
+    <div class="rcards">
+      ${rc("kOn", "k", "Το Κομπλεξ", "βγαζει εναν απο τη μεση")}
+      ${rc("vOn", "v", "Το Βυσμα", "βαζει εναν στην κορυφη")}
+    </div>
+    <p class="mini">${one ? "Στους " + n + " χωραει μονο ενας" : "Στους " + n + " χωρανε και οι δυο"}</p>
+    <div class="fill"></div>
+    ${ibtn("orthioi.png",'data-rolesgo="1"')}`;
 };
 
-/* Αναμεσα σε δυο παιχτες: το κινητο αλλαζει χερια. */
+/* ΟΘΟΝΗ: στους 4, ενας κρυφος ρολος μονο -------------------- */
+V.rolePick = () => `
+  <div class="fill"></div>
+  <h2>Στους ${S.players.length} χωραει ενας κρυφος ρολος</h2>
+  <p class="lede">Αλλιως μισο τραπεζι ειναι κρυφο. Ποιον κρατατε;</p>
+  <div class="rcards">
+    <button class="rcard on" data-rolepick="k"><span class="rname">Το Κομπλεξ</span><span class="rnote">βγαζει εναν απο τη μεση</span></button>
+    <button class="rcard on" data-rolepick="v"><span class="rname">Το Βυσμα</span><span class="rnote">βαζει εναν στην κορυφη</span></button>
+  </div>
+  <div class="fill"></div>
+  <button class="endlink" data-rolepick="rand">Στην τυχη</button>`;
+
+/* ΤΟ ΦΥΛΛΟ ΤΟΥ ΚΑΘΕΝΟΣ — μονο για τα ματια του */
+function roleCardHTML(i){
+  const role = roleOf(i), R = S.roles;
+  const head = `<p class="eyebrow">${esc(nameOf(i))} &middot; <b>μονο για τα ματια σου</b></p>`;
+  if (role === "komplex") return head + `
+    <div class="rolecard k">
+      <div class="rc-tag">Κρυφος ρολος</div>
+      <h2>Το Κομπλεξ</h2>
+      <p>Εχεις κομπλεξ με τον</p>
+      ${chip(R.kT, { pad:"12px 26px", radius:"24px", dash:5, lift:6, size:"28px" })}
+      <p>Βγαλ' τον απο το παιχνιδι και κερδιζεις κατευθειαν.</p>
+    </div>`;
+  if (role === "vysma") return head + `
+    <div class="rolecard v">
+      <div class="rc-tag">Κρυφος ρολος</div>
+      <h2>Το Βυσμα</h2>
+      <p>Εισαι το βυσμα του</p>
+      ${chip(R.vT, { pad:"12px 26px", radius:"24px", dash:5, lift:6, size:"28px" })}
+      <p>Αν κερδισει εκεινος, κερδιζεις εσυ.</p>
+    </div>`;
+  return head + `
+    <div class="rolecard n">
+      <div class="rc-tag">Κανενας ρολος</div>
+      <h2>Καθαρος</h2>
+      <p>Δεν εχεις κρυφο ρολο. Παιζεις τιμια — ή τουλαχιστον ετσι λες.</p>
+    </div>`;
+}
+
+/* ΟΘΟΝΗ: το μοιρασμα των φυλλων — στο τελος, πριν την πρωτη δικη */
+V.handoff = () => {
+  const i = S.roleIdx, n = S.players.length;
+  if (!S.handShow) return `
+    <p class="eyebrow">Κρυφο φυλλο &middot; <b>${i + 1} απο ${n}</b></p>
+    <div class="fill"></div>
+    <p class="lede" style="margin:0 0 14px">Δωσε το κινητο στον</p>
+    <div>${chip(i, { pad:"14px 30px", radius:"26px", dash:6, lift:7, size:"34px" })}</div>
+    <p class="lede" style="margin-top:16px">Μονο αυτος κοιταει. Οι υπολοιποι, ματια αλλου.</p>
+    <div class="fill"></div>
+    <button class="btn tmpl mid" data-show="1">Δειξε ρολο</button>`;
+  return `
+    ${roleCardHTML(i)}
+    <div class="fill"></div>
+    <button class="btn tmpl mid" data-handnext="1">${i + 1 < n ? "Το κρατησα, παρε το" : "Το κρατησα, παμε"}</button>`;
+};
+
+/* ΟΘΟΝΗ: «δειξε ρολο» μεσα στο παιχνιδι ---------------------- */
+V.peek = () => {
+  const i = S.peek;
+  if (!S.peekShow) return `
+    <div class="fill"></div>
+    <p class="lede" style="margin:0 0 14px">Μονο ο</p>
+    <div>${chip(i, { pad:"14px 30px", radius:"26px", dash:6, lift:7, size:"34px" })}</div>
+    <p class="lede" style="margin-top:16px">κοιταει. Οι υπολοιποι, ματια αλλου.</p>
+    <div class="fill"></div>
+    <button class="btn tmpl mid" data-peekshow="1">Δειξε ρολο</button>
+    ${ibtn("akyro.png",'data-peekdone="1"',"small")}`;
+  return `
+    ${roleCardHTML(i)}
+    <div class="fill"></div>
+    <button class="btn tmpl mid" data-peekdone="1">Κρυψε το</button>`;
+};
+
+/* ΟΘΟΝΗ: ΝΕΟ ΠΑΙΧΝΙΔΙ με δικες σας — ο καθενας βαζει καινουρια */
+V.reIntro = () => `
+  <p class="eyebrow">Νεα δικογραφια &middot; <b>${S.againIdx + 1} απο ${S.players.length}</b></p>
+  <h2 style="margin-top:6px">Σειρα σου</h2>
+  <p class="lede">${CFG.AGAIN_EACH === 1 ? "μια καινουρια υποθεση" : "γραψε " + CFG.AGAIN_EACH + " καινουριες υποθεσεις"}, μετα δινεις το κινητο. κανενα ονομα — κανεις δεν ξερει ποιος εγραψε τι.</p>
+  ${opField()}
+  <div class="fill"></div>
+  ${ibtn("dinworko.png",'data-reop="1" disabled')}
+  <p class="mini">${S.opinions.length} ${S.opinions.length === 1 ? "υποθεση" : "υποθεσεις"} στον φακελο</p>`;
+
 V.rePass = () => `
   <div class="fill"></div>
   <h1>Δωσε το κινητο</h1>
-  <p class="lede">${S.againIdx} ${S.againIdx === 1 ? "αποψη γραφτηκε" : "αποψεις γραφτηκαν"} &middot; ${S.againLeft === 1 ? "μενει" : "μενουν"} ${S.againLeft === 1 ? "1 παιχτης" : S.againLeft + " παιχτες"}</p>
+  <p class="lede">${S.againIdx} ${S.againIdx === 1 ? "υποθεση γραφτηκε" : "υποθεσεις γραφτηκαν"} &middot; ${S.againLeft === 1 ? "μενει" : "μενουν"} ${S.againLeft === 1 ? "1 παιχτης" : S.againLeft + " παιχτες"}</p>
   <div class="fill"></div>
   ${ibtn("epomenos.png",'data-repass="1"')}`;
 
-/* ΟΘΟΝΗ: ανώνυμη προσθήκη άποψης ---------------------------- */
+/* ΟΘΟΝΗ: ανώνυμη προσθήκη υπόθεσης ---------------------------- */
 V.extra = () => `
-  <p class="eyebrow">Ανωνυμη καταθεση</p>
-  <h2>Η αποψη</h2>
+  <h2>Η υποθεση</h2>
   <p class="lede">Δεν χρειαζεται ονομα. Γραψε και δωσε πισω το κινητο.</p>
   ${opField()}
   <div class="fill"></div>
   ${ibtn("dinworko.png",'data-add-op="1" disabled')}
-  ${ibtn("akyro.png",`data-go="${S.extraFrom}"`)}`;
+  ${ibtn("akyro.png",`data-go="${S.extraFrom}"`,"small")}`;
 
 /* ΟΘΟΝΗ: ανακοίνωση δικαστή --------------------------------- */
 V.round = () => {
@@ -991,184 +1544,112 @@ V.round = () => {
   <div style="margin:0 0 18px">${chip(S.judge, { pad:"14px 30px", radius:"26px", dash:6, lift:7, size:"40px" })}</div>
   <p class="lede" style="color:var(--bone);font-size:20px;margin:0 0 4px">Παρε το κινητο.</p>
   <p class="lede" style="margin:0">εισαι ο δικαστης του γυρου. η μοιρα του τραπεζιου κρεμεται απο τα χειλη σου</p>
-  ${lowDeck()}
+  ${S.out[S.judge] ? `<p class="mini">εισαι εκτος, αλλα δικαζεις: εμειναν δυο ορθιοι</p>` : ""}
+  ${S.autoNote ? `<p class="mini" style="color:var(--brass)">τελειωσαν οι δικες σας — μπηκαν ετοιμες απο τη βαση</p>` : ""}
   <div class="fill"></div>
-  ${ibtn("etoimoi.png",'data-go="eyes"')}
+  ${ibtn("etoimoi.png",'data-ready="1"')}
   ${canEnd ? `<p class="mini">Παιχτηκαν ${S.roundsDone} γυροι &middot; η ληξη ειναι<br>το κουμπι στη μεση της κορυφης</p>` : ""}`;
 };
 
 /* ΟΘΟΝΗ: ο δικαστης ρωταει αν ληγει η δικη ------------------ */
 V.finishAsk = () => `
-  <p class="eyebrow">Ο δικαστης αποφασιζει</p>
   <h2>Να ληξει η δικη;</h2>
-  <p class="lede">Παιχτηκαν ${S.roundsDone} γυροι. Αν ληξει, κλεινει ο φακελος και βγαινει ο απολογισμος.</p>
-  <div class="card">Μενουν ${S.opinions.length} ${S.opinions.length===1?"αποψη":"αποψεις"} στη δικογραφια</div>
-  ${lowDeck()}
+  <p class="lede">Παιχτηκαν ${S.roundsDone} γυροι. Αν ληξει τωρα, κερδιζει οποιος εχει τις περισσοτερες νικες.</p>
   <div class="fill"></div>
-  ${ibtn("liji.png",'data-end="1"')}
-  ${ibtn("akyro.png",'data-go="round"')}`;
-
-/* ΟΘΟΝΗ: απολογισμος ----------------------------------------
-   ΜΕ ΠΟΝΤΟΥΣ: βγαινει ο πινακας. ΜΕ ΠΟΙΝΗ: κανενας ποντος στην
-   οθονη — οι νικητες διαλεγουν την εσχατη ποινη και τελος.      */
-/* ΟΙ ΠΟΝΤΟΙ ΤΟΥ ΠΑΙΧΝΙΔΙΟΥ
-   Κραταμε τις νικες σε δικο τους πινακα, με τη ΘΕΣΗ του καθε
-   παιχτη. (Πριν μετρουσαμε με ονοματα — αν δυο ειχαν το ιδιο
-   ονομα, η αν ξαναπαιζαν οι ιδιοι, οι ποντοι μηδενιζαν.)  */
-function resetWins(){ S.wins = S.players.map(() => 0); }
-
-function tallyEnd(){
-  const mine = S.records.slice(S.recordStart);
-  const ks = S.players.map((_,k)=>k);
-  const wins = {};
-  ks.forEach(k => { wins[k] = S.wins[k] || 0; });
-  const top = ks.length ? Math.max.apply(null, ks.map(k => wins[k])) : 0;
-  const low = ks.length ? Math.min.apply(null, ks.map(k => wins[k])) : 0;
-  const champs = ks.filter(k => wins[k] === top);
-  return { wins, mine, top, champs,
-    losers: top === low ? [] : ks.filter(k => wins[k] === low),
-    solo: champs.length === 1 ? champs[0] : null,
-    order: ks.slice().sort((a,b) => wins[b] - wins[a]) };
-}
-
-V.theEnd = () => {
-  const t = tallyEnd();
-
-  if (S.scoring === "penalty") return `
-    <p class="eyebrow">Ο φακελος κλεινει</p>
-    <div class="stamp">Εληξε</div>
-    <div class="fill"></div>
-    <h1 style="margin:0 0 16px">συγχαρητηρια!</h1>
-    <div class="roster" style="justify-content:center;margin-bottom:18px">
-      ${t.champs.map(k => chipName(k, S.players[k], { pad:"11px 24px", lift:5, size:"23px" })).join("")}
-    </div>
-    <h2 style="color:var(--brass);margin:0 0 8px">εχεις την μεγαλη τιμη να διαλεξεις την εσχατη ποινη</h2>
-    <p class="lede" style="margin:0">ο,τι θες, παρε τον χρονο σου.</p>
-    ${t.losers.length ? `
-      <p class="mini" style="margin-top:24px">Ο λογαριασμος παει σε</p>
-      <div class="roster" style="justify-content:center;margin-top:8px">
-        ${t.losers.map(k => chipName(k, S.players[k], { lift:3 })).join("")}
-      </div>` : ""}
-    <div class="fill"></div>
-    ${ibtn("allhmia.png",'data-go="sendOps"')}`;
-
-  const board = t.order.map(k => `
-    <div class="t ${t.solo === k ? "pro" : ""}">
-      ${chipName(k, S.players[k], { lift:2, size:"16px" })}
-      <em>${t.wins[k]} ${t.wins[k]===1?"νικη":"νικες"}</em>
-    </div>`).join("");
-
-  return `
-    <p class="eyebrow">Ο φακελος κλεινει</p>
-    <div class="stamp">Εληξε</div>
-    ${t.solo != null
-      ? `<div style="margin:24px 0 8px">${chipName(t.solo, S.players[t.solo], { pad:"13px 28px", radius:"24px", dash:6, lift:6, size:"32px" })}</div>
-         <p class="lede">Νικητης της δικης με ${t.top} ${t.top===1?"νικη":"νικες"}.</p>`
-      : `<h2 style="margin-top:24px">Τι ειπατε ρε παιδια καν;</h2>
-         <p class="lede">Ισοπαλια στην κορυφη. Δεν βγαινει νικητης.</p>`}
-    <p class="mini">${S.roundsDone} ${S.roundsDone===1?"γυρος":"γυροι"} &middot; ${t.mine.length} ${t.mine.length===1?"αποψη στο εδωλιο":"αποψεις στο εδωλιο"}</p>
-    <div class="tally" style="margin-top:14px">${board}</div>
-    <div class="fill"></div>
-    ${ibtn("allhmia.png",'data-go="sendOps"')}`;
-};
-
-/* ΟΘΟΝΗ: το τραπεζι σηκωνεται ------------------------------- */
-V.outro = () => `
-  <div class="fill"></div>
-  <div class="stamp">Εληξε</div>
-  <div class="fill"></div>
-  ${ibtn("kontra.png",'data-again="1"')}
-  ${ibtn("akyro.png",'data-home="1"')}`;
-
-/* ΟΘΟΝΗ: κλείστε τα μάτια ----------------------------------- */
-V.eyes = () => `
-  <div class="dark">
-    <p>Ολοι<br>κλεινουν<br>τα ματια</p>
-    ${ibtn("ekleisan.png",'data-go="hearing"')}
+  <div class="duo-btns">
+    ${ibtn("liji.png",'data-end="1"')}
+    ${ibtn("oxi.png",`data-go="${S.finishFrom || "round"}"`)}
   </div>`;
 
-/* ΟΘΟΝΗ: ακρόαση — η άποψη ΚΑΙ το μέτρημα μαζί --------------- */
-V.hearing = () => {
+/* === ΤΟ ΔΙΚΑΣΤΗΡΙΟ ==========================================
+   Διπλωματικη: η εφαρμογη μοιραζει τους ρολους -> η εδρα.
+   Των πολιτων: ησυχια, ματια -> «λανθασμενο;» βγαζει εισαγγελεα
+   -> ξανα ματια -> «σωστο;» βγαζει υπερασπιση -> η εδρα.         */
+
+V.eyes = () => `
+  <div class="dark">
+    <div class="hush">Ησυχια στο Δικαστηριο!</div>
+    <div class="hushsub">μιλαει μονο ο δικαστης</div>
+    <p>Ολοι<br>κλεινουν<br>τα ματια</p>
+    ${ibtn("ekleisan.png",'data-go="accuse"')}
+  </div>`;
+
+V.accuse = () => `
+  <p class="eyebrow">Διαβασε την υποθεση δυνατα</p>
+  <div class="card">${esc(S.round.op.text)}</div>
+  <p class="cue">Οσοι πιστευουν οτι αυτο που ακουσαν ειναι <b class="neg">λανθασμενο</b> να σηκωσουν το δεξι τους χερι και να ανοιξουν τα ματια τους.</p>
+  <div class="remind"><b>Υπενθυμιση!</b> Μονο ενας μπορει να αναλαβει τον ρολο του εισαγγελεα, οποτε εαν ειναι 2 η περισσοτερα χερια σηκωμενα, ας αποφασισουν μεταξυ τους ποιος θα υποχωρησει (κανετε νοηματα, γυριστε κερμα, πετρα ψαλιδι χαρτι, ο,τι θελετε, δεν με νοιαζει).</div>
+  <div class="fill"></div>
+  ${ibtn("etoimoi.png",'data-go="prosecutor"',"mid")}
+  <p class="mini" style="margin-top:8px">Εαν δεν σηκωσε κανεις, ας προχωρησουμε<br>με το κουμπι αρχειοθετησης</p>
+  ${ibtn("arxeiothetisi.png",'data-burn="1"',"small")}`;
+
+V.prosecutor = () => {
   const r = S.round;
-  const mark = v => v === "pro" ? badge("uper.png")
-                  : v === "con" ? badge("kata.png")
-                  : `<em>—</em>`;
-  const rows = S.players.map((p,i) => i === S.judge ? "" : `
-    <button class="t" data-vote="${i}">
-      <span>${esc(p)}</span>
-      ${mark(r.vote[i])}
-    </button>`).join("");
-
-  const pro = sideOf("pro"), con = sideOf("con");
-  const all = S.players.length - 1, done = pro.length + con.length;
-  const split = pro.length > 0 && con.length > 0;
-
-  let actions;
-  if (done < all){
-    actions = `<p class="mini">Μετρα ολους &middot; ${done}/${all}</p>`;
-  } else if (!split){
-    actions = ibtn("omofwnia.png",'data-unanimous="1"');
-  } else {
-    const can2 = S.playerCount >= CFG.UNLOCK_2V2;
-    const can3 = S.playerCount >= CFG.UNLOCK_3V3;
-    const ok2 = pro.length >= 2 && con.length >= 2;
-    const ok3 = pro.length >= 3 && con.length >= 3;
-    actions = ibtn("kontra.png",'data-mode="1"');
-    if (can2 || can3){
-      actions += `<div class="row">
-        ${can2 ? ibtn("diplikontra.png",`data-mode="2" ${ok2?"":"disabled"}`) : ""}
-        ${can3 ? ibtn("triplikontra.png",`data-mode="3" ${ok3?"":"disabled"}`) : ""}
-      </div>`;
-      if ((can2 && !ok2) || (can3 && !ok3))
-        actions += `<p class="mini">Οι ομαδικες θελουν αρκετους και στις δυο πλευρες</p>`;
-    }
-  }
-
+  const tags = debaters().map(i => `
+    <button class="role ${r.con === i ? "on" : ""}" data-pros="${i}">${chip(i, { lift:3, size:"17px" })}</button>`).join("");
   return `
-    <p class="eyebrow">Διαβασε την δυνατα &middot; <b>${done}/${all}</b></p>
-    <div class="card">${esc(r.op.text)}</div>
-    <p class="count">Συμφωνω = δεξι χερι &middot; Διαφωνω = αριστερο</p>
-    <div class="tally" style="margin-top:16px">${rows}</div>
+    <h2 style="text-align:center">Ποιος ειναι ο εισαγγελεας;</h2>
+    <div class="roles">${tags}</div>
+    <p class="cue">Εφοσον επιλεχτηκε παιχτης για τον ρολο του εισαγγελεα, ξανακλεινουν ολοι τα ματια τους και κατεβαζουν χερια.</p>
     <div class="fill"></div>
-    ${actions}`;
+    ${ibtn("ekleisan-cut.png", `data-go="defense" ${r.con == null ? "disabled" : ""}`, "mid")}
+    ${r.con == null ? `<p class="mini">Διαλεξε ενα ονομα</p>` : ""}`;
 };
 
-/* ΟΘΟΝΗ: επιλογή μονομάχων ---------------------------------- */
-V.select = () => {
-  const r = S.round, n = r.mode;
-  const list = (side, sel) => sideOf(side).map(i => `
-    <button class="t ${sel.includes(i) ? side + " picked" : "out"}" data-pick="${side}:${i}">
-      <span>${esc(nameOf(i))}</span>
-      ${sel.includes(i) ? badge(side === "pro" ? "uper.png" : "kata.png") : `<em>ενορκος</em>`}
-    </button>`).join("");
-
-  const ready = r.proSel.length === n && r.conSel.length === n;
-
+V.defense = () => {
+  const r = S.round;
+  const tags = debaters().filter(i => i !== r.con).map(i => `
+    <button class="role ${r.pro === i ? "on" : ""}" data-def="${i}">${chip(i, { lift:3, size:"17px" })}</button>`).join("");
   return `
-    <p class="eyebrow">Ο δικαστης διαλεγει &middot; <b>${n} vs ${n}</b></p>
-    <h2>Ποιοι κατεβαινουν;</h2>
-    <p class="lede">Διαλεξε ${n} απο καθε πλευρα. Οσοι μεινουν εξω γινονται ενορκοι.</p>
-
-    <label>Υπερ &middot; ${r.proSel.length}/${n}</label>
-    <div class="tally">${list("pro", r.proSel)}</div>
-
-    <label>Κατα &middot; ${r.conSel.length}/${n}</label>
-    <div class="tally">${list("con", r.conSel)}</div>
-
+    <p class="eyebrow">Διαβασε την ξανα</p>
+    <div class="card">${esc(r.op.text)}</div>
+    <p class="cue">Οσοι πιστευουν οτι αυτο που ακουσαν ειναι <b class="pos">σωστο</b> να σηκωσουν το δεξι τους χερι και να ανοιξουν τα ματια τους.</p>
+    <div class="vsrow"><span class="vslbl">Εισαγγελεας</span>${chip(r.con, { lift:3, size:"18px" })}</div>
+    <h2 class="ask">Υπαρχει καποιος που θελει να υπερασπιστει την υποθεση και να παει κοντρα με τον ${esc(nameOf(r.con))};</h2>
+    <div class="roles">${tags}</div>
     <div class="fill"></div>
-    ${ready ? ibtn("etoimoi.png",'data-go-contra="1"')
-            : `<p class="mini">Διαλεξε ${n} απο καθε πλευρα</p>`}
-    ${ibtn("akyro.png",'data-go="hearing"')}`;
+    ${r.pro == null ? ibtn("oxi.png",'data-nodef="1"',"mid") : ibtn("kontra.png",'data-go="preview"',"mid")}`;
+};
+
+/* ΟΘΟΝΗ: η εδρα — η επισκοπηση πριν την κοντρα -------------- */
+V.preview = () => {
+  const r = S.round, dipl = S.set.mode !== "polites";
+  if (!r.quip) r.quip = quip();
+  const jur = S.players.map((_, i) => i).filter(i => i !== S.judge && i !== r.pro && i !== r.con);
+  return `
+    <h2 class="quip">${esc(r.quip)}</h2>
+    <div class="bench">
+      <div class="seat"><span class="slbl">Δικαστης</span>${chip(S.judge, { lift:3, size:"18px" })}</div>
+      <div class="duo">
+        <div class="seat"><span class="slbl">Εισαγγελεας</span>${chip(r.con, { lift:4, size:"19px" })}</div>
+        <div class="vs">VS</div>
+        <div class="seat"><span class="slbl">Υπερασπιση</span>${chip(r.pro, { lift:4, size:"19px" })}</div>
+      </div>
+      ${jur.length ? `<div class="seat"><span class="slbl">Ενορκοι</span>
+        <div class="roster" style="justify-content:center">${jur.map(i => chip(i, { lift:2, size:"14px" })).join("")}</div></div>` : ""}
+    </div>
+    ${dipl ? `
+      <p class="slbl" style="margin:18px 0 8px">Ο δικαστης διαβαζει δυνατα</p>
+      <div class="card" style="font-size:17px">${esc(r.op.text)}</div>
+      <div class="duo-btns">
+        <button class="endlink" style="margin:0" data-reroll="1">Αλλη υποθεση</button>
+        <button class="endlink" style="margin:0" data-swap="1">Αλλαγη πλευρων</button>
+      </div>` : ""}
+    ${tableHTML(true)}
+    ${voteBtn("preview")}
+    <div class="fill"></div>
+    ${ibtn("etoimoi.png",'data-go-contra="1"',"mid")}
+    <button class="endlink" data-endask="1">Ληξη παιχνιδιου</button>`;
 };
 
 /* ΟΘΟΝΗ: η κόντρα — σειρά ομιλητών + σημειώσεις ------------- */
 V.contra = () => {
   const r = S.round;
   const cur = r.order[r.cur];
-
   const speakers = r.order.map((o,k) => {
     const active = k === r.cur, spent = k < r.cur;
-    const label = (o.side === "pro" ? "Υπερ" : "Κατα") + " &middot; " + esc(nameOf(o.p));
+    const label = (o.side === "pro" ? "Υπερασπιση" : "Εισαγγελεας") + " &middot; " + esc(nameOf(o.p));
     if (active && !r.opa) return `
       <div class="side on ${o.side==="con"?"con":""}">
         <div class="who">${label}</div>
@@ -1180,15 +1661,11 @@ V.contra = () => {
         <div class="clock">${mmss(r.times[k])}</div>
       </div>`;
   }).join("");
-
-  const foe = cur.side === "pro" ? "οι κατα" : "οι υπερ";
-
+  const foe = cur.side === "pro" ? "ο εισαγγελεας" : "η υπερασπιση";
   return `
-    <p class="eyebrow">Κόντρα ${r.mode} vs ${r.mode} &middot;
-      <b>${r.opa ? "ΟΠΑ" : cur.side === "pro" ? "ΥΠΕΡ" : "ΚΑΤΑ"}</b></p>
-
+    <p class="eyebrow">Κοντρα &middot; λογος ${Math.floor(r.cur/2)+1} απο ${S.set.rounds || 1} &middot;
+      <b>${r.opa ? "ΟΠΑ" : cur.side === "pro" ? "ΥΠΕΡΑΣΠΙΣΗ" : "ΕΙΣΑΓΓΕΛΕΑΣ"}</b></p>
     ${speakers}
-
     ${r.opa ? `
       <div class="side interrupt">
         <div class="who">Διακοπη &middot; ${esc(foe)}</div>
@@ -1196,251 +1673,309 @@ V.contra = () => {
         <div class="who" id="exNote" style="color:var(--brass)">+${mmss(r.extra[r.cur]||0)}</div>
       </div>
       <p class="mini">ο χρονος της διακοπης γυριζει στον ομιλητη στο τελος</p>
-      ${ibtn("liji.png",'data-opa="0"')}
+      ${ibtn("telos.png",'data-opa="0"',"mid")}
     ` : `
       ${r.onExtra[r.cur]
         ? `<p class="warn" style="color:var(--brass)">ΕΞΤΡΑ ΧΡΟΝΟΣ &middot;<br>οσο του εφαγαν οι διακοπες</p>`
         : (r.extra[r.cur]||0) > 0
           ? `<p class="mini" style="color:var(--brass)">μαζευτηκαν +${mmss(r.extra[r.cur])} εξτρα για το τελος</p>`
           : ""}
-      ${ibtn("opa.png",'data-opa="1"')}
-      <p class="mini">δινεις τον λογο στον αλλον, μην τον αφησεις να μας ζαλισει</p>
+      ${S.set.opa ? ibtn("opa.png",'data-opa="1"',"mid") + '<p class="mini">δινεις τον λογο στον αλλον, μην τον αφησεις να μας ζαλισει</p>'
+        : `<button class="btn tmpl mid ${r.paused ? "paused" : ""}" data-pause="1">${r.paused ? "Συνεχεια" : "Παυση"}</button>
+           <p class="mini">${r.paused ? "το ρολοι σταματησε" : "σας εκοψαν; σταματαει το ρολοι, χωρις εξτρα χρονο"}</p>`}
     `}
-
     <details class="notes" ${r.notes ? "open" : ""}>
       <summary>Σημειωσεις δικαστη</summary>
       ${notesField(r.notes)}
     </details>
-
     <div class="fill"></div>
-    ${ibtn("epomenos.png",'data-next="1"')}
-    ${ibtn("liji.png",'data-go="verdict"')}`;
+    <div class="duo-btns">
+      ${ibtn("epomenos.png",'data-next="1"')}
+      ${ibtn("telos.png",'data-go="verdict"')}
+    </div>`;
 };
 
-/* ΟΘΟΝΗ: ετυμηγορία ----------------------------------------- */
+/* ΟΘΟΝΗ: ετυμηγορία — πατας τον νικητη, μετα «Ποντος!» --------- */
 V.verdict = () => {
-  const r = S.round;
-  const team = sel => sel.map(i => esc(nameOf(i))).join(" &amp; ");
+  const r = S.round, pts = true;
+  const opt = (i, lbl) => `
+    <button class="vpick ${r.pick === i ? "on" : ""}" data-vpick="${i}">
+      <span class="slbl">${lbl}</span>
+      ${chip(i, { lift:4, size:"20px" })}
+      ${pts ? `<span class="vhp">${hpRow(i)}</span>` : ""}
+    </button>`;
   return `
-    <p class="eyebrow">Οι ενορκοι αποφασιζουν</p>
-    <h2>${r.mode === 1 ? "Ποιος κερδισε;" : "Ποια ομαδα κερδισε;"}</h2>
-    <button class="btn box brass" data-win="pro">${team(r.proSel)}</button>
-    <button class="btn box" style="color:#4D7BE0" data-win="con">${team(r.conSel)}</button>
+    <h2>Ποιος κερδισε;</h2>
+    <div class="vgrid">${opt(r.con, "Εισαγγελεας")}${opt(r.pro, "Υπερασπιση")}</div>
+    <p class="mini">${r.pick == null ? "πατα τον νικητη" : esc(nameOf(r.pick)) + " &middot; και τωρα ο ποντος"}</p>
     <div class="fill"></div>
-    ${ibtn("denbgikeakrh.png",'data-win="none"')}`;
+    ${ibtn("pontos.png", `data-award="1" ${r.pick == null ? "disabled" : ""}`)}
+    ${ibtn("denbgikeakrh.png",'data-nowin="1"',"small")}`;
 };
 
-/* ΟΘΟΝΗ: ποινή η ποντος ------------------------------------
-   ΜΕ ΠΟΙΝΗ: πληρωνει ο χαμενος. ΜΕ ΠΟΝΤΟΥΣ: παιρνει ο νικητης.  */
+/* ΟΘΟΝΗ: ο ποντος (η η ποινη) — και η υποθεση καιγεται ------ */
 V.sentence = () => {
-  const r = S.round, pen = S.scoring === "penalty";
-  const none = r.winner === "none";
-  const winSel = none ? null : (r.winner === "pro" ? r.proSel : r.conSel);
-  const loseSel = none ? null : (r.winner === "pro" ? r.conSel : r.proSel);
-  const team = sel => sel.map(i => chip(i, { lift:3, size:"18px" })).join(" ");
+  const r = S.round, res = r.res, pen = S.scoring === "penalty";
+  const burnt = `
+    <div class="card burn">${esc(r.op.text)}</div>
+    ${ibtn("kahke.png",'data-burnt="1"')}`;
+  if (!res) return `
+    <div class="stamp">Ακυρη</div>
+    <p class="lede" style="margin-top:16px">Δεν βγηκε ακρη — κανεις δεν παιρνει ποντο.</p>
+    <div class="fill"></div>
+    ${burnt}`;
+  if (pen) return `
+    <div class="stamp small">Ενοχοι</div>
+    <div class="fill"></div>
+    <div style="margin:0 0 14px">${chip(res.l, { lift:3, size:"20px" })}</div>
+    <h2 style="color:var(--brass);margin:0">${esc(S.penalty)}</h2>
+    <div class="hpline"><span class="hp big">${heartsHTML(res.lifeAfter, res.lifeAfter)}</span></div>
+    ${res.lifeAfter === 0 ? `<p class="warn">τελειωσαν οι ζωες</p>` : ""}
+    <p class="mini">κερδισε ο ${esc(nameOf(res.w))}</p>
+    <div class="fill"></div>
+    ${burnt}`;
+  const dead = res.lifeAfter === 0;
+  const won = res.winsAfter >= CFG.WINS;
   return `
-    <p class="eyebrow">${pen ? "Η ποινη" : "Ο ποντος"}</p>
-    <div class="stamp ${none ? "" : "small"}">${none ? "Ακυρη" : pen ? "Ενοχοι" : "Ποντος"}</div>
+    <div class="score">
+      <div class="srow2">
+        ${chip(res.w, { lift:4, size:"21px" })}<b class="delta up">+1</b>
+        <span class="hp big">${winsHTML(res.winsAfter, res.winsAfter - 1)}</span>
+      </div>
+      <div class="srow2">
+        ${chip(res.l, { lift:4, size:"21px" })}<b class="delta down">&minus;1</b>
+        <span class="hp big">${heartsHTML(res.lifeAfter, res.lifeAfter)}</span>
+      </div>
+    </div>
+    ${won ? `<p class="warn" style="color:var(--brass)">${CFG.WINS} νικες! Το παιχνιδι τελειωνει.</p>`
+          : dead ? `<p class="warn">${esc(nameOf(res.l))}: τελειωσαν οι ζωες</p>` : ""}
     <div class="fill"></div>
-    <div style="margin:0 0 14px">${pen
-      ? (loseSel ? team(loseSel) : "<span class=\"lede\">Οι ενορκοι</span>")
-      : (winSel ? team(winSel) : "<span class=\"lede\">Κανενας</span>")}</div>
-    <h2 style="color:var(--brass);margin:0">${pen ? esc(S.penalty) : (winSel ? "+1" : "χωρις ποντο")}</h2>
-    <div class="fill"></div>
-    ${ibtn("allhmia.png",'data-go="archive"')}`;
+    ${burnt}`;
 };
 
-/* ΟΘΟΝΗ: ΠΟΙΕΣ ΑΠΟΨΕΙΣ ΜΕΝΟΥΝ ΣΤΟΝ ΦΑΚΕΛΟ
-   Βγαινει μια φορα, στο τελος καθε παιχνιδιου. Το τραπεζι
-   τσεκαρει οσες αξιζει να κρατησει — οι υπολοιπες χανονται.  */
-V.sendOps = () => {
-  const all = allOpinions();
-  if (!all.length) return `
-    <p class="eyebrow">Πριν κλεισει ο φακελος</p>
-    <h2>Δεν εμεινε τιποτα</h2>
-    <div class="fill"></div>
-    ${ibtn("kontra.png",'data-again="1"')}
-    ${ibtn("akyro.png",'data-home="1"')}`;
-
-  const rows = all.map((o, k) => `
-    <button class="pick ${S.sendPick[k] ? "on" : ""}" data-send="${k}">
-      <span class="tick">${S.sendPick[k] ? "&#10003;" : ""}</span>
-      <span class="tx">${esc(o.t)}</span>
-    </button>`).join("");
-  const n = S.sendPick.filter(Boolean).length;
-
-  return `
-    <p class="eyebrow">Πριν κλεισει ο φακελος</p>
-    <h2>Ποιες κρατατε;</h2>
-    <p class="lede">Πατα οσες θελεις να μπουν στον φακελο. Οι υπολοιπες φευγουν.</p>
-    <div class="picks">${rows}</div>
-    <div class="fill"></div>
-    <button class="btn tmpl" data-sendgo="1" ${n ? "" : "disabled"}>${
-      n ? "Βαλε " + (n === 1 ? "την" : "τις " + n) : "Διαλεξε καμια"}</button>
-    <button class="btn tmpl" data-sendgo="all">Ολες μεσα</button>
-    <button class="btn tmpl" data-sendgo="0">Καμια, τελος</button>`;
-};
-
-/* ΠΟΙΟΣ ΤΟ ΕΙΠΕ — μονο μετα την κοντρα, και μονο αν το ζητησει
-   το τραπεζι. Οσο παιζεται η αποψη, ειναι ανωνυμη.           */
-function whoBlock(){
-  const w = S.round && S.round.op ? (S.round.op.who || "") : "";
-  if (!w) return "";
-  if (!S.showWho) return `<button class="btn ghost brass" data-who="1">ποιος το ειπε;</button>`;
-  return `<div class="stamp small brass" style="font-size:clamp(17px,5.5vw,24px)">${esc(w)}</div>`;
-}
-
-/* ΟΘΟΝΗ: αρχειοθέτηση --------------------------------------- */
-V.archive = () => `
-  <p class="eyebrow">Ο δικαστης αποφασιζει</p>
-  <h2>Εληξε η κουβεντα;</h2>
-  <div class="card">${esc(S.round.op.text)}</div>
-  ${whoBlock()}
-  ${lowDeck()}
-  <details class="notes" ${S.round.notes ? "open" : ""}>
-    <summary>Σημειωσεις δικαστη</summary>
-    ${notesField(S.round.notes)}
-  </details>
+/* ΟΘΟΝΗ: δεν βγηκε κοντρα — η υποθεση καιγεται ---------------- */
+V.burnt = () => `
   <div class="fill"></div>
-  ${ibtn("arxeiothetisi.png",'data-arch="1"')}
-  ${ibtn("keep.png",'data-arch="0"')}`;
+  <div class="card burn">${esc(S.round.op.text)}</div>
+  <p class="lede" style="margin-top:16px">Δεν βγηκε κοντρα. Η υποθεση καιγεται και δεν ξανασυζητιεται ποτε.</p>
+  <div class="fill"></div>
+  ${ibtn("kahke.png",'data-burnt="1"')}`;
 
-/* ΟΘΟΝΗ: αναπλήρωση ----------------------------------------- */
+/* ΟΘΟΝΗ: αναπληρωση (με τα δικα μας) -------------------------- */
 V.refill = () => `
-  <p class="eyebrow">Καινουρια αποψη</p>
-  <div class="stamp small">Καηκε</div>
-  <h2 style="margin-top:24px">Δωσε το κινητο</h2>
-  <p class="lede">Μια αποψη εφυγε. Καποιος γραφει καινουρια στη θεση της — ή συνεχιζετε με οσες εμειναν.</p>
-  ${lowDeck()}
   <div class="fill"></div>
-  ${ibtn("dinworko.png",'data-extra="round"')}
-  ${ibtn("epomenos.png",'data-skiprefill="1"')}
-  <p class="mini">Χωρις καινουρια αποψη, ο φακελος μικραινει</p>`;
-
-/* ΟΘΟΝΗ: άδειος φάκελος ------------------------------------- */
-V.empty = () => `
-  ${header("empty")}
-  <p class="eyebrow">Αδειασε η δικογραφια</p>
-  <h2>Τελος δικης</h2>
-  <p class="lede">Καηκαν ολες οι αποψεις.</p>
+  <h2>Δωσε το κινητο</h2>
+  <p class="lede">Μια υποθεση εφυγε. Καποιος γραφει καινουρια στη θεση της — ή συνεχιζετε με οσες εμειναν.</p>
+  <p class="mini">${S.opinions.length} ${S.opinions.length === 1 ? "υποθεση" : "υποθεσεις"} στον φακελο</p>
   <div class="fill"></div>
-  ${ibtn("dinworko.png",'data-extra="round"')}`;
+  <div class="duo-btns">
+    ${ibtn("grafw.png",'data-extra="round"')}
+    ${ibtn("epomenos.png",'data-skiprefill="1"')}
+  </div>`;
 
-/* ΟΘΟΝΗ: Ο ΦΑΚΕΛΟΣ -------------------------------------------
-   Στη θεση των πρακτικων: μονο οι αποψεις που κρατησατε.   */
+/* ΟΘΟΝΗ: εξοδος παιχτη — μετα την κοντρα, πριν την επομενη δικη */
+function voteBtn(from){
+  return canVote() ? `<button class="votebtn" data-vote="${from || "exit"}">Ψηφοφορια<small>υποψιαζεστε κρυφο ρολο;</small></button>` : "";
+}
+V.exit = () => {
+  const ev = S.outQueue[0];
+  if (!ev) return V.round();
+  if (ev.kind === "bullet") return `
+    <div class="stamp small brass">Μπηκε βυσμα!</div>
+    <div style="margin:20px 0 8px">${chip(ev.saved, { pad:"11px 24px", lift:5, size:"24px" })}</div>
+    <p class="lede" style="color:var(--bone);font-size:18px;margin:0 0 14px">επεφτε... αλλα ειχε βυσμα!</p>
+    <div class="card" style="font-size:16px">
+      <div style="margin:0 0 10px">${chip(ev.who, { lift:3, size:"17px" })}</div>
+      ηταν το Βυσμα του και βγαινει στη θεση του. Ο ${esc(nameOf(ev.saved))} παιρνει μια ζωη παραπανω.
+    </div>
+    <div class="hpline"><span class="hp big">${heartsHTML(S.life[ev.saved] || 0, -1)}</span></div>
+    <div class="fill"></div>
+    ${voteBtn()}
+    <button class="btn tmpl mid" data-exitnext="1">Συνεχιζουμε</button>`;
+  return `
+    <img class="bigicon" src="${IMG}loss.png" alt="">
+    <div style="margin:10px 0 12px">${chip(ev.who, { pad:"12px 26px", radius:"24px", dash:5, lift:6, size:"28px" })}</div>
+    <h2 style="color:var(--blood);text-shadow:var(--stroke)">Εχασες!</h2>
+    <p class="lede" style="color:var(--bone);font-size:17px">${CFG.LIVES} ηττες μαζεψες, νομιζω ηρθε η ωρα σου να βαλεις γλωσσα μεσα. Μενεις ενορκος!</p>
+    ${S.scoring === "penalty" ? `<div class="penbox"><span class="slbl">Η ποινη της εξοδου</span><b>${esc(S.penalty)}</b></div>` : ""}
+    <div class="fill"></div>
+    ${voteBtn()}
+    <button class="btn tmpl mid" data-exitnext="1">Συνεχιζουμε</button>`;
+};
+
+/* ΟΘΟΝΗ: η ψηφος του τραπεζιου — στο στυλ του κανονισμου ------ */
+V.vote = () => {
+  const R = S.roles, v = S.vote;
+  const cards = [];
+  if (R.k != null && !S.kRevealed) cards.push(["komplex", "Το Κομπλεξ"]);
+  if (R.v != null && !S.vRevealed) cards.push(["vysma", "Το Βυσμα"]);
+  const cand = alive().map(i => `
+    <button class="role ${v.who === i ? "on" : ""}" data-vwho="${i}">${chip(i, { lift:3, size:"16px" })}</button>`).join("");
+  return `
+  <div class="turf">
+  <div class="rail"></div>
+  <h2 style="text-align:center">Ποιον καιτε;</h2>
+  <div class="rules sset">
+    <p style="margin-top:4px">Υποψιαζεστε καποιον για κρυφο ρολο; Διαλεξτε φυλλο και δειξτε εναν. <b>Οποιον δειξετε, φευγει απο το παιχνιδι</b> — ειτε πεσατε μεσα ειτε οχι.</p>
+    <h3>Το φυλλο</h3>
+    <div class="srow">${cards.map(c => `<button class="sopt ${v.role === c[0] ? "on" : ""}" data-vrole="${c[0]}">${c[1]}</button>`).join("")}</div>
+    <h3>Ο υποπτος</h3>
+    <div class="roles" style="justify-content:center">${cand}</div>
+  </div>
+  <div class="finish"></div>
+  </div>
+  <div class="fill"></div>
+  <button class="btn tmpl mid" data-vgo="1" ${v.who == null ? "disabled" : ""}>${v.who == null ? "Δειξτε εναν" : "Καψτε τον " + esc(nameOf(v.who))}</button>
+  ${ibtn("oxi.png",'data-vcancel="1"',"small")}`;
+};
+
+V.voteResult = () => {
+  const r = S.voteResult;
+  const role = r.role === "komplex" ? "το Κομπλεξ" : "το Βυσμα";
+  return `
+    <div class="stamp ${r.right ? "brass" : ""}">${r.right ? "Σωστα!" : "Λαθος!"}</div>
+    <div style="margin:20px 0 10px">${chip(r.who, { pad:"11px 24px", lift:5, size:"24px" })}</div>
+    <p class="lede" style="color:var(--bone);font-size:18px">${r.right
+      ? "ηταν " + role + ". Το φυλλο καηκε και φευγει απο το παιχνιδι."
+      : "δεν ηταν " + role + ". Φευγει παντως — ετσι ειναι οι λαικες δικες."}</p>
+    <div class="fill"></div>
+    <button class="btn tmpl mid" data-vdone="1">Συνεχιζουμε</button>`;
+};
+
+/* === ΤΟ ΤΕΛΟΣ ================================================= */
+function flowersHTML(E){
+  if (!E || E.flowers == null) return "";
+  return `<div class="flowers"><b>Ολα τα λουλουδια για τον ${esc(nameOf(E.flowers))}</b>, ξερει να σας καυλανταει.</div>`;
+}
+function rolesReveal(){
+  const R = S.roles;
+  if (!R) return "";
+  const row = (lbl, a, mid, b) => `<div class="rv"><span class="slbl">${lbl}</span>${chip(a, { lift:2, size:"14px" })}<span>${mid}</span>${chip(b, { lift:2, size:"14px" })}</div>`;
+  return `<div class="reveal"><p class="slbl" style="margin:0">Οι κρυφοι ρολοι</p>
+    ${R.k != null ? row("Κομπλεξ", R.k, "με τον", R.kT) : ""}
+    ${R.v != null ? row("Βυσμα", R.v, "του", R.vT) : ""}</div>`;
+}
+const endBtns = () => `<div class="duo-btns">${ibtn("telos.png",'data-home="1"')}${ibtn("alloena.png",'data-again="1"')}</div>
+  <button class="endlink" data-sendops="1">Κρατα υποθεσεις στον φακελο</button>`;
+
+/* ΟΘΟΝΗ: νικη κρυφου ρολου ----------------------------------- */
+V.roleWin = () => {
+  const E = S.endInfo, k = E.kind === "komplex";
+  return `
+    <div class="stamp brass">${k ? "Το Κομπλεξ!" : "Μπηκε βυσμα!"}</div>
+    <div style="margin:22px 0 10px">${chip(E.champ, { pad:"13px 28px", radius:"24px", dash:6, lift:6, size:"32px" })}</div>
+    <h2 style="color:var(--brass)">${k ? "τα πηρε ολα" : "και νικαει!"}</h2>
+    <div class="card" style="font-size:16px">${k
+      ? `Ειχε κομπλεξ με τον ${esc(nameOf(E.target))} και τον εβγαλε απο το παιχνιδι. Νικη επιτοπου.`
+      : `Ο ${esc(nameOf(E.prot))} εφτασε στην κορυφη... αλλα ο ${esc(nameOf(E.champ))} ηταν το βυσμα του. Νικαει ο ${esc(nameOf(E.champ))}. Ο ${esc(nameOf(E.prot))} μετα τον φασωνει.`}</div>
+    ${flowersHTML(E)}
+    ${rolesReveal()}
+    <div class="fill"></div>
+    ${endBtns()}`;
+};
+
+/* ΟΘΟΝΗ: απολογισμος ----------------------------------------- */
+function tally(){
+  const ks = S.players.map((_, k) => k), E = S.endInfo || {};
+  const sc = k => (S.out[k] ? 0 : 1000) + (S.life[k] || 0) * 100 + (S.wins[k] || 0);
+  const top = Math.max.apply(null, ks.map(sc)), low = Math.min.apply(null, ks.map(sc));
+  return { champs: E.champ != null ? [E.champ] : ks.filter(k => sc(k) === top),
+           losers: top === low ? [] : ks.filter(k => sc(k) === low && k !== E.champ) };
+}
+V.theEnd = () => {
+  const E = S.endInfo || { kind: "tie" };
+  if (S.scoring === "penalty"){
+    const t = tally();
+    return `
+    <div class="stamp">Εληξε</div>
+    ${E.byDeck ? `<p class="mini">τελειωσαν οι υποθεσεις του φακελου</p>` : ""}
+    <div class="fill"></div>
+    <h1 style="margin:0 0 16px">συγχαρητηρια!</h1>
+    <div class="roster" style="justify-content:center;margin-bottom:18px">
+      ${t.champs.map(k => chipName(k, S.players[k], { pad:"11px 24px", lift:5, size:"23px" })).join("")}
+    </div>
+    <h2 style="color:var(--brass);margin:0 0 8px">εχεις την μεγαλη τιμη να διαλεξεις την εσχατη ποινη</h2>
+    <p class="lede" style="margin:0">ο,τι θες, παρε τον χρονο σου.</p>
+    ${flowersHTML(E)}
+    ${rolesReveal()}
+    ${t.losers.length ? `
+      <p class="mini" style="margin-top:24px">Ο λογαριασμος παει σε</p>
+      <div class="roster" style="justify-content:center;margin-top:8px">
+        ${t.losers.map(k => chipName(k, S.players[k], { lift:3 })).join("")}
+      </div>` : ""}
+    <div class="fill"></div>
+    ${endBtns()}`;
+  }
+  const line = { wins: CFG.WINS + " νικες. Νικητης της δικης!", last: "ο τελευταιος ορθιος. Νικητης της δικης!",
+                 manual: "με τις περισσοτερες νικες. Νικητης της δικης!" }[E.kind] || "";
+  return `
+    <div class="stamp">Εληξε</div>
+    ${E.byDeck ? `<p class="mini">τελειωσαν οι υποθεσεις του φακελου</p>` : ""}
+    ${E.champ != null
+      ? `<div style="margin:24px 0 8px">${chip(E.champ, { pad:"13px 28px", radius:"24px", dash:6, lift:6, size:"32px" })}</div>
+         <p class="lede">${line}</p>`
+      : `<h2 style="margin-top:24px">Τι ειπατε ρε παιδια καν;</h2>
+         <p class="lede">Ισοπαλια στην κορυφη. Δεν βγαινει νικητης.</p>`}
+    ${flowersHTML(E)}
+    ${rolesReveal()}
+    ${finalTable()}
+    <div class="fill"></div>
+    ${endBtns()}`;
+};
+
+/* ΟΘΟΝΗ: Ο ΦΑΚΕΛΟΣ ------------------------------------------- */
 V.folder = () => {
   const list = S.folder;
   if (!list.length) return `
     <p class="eyebrow">Ο φακελος</p>
+    <div class="fill"></div>
     <h2>Αδειος ακομα</h2>
-    <p class="lede">Στο τελος καθε παιχνιδιου διαλεγετε ποιες αποψεις μενουν εδω για την επομενη φορα.</p>
+    <p class="lede">Στο τελος καθε παιχνιδιου κρατατε οσες υποθεσεις αξιζουν — μενουν εδω για την επομενη φορα.</p>
     <div class="fill"></div>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
-
   const rows = list.map((o, k) => `
-    <div class="rec">
-      <div class="o">${esc(o.t)}</div>
-      ${o.who ? `<div class="h">${esc(o.who)}</div>` : ""}
-      <button class="btn ghost" data-drop="${k}"
-        style="width:auto;padding:6px 16px;margin-top:8px">βγαλτο</button>
+    <div class="frow">
+      <span class="tx">${esc(o.t)}</span>
+      <button class="peek" data-drop="${k}">βγαλτο</button>
     </div>`).reverse().join("");
-
   return `
-    <p class="eyebrow">Ο φακελος &middot; <b>${list.length}</b>${Store.persistent?"":" &middot; προσωρινα"}</p>
-    <h2>Οι αποψεις σου</h2>
-    ${rows}
+    <p class="eyebrow">Ο φακελος &middot; <b>${list.length}</b></p>
+    <h2>Οι υποθεσεις σας</h2>
+    <div class="picks">${rows}</div>
     <div class="fill"></div>
-    <button class="btn tmpl" data-clear="1">Αδειασε τον φακελο</button>
+    <button class="endlink" data-clear="1" style="${S.clearArm ? "color:#fff;background:#b3261c" : ""}">${S.clearArm ? "Σιγουρα; Πατα ξανα" : "Αδειασε τον φακελο"}</button>
     ${ibtn("akyro.png",`data-go="${S.back}"`)}`;
 };
 
-/* Ολες οι αποψεις της παρτιδας: οσες εμειναν ζωντανες + οσες
-   καηκαν στην πορεια, χωρις διπλα. Καθε μια με το «ποιος το ειπε»,
-   ωστε να ταξιδεψει ακεραιη στον φακελο.                       */
-function allOpinions(){
-  const seen = {}, out = [];
-  const push = (t, w) => { if (t && !seen[t]){ seen[t] = 1; out.push({ t: t, who: w || "" }); } };
-  S.opinions.forEach(o => push(o.text, o.who));
-  S.records.slice(S.recordStart).forEach(r => push(r.opinion, r.who));
-  return out;
-}
-
-/* Ο ΦΑΚΕΛΟΣ
-   Στη θεση των πρακτικων. Ο,τι κρατησε το τραπεζι στο τελος καθε
-   παιχνιδιου μενει εδω — μονο οι αποψεις, τιποτα αλλο.          */
-const Folder = {
-  load(){ try { return JSON.parse(localStorage.getItem(CFG.FOLDER_KEY)) || []; } catch(e){ return []; } },
-  save(v){ try { localStorage.setItem(CFG.FOLDER_KEY, JSON.stringify(v)); } catch(e){} },
-  add(t, who){
-    const s = (t || "").trim(); if (!s) return;
-    const l = this.load();
-    if (l.some(o => o.t === s)) return;
-    l.push({ t: s, who: who || "", d: Date.now() });
-    this.save(l);
-  },
-  drop(i){ const l = this.load(); l.splice(i, 1); this.save(l); },
-  clear(){ this.save([]); }
+/* ΟΘΟΝΗ: ποιες κρατατε στον φακελο — απο το τελος του παιχνιδιου */
+V.sendOps = () => {
+  const all = allOpinions();
+  const rows = all.map((t, k) => `
+    <button class="pick ${S.sendPick[k] ? "on" : ""}" data-send="${k}">
+      <span class="tick">${S.sendPick[k] ? "&#10003;" : ""}</span>
+      <span class="tx">${esc(t)}</span>
+    </button>`).join("");
+  const n = S.sendPick.filter(Boolean).length;
+  return `
+    <h2>Ποιες κρατατε;</h2>
+    <p class="lede">Πατα οσες θελεις να μπουν στον φακελο. Θα τις βρειτε στο «Ο φακελος σας».</p>
+    <div class="picks">${rows || `<p class="mini">δεν εμεινε τιποτα</p>`}</div>
+    <div class="fill"></div>
+    <div class="duo-btns">
+      <button class="btn tmpl mid" data-sendgo="1" ${n ? "" : "disabled"}>${n ? "Βαλε " + (n === 1 ? "την" : "τις " + n) : "Διαλεξε"}</button>
+      ${all.length ? `<button class="btn tmpl mid" data-sendgo="all">Ολες μεσα</button>` : ""}
+    </div>
+    ${ibtn("oxi.png",`data-go="${endScreen()}"`,"small")}`;
 };
-
-/* ΕΤΟΙΜΕΣ ΑΠΟΨΕΙΣ (διασημων / πολιτικων / του δημιουργου)
-   Ερχονται απο το ops.js, μπαινουν ανακατεμενες στη δικογραφια και
-   παιζονται ΑΝΩΝΥΜΑ. Το ονομα φυλαγεται στο who και βγαινει μονο
-   αν το ζητησει το τραπεζι, μετα την κοντρα.                     */
-function devOps(){ return []; }
-function readyDeck(id){
-  const K = window.KONTRA_OPS || {};
-  /* Ο φακελος του τραπεζιου: οσες κρατησαν απο παλιες δικες. */
-  if (id === "folder") return S.folder.map(o => ({ t: o.t, who: o.who || "" }));
-  const cat = (K.quotes || []).filter(c => c.id === id)[0];
-  return (cat && cat.ops ? cat.ops : []).map(o => ({ t: o.t || o, who: o.who || "" }));
-}
-function loadReadyDeck(id){
-  const ops = readyDeck(id);
-  for (let i = ops.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random()*(i+1)), t = ops[i]; ops[i] = ops[j]; ops[j] = t;
-  }
-  S.opinions = []; S.nextId = 1;
-  ops.slice(0, CFG.READY_DECK).forEach(o =>
-    S.opinions.push({ id: S.nextId++, text: o.t, who: o.who, wave: 0, used: 0 }));
-  S.peakOps = S.opinions.length;
-}
 
 /* === [12] ΛΟΓΙΚΗ =========================================== */
 
-/* ποιοι ψήφισαν σε μια πλευρά */
-function sideOf(side){
-  return S.players.map((_,i)=>i).filter(i => S.round.vote[i] === side);
-}
-
-/* wave 0 = απο τη συσταση, wave 1 = μπηκε αργοτερα (ανωνυμη, αναπληρωση) */
 function addOpinion(text){
   S.opinions.push({ id: S.nextId++, text: text, wave: S.phase === "setup" ? 0 : 1, used: 0 });
   if (S.opinions.length > S.peakOps) S.peakOps = S.opinions.length;
 }
 
-/* Οταν ο φακελος αδειαζει, ο δικαστης το βλεπει με κοκκινα.
-   ΔΕΝ βγαινει αν το τραπεζι ξεκινησε ετσι κι αλλιως με 3 αποψεις —
-   βγαινει μονο οταν εχουν καει και εχουν μεινει λιγες.
-   Στην τελευταια: «η κοντρα... και οπου βγει».                 */
-function lowDeck(){
-  if (S.phase !== "play") return "";
-  const n = S.opinions.length;
-  if (n > CFG.LOW_DECK || S.peakOps <= CFG.LOW_DECK) return "";
-  if (n <= 1) return `<p class="warn">Τελευταια αποψη &middot;<br>η κοντρα... και οπου βγει</p>`;
-  return `<p class="warn">Μενουν ${n} αποψεις</p>`;
-}
-
-function beginGame(){
-  S.phase = "play";
-  S.roundsDone = 0;
-  S.recordStart = S.records.length;
-  resetWins();
-  S.judge = 0;
-  startRound();
-}
-
-/* ΣΕΙΡΑ: πρωτα οι αποψεις της συστασης, μετα οσες μπηκαν αργοτερα.
-   Καμια δεν ξανατυχαινει πριν ακουστουν ολες οι υπολοιπες.        */
+/* ΣΕΙΡΑ: πρωτα οι υποθεσεις της συστασης, μετα οσες μπηκαν αργοτερα. */
 function pickOpinion(){
   const least = Math.min.apply(null, S.opinions.map(o => o.used || 0));
   let pool = S.opinions.filter(o => (o.used || 0) === least);
@@ -1450,112 +1985,244 @@ function pickOpinion(){
 }
 
 function startRound(){
-  /* Οταν παιχτει και η τελευταια αποψη — «η κοντρα... και οπου
-     βγει» — η δικη απλα ληγει και βγαινει ο απολογισμος.        */
-  if (!S.opinions.length){ S.screen = "theEnd"; return; }
+  S.autoNote = false;
+  ensureDeck();
+  if (!S.opinions.length){ manualEnd(); S.endInfo.byDeck = true; S.screen = endScreen(); return; }
   const op = pickOpinion();
   op.used = (op.used || 0) + 1;
-  S.showWho = false;
-  S.round = { op, vote:{}, mode:1, proSel:[], conSel:[],
-              order:[], times:[], extra:[], onExtra:[],
-              cur:0, opa:false, opaT:0, notes:"", winner:null };
+  S.round = { op, mode:1, proSel:[], conSel:[], order:[], times:[], extra:[], onExtra:[],
+              cur:0, opa:false, opaT:0, notes:"", pro:null, con:null, quip:"", pick:null, res:null };
   S.screen = "round";
 }
 
-function nextJudge(){ S.judge = (S.judge + 1) % S.players.length; }
+/* Ο ΔΙΚΑΣΤΗΣ ΓΥΡΙΖΕΙ στους ορθιους. Αν μεινουν δυο, δικαζει
+   καποιος απο τους ενορκους που εχουν βγει.                    */
+function judgePool(){
+  const a = alive();
+  return a.length >= 3 ? a : S.players.map((_, i) => i).filter(i => S.out[i]);
+}
+function nextJudge(){
+  const pool = judgePool(), n = S.players.length;
+  for (let s = 1; s <= n; s++){
+    const c = (S.judge + s) % n;
+    if (pool.indexOf(c) >= 0){ S.judge = c; return; }
+  }
+}
 
-/* ΞΑΝΑ ΑΠΟ ΤΗΝ ΑΡΧΗ, ΧΩΡΙΣ ΑΡΧΙΚΗ ΟΘΟΝΗ.
-   Κρataei παιχτες, ποινη, χρονο και τις αποψεις που εμειναν.
-   Ο δικαστης προχωραει, ωστε να μην ξαναρχισει ο ιδιος.        */
+const QUIPS = [
+  "Ο εισαγγελεας ακονιζει επιχειρηματα. Η υπερασπιση ακονιζει νυχια.",
+  "Παρακαλουνται οι ενορκοι να μην τρωνε πατατακια την ωρα της δικης.",
+  "Ο δικαστης δηλωνει αμεροληπτος. Κανεις δεν τον πιστευει.",
+  "Οποιος χασει κερναει καφεδες. Δεν το λεει ο κανονισμος, το λεω εγω.",
+  "Το δικαστηριο υπενθυμιζει: οι φωνες δεν μετρανε ως επιχειρημα.",
+  "Δυο μπαινουν, ενας βγαινει. Ο αλλος βγαινει απλα χαμενος.",
+  "Η υπερασπιση ζηταει αναβολη. Απορριπτεται.",
+  "Ο εισαγγελεας εφερε φακελο. Αδειο, αλλα τον εφερε.",
+  "Οι ενορκοι ειναι ετοιμοι να κρινουν. Οπως παντα δηλαδη.",
+  "Κινητα στο αθορυβο. Εκτος απο αυτο εδω, αυτο ειναι ο νομος."
+];
+const quip = () => QUIPS[Math.floor(Math.random() * QUIPS.length)];
+
+/* ΔΙΠΛΩΜΑΤΙΚΗ: ο δικαστης μενει, εισαγγελεας και υπερασπιση
+   βγαινουν στην τυχη αναμεσα στους ορθιους.                   */
+function randomRoles(){
+  const r = S.round, pool = shuffle(debaters());
+  r.con = pool[0]; r.pro = pool[1]; r.quip = quip();
+}
+/* ΑΛΛΗ ΥΠΟΘΕΣΗ: η τωρινη γυριζει πισω ανεπαφη, βγαινει αλλη. */
+function rerollCase(){
+  const r = S.round, old = r.op;
+  let others = S.opinions.filter(o => o !== old);
+  if (!others.length){
+    if (S.topic === "folder") return;
+    dbDraw(3).forEach(t => S.opinions.push({ id: S.nextId++, text: t, wave: 2, used: 0 }));
+    others = S.opinions.filter(o => o !== old);
+  }
+  if (!others.length) return;
+  old.used = Math.max(0, (old.used || 1) - 1);
+  const least = Math.min.apply(null, others.map(o => o.used || 0));
+  const pool = others.filter(o => (o.used || 0) === least);
+  const op = pool[Math.floor(Math.random() * pool.length)];
+  op.used = (op.used || 0) + 1;
+  r.op = op;
+}
+/* Η ΥΠΟΘΕΣΗ ΚΑΙΓΕΤΑΙ — ειτε παιχτηκε ειτε οχι. */
+function burnCase(){
+  S.opinions = S.opinions.filter(o => o.id !== S.round.op.id);
+  S.played.push(S.round.op.text);
+  S.roundsDone++;
+}
+
+/* === ΝΙΚΕΣ, ΖΩΕΣ, ΑΠΟΒΟΛΕΣ ================================== */
+function winEnd(w, kind){
+  const R = S.roles;
+  const flowers = R && R.k != null && R.kT === w ? w : null;
+  if (R && R.v != null && !S.vVoid && R.vT === w) return { kind: "vysma", champ: R.v, prot: w, flowers: flowers };
+  return { kind: kind, champ: w, flowers: flowers };
+}
+function award(w, l){
+  const r = S.round;
+  S.wins[w] = (S.wins[w] || 0) + 1;
+  r.res = { w: w, l: l, winsAfter: S.wins[w], lifeAfter: null };
+  S.life[l] = Math.max(0, (S.life[l] || 0) - 1);
+  r.res.lifeAfter = S.life[l];
+  if (pointsMode() && S.wins[w] >= CFG.WINS){ S.endInfo = winEnd(w, "wins"); return; }
+  if (S.life[l] <= 0) eliminate(l, false);
+}
+/* ΤΟ ΒΥΣΜΑ: αν παει να βγει ο δικος του, σηκωνεται το Βυσμα στη
+   θεση του, φανερωνεται, και ο δικος του παιρνει μια ζωη παραπανω. */
+function eliminate(i, byVote){
+  const R = S.roles;
+  if (R && R.v != null && !S.vVoid && R.vT === i && R.v !== i && !S.out[R.v]){
+    S.out[R.v] = true; S.life[R.v] = 0; S.vVoid = true; S.vRevealed = true;
+    S.life[i] = (S.life[i] || 0) + 1;
+    S.outQueue.push({ kind: "bullet", who: R.v, saved: i });
+    afterOut(R.v);
+    return;
+  }
+  S.out[i] = true; S.life[i] = 0;
+  S.outQueue.push({ kind: byVote ? "voted" : "out", who: i });
+  afterOut(i);
+}
+/* ΤΟ ΚΟΜΠΛΕΞ: βγηκε ο στοχος του; κερδιζει επιτοπου. Βγηκε το
+   ιδιο; Δεν ξανακερδιζει με τιποτα.                             */
+function afterOut(i){
+  const R = S.roles;
+  if (R && R.k === i) S.kVoid = true;
+  if (S.endInfo) return;
+  if (R && R.k != null && !S.kVoid && R.kT === i){ S.endInfo = { kind: "komplex", champ: R.k, target: i, flowers: null }; return; }
+  const a = alive();
+  if (a.length === 1) S.endInfo = winEnd(a[0], "last");
+}
+function canVote(){
+  const R = S.roles;
+  if (!R || S.endInfo || S.votedThisTurn || alive().length < 3) return false;
+  return (R.k != null && !S.kRevealed) || (R.v != null && !S.vRevealed);
+}
+function voteOut(){
+  const v = S.vote, i = v.who;
+  const right = roleOf(i) === v.role;
+  if (right){
+    if (v.role === "komplex"){ S.kVoid = true; S.kRevealed = true; }
+    else { S.vVoid = true; S.vRevealed = true; }
+  }
+  S.votedThisTurn = true;
+  const before = S.outQueue.length;
+  eliminate(i, true);
+  const last = S.outQueue[S.outQueue.length - 1];
+  if (S.outQueue.length > before && last.kind === "voted") S.outQueue.pop();
+  S.voteResult = { who: i, right: right, role: v.role };
+  S.vote = null;
+}
+function manualEnd(){
+  const ks = S.players.map((_, i) => i);
+  const sc = i => pointsMode() ? (S.wins[i] || 0) * 100 + (S.life[i] || 0) : (S.out[i] ? 0 : 1000) + (S.life[i] || 0) * 100 + (S.wins[i] || 0);
+  const top = Math.max.apply(null, ks.map(sc));
+  const champs = ks.filter(i => sc(i) === top);
+  S.endInfo = champs.length === 1 ? winEnd(champs[0], "manual") : { kind: "tie", champ: null, flowers: null };
+}
+const endScreen = () => (S.endInfo && (S.endInfo.kind === "komplex" || S.endInfo.kind === "vysma")) ? "roleWin" : "theEnd";
+
+/* ΜΕΤΑ ΤΟ «ΚΑΗΚΕ!»: πρωτα οι εξοδοι, μετα το τελος, μετα
+   αναπληρωση (με τα δικα μας) και η επομενη δικη.              */
+function afterBurn(){
+  stopTimer();
+  if (S.outQueue.length) return go("exit");
+  if (S.endInfo) return go(endScreen());
+  if (S.topic === "ours") return go("refill");
+  nextRoundGo();
+}
+/* ΨΗΦΟΣ ΑΠΟ ΤΗΝ ΕΔΡΑ: αν εφυγε καποιος απο την εδρα, ξαναστηνεται. */
+function resumeAfterVote(){
+  if (S.outQueue.length) return go("exit");
+  S.voteFrom = null;
+  if (S.endInfo) return go(endScreen());
+  const r = S.round;
+  if (S.out[S.judge] && alive().length >= 3) nextJudge();
+  const broken = r.pro == null || r.con == null || S.out[r.pro] || S.out[r.con] || r.pro === S.judge || r.con === S.judge;
+  if (!broken) return go("preview");
+  if (S.set.mode !== "polites"){ randomRoles(); return go("preview"); }
+  r.pro = null; r.con = null; return go("round");
+}
+function nextRoundGo(){ S.voteFrom = null; S.votedThisTurn = false; nextJudge(); startRound(); render(); }
+
+/* === ΕΚΚΙΝΗΣΗ =============================================== */
+function dealRoles(){
+  S.roles = null; S.kVoid = false; S.vVoid = false; S.kRevealed = false; S.vRevealed = false;
+  if (!rolesOn()) return;
+  const idx = S.players.map((_, i) => i), sh = shuffle(idx.slice());
+  const pick = ex => { const l = idx.filter(i => i !== ex); return l[Math.floor(Math.random() * l.length)]; };
+  const k = S.kOn ? sh[0] : null;
+  const v = S.vOn ? (S.kOn ? sh[1] : sh[0]) : null;
+  S.roles = { k: k, kT: k == null ? null : pick(k), v: v, vT: v == null ? null : pick(v) };
+}
+function begin(){
+  if (S.players.length < 5 && S.kOn && S.vOn) S.vOn = false;
+  go("rolesSet");
+}
+function startGame(){
+  dealRoles();
+  S.life = S.players.map(() => CFG.LIVES);
+  S.out = S.players.map(() => false);
+  S.wins = S.players.map(() => 0);
+  S.outQueue = []; S.endInfo = null; S.vote = null; S.voteResult = null; S.votedThisTurn = false;
+  S.phase = "play"; S.roundsDone = 0; S.played = [];
+  S.judge = S.startJudge % S.players.length;
+  if (S.roles){ S.roleIdx = 0; S.handShow = false; return go("handoff"); }
+  startRound(); render();
+}
+/* ΑΛΛΟ ΕΝΑ! — ιδιοι παιχτες, αλλες υποθεσεις. */
 function playAgain(){
   stopTimer();
   if (!S.players.length) return go("count");
-  /* Ο φακελος αδειαζει τελειως και ο καθενας βαζει απο μια
-     καινουρια αποψη — οπως στη συσταση. Τα ονοματα, οι μαρκες,
-     η ποινη και ο χρονος μενουν.                               */
+  S.opinions = []; S.nextId = 1; S.peakOps = 0; S.round = null;
+  S.phase = "setup"; S.again = true; S.endInfo = null; S.outQueue = []; S.roles = null;
+  S.startJudge = (S.startJudge + 1) % S.players.length;
+  S.mine = 0; S.opDraft = "";
+  if (S.topic === "folder"){ S.folder = Folder.load(); if (S.folder.length >= 3){ loadFolderDeck(); return go("lastCall"); } S.topic = "ours"; }
+  if (S.topic === "ours"){ S.againIdx = 0; S.againLeft = S.players.length; return go("reIntro"); }
+  S.pickFor = 0; prepOffer(); return go("passPick");
+}
+function resetAll(keepSetup){
+  stopTimer();
+  S.players = []; S.pcol = []; S.ppat = [];
   S.opinions = []; S.nextId = 1; S.peakOps = 0;
-  S.phase = "setup";
-  S.roundsDone = 0;
-  S.recordStart = S.records.length;
-  resetWins();
-  S.round = null; S.mine = 0; S.opDraft = ""; S.againIdx = 0;
-  S.againLeft = S.players.length;
-  nextJudge();
-  /* Ετοιμος φακελος: κανενας δεν γραφει τιποτα, μοιραζεται
-     καινουρια δικογραφια και ξεκιναμε κατευθειαν.              */
-  if (S.topic !== "ours"){
-    loadReadyDeck(S.topic);
-    beginGame();
-    return render();
-  }
-  S.screen = "reIntro";
-  render();
+  S.round = null; S.phase = "setup"; S.roundsDone = 0;
+  S.wins = []; S.life = []; S.out = []; S.roles = null; S.endInfo = null; S.outQueue = [];
+  S.vote = null; S.voteResult = null; S.offer = []; S.offerPick = []; S.played = []; S.sendPick = [];
+  S.judge = 0; S.startJudge = 0; S.mine = 0; S.againIdx = 0; S.again = false;
+  S.nameDraft = ""; S.opDraft = ""; S.palette = false;
+  if (!keepSetup) S.topic = "ours";
+  S.draftCol = freeColor(); S.draftPat = 0;
 }
 
-/* προεπιλογή μονομάχων: αν μια πλευρά έχει ακριβώς όσους
-   χρειάζονται, μπαίνουν αυτόματα· αλλιώς διαλέγει ο δικαστής */
-function prepareSelection(mode){
-  const r = S.round;
-  r.mode = mode;
-  const pro = sideOf("pro"), con = sideOf("con");
-  r.proSel = pro.length === mode ? pro.slice() : [];
-  r.conSel = con.length === mode ? con.slice() : [];
-}
-
-/* σειρά ομιλίας: υπέρ, κατά, υπέρ, κατά... */
+/* σειρά ομιλίας: πρωτα ο εισαγγελεας, μετα η υπερασπιση */
 function buildOrder(){
   const r = S.round;
   r.order = [];
-  for (let k = 0; k < r.mode; k++){
-    r.order.push({ side:"pro", p:r.proSel[k] });
-    r.order.push({ side:"con", p:r.conSel[k] });
+  for (let g = 0; g < (S.set.rounds || 1); g++){
+    for (let k = 0; k < r.mode; k++){
+      r.order.push({ side:"con", p:r.conSel[k] });
+      r.order.push({ side:"pro", p:r.proSel[k] });
+    }
   }
-  r.times = r.order.map(() => S.contraSecs);
-  /* extra[k]   = οσα δευτερολεπτα του εφαγε η διακοπη
-     onExtra[k] = τρεχει τωρα τον εξτρα χρονο του                */
+  r.times = r.order.map(() => S.set.secs || CFG.DEFAULT_TIME);
   r.extra = r.order.map(() => 0);
   r.onExtra = r.order.map(() => false);
   r.cur = 0;
 }
-
 function nextSpeaker(){
   const r = S.round;
-  r.cur++;
+  r.cur++; r.paused = false;
   if (navigator.vibrate) navigator.vibrate(200);
   if (r.cur >= r.order.length) return go("verdict");
   render();
 }
-
-/* καταγραφή της δίκης — τροφοδοτεί τον απολογισμό και τον Φάκελο */
-function fileRecord(){
-  const r = S.round;
-  S.records.push({
-    n: S.records.length + 1,
-    ts: Date.now(),
-    judge: nameOf(S.judge),
-    opinion: r.op.text,
-    who: r.op.who || "",
-    mode: r.mode,
-    pro: r.proSel.length ? r.proSel.map(nameOf) : null,
-    con: r.conSel.length ? r.conSel.map(nameOf) : null,
-    winner: r.winner,
-    notes: (r.notes || "").trim()
-  });
-  S.roundsDone++;
-  /* Οι νικες μπαινουν ΚΑΤΕΥΘΕΙΑΝ στον πινακα, με θεσεις. */
-  const team = r.winner === "pro" ? r.proSel : r.winner === "con" ? r.conSel : null;
-  if (team) team.forEach(i => { S.wins[i] = (S.wins[i] || 0) + 1; });
-}
-
-function exportText(){ return ""; }
-
 /* Το ρολόι ενημερώνει ΜΟΝΟ τα ψηφία, ώστε να μη χάνεται
    ό,τι γράφει ο δικαστής στις σημειώσεις εκείνη τη στιγμή. */
 function tick(){
   const r = S.round;
-  /* ΔΙΑΚΟΠΗ (ΟΠΑ): ο χρονος του ομιλητη παγωνει και οσο μιλαει
-     ο αντιπαλος μαζευεται στο extra. Μολις τελειωσει ο βασικος
-     χρονος, του επιστρεφεται ΟΛΟΣ ΜΑΖΙ, μια φορα.        */
+  if (r.paused) return;
   if (r.opa){
     r.opaT++;
     r.extra[r.cur] = (r.extra[r.cur] || 0) + 1;
@@ -1570,9 +2237,7 @@ function tick(){
     r.times[r.cur] = 0;
     const ex = r.extra[r.cur] || 0;
     if (ex > 0 && !r.onExtra[r.cur]){
-      r.extra[r.cur] = 0;
-      r.times[r.cur] = ex;
-      r.onExtra[r.cur] = true;
+      r.extra[r.cur] = 0; r.times[r.cur] = ex; r.onExtra[r.cur] = true;
       if (navigator.vibrate) navigator.vibrate(120);
       return render();
     }
@@ -1584,13 +2249,10 @@ function tick(){
 function runTimer(){ stopTimer(); S.timer = setInterval(tick, 1000); }
 
 /* === [13] RENDER & ΣΥΜΒΑΝΤΑ ================================ */
-
-/* το textarea παιρνει το υψος του κειμενου του, ωστε να μην
-   κρυβεται ουτε μια γραμμη μεσα στο ζωγραφιστο πλαισιο */
 function grow(el){
   if (!el) return;
   el.style.height = "auto";
-  el.style.height = Math.max(el.scrollHeight, 120) + "px";
+  el.style.height = Math.max(el.scrollHeight, 104) + "px";
 }
 function growAll(){ app.querySelectorAll("textarea").forEach(grow); }
 
@@ -1602,62 +2264,27 @@ function render(){
   if (S.screen === "intro"){ const e = app.querySelector("#pname"); if (e) e.focus(); }
   if (S.screen === "more" || S.screen === "extra" || S.screen === "reIntro"){
     const e = app.querySelector("#op"); if (e) e.focus(); }
-  syncSubmit();   /* μετα απο render, το κουμπι ξερει αν τα πεδια ειναι γεματα */
+  syncSubmit();
 }
-
-/* ενεργοποίηση του «Καταχώρηση» μόνο όταν έχουν γεμίσει τα πεδία */
 function syncSubmit(){
   const btn = app.querySelector("[data-intro],[data-add-op],[data-reop]");
   if (!btn) return;
-  const op = app.querySelector("#op");
-  const nm = app.querySelector("#pname");
-  const okOp = !op || op.value.trim();      /* χωρις πλαισιο αποψης, δεν το ζηταμε */
-  const okNm = !nm || nm.value.trim();
-  btn.disabled = !(okOp && okNm);
+  const op = app.querySelector("#op"), nm = app.querySelector("#pname");
+  btn.disabled = !((!op || op.value.trim()) && (!nm || nm.value.trim()));
 }
 
 app.addEventListener("click", e => {
-  const t = e.target.closest("[data-go],[data-start],[data-step],[data-secs],[data-intro],[data-add-op],[data-pass],[data-begin],[data-extra],[data-vote],[data-mode],[data-pick],[data-go-contra],[data-unanimous],[data-opa],[data-next],[data-win],[data-arch],[data-records],[data-clear],[data-finish],[data-end],[data-again],[data-home],[data-rules],[data-seven],[data-first],[data-bfast],[data-seen],[data-skiprefill],[data-scoring],[data-openpal],[data-closepal],[data-pickcol],[data-pickpat],[data-reop],[data-repass],[data-send],[data-sendgo],[data-topic],[data-topicgo],[data-who],[data-drop],[data-back],[data-neigh]");
+  const t = e.target.closest("button");
   if (!t || t.disabled) return;
-  const d = t.dataset;
+  const d = t.dataset, r = S.round;
 
-  /* ΤΟ ΑΛΟΓΟ: χλιμιντριζει ΜΟΝΟ σε δυο σημεια — στο μεγαλο
-     λογοτυπο και στο ΣΚΟΤΩΘΕΙΤΕ. Πουθενα αλλου, σε κανενα
-     αλλο κουμπι και σε κανενα απο τα αλλα δυο παιχνιδια. */
+  /* ΤΟ ΑΛΟΓΟ: ΜΟΝΟ στο μεγαλο λογοτυπο και στο ΣΚΟΤΩΘΕΙΤΕ. */
   if (d.neigh){ Neigh.play(); return; }
-  if (d.start) Neigh.play();
+  if (d.start){ Neigh.play(); return go("topic"); }
 
-  /* ΤΟ ΒΕΛΑΚΙ ΠΙΣΩ
-     Απο τα ονοματα προς τη θεματολογια: αδειαζουμε ο,τι γραφτηκε,
-     αλλιως μενουν ονοματα απο αλλη θεματολογια.            */
-  if (d.back){
-    stopTimer();
-    if (d.back === "topic" || d.back === "count"){
-      S.players = []; S.pcol = []; S.ppat = [];
-      S.opinions = []; S.nextId = 1; S.peakOps = 0;
-      S.mine = 0; S.nameDraft = ""; S.opDraft = ""; S.palette = false;
-      S.round = null; S.phase = "setup"; S.roundsDone = 0; S.wins = [];
-      S.draftCol = freeColor(); S.draftPat = 0;
-    }
-    return go(d.back);
-  }
+  if (d.back){ resetAll(true); return go(d.back); }
+  if (d.home){ resetAll(false); return go("count"); }
 
-  /* ληξη: πισω στην αρχικη οθονη, καθαρο τραπεζι */
-  if (d.home){
-    stopTimer();
-    S.players = []; S.pcol = []; S.ppat = [];
-    S.opinions = []; S.nextId = 1; S.peakOps = 0;
-    S.round = null; S.phase = "setup"; S.roundsDone = 0;
-    S.recordStart = S.records.length;
-    S.wins = [];
-    S.judge = 0; S.mine = 0; S.againIdx = 0;
-    S.nameDraft = ""; S.opDraft = ""; S.palette = false; S.sendPick = [];
-    S.topic = "ours"; S.showWho = false;
-    S.draftCol = freeColor(); S.draftPat = 0;
-    return go("count");
-  }
-
-  /* η μαρκα: χρωμα και σχεδιο, ιδια λογικη με την Κοντρα στα Γρηγορα */
   if (d.openpal){ S.palette = true; return render(); }
   if (d.closepal){ S.palette = false; return render(); }
   if (d.pickcol !== undefined){
@@ -1667,24 +2294,11 @@ app.addEventListener("click", e => {
   }
   if (d.pickpat !== undefined){ S.draftPat = +d.pickpat; return render(); }
   if (d.scoring){ S.scoring = d.scoring; return render(); }
-  if (d.send !== undefined){
-    const k = +d.send; S.sendPick[k] = !S.sendPick[k]; return render();
-  }
-  if (d.sendgo !== undefined){
-    const all = allOpinions();
-    if (d.sendgo === "all") all.forEach(o => Folder.add(o.t, o.who));
-    else if (d.sendgo === "1") all.forEach((o, k) => { if (S.sendPick[k]) Folder.add(o.t, o.who); });
-    S.sendPick = []; S.folder = Folder.load();
-    return go("outro");
-  }
 
-  /* καλωσορισμα: παιζει μια φορα και δεν ξαναφαινεται */
   if (d.first !== undefined){
     if (d.first === "1") return go("breakfast");
     Seen.set(); return go("count");
   }
-  /* ΜΟΝΟ το «δεν ξερω / δεν γνωριζω» τραβαει σχολιο. Τα αλλα
-     πανε κατευθειαν στο τραπεζι, χωρις μεσολαβηση.              */
   if (d.bfast){
     if (d.bfast === "idk" || d.bfast === "idk2"){
       S.msg = { warn: "Σας παρακαλουμε, μην παρετε κατι προσωπικα..." };
@@ -1694,60 +2308,76 @@ app.addEventListener("click", e => {
   }
   if (d.seen){ Seen.set(); return go("count"); }
 
-  /* κανονες: κρata πού ήμασταν, για να γυρίσουμε εκεί */
-  if (d.rules){
-    if (S.screen !== "rules") S.rulesFrom = S.screen;
-    return go("rules");
-  }
-  /* το 7αρι των κανονων: πορτα για την Κοντρα στα Γρηγορα */
-  if (d.seven){ location.href = "kontra-grigora.html"; return; }
-
-  /* πρώτη οθόνη */
-  if (d.step){
-    S.playerCount = Math.min(CFG.MAX_PLAYERS, Math.max(CFG.MIN_PLAYERS, S.playerCount + (+d.step)));
+  if (d.rules){ if (S.screen !== "rules") S.rulesFrom = S.screen; return go("rules"); }
+  if (d.settings) return go("settings");
+  if (d.set){
+    const kv = d.set.split(":"), k = kv[0], v = kv[1];
+    S.set[k] = v === "true" ? true : v === "false" ? false : (isNaN(+v) ? v : +v);
+    Settings.save(S.set);
     return render();
   }
-  if (d.secs){ S.contraSecs = +d.secs; return render(); }
-  if (d.start){ return go("topic"); }
 
-  /* ΘΕΜΑΤΟΛΟΓΙΑ: δικες σας αποψεις η ετοιμος φακελος */
+  /* ΠΡΙΝ ΤΑ ΟΝΟΜΑΤΑ */
   if (d.topic){ S.topic = d.topic; return render(); }
+  if (d.rtog){
+    const on = !S[d.rtog]; S[d.rtog] = on;
+    if (on && S.players.length < 5) S[d.rtog === "kOn" ? "vOn" : "kOn"] = false;
+    return render();
+  }
+  if (d.rolesgo) return startGame();
   if (d.topicgo){
-    S.opinions = []; S.nextId = 1; S.peakOps = 0;
-    if (S.topic !== "ours") loadReadyDeck(S.topic);
+    S.opinions = []; S.nextId = 1; S.peakOps = 0; S.again = false;
+    S.folder = Folder.load();
+    if (S.topic === "folder" && S.folder.length < 3) S.topic = "ours";
+    if (S.topic === "folder") loadFolderDeck();
     S.draftCol = freeColor();
     return go("intro");
   }
-  if (d.who){ S.showWho = true; return render(); }
-
-  /* σύσταση */
   if (d.intro){
     const nmEl = app.querySelector("#pname"), opEl = app.querySelector("#op");
-    const nm = nmEl ? nmEl.value.trim() : "";
-    const op = opEl ? opEl.value.trim() : "";
+    const nm = nmEl ? nmEl.value.trim() : "", op = opEl ? opEl.value.trim() : "";
     if (!nm || (opEl && !op)) return;
     S.players.push(nm); S.pcol.push(S.draftCol); S.ppat.push(S.draftPat);
-    S.nameDraft = ""; S.opDraft = "";
-    S.draftCol = freeColor();
-    /* Ετοιμος φακελος: μονο ονοματα, χωρις γραψιμο. */
-    if (!opEl) return go(S.players.length >= S.playerCount ? "lastCall" : "intro");
+    S.nameDraft = ""; S.opDraft = ""; S.draftCol = freeColor();
+    if (S.topic === "folder") return go("intro");
+    if (S.topic === "ready"){ S.pickFor = S.players.length - 1; prepOffer(); return go("pick6"); }
     addOpinion(op); S.mine = 1;
     return go("more");
   }
+  if (d.op6 !== undefined){
+    const k = +d.op6, n = S.offerPick.filter(Boolean).length;
+    if (S.offerPick[k]) S.offerPick[k] = false;
+    else if (n < CFG.PICK_KEEP) S.offerPick[k] = true;
+    return render();
+  }
+  if (d.op6rand){
+    const keep = shuffle(S.offer.map((_, k) => k)).slice(0, CFG.PICK_KEEP);
+    S.offerPick = S.offer.map((_, k) => keep.indexOf(k) >= 0);
+    return render();
+  }
+  if (d.pick6go){
+    if (S.offerPick.filter(Boolean).length < CFG.PICK_KEEP) return;
+    commitPick();
+    if (d.pick6go === "again"){
+      if (S.pickFor < S.players.length - 1){ S.pickFor++; prepOffer(); return go("passPick"); }
+      return go("lastCall");
+    }
+    if (d.pick6go === "begin") return go("lastCall");
+    return go("intro");
+  }
+  if (d.passgo) return go("pick6");
   if (d.addOp !== undefined){
-    const op = app.querySelector("#op").value.trim();
+    const opEl = app.querySelector("#op"), op = opEl ? opEl.value.trim() : "";
     if (!op) return;
-    addOpinion(op);
-    S.opDraft = "";
+    addOpinion(op); S.opDraft = "";
     if (S.screen === "more"){ S.mine++; freshOp(); return render(); }
-    if (S.writeReturn === "round"){ stopTimer(); nextJudge(); startRound(); return render(); }
+    if (S.writeReturn === "round") return nextRoundGo();
     return go(S.writeReturn);
   }
   if (d.reop){
-    const op = app.querySelector("#op").value.trim();
+    const opEl = app.querySelector("#op"), op = opEl ? opEl.value.trim() : "";
     if (!op) return;
-    addOpinion(op); S.opDraft = ""; S.againIdx++;
-    freshOp();
+    addOpinion(op); S.opDraft = ""; S.againIdx++; freshOp();
     const total = S.players.length * CFG.AGAIN_EACH;
     if (S.againIdx >= total) return go("lastCall");
     if (S.againIdx % CFG.AGAIN_EACH === 0){
@@ -1756,100 +2386,104 @@ app.addEventListener("click", e => {
     }
     return render();
   }
-  if (d.repass){ return go("reIntro"); }
-  if (d.pass){ return go(S.players.length >= S.playerCount ? "lastCall" : "intro"); }
-  if (d.begin){ beginGame(); return render(); }
+  if (d.repass) return go("reIntro");
+  if (d.pass) return go("intro");
   if (d.extra !== undefined){ S.writeReturn = d.extra; S.extraFrom = S.screen; return go("extra"); }
-
-  /* ο φακελος */
-  if (d.records !== undefined){
-    if (d.records) S.back = d.records;
-    S.folder = Folder.load();
-    return go("folder");
+  if (d.begin) return begin();
+  if (d.rolepick){
+    const keepK = d.rolepick === "k" || (d.rolepick === "rand" && Math.random() < .5);
+    if (keepK) S.vOn = false; else S.kOn = false;
+    return startGame();
   }
-  if (d.drop !== undefined){ Folder.drop(+d.drop); S.folder = Folder.load(); return render(); }
-  if (d.clear){
-    if (confirm("Να αδειασει ο φακελος;")){ Folder.clear(); S.folder = Folder.load(); }
+  if (d.show){ S.handShow = true; return render(); }
+  if (d.handnext){
+    S.handShow = false; S.roleIdx++;
+    if (S.roleIdx >= S.players.length){ startRound(); return render(); }
     return render();
   }
+  if (d.peek !== undefined){ S.peek = +d.peek; S.peekShow = false; return go("peek"); }
+  if (d.peekshow){ S.peekShow = true; return render(); }
+  if (d.peekdone){ S.peek = null; S.peekShow = false; return go("preview"); }
 
-  /* ακρόαση: μέτρημα χεριών */
-  if (d.vote !== undefined){
-    const i = +d.vote, cur = S.round.vote[i];
-    S.round.vote[i] = cur === "pro" ? "con" : cur === "con" ? undefined : "pro";
-    return render();
+  /* ΤΟ ΔΙΚΑΣΤΗΡΙΟ */
+  if (d.ready){
+    if (S.set.mode === "polites") return go("eyes");
+    randomRoles(); return go("preview");
   }
-  if (d.unanimous){ return go("archive"); }
-
-  /* επιλογή mode -> οθόνη επιλογής μονομάχων */
-  if (d.mode){
-    const m = +d.mode;
-    prepareSelection(m);
-    const r = S.round;
-    if (r.proSel.length === m && r.conSel.length === m){
-      buildOrder(); go("contra"); return runTimer();
-    }
-    return go("select");
-  }
-
-  /* επιλογή μονομάχων: τσεκ / ξετσεκ, με όριο τον αριθμό του mode */
-  if (d.pick){
-    const [side, idx] = d.pick.split(":");
-    const i = +idx, r = S.round;
-    const sel = side === "pro" ? r.proSel : r.conSel;
-    const at = sel.indexOf(i);
-    if (at >= 0) sel.splice(at, 1);
-    else if (sel.length < r.mode) sel.push(i);
-    else { sel.shift(); sel.push(i); }      /* γεμάτο: βγαίνει ο παλιότερος */
-    return render();
-  }
+  if (d.burn || d.nodef){ r.pro = null; r.con = null; burnCase(); return go("burnt"); }
+  if (d.pros !== undefined){ const i = +d.pros; r.con = r.con === i ? null : i; return render(); }
+  if (d.def !== undefined){ const i = +d.def; r.pro = r.pro === i ? null : i; return render(); }
+  if (d.reroll){ rerollCase(); return render(); }
+  if (d.swap){ const x = r.pro; r.pro = r.con; r.con = x; return render(); }
+  if (d.endask){ S.finishFrom = S.screen; return go("finishAsk"); }
   if (d.goContra){
-    const r = S.round;
-    if (r.proSel.length !== r.mode || r.conSel.length !== r.mode) return;
+    if (r.pro == null || r.con == null) return;
+    r.mode = 1; r.proSel = [r.pro]; r.conSel = [r.con];
     buildOrder(); go("contra"); return runTimer();
   }
-
-  /* κόντρα */
   if (d.opa !== undefined){
-    S.round.opa = d.opa === "1";
-    if (S.round.opa) S.round.opaT = 0;
+    r.opa = d.opa === "1";
+    if (r.opa) r.opaT = 0;
     return render();
   }
-  if (d.next){ return nextSpeaker(); }
-  if (d.win){ S.round.winner = d.win; return go("sentence"); }
-
-  /* αρχειοθέτηση */
-  if (d.arch !== undefined){
-    fileRecord();
-    if (d.arch === "1"){
-      S.opinions = S.opinions.filter(o => o.id !== S.round.op.id);
-      if (!S.opinions.length) return go("theEnd");
-      /* Ετοιμες αποψεις: κανενας δεν γραφει αναπληρωση —
-         συνεχιζουμε με οσες εμειναν στη δικογραφια.        */
-      if (S.topic !== "ours"){ stopTimer(); nextJudge(); startRound(); return render(); }
-      return go("refill");
-    }
-    nextJudge(); startRound(); return render();
+  if (d.pause){ r.paused = !r.paused; return render(); }
+  if (d.next) return nextSpeaker();
+  if (d.vpick !== undefined){ r.pick = +d.vpick; return render(); }
+  if (d.award){
+    if (r.pick == null) return;
+    award(r.pick, r.pick === r.pro ? r.con : r.pro);
+    burnCase(); return go("sentence");
   }
+  if (d.nowin){ r.pick = null; r.res = null; burnCase(); return go("sentence"); }
+  if (d.burnt) return afterBurn();
+  if (d.skiprefill) return nextRoundGo();
 
-  /* καηκε η αποψη και δεν μπαινει καινουρια: συνεχιζουμε με οσες εμειναν */
-  if (d.skiprefill){
-    stopTimer();
-    nextJudge();
-    if (!S.opinions.length){ S.screen = "theEnd"; return render(); }
-    startRound();
-    return render();
+  /* ΕΞΟΔΟΙ & ΨΗΦΟΦΟΡΙΑ */
+  if (d.exitnext){ S.outQueue.shift(); return S.voteFrom === "preview" ? resumeAfterVote() : afterBurn(); }
+  if (d.vote){
+    const R = S.roles;
+    S.voteFrom = d.vote;
+    S.vote = { role: (R.k != null && !S.kRevealed) ? "komplex" : "vysma", who: null };
+    return go("vote");
   }
+  if (d.vrole){ S.vote.role = d.vrole; return render(); }
+  if (d.vwho !== undefined){ const i = +d.vwho; S.vote.who = S.vote.who === i ? null : i; return render(); }
+  if (d.vcancel){ S.vote = null; return go(S.voteFrom === "preview" ? "preview" : "exit"); }
+  if (d.vgo){
+    if (!S.vote || S.vote.who == null) return;
+    if (S.voteFrom !== "preview") S.outQueue.shift();
+    voteOut(); return go("voteResult");
+  }
+  if (d.vdone){ S.voteResult = null; return S.voteFrom === "preview" ? resumeAfterVote() : afterBurn(); }
 
   /* ληξη της δικης — μονο απο τον 3ο γυρο και μετα */
   if (d.finish){
     if (S.roundsDone < CFG.MIN_ROUNDS_TO_END) return;
+    S.finishFrom = S.screen;
     return go("finishAsk");
   }
-  if (d.end){ return go("theEnd"); }
-  if (d.again){ return playAgain(); }
+  if (d.end){ manualEnd(); return go(endScreen()); }
+  if (d.again) return playAgain();
 
-  /* πλοήγηση */
+  /* Ο ΦΑΚΕΛΟΣ */
+  if (d.records !== undefined){
+    S.back = d.records || S.screen; S.folder = Folder.load(); S.clearArm = false;
+    return go("folder");
+  }
+  if (d.drop !== undefined){ Folder.drop(+d.drop); S.folder = Folder.load(); return render(); }
+  if (d.clear){
+    if (!S.clearArm){ S.clearArm = true; return render(); }
+    Folder.clear(); S.folder = Folder.load(); S.clearArm = false; return render();
+  }
+  if (d.send !== undefined){ const k = +d.send; S.sendPick[k] = !S.sendPick[k]; return render(); }
+  if (d.sendgo !== undefined){
+    const all = allOpinions();
+    if (d.sendgo === "all") all.forEach(t => Folder.add(t));
+    else all.forEach((t, k) => { if (S.sendPick[k]) Folder.add(t); });
+    S.sendPick = []; S.folder = Folder.load();
+    return go(endScreen());
+  }
+  if (d.sendops){ S.sendPick = []; return go("sendOps"); }
   if (d.go) return go(d.go);
 });
 
@@ -1892,8 +2526,12 @@ app.addEventListener("input", e => {
       history.pushState({k:1}, "");
       if (S.palette)                   { S.palette = false; render(); }
       else if (S.screen === "rules")   go(S.rulesFrom);
+      else if (S.screen === "peek")    { S.peek = null; go("preview"); }
+      else if (S.screen === "vote")    go("exit");
       else if (S.screen === "folder")  go(S.back);
+      else if (S.screen === "sendOps") go(endScreen());
       else if (S.screen === "topic")   go("count");
+      else if (S.screen === "settings") go("count");
       else if (S.screen === "extra")   go(S.extraFrom);
       else if (S.screen === "breakfast") go("welcome");
       else if (S.screen === "msg")      go("welcome");
@@ -1905,7 +2543,9 @@ app.addEventListener("input", e => {
   app.addEventListener("focusin", e => {
     if (!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
     setTimeout(() => {
-      try { e.target.scrollIntoView({block:"center", behavior:"smooth"}); } catch(err){}
+      const el = e.target, A = app.getBoundingClientRect(), B = el.getBoundingClientRect();
+      const top = Math.max(0, app.scrollTop + (B.top - A.top) - (A.height - B.height) / 2);
+      try { app.scrollTo({ top: top, behavior: "smooth" }); } catch(err){ app.scrollTop = top; }
     }, 320);
   });
 
@@ -1933,11 +2573,17 @@ app.addEventListener("input", e => {
   /* offline: δουλευει και χωρις ιντερνετ, σαν εφαρμογη.
      ΜΕΣΑ ΣΕ APP (Capacitor) ΟΧΙ: μετα απο update του APK μπορει να
      σερβιρει την παλια cache. Στο GitHub Pages συνεχιζει κανονικα. */
-  if (!window.Capacitor && "serviceWorker" in navigator)
-    addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+  /* ΧΩΡΙΣ SERVICE WORKER: η εφαρμογη τρεχει απο τα δικα της αρχεια.
+     Αν εμεινε παλιος απο προηγουμενη εκδοση, τον ξηλωνουμε μαζι με
+     την cache του — αλλιως μπορει να σερβιρει παλια σελιδα.       */
+  try {
+    if ("serviceWorker" in navigator && navigator.serviceWorker.getRegistrations)
+      navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(x => x.unregister())).catch(()=>{});
+    if (window.caches && caches.keys)
+      caches.keys().then(ks => ks.forEach(k => caches.delete(k))).catch(()=>{});
+  } catch(e){}
 })();
 
-S.folder = Folder.load();
 render();
 </script>
 </html>
