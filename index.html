@@ -707,10 +707,18 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 .hdr .hcol{display:flex;flex-direction:column;align-items:center;gap:2px;flex:none}
 #app .hdr .hlbl{font-size:10px;line-height:1;letter-spacing:.06em;color:var(--bone);opacity:.75;text-shadow:none;font-weight:400}
 /* η εδρα: τα ονοματα δεν σπανε γραμμα γραμμα */
-.bench .duo{flex-wrap:wrap;width:100%;align-items:center;justify-content:center}
-.bench .duo .seat{flex:0 1 auto;min-width:0;max-width:100%}
-.bench .duo .vs{flex:none}
-#app .bench .pchip,#app .vpick .pchip,#app .trow .pchip,#app .roles .pchip{white-space:nowrap;word-break:normal;overflow-wrap:normal;hyphens:none;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+/* ΤΑ ΟΝΟΜΑΤΑ: η εδρα ειναι στοιβα, καθε πλευρα πιανει ολο το πλατος,
+   οποτε κανενα ονομα δεν στριμωχνεται. Σπανε μονο στα κενα· μια
+   τεραστια λεξη σπαει στο τελος της γραμμης, ποτε γραμμα γραμμα. */
+.bench{align-items:stretch}
+.bench .seat{width:100%;min-width:0}
+.bench .duo{flex-direction:column;flex-wrap:nowrap;width:100%;gap:8px}
+.bench .duo .seat{width:100%;flex:none;flex-direction:row;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px}
+.bench .duo .seat .slbl{width:100%;text-align:center}
+.bench .duo .vs{flex:none;align-self:center;font-size:22px;line-height:1}
+#app .pchip{display:inline-block;max-width:100%;white-space:normal;word-break:normal;overflow-wrap:break-word;hyphens:none;overflow:visible;text-overflow:clip;text-align:center;line-height:1.25}
+#app .trow .nm{min-width:0;flex:1 1 auto}
+#app .vpick{min-width:0}
 </style>
 
 <div id="app"></div>
@@ -2338,6 +2346,8 @@ function buildOrder(){
   for (let g = 0; g < (S.set.rounds || 1); g++){
     for (let k = 0; k < r.mode; k++){
       r.order.push({ side:"pro", p:r.proSel[k] });
+    }
+    for (let k = 0; k < r.mode; k++){
       r.order.push({ side:"con", p:r.conSel[k] });
     }
   }
@@ -2774,18 +2784,32 @@ render();
 </script>
 
 <style>
-/* === WEB / PC: η ιδια Κοντρα, σε παραθυρο στη μεση της οθονης === */
-@media (min-width:700px){
-  html,body{position:static;overflow:hidden}
-  body{background:#120a04 radial-gradient(ellipse at 50% 0%,#3a2410 0%,#120a04 70%);
-    display:flex;align-items:center;justify-content:center;padding:24px 0}
-  #app{max-width:540px;width:540px;height:calc(100vh - 48px);min-height:0;
-    box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);
+/* === WEB / PC ================================================
+   Κινητο (ορθιο ή πλαγιο): πιανει ολη την οθονη, οπως το app.
+   Tablet / PC: «κινητο» στη μεση, που μεγαλωνει με την οθονη.
+   Το --z μεγεθυνει ΟΛΑ μαζι (γραμματα, κουμπια, ζωγραφιες).     */
+@media (min-width:700px) and (min-height:560px){
+  :root{--z:1}
+  html,body{position:static;overflow:hidden;height:100%}
+  body{background:#120a04 radial-gradient(ellipse at 50% 0%,#3a2410 0%,#120a04 72%);
+    display:flex;align-items:center;justify-content:center;padding:0}
+  #app{zoom:var(--z);width:min(500px, calc((100vw - 40px) / var(--z)));max-width:none;
+    height:calc((100vh - 40px) / var(--z));height:calc((100dvh - 40px) / var(--z));min-height:0;
+    border-radius:22px;overflow-y:auto;
+    box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05);
     -webkit-user-select:text;user-select:text}
   #app::-webkit-scrollbar{width:8px}
   #app::-webkit-scrollbar-thumb{background:rgba(255,243,228,.18);border-radius:8px}
   #app::-webkit-scrollbar-track{background:transparent}
   #app.kb::after{display:none}
+}
+@media (min-width:700px) and (min-height:860px){:root{--z:1.12}}
+@media (min-width:900px) and (min-height:1000px){:root{--z:1.25}}
+@media (min-width:1100px) and (min-height:1200px){:root{--z:1.45}}
+@media (min-width:1400px) and (min-height:1400px){:root{--z:1.7}}
+/* tablet ορθιο: πιο φαρδυ */
+@media (min-width:700px) and (max-width:1100px) and (min-height:900px) and (orientation:portrait){
+  #app{width:calc((100vw - 64px) / var(--z))}
 }
 #app button,#app a{cursor:pointer}
 #app button:disabled{cursor:not-allowed}
@@ -2796,8 +2820,8 @@ render();
   #app .pick:hover,#app .vpick:hover,#app .rcard:hover,#app .peek:hover{filter:brightness(1.12)}
 }
 #app button:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
-.webkeys{position:fixed;right:16px;bottom:14px;font:400 12px/1.5 system-ui,sans-serif;color:rgba(255,243,228,.45);text-align:right;pointer-events:none}
-@media (max-width:1000px){.webkeys{display:none}}
+.webkeys{position:fixed;right:16px;bottom:12px;font:400 12px/1.5 system-ui,sans-serif;color:rgba(255,243,228,.4);pointer-events:none}
+@media (max-width:1100px),(hover:none),(max-height:700px){.webkeys{display:none}}
 </style>
 <div class="webkeys">Enter: συνεχεια &middot; Esc: πισω</div>
 <script>
