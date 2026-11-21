@@ -23,7 +23,7 @@
 <meta name="theme-color" content="#000000">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>ΚΟΝΤΡΑ</title>
+<title>ΚΟΝΤΡΑ — το παιχνιδι της κουβεντας</title>
 
 <!--
   ΚΟΝΤΡΑ — prototype
@@ -684,6 +684,15 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 .field{cursor:text;flex:none;flex-shrink:0;height:auto!important}
 .field textarea{field-sizing:content;overflow-y:auto}
 
+
+/* ετικετες κατω απο κανονες / φακελο */
+.hdr .hcol{display:flex;flex-direction:column;align-items:center;gap:2px;flex:none}
+#app .hdr .hlbl{font-size:10px;line-height:1;letter-spacing:.06em;color:var(--bone);opacity:.75;text-shadow:none;font-weight:400}
+/* η εδρα: τα ονοματα δεν σπανε γραμμα γραμμα */
+.bench .duo{flex-wrap:wrap;width:100%;align-items:center;justify-content:center}
+.bench .duo .seat{flex:0 1 auto;min-width:0;max-width:100%}
+.bench .duo .vs{flex:none}
+#app .bench .pchip,#app .vpick .pchip,#app .trow .pchip,#app .roles .pchip{white-space:nowrap;word-break:normal;overflow-wrap:normal;hyphens:none;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 </style>
 
 <div id="app"></div>
@@ -988,9 +997,9 @@ const header = (back, canEnd) => {
     canEnd = S.phase === "play" && pointsMode() && S.roundsDone >= CFG.MIN_ROUNDS_TO_END;
   return `
   <div class="hdr">
-    ${ibtn("info.png",'data-rules="1"')}
+    <div class="hcol">${ibtn("info.png",'data-rules="1"')}<span class="hlbl">κανονες</span></div>
     ${canEnd ? ibtn("liji.png",'data-finish="1"',"endbtn") : ""}
-    ${ibtn("praktika.png",`data-records="${back}"`)}
+    <div class="hcol">${ibtn("praktika.png",`data-records="${back}"`)}<span class="hlbl">φακελος</span></div>
   </div>`;
 };
 
@@ -2744,5 +2753,47 @@ app.addEventListener("input", e => {
 })();
 
 render();
+</script>
+
+<style>
+/* === WEB / PC: η ιδια Κοντρα, σε παραθυρο στη μεση της οθονης === */
+@media (min-width:700px){
+  html,body{position:static;overflow:hidden}
+  body{background:#120a04 radial-gradient(ellipse at 50% 0%,#3a2410 0%,#120a04 70%);
+    display:flex;align-items:center;justify-content:center;padding:24px 0}
+  #app{max-width:540px;width:540px;height:calc(100vh - 48px);min-height:0;
+    box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04);
+    -webkit-user-select:text;user-select:text}
+  #app::-webkit-scrollbar{width:8px}
+  #app::-webkit-scrollbar-thumb{background:rgba(255,243,228,.18);border-radius:8px}
+  #app::-webkit-scrollbar-track{background:transparent}
+  #app.kb::after{display:none}
+}
+#app button,#app a{cursor:pointer}
+#app button:disabled{cursor:not-allowed}
+@media (hover:hover){
+  #app .ibtn:not(:disabled){transition:transform .15s,filter .15s}
+  #app .ibtn:not(:disabled):hover{transform:translateY(-2px) scale(1.03);filter:brightness(1.08)}
+  #app .btn:not(:disabled):hover,#app .endlink:hover,#app .sopt:hover,#app .role:hover,
+  #app .pick:hover,#app .vpick:hover,#app .rcard:hover,#app .peek:hover{filter:brightness(1.12)}
+}
+#app button:focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+.webkeys{position:fixed;right:16px;bottom:14px;font:400 12px/1.5 system-ui,sans-serif;color:rgba(255,243,228,.45);text-align:right;pointer-events:none}
+@media (max-width:1000px){.webkeys{display:none}}
+</style>
+<div class="webkeys">Enter: συνεχεια &middot; Esc: πισω</div>
+<script>
+(function(){
+  document.addEventListener("keydown", function(e){
+    var t = e.target, tag = t && t.tagName;
+    if (e.key === "Escape"){ history.back(); return; }
+    if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
+    if (tag === "TEXTAREA" && !e.ctrlKey && !e.metaKey) return;
+    if (tag === "BUTTON" || tag === "A") return;
+    if (tag === "INPUT" && t.id === "pname" && document.querySelector("#app #op")){ e.preventDefault(); document.querySelector("#app #op").focus(); return; }
+    var btn = document.querySelector("#app [data-intro]:not(:disabled),#app [data-add-op]:not(:disabled),#app [data-reop]:not(:disabled)");
+    if (btn){ e.preventDefault(); btn.click(); }
+  });
+})();
 </script>
 </html>
