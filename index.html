@@ -672,6 +672,17 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
   box-shadow:0 5px 0 rgba(0,0,0,.45);animation:slam .45s cubic-bezier(.2,1.5,.4,1) .2s both}
 .penbox .slbl{color:#5a3a00}
 .penbox b{font-size:20px;text-shadow:none}
+/* μετρητης ποινων (με ποινη) */
+.pens{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:2.5px solid #000;border-radius:10px;
+  background:var(--brass);color:#2E1C0E;font-size:13px;font-weight:700;text-shadow:none;white-space:nowrap}
+.pens b{font-size:16px}
+.pens.big{font-size:16px;padding:7px 14px}.pens.big b{font-size:22px}
+.pens.zero{background:rgba(255,255,255,.14);color:var(--bone)}
+/* ΠΛΗΚΤΡΟΛΟΓΙΟ: χωρος απο κατω οσο γραφεις, για να ανεβαινει το πεδιο
+   πανω απο το πληκτρολογιο ακομα κι αν το κινητο δεν μικραινει την οθονη */
+#app.kb::after{content:"";display:block;flex:none;height:55vh}
+.field{cursor:text;flex:none;flex-shrink:0;height:auto!important}
+.field textarea{field-sizing:content;overflow-y:auto}
 
 </style>
 
@@ -783,13 +794,14 @@ const Seen = {
 /* ΟΙ ΡΥΘΜΙΣΕΙΣ: ΟΠΑ, γυροι λογου, χρονος, τυχαιοι ρολοι.
    Μενουν στη συσκευη για την επομενη φορα.                    */
 const Settings = {
-  def: { mode: "dipl", opa: true, rounds: 1, secs: 120 },
+  def: { mode: "dipl", opa: true, rounds: 1, secs: 120, neigh: true },
   load(){
     let v;
     try { v = Object.assign({}, this.def, JSON.parse(localStorage.getItem(CFG.SETTINGS_KEY)) || {}); }
     catch(e){ v = Object.assign({}, this.def); }
     if (v.mode !== "dipl" && v.mode !== "polites") v.mode = "dipl";
     if (CFG.TIME_OPTIONS.indexOf(v.secs) < 0) v.secs = CFG.DEFAULT_TIME;
+    v.neigh = true;
     return v;
   },
   save(v){ try { localStorage.setItem(CFG.SETTINGS_KEY, JSON.stringify(v)); } catch(e){} }
@@ -973,7 +985,7 @@ const header = (back, canEnd) => {
   /* Μολις κλεισουν 3 γυροι, η ληξη ειναι διαθεσιμη σε ΚΑΘΕ οθονη
      του παιχνιδιου — οχι μονο στην εδρα.                        */
   if (canEnd === undefined)
-    canEnd = S.phase === "play" && S.roundsDone >= CFG.MIN_ROUNDS_TO_END;
+    canEnd = S.phase === "play" && pointsMode() && S.roundsDone >= CFG.MIN_ROUNDS_TO_END;
   return `
   <div class="hdr">
     ${ibtn("info.png",'data-rules="1"')}
@@ -1042,12 +1054,12 @@ function allOpinions(){
   const seen = {}, out = [];
   const push = t => { if (t && !seen[t]){ seen[t] = 1; out.push(t); } };
   (S.played || []).forEach(push);
-  S.opinions.forEach(o => push(o.text));
+  (S.skipped || []).forEach(push);
   return out;
 }
 
 Object.assign(S, {
-  folder: Folder.load(), played: [], clearArm: false,
+  folder: Folder.load(), played: [], skipped: [], outOrder: [], pens: [], retreatWho: null, clearArm: false,
   topic: "ours",            // "ours" = δικες σας, "ready" = απο τη βαση (6 απο 10)
   kOn: false, vOn: false,   // ποιοι κρυφοι ρολοι μπαινουν στην τραπουλα
   life: [], out: [],        // ζωες και αποβολες, με θεσεις
@@ -1099,7 +1111,7 @@ function dbDraw(n){
 /* ΠΟΤΕ ΔΕΝ ΤΕΛΕΙΩΝΕΙ: αν αδειασει η δικογραφια, μπαινουν μονες
    τους υποθεσεις απο τη βαση και συνεχιζουμε.                    */
 function ensureDeck(){
-  if (S.opinions.length || S.topic === "folder") return;
+  if (S.opinions.length || (S.topic === "folder" && pointsMode())) return;
   dbDraw(CFG.AUTO_FILL).forEach(t => S.opinions.push({ id: S.nextId++, text: t, wave: 2, used: 0 }));
   S.autoNote = true;
 }
@@ -1134,7 +1146,12 @@ function winsHTML(winsNow, wonAt){
   }
   return w;
 }
+function pensHTML(i, big){
+  const n = S.pens[i] || 0;
+  return `<span class="pens ${big ? "big" : ""} ${n ? "" : "zero"}"><b>${n}</b>${n === 1 ? "ποινη" : "ποινες"}</span>`;
+}
 function hpRow(i){
+  if (!pointsMode()) return pensHTML(i);
   const L = Math.max(0, S.life[i] || 0), W = Math.min(CFG.WINS, S.wins[i] || 0);
   return `<span class="hp" aria-label="${L} ζωες">${heartsHTML(L, -1)}</span>${pointsMode() ? `<span class="hp" aria-label="${W} νικες">${winsHTML(W, -1)}</span>` : ""}`;
 }
@@ -1144,7 +1161,7 @@ function tableHTML(withPeek){
     <div class="trow ${S.out[i] ? "out" : ""}">
       <span class="nm">${chip(i, { lift:2, size:"14px" })}</span>
       ${S.out[i]
-        ? `<span class="gone"><img src="${IMG}loss.png" alt="">ενορκος</span>`
+        ? `<span class="gone"><img src="${IMG}loss.png" alt="">ενορκος${pointsMode() ? "" : " &middot; " + (S.pens[i] || 0) + " ποιν."}</span>`
         : `<span class="stats">${hpRow(i)}</span>`}
       ${withPeek && S.roles ? `<button class="peek" data-peek="${i}">δειξε ρολο</button>` : ""}
     </div>`).join("");
@@ -1152,7 +1169,8 @@ function tableHTML(withPeek){
 }
 function finalTable(){
   const ks = S.players.map((_, i) => i).sort((a, b) =>
-    ((S.wins[b] || 0) - (S.wins[a] || 0)) || ((S.life[b] || 0) - (S.life[a] || 0)));
+    pointsMode() ? (((S.wins[b] || 0) - (S.wins[a] || 0)) || ((S.life[b] || 0) - (S.life[a] || 0)))
+                 : ((S.out[a] ? 1 : 0) - (S.out[b] ? 1 : 0)) || ((S.pens[a] || 0) - (S.pens[b] || 0)));
   return `<div class="tbl">${ks.map(i => `
     <div class="trow ${S.out[i] ? "out" : ""}">
       <span class="nm">${chip(i, { lift:2, size:"14px" })}</span>
@@ -1209,7 +1227,7 @@ V.count = () => {
       <button class="imgbtn ${S.scoring==="penalty"?"":"off"}" data-scoring="penalty">Με ποινη</button>
     </div>
     ${S.scoring === "penalty"
-      ? `<label>Τι πληρωνει ο χαμενος</label>${penaltyField()}<div class="howpts"><span class="hp">${heartsHTML(CFG.LIVES, -1)}</span><span>${CFG.LIVES} ζωες &middot; μεχρι να μεινει ενας</span></div>`
+      ? `<label>Τι πληρωνει ο χαμενος</label>${penaltyField()}<div class="howpts"><span class="pens"><b>0</b>ποινες</span><span>χωρις ζωες &middot; μετραμε ποινες &middot; τελειωνει μονο με υποχωρησεις</span></div>`
       : `<div class="howpts">
            <span class="hp">${heartsHTML(CFG.LIVES, -1)}</span>
            <span>${CFG.LIVES} ζωες &middot; πρωτος στις ${CFG.WINS} νικες</span>
@@ -1255,6 +1273,9 @@ V.settings = () => {
     <h3>Χρονος λογου</h3>
     <div class="srow">${times}</div>
 
+    <h3>Ηχος αλογου</h3>
+    <div class="srow">${opt("neigh", true, "Ανοιχτος")}${opt("neigh", false, "Κλειστος")}</div>
+
     <h3>Αλλο παιχνιδι</h3>
     <div class="srow col">
       <a class="sgame" href="kontra-bonus.html">Κοντρα: Μπονους! &rarr;</a>
@@ -1285,10 +1306,12 @@ V.rules = () => `
     <h3>Το ΟΠΑ!</h3>
     <p>Με το ΟΠΑ! ενεργοποιημένο, η πλευρά που ακούει μπορεί να διακόψει τον ομιλητή, λέγοντας τη λέξη «ΟΠΑ!». Εάν ο ομιλητής θέλει να ακούσει τι έχει να πει, του το επιτρέπει· αλλιώς τον απορρίπτει. Ο χρόνος που μιλάει η πλευρά που ακούει δεν χάνεται: προστίθεται στο τέλος του χρόνου του ομιλητή.</p>
 
+    <p style="font-size:12px;line-height:1.5;opacity:.8">Μικρά γράμματα: στην κόντρα των πολιτών, αν σηκωθούν 2 υπέρ και 2 κατά, ο δικαστής μπορεί να στήσει κόντρα 2 εναντίον 2, ακόμα κι αν δεν μείνουν ένορκοι. Πόντος, ζωή ή ποινή πάνε σε όλη την ομάδα.</p>
+
     <h3>Προσοχή! Κυκλοφορούν και 2 κρυφοί ρόλοι!</h3>
     <p>Αν θέλετε, δηλαδή· δεν σας υποχρεώνει κανείς.</p>
     <p><b>Το Κόμπλεξ:</b> Σε έναν τυχαίο παίχτη θα δοθεί ένα όνομα. Στόχος αυτού του παίχτη είναι να βγάλει το όνομα από το παιχνίδι. Εάν τον βγάλει, κερδίζει κατευθείαν.</p>
-    <p><b>Το Βύσμα:</b> Στο βύσμα δίνεται ένα όνομα, το οποίο, εάν κερδίσει, κερδίζει εκείνος! Σκεφτείτε το απλά: ο Γιάννης είναι το βύσμα και του δίνεται ο Γιώργος. Εάν κερδίσει ο Γιώργος, στο τέλος φανερώνεται ότι μπήκε και βύσμα και, εν τέλει, νικάει ο Γιάννης. Ο Γιώργος μετά φασώνει τον Γιάννη.</p>
+    <p><b>Το Βύσμα:</b> Στο βύσμα δίνεται ένα όνομα, το οποίο, εάν κερδίσει, κερδίζει εκείνος! Σκεφτείτε το απλά: ο Γιάννης είναι το βύσμα και του δίνεται ο Γιώργος. Εάν κερδίσει ο Γιώργος, στο τέλος φανερώνεται ότι μπήκε με βύσμα και, εν τέλει, νικάει ο Γιάννης. Ο Γιώργος μετά φιλάει τον Γιάννη.</p>
 
     <p>Αυτά από μένα. Α, και υπάρχει και το μπόνους. Μπείτε, δείτε το· δεν το εξηγώ εδώ.</p>
 
@@ -1537,7 +1560,7 @@ V.extra = () => `
 
 /* ΟΘΟΝΗ: ανακοίνωση δικαστή --------------------------------- */
 V.round = () => {
-  const canEnd = S.roundsDone >= CFG.MIN_ROUNDS_TO_END;
+  const canEnd = pointsMode() && S.roundsDone >= CFG.MIN_ROUNDS_TO_END;
   return `
   ${header("round", canEnd)}
   <div class="fill"></div>
@@ -1574,57 +1597,69 @@ V.eyes = () => `
     ${ibtn("ekleisan.png",'data-go="accuse"')}
   </div>`;
 
+const teamP = r => (r.proT && r.proT.length) ? r.proT : (r.pro == null ? [] : [r.pro]);
+const teamC = r => (r.conT && r.conT.length) ? r.conT : (r.con == null ? [] : [r.con]);
+const names = T => T.map(i => esc(nameOf(i))).join(" και ");
+const canBurnSwap = () => S.opinions.length > 1 || !(S.topic === "folder" && pointsMode());
+const proMax = () => debaters().length >= 4 ? 2 : 1;
+
 V.accuse = () => `
   <p class="eyebrow">Διαβασε την υποθεση δυνατα</p>
   <div class="card">${esc(S.round.op.text)}</div>
-  <p class="cue">Οσοι πιστευουν οτι αυτο που ακουσαν ειναι <b class="neg">λανθασμενο</b> να σηκωσουν το δεξι τους χερι και να ανοιξουν τα ματια τους.</p>
-  <div class="remind"><b>Υπενθυμιση!</b> Μονο ενας μπορει να αναλαβει τον ρολο του εισαγγελεα, οποτε εαν ειναι 2 η περισσοτερα χερια σηκωμενα, ας αποφασισουν μεταξυ τους ποιος θα υποχωρησει (κανετε νοηματα, γυριστε κερμα, πετρα ψαλιδι χαρτι, ο,τι θελετε, δεν με νοιαζει).</div>
+  ${canBurnSwap() ? `<button class="endlink" style="margin-top:0" data-burnswap="1">Καψ' την, φερε αλλη</button>` : ""}
+  <p class="cue">Οσοι πιστευουν οτι αυτο που ακουσαν ειναι <b class="pos">σωστο</b> να σηκωσουν το δεξι τους χερι και να ανοιξουν τα ματια τους.</p>
+  <div class="remind"><b>Υπενθυμιση!</b> Ο δικαστης διαλεγει ποιος θα αναλαβει την υπερασπιση.${proMax() > 1 ? " Αν θελετε κοντρα 2 εναντιον 2, μπορει να διαλεξει και δυο." : ""}</div>
   <div class="fill"></div>
   ${ibtn("etoimoi.png",'data-go="prosecutor"',"mid")}
   <p class="mini" style="margin-top:8px">Εαν δεν σηκωσε κανεις, ας προχωρησουμε<br>με το κουμπι αρχειοθετησης</p>
   ${ibtn("arxeiothetisi.png",'data-burn="1"',"small")}`;
 
 V.prosecutor = () => {
-  const r = S.round;
+  const r = S.round, P = r.proT || [];
   const tags = debaters().map(i => `
-    <button class="role ${r.con === i ? "on" : ""}" data-pros="${i}">${chip(i, { lift:3, size:"17px" })}</button>`).join("");
+    <button class="role ${P.indexOf(i) >= 0 ? "on" : ""}" data-pros="${i}">${chip(i, { lift:3, size:"17px" })}</button>`).join("");
   return `
-    <h2 style="text-align:center">Ποιος ειναι ο εισαγγελεας;</h2>
+    <h2 style="text-align:center">Ποιος αναλαμβανει την υπερασπιση;</h2>
     <div class="roles">${tags}</div>
-    <p class="cue">Εφοσον επιλεχτηκε παιχτης για τον ρολο του εισαγγελεα, ξανακλεινουν ολοι τα ματια τους και κατεβαζουν χερια.</p>
+    ${proMax() > 1 ? `<p class="mini">για 2 εναντιον 2, διαλεξε δυο</p>` : ""}
+    <p class="cue">Εφοσον επιλεχτηκε η υπερασπιση, ξανακλεινουν ολοι τα ματια τους και κατεβαζουν χερια.</p>
     <div class="fill"></div>
-    ${ibtn("ekleisan-cut.png", `data-go="defense" ${r.con == null ? "disabled" : ""}`, "mid")}
-    ${r.con == null ? `<p class="mini">Διαλεξε ενα ονομα</p>` : ""}`;
+    ${ibtn("ekleisan-cut.png", `data-go="defense" ${P.length ? "" : "disabled"}`, "mid")}
+    ${P.length ? "" : `<p class="mini">Διαλεξε ενα ονομα</p>`}`;
 };
 
 V.defense = () => {
-  const r = S.round;
-  const tags = debaters().filter(i => i !== r.con).map(i => `
-    <button class="role ${r.pro === i ? "on" : ""}" data-def="${i}">${chip(i, { lift:3, size:"17px" })}</button>`).join("");
+  const r = S.round, P = r.proT || [], C = r.conT || [];
+  const tags = debaters().filter(i => P.indexOf(i) < 0).map(i => `
+    <button class="role ${C.indexOf(i) >= 0 ? "on" : ""}" data-def="${i}">${chip(i, { lift:3, size:"17px" })}</button>`).join("");
+  const uneven = C.length && C.length !== P.length;
   return `
     <p class="eyebrow">Διαβασε την ξανα</p>
     <div class="card">${esc(r.op.text)}</div>
-    <p class="cue">Οσοι πιστευουν οτι αυτο που ακουσαν ειναι <b class="pos">σωστο</b> να σηκωσουν το δεξι τους χερι και να ανοιξουν τα ματια τους.</p>
-    <div class="vsrow"><span class="vslbl">Εισαγγελεας</span>${chip(r.con, { lift:3, size:"18px" })}</div>
-    <h2 class="ask">Υπαρχει καποιος που θελει να υπερασπιστει την υποθεση και να παει κοντρα με τον ${esc(nameOf(r.con))};</h2>
+    <p class="cue">Οσοι πιστευουν οτι αυτο που ακουσαν ειναι <b class="neg">λανθασμενο</b> να σηκωσουν το δεξι τους χερι και να ανοιξουν τα ματια τους.</p>
+    <div class="vsrow"><span class="vslbl">Υπερασπιση</span>${P.map(i => chip(i, { lift:3, size:"18px" })).join("")}</div>
+    <h2 class="ask">Υπαρχει καποιος που θελει να παει κοντρα με ${P.length > 1 ? "τους" : "τον"} ${names(P)};</h2>
     <div class="roles">${tags}</div>
+    ${uneven ? `<p class="mini">Ενας κατα; Τοτε κι ενας υπερ. Ποιος μενει στην υπερασπιση;</p>
+      <div class="roles">${P.map(i => `<button class="role" data-keeppro="${i}">${chip(i, { lift:3, size:"16px" })}</button>`).join("")}</div>` : ""}
     <div class="fill"></div>
-    ${r.pro == null ? ibtn("oxi.png",'data-nodef="1"',"mid") : ibtn("kontra.png",'data-go="preview"',"mid")}`;
+    ${!C.length ? ibtn("oxi.png",'data-nodef="1"',"mid") : ibtn("kontra.png", `data-go="preview" ${uneven ? "disabled" : ""}`, "mid")}`;
 };
 
 /* ΟΘΟΝΗ: η εδρα — η επισκοπηση πριν την κοντρα -------------- */
 V.preview = () => {
   const r = S.round, dipl = S.set.mode !== "polites";
   if (!r.quip) r.quip = quip();
-  const jur = S.players.map((_, i) => i).filter(i => i !== S.judge && i !== r.pro && i !== r.con);
+  const P = teamP(r), C = teamC(r);
+  const jur = S.players.map((_, i) => i).filter(i => i !== S.judge && P.indexOf(i) < 0 && C.indexOf(i) < 0);
   return `
     <h2 class="quip">${esc(r.quip)}</h2>
     <div class="bench">
       <div class="seat"><span class="slbl">Δικαστης</span>${chip(S.judge, { lift:3, size:"18px" })}</div>
       <div class="duo">
-        <div class="seat"><span class="slbl">Εισαγγελεας</span>${chip(r.con, { lift:4, size:"19px" })}</div>
+        <div class="seat"><span class="slbl">Υπερασπιση</span>${P.map(i => chip(i, { lift:4, size:"19px" })).join("")}</div>
         <div class="vs">VS</div>
-        <div class="seat"><span class="slbl">Υπερασπιση</span>${chip(r.pro, { lift:4, size:"19px" })}</div>
+        <div class="seat"><span class="slbl">Εισαγγελεας</span>${C.map(i => chip(i, { lift:4, size:"19px" })).join("")}</div>
       </div>
       ${jur.length ? `<div class="seat"><span class="slbl">Ενορκοι</span>
         <div class="roster" style="justify-content:center">${jur.map(i => chip(i, { lift:2, size:"14px" })).join("")}</div></div>` : ""}
@@ -1635,12 +1670,13 @@ V.preview = () => {
       <div class="duo-btns">
         <button class="endlink" style="margin:0" data-reroll="1">Αλλη υποθεση</button>
         <button class="endlink" style="margin:0" data-swap="1">Αλλαγη πλευρων</button>
+        ${canBurnSwap() ? `<button class="endlink" style="margin:0" data-burnswap="1">Καψ' την</button>` : ""}
       </div>` : ""}
     ${tableHTML(true)}
     ${voteBtn("preview")}
     <div class="fill"></div>
     ${ibtn("etoimoi.png",'data-go-contra="1"',"mid")}
-    <button class="endlink" data-endask="1">Ληξη παιχνιδιου</button>`;
+    ${pointsMode() ? `<button class="endlink" data-endask="1">Ληξη παιχνιδιου</button>` : ""}`;
 };
 
 /* ΟΘΟΝΗ: η κόντρα — σειρά ομιλητών + σημειώσεις ------------- */
@@ -1663,7 +1699,7 @@ V.contra = () => {
   }).join("");
   const foe = cur.side === "pro" ? "ο εισαγγελεας" : "η υπερασπιση";
   return `
-    <p class="eyebrow">Κοντρα &middot; λογος ${Math.floor(r.cur/2)+1} απο ${S.set.rounds || 1} &middot;
+    <p class="eyebrow">Κοντρα &middot; λογος ${Math.floor(r.cur/(2*(r.mode||1)))+1} απο ${S.set.rounds || 1} &middot;
       <b>${r.opa ? "ΟΠΑ" : cur.side === "pro" ? "ΥΠΕΡΑΣΠΙΣΗ" : "ΕΙΣΑΓΓΕΛΕΑΣ"}</b></p>
     ${speakers}
     ${r.opa ? `
@@ -1697,17 +1733,17 @@ V.contra = () => {
 
 /* ΟΘΟΝΗ: ετυμηγορία — πατας τον νικητη, μετα «Ποντος!» --------- */
 V.verdict = () => {
-  const r = S.round, pts = true;
-  const opt = (i, lbl) => `
-    <button class="vpick ${r.pick === i ? "on" : ""}" data-vpick="${i}">
+  const r = S.round;
+  const opt = (side, T, lbl) => `
+    <button class="vpick ${r.pick === side ? "on" : ""}" data-vpick="${side}">
       <span class="slbl">${lbl}</span>
-      ${chip(i, { lift:4, size:"20px" })}
-      ${pts ? `<span class="vhp">${hpRow(i)}</span>` : ""}
+      ${T.map(i => `${chip(i, { lift:4, size:"20px" })}<span class="vhp">${hpRow(i)}</span>`).join("")}
     </button>`;
+  const W = r.pick === "pro" ? teamP(r) : r.pick === "con" ? teamC(r) : [];
   return `
     <h2>Ποιος κερδισε;</h2>
-    <div class="vgrid">${opt(r.con, "Εισαγγελεας")}${opt(r.pro, "Υπερασπιση")}</div>
-    <p class="mini">${r.pick == null ? "πατα τον νικητη" : esc(nameOf(r.pick)) + " &middot; και τωρα ο ποντος"}</p>
+    <div class="vgrid">${opt("pro", teamP(r), "Υπερασπιση")}${opt("con", teamC(r), "Εισαγγελεας")}</div>
+    <p class="mini">${r.pick == null ? "πατα τον νικητη" : names(W) + " &middot; και τωρα ο ποντος"}</p>
     <div class="fill"></div>
     ${ibtn("pontos.png", `data-award="1" ${r.pick == null ? "disabled" : ""}`)}
     ${ibtn("denbgikeakrh.png",'data-nowin="1"',"small")}`;
@@ -1727,28 +1763,28 @@ V.sentence = () => {
   if (pen) return `
     <div class="stamp small">Ενοχοι</div>
     <div class="fill"></div>
-    <div style="margin:0 0 14px">${chip(res.l, { lift:3, size:"20px" })}</div>
+    <div class="roster" style="justify-content:center;margin:0 0 14px">${res.L.map(i => chip(i, { lift:3, size:"20px" })).join("")}</div>
     <h2 style="color:var(--brass);margin:0">${esc(S.penalty)}</h2>
-    <div class="hpline"><span class="hp big">${heartsHTML(res.lifeAfter, res.lifeAfter)}</span></div>
-    ${res.lifeAfter === 0 ? `<p class="warn">τελειωσαν οι ζωες</p>` : ""}
-    <p class="mini">κερδισε ο ${esc(nameOf(res.w))}</p>
+    <div class="hpline" style="gap:10px;flex-wrap:wrap">${res.L.map(i => pensHTML(i, true)).join("")}</div>
+    <p class="mini">${res.W.length > 1 ? "κερδισαν οι" : "κερδισε ο"} ${names(res.W)}</p>
     <div class="fill"></div>
-    ${burnt}`;
-  const dead = res.lifeAfter === 0;
-  const won = res.winsAfter >= CFG.WINS;
+    ${burnt}
+    ${alive().length >= 2 ? `<button class="endlink" data-retreat="1">Υποχωρηση παιχτη</button>` : ""}`;
+  const dead = res.L.filter(i => res.la[i] === 0);
+  const won = res.W.some(i => (S.wins[i] || 0) >= CFG.WINS);
   return `
     <div class="score">
-      <div class="srow2">
-        ${chip(res.w, { lift:4, size:"21px" })}<b class="delta up">+1</b>
-        <span class="hp big">${winsHTML(res.winsAfter, res.winsAfter - 1)}</span>
-      </div>
-      <div class="srow2">
-        ${chip(res.l, { lift:4, size:"21px" })}<b class="delta down">&minus;1</b>
-        <span class="hp big">${heartsHTML(res.lifeAfter, res.lifeAfter)}</span>
-      </div>
+      ${res.W.map(i => `<div class="srow2">
+        ${chip(i, { lift:4, size:"21px" })}<b class="delta up">+1</b>
+        <span class="hp big">${winsHTML(res.wa[i], res.wa[i] - 1)}</span>
+      </div>`).join("")}
+      ${res.L.map(i => `<div class="srow2">
+        ${chip(i, { lift:4, size:"21px" })}<b class="delta down">&minus;1</b>
+        <span class="hp big">${heartsHTML(res.la[i], res.la[i])}</span>
+      </div>`).join("")}
     </div>
     ${won ? `<p class="warn" style="color:var(--brass)">${CFG.WINS} νικες! Το παιχνιδι τελειωνει.</p>`
-          : dead ? `<p class="warn">${esc(nameOf(res.l))}: τελειωσαν οι ζωες</p>` : ""}
+          : dead.length ? `<p class="warn">${names(dead)}: τελειωσαν οι ζωες</p>` : ""}
     <div class="fill"></div>
     ${burnt}`;
 };
@@ -1786,21 +1822,43 @@ V.exit = () => {
     <p class="lede" style="color:var(--bone);font-size:18px;margin:0 0 14px">επεφτε... αλλα ειχε βυσμα!</p>
     <div class="card" style="font-size:16px">
       <div style="margin:0 0 10px">${chip(ev.who, { lift:3, size:"17px" })}</div>
-      ηταν το Βυσμα του και βγαινει στη θεση του. Ο ${esc(nameOf(ev.saved))} παιρνει μια ζωη παραπανω.
+      ηταν το Βυσμα του και βγαινει στη θεση του. Ο ${esc(nameOf(ev.saved))} ${pointsMode() ? "παιρνει μια ζωη παραπανω" : "μενει στο παιχνιδι"}.
     </div>
-    <div class="hpline"><span class="hp big">${heartsHTML(S.life[ev.saved] || 0, -1)}</span></div>
+    ${pointsMode() ? `<div class="hpline"><span class="hp big">${heartsHTML(S.life[ev.saved] || 0, -1)}</span></div>` : ""}
     <div class="fill"></div>
     ${voteBtn()}
     <button class="btn tmpl mid" data-exitnext="1">Συνεχιζουμε</button>`;
+  if (ev.kind === "retreat"){ const n = S.pens[ev.who] || 0; return `
+    <img class="bigicon" src="${IMG}loss.png" alt="">
+    <div style="margin:10px 0 12px">${chip(ev.who, { pad:"12px 26px", radius:"24px", dash:5, lift:6, size:"28px" })}</div>
+    <h2 style="color:var(--blood);text-shadow:var(--stroke)">Υποχωρει!</h2>
+    <p class="lede" style="color:var(--bone);font-size:17px">${n} ${n === 1 ? "ποινη" : "ποινες"} στην πλατη και ειπε φτανει. Σεβαστο. Μενεις ενορκος!</p>
+    <div class="hpline">${pensHTML(ev.who, true)}</div>
+    <div class="fill"></div>
+    ${voteBtn()}
+    <button class="btn tmpl mid" data-exitnext="1">Συνεχιζουμε</button>`; }
   return `
     <img class="bigicon" src="${IMG}loss.png" alt="">
     <div style="margin:10px 0 12px">${chip(ev.who, { pad:"12px 26px", radius:"24px", dash:5, lift:6, size:"28px" })}</div>
     <h2 style="color:var(--blood);text-shadow:var(--stroke)">Εχασες!</h2>
     <p class="lede" style="color:var(--bone);font-size:17px">${CFG.LIVES} ηττες μαζεψες, νομιζω ηρθε η ωρα σου να βαλεις γλωσσα μεσα. Μενεις ενορκος!</p>
-    ${S.scoring === "penalty" ? `<div class="penbox"><span class="slbl">Η ποινη της εξοδου</span><b>${esc(S.penalty)}</b></div>` : ""}
     <div class="fill"></div>
     ${voteBtn()}
     <button class="btn tmpl mid" data-exitnext="1">Συνεχιζουμε</button>`;
+};
+
+/* ΟΘΟΝΗ: υποχωρηση παιχτη (με ποινη) — ο μονος τροπος να τελειωσει */
+V.retreat = () => {
+  const w = S.retreatWho;
+  const cand = alive().map(i => `
+    <button class="role ${w === i ? "on" : ""}" data-rwho="${i}">${chip(i, { lift:3, size:"16px" })}</button>`).join("");
+  return `
+    <h2>Ποιος υποχωρει;</h2>
+    <p class="lede">Οποιος υποχωρησει βγαινει απο το παιχνιδι και μενει ενορκος. Οταν μεινει ενας ορθιος, τελειωσαμε.</p>
+    <div class="roles">${cand}</div>
+    <div class="fill"></div>
+    <button class="btn tmpl mid" data-rgo="1" ${w == null ? "disabled" : ""}>${w == null ? "Διαλεξε" : "Υποχωρει ο " + esc(nameOf(w))}</button>
+    ${ibtn("oxi.png",'data-go="sentence"',"small")}`;
 };
 
 /* ΟΘΟΝΗ: η ψηφος του τραπεζιου — στο στυλ του κανονισμου ------ */
@@ -1837,7 +1895,8 @@ V.voteResult = () => {
     <div style="margin:20px 0 10px">${chip(r.who, { pad:"11px 24px", lift:5, size:"24px" })}</div>
     <p class="lede" style="color:var(--bone);font-size:18px">${r.right
       ? "ηταν " + role + ". Το φυλλο καηκε και φευγει απο το παιχνιδι."
-      : "δεν ηταν " + role + ". Φευγει παντως — ετσι ειναι οι λαικες δικες."}</p>
+      : S.out[r.who] ? "δεν ηταν " + role + ". Φευγει παντως — ετσι ειναι οι λαικες δικες."
+      : "δεν ηταν " + role + ". Θα εφευγε... αλλα κατι αλλαξε. Δειτε."}</p>
     <div class="fill"></div>
     <button class="btn tmpl mid" data-vdone="1">Συνεχιζουμε</button>`;
 };
@@ -1856,7 +1915,7 @@ function rolesReveal(){
     ${R.v != null ? row("Βυσμα", R.v, "του", R.vT) : ""}</div>`;
 }
 const endBtns = () => `<div class="duo-btns">${ibtn("telos.png",'data-home="1"')}${ibtn("alloena.png",'data-again="1"')}</div>
-  <button class="endlink" data-sendops="1">Κρατα υποθεσεις στον φακελο</button>`;
+  ${allOpinions().length ? `<button class="endlink" data-sendops="1">Κρατα υποθεσεις στον φακελο</button>` : ""}`;
 
 /* ΟΘΟΝΗ: νικη κρυφου ρολου ----------------------------------- */
 V.roleWin = () => {
@@ -1867,7 +1926,7 @@ V.roleWin = () => {
     <h2 style="color:var(--brass)">${k ? "τα πηρε ολα" : "και νικαει!"}</h2>
     <div class="card" style="font-size:16px">${k
       ? `Ειχε κομπλεξ με τον ${esc(nameOf(E.target))} και τον εβγαλε απο το παιχνιδι. Νικη επιτοπου.`
-      : `Ο ${esc(nameOf(E.prot))} εφτασε στην κορυφη... αλλα ο ${esc(nameOf(E.champ))} ηταν το βυσμα του. Νικαει ο ${esc(nameOf(E.champ))}. Ο ${esc(nameOf(E.prot))} μετα τον φασωνει.`}</div>
+      : `Ο ${esc(nameOf(E.prot))} εφτασε στην κορυφη... αλλα ο ${esc(nameOf(E.champ))} ηταν το βυσμα του. Νικαει ο ${esc(nameOf(E.champ))}. Ο ${esc(nameOf(E.prot))} μετα τον φιλαει.`}</div>
     ${flowersHTML(E)}
     ${rolesReveal()}
     <div class="fill"></div>
@@ -1877,6 +1936,11 @@ V.roleWin = () => {
 /* ΟΘΟΝΗ: απολογισμος ----------------------------------------- */
 function tally(){
   const ks = S.players.map((_, k) => k), E = S.endInfo || {};
+  if (!pointsMode()){
+    const rest = ks.filter(k => k !== E.champ), p = k => S.pens[k] || 0;
+    const top = rest.length ? Math.max.apply(null, rest.map(p)) : 0;
+    return { champs: E.champ != null ? [E.champ] : [], losers: top > 0 ? rest.filter(k => p(k) === top) : [] };
+  }
   const sc = k => (S.out[k] ? 0 : 1000) + (S.life[k] || 0) * 100 + (S.wins[k] || 0);
   const top = Math.max.apply(null, ks.map(sc)), low = Math.min.apply(null, ks.map(sc));
   return { champs: E.champ != null ? [E.champ] : ks.filter(k => sc(k) === top),
@@ -1898,8 +1962,9 @@ V.theEnd = () => {
     <p class="lede" style="margin:0">ο,τι θες, παρε τον χρονο σου.</p>
     ${flowersHTML(E)}
     ${rolesReveal()}
+    ${finalTable()}
     ${t.losers.length ? `
-      <p class="mini" style="margin-top:24px">Ο λογαριασμος παει σε</p>
+      <p class="mini" style="margin-top:24px">Οι περισσοτερες ποινες &middot; ο λογαριασμος παει σε</p>
       <div class="roster" style="justify-content:center;margin-top:8px">
         ${t.losers.map(k => chipName(k, S.players[k], { lift:3 })).join("")}
       </div>` : ""}
@@ -1958,8 +2023,8 @@ V.sendOps = () => {
   const n = S.sendPick.filter(Boolean).length;
   return `
     <h2>Ποιες κρατατε;</h2>
-    <p class="lede">Πατα οσες θελεις να μπουν στον φακελο. Θα τις βρειτε στο «Ο φακελος σας».</p>
-    <div class="picks">${rows || `<p class="mini">δεν εμεινε τιποτα</p>`}</div>
+    <p class="lede">Οσες παιχτηκαν, καηκαν ή αλλαχτηκαν σε αυτο το παιχνιδι. Πατα οσες θελεις να μπουν στον φακελο.</p>
+    <div class="picks">${rows || `<p class="mini">δεν παιχτηκε καμια υποθεση</p>`}</div>
     <div class="fill"></div>
     <div class="duo-btns">
       <button class="btn tmpl mid" data-sendgo="1" ${n ? "" : "disabled"}>${n ? "Βαλε " + (n === 1 ? "την" : "τις " + n) : "Διαλεξε"}</button>
@@ -1997,11 +2062,19 @@ function startRound(){
 
 /* Ο ΔΙΚΑΣΤΗΣ ΓΥΡΙΖΕΙ στους ορθιους. Αν μεινουν δυο, δικαζει
    καποιος απο τους ενορκους που εχουν βγει.                    */
-function judgePool(){
-  const a = alive();
-  return a.length >= 3 ? a : S.players.map((_, i) => i).filter(i => S.out[i]);
+/* ΤΕΛΙΚΗ ΜΟΝΟΜΑΧΙΑ: με δυο ορθιους δικαζει μονιμα ο τελευταιος που
+   βγηκε — αρκει να ειναι ουδετερος. Αν ηταν Κομπλεξ ή Βυσμα, μενει
+   ενορκος και δικαζει ο προηγουμενος ουδετερος.                     */
+function finalJudge(){
+  const outs = S.outOrder.filter(i => S.out[i]).slice().reverse();
+  for (let k = 0; k < outs.length; k++) if (roleOf(outs[k]) === "law") return outs[k];
+  if (outs.length) return outs[0];
+  const any = S.players.map((_, i) => i).filter(i => S.out[i]);
+  return any.length ? any[any.length - 1] : S.judge;
 }
+function judgePool(){ return alive(); }
 function nextJudge(){
+  if (alive().length <= 2){ S.judge = finalJudge(); return; }
   const pool = judgePool(), n = S.players.length;
   for (let s = 1; s <= n; s++){
     const c = (S.judge + s) % n;
@@ -2027,22 +2100,35 @@ const quip = () => QUIPS[Math.floor(Math.random() * QUIPS.length)];
    βγαινουν στην τυχη αναμεσα στους ορθιους.                   */
 function randomRoles(){
   const r = S.round, pool = shuffle(debaters());
-  r.con = pool[0]; r.pro = pool[1]; r.quip = quip();
+  r.con = pool[0]; r.pro = pool[1]; r.proT = []; r.conT = []; r.quip = quip();
 }
 /* ΑΛΛΗ ΥΠΟΘΕΣΗ: η τωρινη γυριζει πισω ανεπαφη, βγαινει αλλη. */
 function rerollCase(){
   const r = S.round, old = r.op;
   let others = S.opinions.filter(o => o !== old);
   if (!others.length){
-    if (S.topic === "folder") return;
+    if (S.topic === "folder" && pointsMode()) return;
     dbDraw(3).forEach(t => S.opinions.push({ id: S.nextId++, text: t, wave: 2, used: 0 }));
     others = S.opinions.filter(o => o !== old);
   }
   if (!others.length) return;
   old.used = Math.max(0, (old.used || 1) - 1);
+  S.skipped.push(old.text);
   const least = Math.min.apply(null, others.map(o => o.used || 0));
   const pool = others.filter(o => (o.used || 0) === least);
   const op = pool[Math.floor(Math.random() * pool.length)];
+  op.used = (op.used || 0) + 1;
+  r.op = op;
+}
+/* ΚΑΨ' ΤΗΝ: η υποθεση βγαινει εντελως, ερχεται αλλη, η εδρα μενει. */
+function burnSwap(){
+  const r = S.round, old = r.op;
+  if (!canBurnSwap()) return;
+  S.opinions = S.opinions.filter(o => o.id !== old.id);
+  S.played.push(old.text);
+  ensureDeck();
+  if (!S.opinions.length) return;
+  const op = pickOpinion();
   op.used = (op.used || 0) + 1;
   r.op = op;
 }
@@ -2060,13 +2146,26 @@ function winEnd(w, kind){
   if (R && R.v != null && !S.vVoid && R.vT === w) return { kind: "vysma", champ: R.v, prot: w, flowers: flowers };
   return { kind: kind, champ: w, flowers: flowers };
 }
+/* ΟΜΑΔΕΣ (2 εναντιον 2): ποντος, ζωη ή ποινη πανε σε ολη την ομαδα. */
+function awardTeam(W, L){
+  const r = S.round;
+  W.forEach(w => { S.wins[w] = (S.wins[w] || 0) + 1; });
+  r.res = { W: W, L: L, w: W[0], l: L[0], wa: {}, la: {} };
+  W.forEach(w => { r.res.wa[w] = S.wins[w]; });
+  if (!pointsMode()){ L.forEach(l => { S.pens[l] = (S.pens[l] || 0) + 1; }); return; }
+  L.forEach(l => { S.life[l] = Math.max(0, (S.life[l] || 0) - 1); r.res.la[l] = S.life[l]; });
+  const top = W.filter(w => S.wins[w] >= CFG.WINS);
+  if (top.length){ S.endInfo = winEnd(top[0], "wins"); return; }
+  L.forEach(l => { if (!S.endInfo && !S.out[l] && S.life[l] <= 0) eliminate(l, false); });
+}
 function award(w, l){
   const r = S.round;
   S.wins[w] = (S.wins[w] || 0) + 1;
   r.res = { w: w, l: l, winsAfter: S.wins[w], lifeAfter: null };
+  if (!pointsMode()){ S.pens[l] = (S.pens[l] || 0) + 1; return; }
   S.life[l] = Math.max(0, (S.life[l] || 0) - 1);
   r.res.lifeAfter = S.life[l];
-  if (pointsMode() && S.wins[w] >= CFG.WINS){ S.endInfo = winEnd(w, "wins"); return; }
+  if (S.wins[w] >= CFG.WINS){ S.endInfo = winEnd(w, "wins"); return; }
   if (S.life[l] <= 0) eliminate(l, false);
 }
 /* ΤΟ ΒΥΣΜΑ: αν παει να βγει ο δικος του, σηκωνεται το Βυσμα στη
@@ -2074,14 +2173,21 @@ function award(w, l){
 function eliminate(i, byVote){
   const R = S.roles;
   if (R && R.v != null && !S.vVoid && R.vT === i && R.v !== i && !S.out[R.v]){
-    S.out[R.v] = true; S.life[R.v] = 0; S.vVoid = true; S.vRevealed = true;
+    S.out[R.v] = true; S.life[R.v] = 0; S.vVoid = true; S.vRevealed = true; S.outOrder.push(R.v);
     S.life[i] = (S.life[i] || 0) + 1;
     S.outQueue.push({ kind: "bullet", who: R.v, saved: i });
     afterOut(R.v);
     return;
   }
-  S.out[i] = true; S.life[i] = 0;
+  S.out[i] = true; S.life[i] = 0; S.outOrder.push(i);
   S.outQueue.push({ kind: byVote ? "voted" : "out", who: i });
+  afterOut(i);
+}
+/* ΥΠΟΧΩΡΗΣΗ (με ποινη): εθελοντικη, οποτε το Βυσμα δεν μπαινει μπροστα. */
+function retire(i){
+  if (S.out[i]) return;
+  S.out[i] = true; S.outOrder.push(i);
+  S.outQueue.push({ kind: "retreat", who: i });
   afterOut(i);
 }
 /* ΤΟ ΚΟΜΠΛΕΞ: βγηκε ο στοχος του; κερδιζει επιτοπου. Βγηκε το
@@ -2138,11 +2244,12 @@ function resumeAfterVote(){
   S.voteFrom = null;
   if (S.endInfo) return go(endScreen());
   const r = S.round;
-  if (S.out[S.judge] && alive().length >= 3) nextJudge();
-  const broken = r.pro == null || r.con == null || S.out[r.pro] || S.out[r.con] || r.pro === S.judge || r.con === S.judge;
+  if (alive().length <= 2) S.judge = finalJudge(); else if (S.out[S.judge]) nextJudge();
+  const all = teamP(r).concat(teamC(r));
+  const broken = r.pro == null || r.con == null || all.some(i => S.out[i] || i === S.judge);
   if (!broken) return go("preview");
   if (S.set.mode !== "polites"){ randomRoles(); return go("preview"); }
-  r.pro = null; r.con = null; return go("round");
+  r.pro = null; r.con = null; r.proT = []; r.conT = []; return go("round");
 }
 function nextRoundGo(){ S.voteFrom = null; S.votedThisTurn = false; nextJudge(); startRound(); render(); }
 
@@ -2166,7 +2273,8 @@ function startGame(){
   S.out = S.players.map(() => false);
   S.wins = S.players.map(() => 0);
   S.outQueue = []; S.endInfo = null; S.vote = null; S.voteResult = null; S.votedThisTurn = false;
-  S.phase = "play"; S.roundsDone = 0; S.played = [];
+  S.phase = "play"; S.roundsDone = 0; S.played = []; S.skipped = []; S.outOrder = [];
+  S.pens = S.players.map(() => 0); S.retreatWho = null;
   S.judge = S.startJudge % S.players.length;
   if (S.roles){ S.roleIdx = 0; S.handShow = false; return go("handoff"); }
   startRound(); render();
@@ -2189,21 +2297,21 @@ function resetAll(keepSetup){
   S.opinions = []; S.nextId = 1; S.peakOps = 0;
   S.round = null; S.phase = "setup"; S.roundsDone = 0;
   S.wins = []; S.life = []; S.out = []; S.roles = null; S.endInfo = null; S.outQueue = [];
-  S.vote = null; S.voteResult = null; S.offer = []; S.offerPick = []; S.played = []; S.sendPick = [];
+  S.vote = null; S.voteResult = null; S.offer = []; S.offerPick = []; S.played = []; S.skipped = []; S.outOrder = []; S.pens = []; S.sendPick = [];
   S.judge = 0; S.startJudge = 0; S.mine = 0; S.againIdx = 0; S.again = false;
   S.nameDraft = ""; S.opDraft = ""; S.palette = false;
   if (!keepSetup) S.topic = "ours";
   S.draftCol = freeColor(); S.draftPat = 0;
 }
 
-/* σειρά ομιλίας: πρωτα ο εισαγγελεας, μετα η υπερασπιση */
+/* σειρά ομιλίας: πρωτα η υπερασπιση, μετα ο εισαγγελεας */
 function buildOrder(){
   const r = S.round;
   r.order = [];
   for (let g = 0; g < (S.set.rounds || 1); g++){
     for (let k = 0; k < r.mode; k++){
-      r.order.push({ side:"con", p:r.conSel[k] });
       r.order.push({ side:"pro", p:r.proSel[k] });
+      r.order.push({ side:"con", p:r.conSel[k] });
     }
   }
   r.times = r.order.map(() => S.set.secs || CFG.DEFAULT_TIME);
@@ -2213,7 +2321,7 @@ function buildOrder(){
 }
 function nextSpeaker(){
   const r = S.round;
-  r.cur++; r.paused = false;
+  r.cur++; r.paused = false; r.opa = false; r.opaT = 0;
   if (navigator.vibrate) navigator.vibrate(200);
   if (r.cur >= r.order.length) return go("verdict");
   render();
@@ -2222,6 +2330,7 @@ function nextSpeaker(){
    ό,τι γράφει ο δικαστής στις σημειώσεις εκείνη τη στιγμή. */
 function tick(){
   const r = S.round;
+  if (S.screen !== "contra" || !r){ stopTimer(); return; }
   if (r.paused) return;
   if (r.opa){
     r.opaT++;
@@ -2236,11 +2345,12 @@ function tick(){
   if (r.times[r.cur] <= 0){
     r.times[r.cur] = 0;
     const ex = r.extra[r.cur] || 0;
-    if (ex > 0 && !r.onExtra[r.cur]){
+    if (ex > 0){
       r.extra[r.cur] = 0; r.times[r.cur] = ex; r.onExtra[r.cur] = true;
       if (navigator.vibrate) navigator.vibrate(120);
       return render();
     }
+    Neigh.play();
     return nextSpeaker();
   }
   const el = document.getElementById("curClock");
@@ -2249,6 +2359,7 @@ function tick(){
 function runTimer(){ stopTimer(); S.timer = setInterval(tick, 1000); }
 
 /* === [13] RENDER & ΣΥΜΒΑΝΤΑ ================================ */
+const COARSE = (function(){ try { return matchMedia("(pointer:coarse)").matches || "ontouchstart" in window; } catch(e){ return false; } })();
 function grow(el){
   if (!el) return;
   el.style.height = "auto";
@@ -2260,10 +2371,14 @@ let lastScreen = null;
 function render(){
   app.innerHTML = (V[S.screen] || V.count)() + paletteHTML();
   growAll();
-  if (S.screen !== lastScreen){ app.scrollTop = 0; lastScreen = S.screen; }
-  if (S.screen === "intro"){ const e = app.querySelector("#pname"); if (e) e.focus(); }
-  if (S.screen === "more" || S.screen === "extra" || S.screen === "reIntro"){
-    const e = app.querySelector("#op"); if (e) e.focus(); }
+  if (S.screen !== lastScreen){ app.scrollTop = 0; lastScreen = S.screen; app.classList.remove("kb"); }
+  /* Σε κινητο ΔΕΝ εστιαζουμε μονοι μας: το Android εστιαζει χωρις να
+     ανοιξει πληκτρολογιο και μετα το ταπ στο πεδιο δεν το ανοιγει.  */
+  if (!COARSE){
+    if (S.screen === "intro"){ const e = app.querySelector("#pname"); if (e) e.focus(); }
+    if (S.screen === "more" || S.screen === "extra" || S.screen === "reIntro"){
+      const e = app.querySelector("#op"); if (e) e.focus(); }
+  }
   syncSubmit();
 }
 function syncSubmit(){
@@ -2314,6 +2429,7 @@ app.addEventListener("click", e => {
     const kv = d.set.split(":"), k = kv[0], v = kv[1];
     S.set[k] = v === "true" ? true : v === "false" ? false : (isNaN(+v) ? v : +v);
     Settings.save(S.set);
+    if (k === "neigh" && !S.set.neigh) setTimeout(() => { S.set.neigh = true; Settings.save(S.set); if (S.screen === "settings") render(); }, 900);
     return render();
   }
 
@@ -2411,14 +2527,25 @@ app.addEventListener("click", e => {
     randomRoles(); return go("preview");
   }
   if (d.burn || d.nodef){ r.pro = null; r.con = null; burnCase(); return go("burnt"); }
-  if (d.pros !== undefined){ const i = +d.pros; r.con = r.con === i ? null : i; return render(); }
-  if (d.def !== undefined){ const i = +d.def; r.pro = r.pro === i ? null : i; return render(); }
+  if (d.pros !== undefined){
+    const i = +d.pros, T = r.proT || (r.proT = []), k = T.indexOf(i), max = proMax();
+    if (k >= 0) T.splice(k, 1); else if (T.length < max) T.push(i); else T[T.length - 1] = i;
+    r.pro = T.length ? T[0] : null; r.conT = []; r.con = null; return render();
+  }
+  if (d.def !== undefined){
+    const i = +d.def, T = r.conT || (r.conT = []), k = T.indexOf(i), max = Math.max(1, (r.proT || []).length);
+    if (k >= 0) T.splice(k, 1); else if (T.length < max) T.push(i); else T[T.length - 1] = i;
+    r.con = T.length ? T[0] : null; return render();
+  }
+  if (d.keeppro !== undefined){ r.proT = [+d.keeppro]; r.pro = r.proT[0]; return render(); }
+  if (d.burnswap){ burnSwap(); return render(); }
   if (d.reroll){ rerollCase(); return render(); }
-  if (d.swap){ const x = r.pro; r.pro = r.con; r.con = x; return render(); }
-  if (d.endask){ S.finishFrom = S.screen; return go("finishAsk"); }
+  if (d.swap){ const x = r.pro; r.pro = r.con; r.con = x; const y = r.proT; r.proT = r.conT; r.conT = y; return render(); }
+  if (d.endask){ if (!pointsMode()) return; S.finishFrom = S.screen; return go("finishAsk"); }
   if (d.goContra){
-    if (r.pro == null || r.con == null) return;
-    r.mode = 1; r.proSel = [r.pro]; r.conSel = [r.con];
+    const P = teamP(r), C = teamC(r);
+    if (!P.length || P.length !== C.length) return;
+    r.mode = P.length; r.proSel = P.slice(); r.conSel = C.slice();
     buildOrder(); go("contra"); return runTimer();
   }
   if (d.opa !== undefined){
@@ -2428,10 +2555,11 @@ app.addEventListener("click", e => {
   }
   if (d.pause){ r.paused = !r.paused; return render(); }
   if (d.next) return nextSpeaker();
-  if (d.vpick !== undefined){ r.pick = +d.vpick; return render(); }
+  if (d.vpick !== undefined){ r.pick = d.vpick; return render(); }
   if (d.award){
     if (r.pick == null) return;
-    award(r.pick, r.pick === r.pro ? r.con : r.pro);
+    const P = teamP(r), C = teamC(r);
+    awardTeam(r.pick === "pro" ? P : C, r.pick === "pro" ? C : P);
     burnCase(); return go("sentence");
   }
   if (d.nowin){ r.pick = null; r.res = null; burnCase(); return go("sentence"); }
@@ -2458,7 +2586,7 @@ app.addEventListener("click", e => {
 
   /* ληξη της δικης — μονο απο τον 3ο γυρο και μετα */
   if (d.finish){
-    if (S.roundsDone < CFG.MIN_ROUNDS_TO_END) return;
+    if (S.roundsDone < CFG.MIN_ROUNDS_TO_END || !pointsMode()) return;
     S.finishFrom = S.screen;
     return go("finishAsk");
   }
@@ -2484,6 +2612,9 @@ app.addEventListener("click", e => {
     return go(endScreen());
   }
   if (d.sendops){ S.sendPick = []; return go("sendOps"); }
+  if (d.retreat){ if (pointsMode() || alive().length < 2) return; S.retreatWho = r && r.res ? r.res.l : null; if (S.out[S.retreatWho]) S.retreatWho = null; return go("retreat"); }
+  if (d.rwho !== undefined){ const i = +d.rwho; S.retreatWho = S.retreatWho === i ? null : i; return render(); }
+  if (d.rgo){ if (S.retreatWho == null) return; retire(S.retreatWho); S.retreatWho = null; return afterBurn(); }
   if (d.go) return go(d.go);
 });
 
@@ -2528,6 +2659,7 @@ app.addEventListener("input", e => {
       else if (S.screen === "rules")   go(S.rulesFrom);
       else if (S.screen === "peek")    { S.peek = null; go("preview"); }
       else if (S.screen === "vote")    go("exit");
+      else if (S.screen === "retreat") go("sentence");
       else if (S.screen === "folder")  go(S.back);
       else if (S.screen === "sendOps") go(endScreen());
       else if (S.screen === "topic")   go("count");
@@ -2540,13 +2672,40 @@ app.addEventListener("input", e => {
 
   /* με κλειδωμενη σελιδα, το πληκτρολογιο μπορει να σκεπασει το πεδιο.
      Οποτε το φερνουμε μονοι μας μπροστα.                            */
+  /* ταπ οπουδηποτε στο πλαισιο = ταπ στο πεδιο */
+  app.addEventListener("click", e => {
+    const f = e.target.closest && e.target.closest(".field");
+    if (!f) return;
+    const inp = f.querySelector("input,textarea");
+    if (inp && e.target !== inp) inp.focus();
+  });
+  /* το textarea μεγαλωνει με καθε τροπο γραψιματος (και με Gboard) */
+  ["keyup", "compositionend", "change", "paste", "cut"].forEach(ev =>
+    app.addEventListener(ev, e => { if (e.target.tagName === "TEXTAREA") setTimeout(() => grow(e.target), 0); }));
+  function lift(el){
+    const box = el.closest(".field") || el;
+    const A = app.getBoundingClientRect(), B = box.getBoundingClientRect();
+    const top = Math.max(0, app.scrollTop + (B.top - A.top) - A.height * 0.12);
+    try { app.scrollTo({ top: top, behavior: "smooth" }); } catch(err){ app.scrollTop = top; }
+  }
   app.addEventListener("focusin", e => {
-    if (!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+    const el = e.target;
+    if (!/^(INPUT|TEXTAREA)$/.test(el.tagName)) return;
+    if (el.tagName === "TEXTAREA") grow(el);
+    if (!touch) return;
+    app.classList.add("kb");
+    setTimeout(() => lift(el), 80);
+    setTimeout(() => lift(el), 420);
+  });
+  app.addEventListener("focusout", () => {
     setTimeout(() => {
-      const el = e.target, A = app.getBoundingClientRect(), B = el.getBoundingClientRect();
-      const top = Math.max(0, app.scrollTop + (B.top - A.top) - (A.height - B.height) / 2);
-      try { app.scrollTo({ top: top, behavior: "smooth" }); } catch(err){ app.scrollTop = top; }
-    }, 320);
+      const a = document.activeElement;
+      if (!a || !/^(INPUT|TEXTAREA)$/.test(a.tagName)) app.classList.remove("kb");
+    }, 700);
+  });
+  if (window.visualViewport) visualViewport.addEventListener("resize", () => {
+    const a = document.activeElement;
+    if (a && /^(INPUT|TEXTAREA)$/.test(a.tagName) && app.contains(a)) setTimeout(() => lift(a), 60);
   });
 
   /* fullscreen + οθονη αναμμενη, με το πρωτο αγγιγμα (μονο σε κινητο) */
