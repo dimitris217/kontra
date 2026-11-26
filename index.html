@@ -4,7 +4,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="manifest" href="manifest.json">
-<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "281dc6167f1b41dc91c28586e2eb57af"}'></script><!-- End Cloudflare Web Analytics -->
 <style>
 /* Comfortaa — τοπικα, παιζει και χωρις ιντερνετ */
 @font-face{font-family:"Comfortaa";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/comfortaa-400-0.woff2) format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
@@ -720,6 +719,36 @@ html,body{height:100%;overflow:hidden;overscroll-behavior:none;
 #app .pchip{display:inline-block;max-width:100%;white-space:normal;word-break:normal;overflow-wrap:break-word;hyphens:none;overflow:visible;text-overflow:clip;text-align:center;line-height:1.25}
 #app .trow .nm{min-width:0;flex:1 1 auto}
 #app .vpick{min-width:0}
+
+/* === ΟΙ ΚΑΝΟΝΕΣ: κεντρο, ατακες, κρυμμενες απαντησεις ======== */
+.turf .rules.rr,.turf .rules.rr h3{text-align:center}
+.rr p{margin:0 0 12px;text-wrap:pretty}
+.rr .rr-q{font-size:17px;line-height:1.5;color:var(--bone)}
+.rr .rr-aside{font-size:12.5px;opacity:.75}
+.rr p.rr-aside{margin-top:-6px}
+.rr .rr-punch{font-family:var(--display);font-size:27px;line-height:1.15;color:var(--brass);text-shadow:var(--stroke);margin:16px 0 8px}
+.rr .rr-big{font-family:var(--display);font-size:36px;line-height:1.1;color:var(--bone);text-shadow:var(--stroke);margin:4px 0 6px}
+.rr .rr-big small{font-family:inherit;font-size:14px;color:var(--muted);text-shadow:none}
+.rr .rr-sep{border-top:3px dashed rgba(255,243,228,.22);margin:22px 18% 4px}
+.rr details.pop{margin:2px auto 14px}
+.rr details.pop summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+  padding:8px 14px;border:3px solid #000;border-radius:12px;background:rgba(0,0,0,.38);
+  color:var(--bone);font-weight:700;font-size:15px;box-shadow:0 3px 0 rgba(0,0,0,.45);
+  -webkit-user-select:none;user-select:none;transition:transform .12s}
+.rr details.pop summary:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.45)}
+.rr details.pop summary::-webkit-details-marker{display:none}
+.rr details.pop summary::after{content:"πάτα";font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  padding:2px 7px;border-radius:7px;background:var(--brass);color:#3a1c00;text-shadow:none}
+.rr details.pop[open] summary::after{content:"\2713"}
+.rr details.pop > div{margin-top:10px;animation:rrpop .4s cubic-bezier(.2,1.5,.4,1) both}
+.rr details.pop .ans{font-family:var(--display);font-size:26px;color:var(--brass);text-shadow:var(--stroke)}
+.rr details.pop.k summary{border-color:#ff5a6e;background:rgba(200,20,50,.32)}
+.rr details.pop.v summary{border-color:#4aa8ff;background:rgba(20,90,200,.32)}
+.rr ul.rr-opa{list-style:none;padding:0;margin:0 0 12px;display:flex;flex-direction:column;gap:6px}
+.rr ul.rr-opa li{padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.07)}
+.rr .rr-small{font-size:12px;line-height:1.5;opacity:.8}
+.rr .rr-foot{font-size:12.5px;font-style:italic;opacity:.85;margin-top:22px}
+@keyframes rrpop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
 </style>
 
 <div id="app"></div>
@@ -746,7 +775,7 @@ const CFG = {
   LIVES: 3,                        // ζωες καθε παιχτη (ποντοι & ζωες)
   WINS: 3,                         // νικες για να κερδισεις
   PICK_OFFER: 10,                  // ετοιμες: ποσες βλεπει ο καθενας
-  PICK_KEEP: 6,                    // ετοιμες: ποσες κραταει
+  PICK_KEEP: 6,                    // ετοιμες: τουλαχιστον ποσες κραταει
   AUTO_FILL: 6,                    // ποσες μπαινουν μονες τους οταν αδειασει η δικογραφια            // απο ποσους γυρους και μετα ο δικαστης μπορει να ληξει
   LOW_DECK: 3,                     // απο ποσες υποθεσεις και κατω βγαινει η κοκκινη προειδοποιηση
   STORE_KEY: "kontra.praktika.v1",
@@ -1312,11 +1341,6 @@ V.settings = () => {
     <h3>Ηχος αλογου</h3>
     <div class="srow">${opt("neigh", true, "Ανοιχτος")}${opt("neigh", false, "Κλειστος")}</div>
 
-    <h3>Αλλο παιχνιδι</h3>
-    <div class="srow col">
-      <a class="sgame" href="kontra-bonus.html">Κοντρα: Μπονους! &rarr;</a>
-    </div>
-
   </div>
   <div class="finish"></div>
   </div>
@@ -1328,28 +1352,50 @@ V.settings = () => {
 V.rules = () => `
   <div class="turf">
   <div class="rail"></div>
-    <h2>Πως παιζεται</h2>
-  <div class="rules">
+  <h2>Πώς παίζεται</h2>
+  <div class="rules rr">
 
-    <h3 style="margin-top:6px">Καλώς ήρθατε, λεβέντες και λεβέντισσες, στην Κόντρα!</h3>
-    <p>Το μεγάλο παιχνίδι επιχειρηματολογίας, τώρα στο κινητό σας, εντελώς δωρεάν! Θα πληρώσετε αργότερα με την ψυχή σας!! (Αστείο, Google Play, μη μου ρίξετε την εφαρμογή, σας παρακαλώ.)</p>
-    <p>Λοιπόν, το παιχνίδι είναι απλό. Σε κάθε γύρο θα υπάρχει ένας δικαστής, ένας εισαγγελέας, η υπεράσπιση και οι ένορκοι.</p>
-    <p>Στην αρχή ενός γύρου εμφανίζεται μια υπόθεση πάνω πάνω, την οποία διαβάζει φωναχτά ο δικαστής (αν γίνεται, παρακαλώ θερμά να υπάρχει ησυχία στο τραπέζι).</p>
-    <p>Ο ρόλος της υπεράσπισης; Να υπερασπιστεί την υπόθεση. Ο ρόλος του εισαγγελέα; Να πείσει τον δικαστή και τους ενόρκους ότι η υπόθεση είναι λάθος!</p>
-    <p>Ο ρόλος του δικαστή και των ενόρκων είναι κυρίως να ακούνε. Το ποιος θα αποφασίσει εν τέλει ποιος θα πάρει τον πόντο, το αφήνω πάνω σας· δεν με νοιάζει κιόλας!</p>
-    <p>Προσοχή όμως! Ο κάθε παίχτης παίζει ατομικά, δηλαδή προσπαθεί να φτάσει πρώτος στις 3 νίκες! Έχει όμως και μόνο 3 ζωές: 3 κόντρες που μπορεί να χάσει.</p>
+    <p class="rr-q">Βαρεθήκατε να ακούτε συνέχεια τις ίδιες διαφωνίες μέσα στην παρέα σας, για θέματα όπως, ας πούμε, «Τα άλογα είναι το ανώτερο ζώο της γης»;</p>
+    <p class="rr-aside">(Κακό παράδειγμα, αλλά νομίζω καταλάβατε.)</p>
+    <p class="rr-punch">Τότε βρείτε εργασία!</p>
+    <p>Μέχρι να σας πάρουν όμως...</p>
+    <p class="rr-big">Πάμε Κόντρα! <small>(.gr)</small></p>
 
-    <h3>Το ΟΠΑ!</h3>
-    <p>Με το ΟΠΑ! ενεργοποιημένο, η πλευρά που ακούει μπορεί να διακόψει τον ομιλητή, λέγοντας τη λέξη «ΟΠΑ!». Εάν ο ομιλητής θέλει να ακούσει τι έχει να πει, του το επιτρέπει· αλλιώς τον απορρίπτει. Ο χρόνος που μιλάει η πλευρά που ακούει δεν χάνεται: προστίθεται στο τέλος του χρόνου του ομιλητή.</p>
+    <div class="rr-sep"></div>
+    <h3>Η έδρα</h3>
+    <p>Η έδρα της Κόντρας χρειάζεται τουλάχιστον 4 άτομα. Παίζεται και με παραπάνω.</p>
+    <p>Ένας παίχτης καλείται να παίξει την <b>υπεράσπιση</b>.</p>
+    <details class="pop"><summary>Τι κάνει η υπεράσπιση, ρωτάτε;</summary><div class="ans">Υπερασπίζεται.</div></details>
+    <p>Ένας δεύτερος παίχτης καλείται να παίξει τον <b>εισαγγελέα</b>.</p>
+    <details class="pop"><summary>Τι κάνει ο εισαγγελέας;</summary><div class="ans">Εισαγγελεύει.</div></details>
+    <p>Υπάρχει και ο <b>δικαστής</b>, ο οποίος διαβάζει την υπόθεση, ελέγχει την ομαλή ροή της δίκης και βγάζει το τελικό συμπέρασμα.</p>
+    <p>Οι υπόλοιποι παίχτες μένουν σιωπηλοί. Απλά ακούνε, και στο τέλος βοηθάνε τον δικαστή να βγάλει την τελική του απόφαση.</p>
 
-    <p style="font-size:12px;line-height:1.5;opacity:.8">Μικρά γράμματα: στην κόντρα των πολιτών, αν σηκωθούν 2 υπέρ και 2 κατά, ο δικαστής μπορεί να στήσει κόντρα 2 εναντίον 2, ακόμα κι αν δεν μείνουν ένορκοι. Πόντος, ζωή ή ποινή πάνε σε όλη την ομάδα.</p>
+    <div class="rr-sep"></div>
+    <h3>Η κόντρα</h3>
+    <p>Η κάθε πλευρά έχει 2 λεπτά, ξεκινώντας πάντα με την υπεράσπιση. Κατά τη διάρκεια αυτών των 2 λεπτών, μπορεί να τον διακόψει ο εισαγγελέας, λέγοντας τη λέξη <b>ΟΠΑ!</b></p>
+    <details class="pop"><summary>Τι κάνει το ΟΠΑ, ρωτάτε;</summary><div>
+      <p>Αναγκάζει τον ομιλητή είτε να:</p>
+      <ul class="rr-opa"><li>πει <b>όχι</b> στο ΟΠΑ και να συνεχίσει τον λόγο του,</li><li>είτε να πει <b>ναι</b> και να μιλήσει ο άλλος για, π.χ., 9-10 δευτερόλεπτα.</li></ul>
+      <p>Αυτός ο χρόνος προστίθεται στον λόγο του ομιλητή. Δεν χάνεται.</p>
+    </div></details>
+    <p>Μετά τον χρόνο, ο δικαστής ακούει τους ενόρκους της δίκης και αποφασίζει ποιος νίκησε.</p>
 
-    <h3>Προσοχή! Κυκλοφορούν και 2 κρυφοί ρόλοι!</h3>
-    <p>Αν θέλετε, δηλαδή· δεν σας υποχρεώνει κανείς.</p>
-    <p><b>Το Κόμπλεξ:</b> Σε έναν τυχαίο παίχτη θα δοθεί ένα όνομα. Στόχος αυτού του παίχτη είναι να βγάλει το όνομα από το παιχνίδι. Εάν τον βγάλει, κερδίζει κατευθείαν.</p>
-    <p><b>Το Βύσμα:</b> Στο βύσμα δίνεται ένα όνομα, το οποίο, εάν κερδίσει, κερδίζει εκείνος! Σκεφτείτε το απλά: ο Γιάννης είναι το βύσμα και του δίνεται ο Γιώργος. Εάν κερδίσει ο Γιώργος, στο τέλος φανερώνεται ότι μπήκε με βύσμα και, εν τέλει, νικάει ο Γιάννης. Ο Γιώργος μετά φιλάει τον Γιάννη.</p>
+    <div class="rr-sep"></div>
+    <h3>Πώς τελειώνει</h3>
+    <p>Εάν παίζεται με <b>πόντους και ζωές</b>, με 3 νίκες τελειώνει το παιχνίδι.</p>
+    <p class="rr-aside">(Βαρετό, κατ' εμέ, αλλά κάποιοι από εσάς δεν διασκεδάζετε αρκετά.)</p>
+    <p>Μπορείτε όμως να παίξετε και <b>με τιμωρία</b>! Γράφετε κάτι, π.χ. «Στείλε μου 5 ευρώ», και αυτός που θα αντέξει τους περισσότερους γύρους θα δώσει μια δική του, έσχατη ποινή <span class="rr-aside">(6 ευρώ)</span> στον πρώτο χαμένο!</p>
 
-    <p>Αυτά από μένα. Α, και υπάρχει και το μπόνους. Μπείτε, δείτε το· δεν το εξηγώ εδώ.</p>
+    <div class="rr-sep"></div>
+    <h3>Τα κρυφά</h3>
+    <p>Υπάρχουν επιλογές για να γράψετε και δικές σας υποθέσεις. Μπορείτε να παίξετε και με <b>μυστικούς ρόλους</b>... <span class="rr-aside">(ουυυυυ)</span></p>
+    <details class="pop k"><summary>Το Κόμπλεξ</summary><div><p>Σε έναν παίχτη θα δοθεί ένα όνομα. Αυτόν πρέπει να τον βγάλει πρώτο, και κερδίζει κατευθείαν: είτε βγάζοντάς τον με κόντρες, είτε ως δικαστής.</p><p><b>Πρέπει όμως να μην τον βρουν.</b></p></div></details>
+    <details class="pop v"><summary>Το Βύσμα</summary><div><p>Σε έναν παίχτη θα δοθεί ένα όνομα. Αυτόν πρέπει να τον υπερασπιστεί μέχρι να κερδίσει. Αν καταφέρει και κερδίσει ο παίχτης του, κερδίζει αυτός.</p><p><b>Πρέπει όμως να μην τον βρουν.</b></p></div></details>
+    <p>Εάν θέλετε, υπάρχει και η <b>Κόντρα των πολιτών</b>, όπου οι παίχτες διαλέγουν τους ρόλους τους στα τυφλά.</p>
+    <p class="rr-small">Μικρά γράμματα: στην Κόντρα των πολιτών, αν σηκωθούν 2 υπέρ και 2 κατά, ο δικαστής μπορεί να στήσει κόντρα 2 εναντίον 2, ακόμα κι αν δεν μείνουν ένορκοι. Πόντος, ζωή ή ποινή πάνε σε όλη την ομάδα.</p>
+
+    <p class="rr-foot">Το παιχνίδι προτείνεται να παραμείνει στα πλαίσια της πλάκας, καθώς είναι ένα παιχνίδι επιχειρηματολογίας!</p>
 
   </div>
   <div class="finish"></div>
@@ -1377,7 +1423,7 @@ V.topic = () => {
     <label>Οι υποθεσεις</label>
     <div class="picks">
       ${card("ours", "Τα δικα μας", "δικες σας υποθεσεις, παραμενουν ανωνυμες.")}
-      ${card("ready", "Ετοιμες", "ο καθενας διαλεγει " + CFG.PICK_KEEP + " απο " + CFG.PICK_OFFER + " τυχαιες απο τη βαση.")}
+      ${card("ready", "Ετοιμες", "ο καθενας διαλεγει τουλαχιστον " + CFG.PICK_KEEP + " απο " + CFG.PICK_OFFER + " τυχαιες απο τη βαση.")}
       ${S.folder.length >= 3
         ? card("folder", "Ο φακελος σας", "οσες κρατησατε απο παλιες δικες — " + S.folder.length + " μεσα. τελειωνουν; τελειωνει και η δικη.")
         : `<div class="pick" style="opacity:.45;flex-direction:column;align-items:stretch;gap:4px;cursor:default"><span style="font-size:20px;font-weight:700">Ο φακελος σας</span><span style="font-size:13.5px;font-weight:400;opacity:.85">${S.folder.length ? "θελει τουλαχιστον 3 υποθεσεις — εχει " + S.folder.length + "." : "αδειος ακομα — κρατα υποθεσεις στο τελος του παιχνιδιου."}</span></div>`}
@@ -1399,7 +1445,7 @@ V.intro = () => {
     </div>
     ${backBtn("topic")}
     <p class="lede">${fold ? "γραφεις μονο το ονομα σου — οι υποθεσεις ειναι ηδη στον φακελο" : ready
-      ? "γραφεις το ονομα σου και μετα διαλεγεις " + CFG.PICK_KEEP + " υποθεσεις απο " + CFG.PICK_OFFER
+      ? "γραφεις το ονομα σου και μετα διαλεγεις τουλαχιστον " + CFG.PICK_KEEP + " υποθεσεις απο " + CFG.PICK_OFFER
       : "γραφεις το ονομα σου και μια υποθεση σου στην οποια θα εβαζες την υπογραφη σου"}</p>
     ${nameField()}
     ${ready || fold ? "" : opField() + `<p class="ps">Υ.Σ αν παιζεις με ατομα που θίγονται ευκολα, παιξε λιγο με τα νευρα τους</p>`}
@@ -1424,8 +1470,8 @@ V.pick6 = () => {
   else foot = `<div class="duo-btns">${ibtn("epomenos.png",'data-pick6go="next"')}${enough ? ibtn("orthioi.png",'data-pick6go="begin"') : ""}</div>
     ${enough ? "" : `<p class="mini">${S.players.length} στο τραπεζι &middot; θελει τουλαχιστον ${CFG.MIN_PLAYERS}</p>`}`;
   return `
-    <div class="pickhead">${chip(S.pickFor, { lift:3, size:"16px" })}<span class="eyebrow" style="margin:0">διαλεγεις &middot; <b>${n} / ${need}</b></span></div>
-    <h2>Διαλεξε ${need} απο τις υποθεσεις του φακελου</h2>
+    <div class="pickhead">${chip(S.pickFor, { lift:3, size:"16px" })}<span class="eyebrow" style="margin:0">διαλεξες <b>${n}</b> &middot; τουλαχιστον ${need}</span></div>
+    <h2>Διαλεξε τουλαχιστον ${need} απο τις υποθεσεις του φακελου</h2>
     <div class="picks">${rows}</div>
     <div class="fill"></div>
     ${foot}
@@ -1438,7 +1484,7 @@ V.passPick = () => `
   <div class="fill"></div>
   <p class="lede" style="margin:0 0 14px">Δωσε το κινητο στον</p>
   <div>${chip(S.pickFor, { pad:"14px 30px", radius:"26px", dash:6, lift:7, size:"34px" })}</div>
-  <p class="lede" style="margin-top:16px">καινουρια χαρτια: κρατας ${CFG.PICK_KEEP} απο ${CFG.PICK_OFFER}</p>
+  <p class="lede" style="margin-top:16px">καινουρια χαρτια: κρατας τουλαχιστον ${CFG.PICK_KEEP} απο ${CFG.PICK_OFFER}</p>
   <div class="fill"></div>
   ${ibtn("epomenos.png",'data-passgo="1"')}`;
 
@@ -2501,7 +2547,7 @@ app.addEventListener("click", e => {
   if (d.op6 !== undefined){
     const k = +d.op6, n = S.offerPick.filter(Boolean).length;
     if (S.offerPick[k]) S.offerPick[k] = false;
-    else if (n < CFG.PICK_KEEP) S.offerPick[k] = true;
+    else S.offerPick[k] = true;
     return render();
   }
   if (d.op6rand){
